@@ -40,3 +40,4 @@ export const ExampleBlockView: React.FC<{ block: ExampleBlock }> = ({ block }) =
     </div>
   );
 };
+

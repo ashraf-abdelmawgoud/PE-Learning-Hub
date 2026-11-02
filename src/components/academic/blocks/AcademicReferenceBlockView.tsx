@@ -40,3 +40,4 @@ export const AcademicReferenceBlockView: React.FC<{ block: AcademicReferenceBloc
     </div>
   );
 };
+

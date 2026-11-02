@@ -63,11 +63,21 @@ export const LessonPage: React.FC = () => {
 
         {/* Development Showcase Alert if sandbox */}
         {course.isDevSandbox && (
-          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-xs text-amber-900 flex items-center gap-2.5">
-            <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
-            <span>
-              <strong>تنبيه بيئة التطوير:</strong> هذا الدرس نموذج تقني شامل يعرض كتل المحتوى المعتمدة ولا يمثل مادة أكاديمية نهائية.
-            </span>
+          <div className="bg-amber-50 border-2 border-amber-300 rounded-3xl p-5 sm:p-6 shadow-sm flex items-start gap-4">
+            <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div className="space-y-1 text-xs sm:text-sm text-amber-950">
+              <div className="flex items-center gap-2">
+                <span className="font-black text-amber-900 text-base">بيئة الاختبار التقني (درس شامل للمعاينة)</span>
+                <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-200/80 text-amber-900">
+                  Dev Sandbox Showcase
+                </span>
+              </div>
+              <p className="text-amber-800 leading-relaxed">
+                هذا الدرس نموذج برمجي شامل صُمم لاستعراض كتل المحتوى العشرة والتحقق من سلاسة القراءة. البيانات والمراجع الواردة هنا مخصصة للاختبار التقني وليست مقرراً رسمياً معتمداً.
+              </p>
+            </div>
           </div>
         )}
 
@@ -246,3 +256,4 @@ export const LessonPage: React.FC = () => {
     </div>
   );
 };
+

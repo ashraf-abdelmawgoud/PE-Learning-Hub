@@ -45,3 +45,4 @@ export const HeadingBlockView: React.FC<{ block: HeadingBlock }> = ({ block }) =
     </div>
   );
 };
+

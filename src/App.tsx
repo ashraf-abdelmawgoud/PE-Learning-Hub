@@ -35,14 +35,18 @@ export const App: React.FC = () => {
               path="/courses/:courseId/chapters/:chapterId/topics/:topicId/lessons/:lessonId"
               element={<LessonPage />}
             />
-            {/* Shortcut route for the isolated development sandbox */}
+            {/* Shortcut route for the isolated development sandbox (protected in production) */}
             <Route
               path="/dev-sandbox"
               element={
-                <Navigate
-                  to="/courses/dev-sandbox/chapters/dev-chap-1/topics/dev-top-1/lessons/dev-les-1"
-                  replace
-                />
+                import.meta.env.PROD && typeof window !== 'undefined' && !window.location.search.includes('preview=true') ? (
+                  <Navigate to="/courses" replace />
+                ) : (
+                  <Navigate
+                    to="/courses/dev-sandbox/chapters/dev-chap-1/topics/dev-top-1/lessons/dev-les-1"
+                    replace
+                  />
+                )
               }
             />
             <Route path="/about" element={<AboutPage />} />

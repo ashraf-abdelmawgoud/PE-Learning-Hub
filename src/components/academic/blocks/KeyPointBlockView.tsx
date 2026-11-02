@@ -42,3 +42,4 @@ export const KeyPointBlockView: React.FC<{ block: KeyPointBlock }> = ({ block })
     </div>
   );
 };
+

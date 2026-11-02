@@ -52,3 +52,4 @@ export const ComparisonBlockView: React.FC<{ block: ComparisonBlock }> = ({ bloc
     </div>
   );
 };
+

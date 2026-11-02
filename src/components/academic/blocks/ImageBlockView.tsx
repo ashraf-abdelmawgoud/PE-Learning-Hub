@@ -32,3 +32,4 @@ export const ImageBlockView: React.FC<{ block: ImageBlock }> = ({ block }) => {
     </figure>
   );
 };
+

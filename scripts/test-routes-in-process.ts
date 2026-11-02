@@ -1,0 +1,100 @@
+import http from 'node:http';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const distPath = path.resolve('dist');
+const indexHtml = fs.readFileSync(path.join(distPath, 'index.html'), 'utf-8');
+
+// إنشاء خادم محاكي لـ Cloudflare Pages SPA بنفس القاعدة /* /index.html 200
+const server = http.createServer((req, res) => {
+  const urlPath = req.url?.split('?')[0] || '/';
+  const filePath = path.join(distPath, urlPath);
+
+  if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+    const ext = path.extname(filePath);
+    let contentType = 'text/plain';
+    if (ext === '.html') contentType = 'text/html';
+    if (ext === '.js') contentType = 'application/javascript';
+    if (ext === '.css') contentType = 'text/css';
+    if (ext === '.svg') contentType = 'image/svg+xml';
+
+    res.writeHead(200, { 'Content-Type': contentType });
+    res.end(fs.readFileSync(filePath));
+  } else {
+    // Cloudflare SPA fallback
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    res.end(indexHtml);
+  }
+});
+
+server.listen(4173, '127.0.0.1', async () => {
+  console.log('--- بدء فحص مسارات التطبيق واستجابتها في بيئة الإنتاج الثابتة (Cloudflare SPA Simulation) ---');
+  
+  const routesToTest = [
+    { name: 'الصفحة الرئيسية', path: '/' },
+    { name: 'دليل المقررات السبعة', path: '/courses' },
+    { name: 'تفاصيل المقرر الأول', path: '/courses/course-1' },
+    { name: 'تفاصيل المقرر السابع', path: '/courses/course-7' },
+    { name: 'المقرر التجريبي التقني', path: '/courses/dev-sandbox' },
+    { name: 'فصل في المقرر التجريبي', path: '/courses/dev-sandbox/chapters/dev-chap-1' },
+    { name: 'موضوع في الفصل التجريبي', path: '/courses/dev-sandbox/chapters/dev-chap-1/topics/dev-top-1' },
+    { name: 'الدرس التجريبي الشامل لكتل المحتوى', path: '/courses/dev-sandbox/chapters/dev-chap-1/topics/dev-top-1/lessons/dev-les-1' },
+    { name: 'صفحة عن المنصة', path: '/about' },
+    { name: 'مسار غير موجود (404 Fallback)', path: '/some-random-route' },
+  ];
+
+  let passed = 0;
+  let failed = 0;
+
+  for (const item of routesToTest) {
+    try {
+      const res = await fetch(`http://127.0.0.1:4173${item.path}`);
+      const body = await res.text();
+      const isOk = res.status === 200 && body.includes('dir="rtl"') && body.includes('lang="ar"');
+
+      if (isOk) {
+        console.log(`  [PASS] ${item.name.padEnd(38)} (${item.path}) -> Status: 200 OK | RTL: نعم`);
+        passed++;
+      } else {
+        console.error(`  [FAIL] ${item.name.padEnd(38)} (${item.path}) -> Status: ${res.status}`);
+        failed++;
+      }
+    } catch (err: unknown) {
+      console.error(`  [FAIL] ${item.name.padEnd(38)} (${item.path}) -> خطأ: ${err instanceof Error ? err.message : String(err)}`);
+      failed++;
+    }
+  }
+
+  // فحص ملفات الأصول
+  const assetTest = await fetch('http://127.0.0.1:4173/assets/index-BIuTwtwp.js');
+  if (assetTest.status === 200 && assetTest.headers.get('content-type')?.includes('javascript')) {
+    console.log('  [PASS] تحميل ملف حزمة JavaScript الأساسي بنجاح');
+    passed++;
+  } else {
+    console.error('  [FAIL] تعذر تحميل ملف حزمة JavaScript');
+    failed++;
+  }
+
+  const cssTest = await fetch('http://127.0.0.1:4173/assets/index-WMWMGUn1.css');
+  if (cssTest.status === 200 && cssTest.headers.get('content-type')?.includes('css')) {
+    console.log('  [PASS] تحميل ملف التنسيقات CSS الأساسي بنجاح');
+    passed++;
+  } else {
+    console.error('  [FAIL] تعذر تحميل ملف التنسيقات CSS');
+    failed++;
+  }
+
+  server.close(() => {
+    console.log(`\n========================================`);
+    console.log(`إجمالي فحوصات المسارات الناجحة: ${passed}`);
+    console.log(`إجمالي فحوصات المسارات الفاشلة: ${failed}`);
+    console.log(`========================================`);
+
+    if (failed > 0) {
+      process.exitCode = 1;
+    } else {
+      console.log('✅ جميع المسارات والأصول تستجيب بنجاح 100% وفق معايير Cloudflare SPA.');
+      process.exitCode = 0;
+    }
+  });
+});

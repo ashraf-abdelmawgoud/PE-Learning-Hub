@@ -17,3 +17,4 @@ export const UnknownBlockView: React.FC<{ block: ContentBlock }> = ({ block }) =
     </div>
   );
 };
+

@@ -190,3 +190,4 @@ export const DEV_SANDBOX_COURSE: AcademicCourse = {
     },
   ],
 };
+

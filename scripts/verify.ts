@@ -2,6 +2,7 @@ import { COURSES_PLACEHOLDER_DATA } from '../src/data/coursesData.ts';
 import { normalizeArabicText } from '../src/utils/textUtils.ts';
 import { validateAcademicContent } from '../src/utils/contentValidator.ts';
 import {
+  getAllCourses,
   getCourseById,
   getChaptersByCourse,
   getTopicsByChapter,
@@ -107,10 +108,45 @@ assert(report.topicsCount === 1, 'عدد الموضوعات التجريبية �
 assert(report.lessonsCount === 1, 'عدد الدروس التجريبية يساوي 1');
 assert(report.blocksCount === 10, 'عدد كتل المحتوى في الدرس الشامل يساوي 10 كتل كاملة');
 
+// 5.1 اختبار فشل البناء عند حقن محتوى معطوب (Corrupted Content Rejection)
+console.log('\n5.1 فحص صد واكتشاف المحتوى المعطوب (Strict Validation Enforcement):');
+// @ts-expect-error - اختبار حقن بيانات مشوهة لاختبار المحرك
+const corruptedReport = validateAcademicContent([
+  {
+    id: 'corrupted-course',
+    orderNumber: 99,
+    code: 'CORRUPT-01',
+    title: '', // خطأ: عنوان فارغ
+    targetBookReference: '',
+    status: 'pending_content',
+    statusLabel: 'معطوب',
+    description: 'مقرر تجريبي لاختبار إفشال البناء',
+    chapters: [
+      {
+        id: 'corrupted-chap',
+        courseId: 'different-course-id', // خطأ: عدم تطابق المعرف الأب
+        order: 1,
+        title: 'فصل بمعرف خاطئ',
+        description: '',
+        topics: [],
+      },
+    ],
+  },
+]);
+assert(corruptedReport.isValid === false, 'المحرك يكتشف المحتوى المعطوب ويمنحه حالة غير صالح (isValid: false)');
+assert(corruptedReport.errors.length >= 2, `اكتشاف الأخطاء الجوهرية ومنع مرورها (اكتشف ${corruptedReport.errors.length} أخطاء)`);
+
 // 6. فحص استعلامات ومحددات المحتوى الأكاديمي (Academic Selectors & Hierarchy)
 console.log('\n6. فحص محددات التسلسل الأكاديمي (Selectors):');
 const devCourse = getCourseById('dev-sandbox');
 assert(Boolean(devCourse && devCourse.isDevSandbox), 'استرجاع المقرر التجريبي بنجاح عبر معرفه dev-sandbox');
+
+// 6.1 عزل المقرر التجريبي عن واجهة الطلاب
+const studentCourses = getAllCourses(false);
+assert(studentCourses.length === 7, 'واجهة الطلاب تسترجع المقررات السبعة فقط');
+assert(studentCourses.every((c) => !c.isDevSandbox), 'لا يوجد أي مقرر تجريبي مسرب لواجهة الطلاب');
+assert(studentCourses.every((c) => c.status === 'pending_content'), 'جميع المقررات السبعة للطلاب بحالة pending_content');
+assert(studentCourses.every((c) => c.chapters.length === 0), 'جميع المقررات السبعة خالية من الفصول بانتظار الكتب الأكاديمية');
 
 const devChapters = getChaptersByCourse('dev-sandbox');
 assert(devChapters.length === 1 && devChapters[0].id === 'dev-chap-1', 'استرجاع فصول المقرر التجريبي بترتيب سليم');

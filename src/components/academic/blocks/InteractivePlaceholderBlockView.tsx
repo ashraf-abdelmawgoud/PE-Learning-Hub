@@ -66,3 +66,4 @@ export const InteractivePlaceholderBlockView: React.FC<{ block: InteractivePlace
     </div>
   );
 };
+

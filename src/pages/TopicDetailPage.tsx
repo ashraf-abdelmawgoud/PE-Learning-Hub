@@ -8,7 +8,7 @@ import {
   getAcademicBreadcrumbs,
 } from '../data/academic/selectors';
 import { BreadcrumbNav } from '../components/academic/BreadcrumbNav';
-import { BookOpen, Clock, FileText, ArrowLeft, ChevronRight, Layers } from 'lucide-react';
+import { BookOpen, Clock, FileText, ArrowLeft, ChevronRight, Layers, Sparkles } from 'lucide-react';
 
 export const TopicDetailPage: React.FC = () => {
   const { courseId, chapterId, topicId } = useParams<{
@@ -42,6 +42,26 @@ export const TopicDetailPage: React.FC = () => {
         
         {/* Breadcrumbs */}
         <BreadcrumbNav items={breadcrumbs} />
+
+        {/* Development Sandbox Banner if Dev Sandbox */}
+        {course.isDevSandbox && (
+          <div className="bg-amber-50 border-2 border-amber-300 rounded-3xl p-5 sm:p-6 shadow-sm flex items-start gap-4">
+            <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div className="space-y-1 text-xs sm:text-sm text-amber-950">
+              <div className="flex items-center gap-2">
+                <span className="font-black text-amber-900 text-base">بيئة الاختبار التقني (موضوع تجريبي)</span>
+                <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-200/80 text-amber-900">
+                  Dev Sandbox
+                </span>
+              </div>
+              <p className="text-amber-800 leading-relaxed">
+                هذا الموضوع مخصص للمعاينة التقنية واختبار بنية الدروس في محرك المنصة، وليس مادة أكاديمية معتمدة لكلية علوم الرياضة.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Topic Header Banner */}
         <div className="bg-white rounded-3xl border border-[#D9EAF7] p-6 sm:p-9 shadow-sm relative overflow-hidden">
