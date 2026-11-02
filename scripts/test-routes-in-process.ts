@@ -40,6 +40,9 @@ server.listen(4173, '127.0.0.1', async () => {
     { name: 'موضوع في الفصل التجريبي', path: '/courses/dev-sandbox/chapters/dev-chap-1/topics/dev-top-1' },
     { name: 'الدرس التجريبي الشامل لكتل المحتوى', path: '/courses/dev-sandbox/chapters/dev-chap-1/topics/dev-top-1/lessons/dev-les-1' },
     { name: 'صفحة عن المنصة', path: '/about' },
+    { name: 'معمل المحرك البصري التجريبي', path: '/courses/visual-sandbox' },
+    { name: 'درس المحرك البصري والأنيميشن', path: '/courses/visual-sandbox/chapters/vis-chap-1/topics/vis-top-1/lessons/vis-les-1' },
+    { name: 'مسار معمل المحرك البصري المختصر', path: '/visual-sandbox' },
     { name: 'مسار غير موجود (404 Fallback)', path: '/some-random-route' },
   ];
 
@@ -65,23 +68,33 @@ server.listen(4173, '127.0.0.1', async () => {
     }
   }
 
-  // فحص ملفات الأصول
-  const assetTest = await fetch('http://127.0.0.1:4173/assets/index-BIuTwtwp.js');
-  if (assetTest.status === 200 && assetTest.headers.get('content-type')?.includes('javascript')) {
-    console.log('  [PASS] تحميل ملف حزمة JavaScript الأساسي بنجاح');
-    passed++;
-  } else {
-    console.error('  [FAIL] تعذر تحميل ملف حزمة JavaScript');
-    failed++;
+  // فحص ملفات الأصول ديناميكياً
+  const assetFiles = fs.existsSync(path.join(distPath, 'assets'))
+    ? fs.readdirSync(path.join(distPath, 'assets'))
+    : [];
+  const jsFile = assetFiles.find((f) => f.endsWith('.js'));
+  const cssFile = assetFiles.find((f) => f.endsWith('.css'));
+
+  if (jsFile) {
+    const assetTest = await fetch(`http://127.0.0.1:4173/assets/${jsFile}`);
+    if (assetTest.status === 200 && assetTest.headers.get('content-type')?.includes('javascript')) {
+      console.log(`  [PASS] تحميل ملف حزمة JavaScript الأساسي (${jsFile}) بنجاح`);
+      passed++;
+    } else {
+      console.error(`  [FAIL] تعذر تحميل ملف حزمة JavaScript (${jsFile})`);
+      failed++;
+    }
   }
 
-  const cssTest = await fetch('http://127.0.0.1:4173/assets/index-WMWMGUn1.css');
-  if (cssTest.status === 200 && cssTest.headers.get('content-type')?.includes('css')) {
-    console.log('  [PASS] تحميل ملف التنسيقات CSS الأساسي بنجاح');
-    passed++;
-  } else {
-    console.error('  [FAIL] تعذر تحميل ملف التنسيقات CSS');
-    failed++;
+  if (cssFile) {
+    const cssTest = await fetch(`http://127.0.0.1:4173/assets/${cssFile}`);
+    if (cssTest.status === 200 && cssTest.headers.get('content-type')?.includes('css')) {
+      console.log(`  [PASS] تحميل ملف التنسيقات CSS الأساسي (${cssFile}) بنجاح`);
+      passed++;
+    } else {
+      console.error(`  [FAIL] تعذر تحميل ملف التنسيقات CSS (${cssFile})`);
+      failed++;
+    }
   }
 
   server.close(() => {

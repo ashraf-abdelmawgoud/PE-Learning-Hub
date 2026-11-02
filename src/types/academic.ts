@@ -108,8 +108,166 @@ export interface InteractivePlaceholderBlock extends BaseBlock {
   expectedFeature: string;
 }
 
+// ==========================================
+// Phase 4: Interactive Visual Learning Engine
+// ==========================================
+
+// 1. Interactive Diagram Engine Models
+export interface DiagramNodeDetails {
+  academicTerm?: string;
+  functionRole?: string;
+  keyPoints?: string[];
+}
+
+export interface DiagramNode {
+  id: string;
+  label: string;
+  sublabel?: string;
+  description: string;
+  x: number;
+  y: number;
+  width?: number;
+  height?: number;
+  shape?: 'rect' | 'circle' | 'pill' | 'hexagon';
+  color?: string;
+  category?: string;
+  icon?: string;
+  details?: DiagramNodeDetails;
+}
+
+export interface DiagramConnection {
+  id: string;
+  from: string;
+  to: string;
+  label?: string;
+  style?: 'solid' | 'dashed' | 'dotted';
+  arrow?: boolean;
+  color?: string;
+  bidirectional?: boolean;
+}
+
+export interface DiagramAnnotation {
+  id: string;
+  text: string;
+  x: number;
+  y: number;
+  badge?: string;
+}
+
+export interface InteractiveDiagramBlock extends BaseBlock {
+  type: 'interactive_diagram';
+  title: string;
+  caption?: string;
+  viewBoxWidth: number;
+  viewBoxHeight: number;
+  nodes: DiagramNode[];
+  connections: DiagramConnection[];
+  annotations?: DiagramAnnotation[];
+  initialSelectedNodeId?: string;
+}
+
+// 2. Animated Explanation Engine Models
+export interface AnimationVisualElement {
+  id: string;
+  label: string;
+  initialX: number;
+  initialY: number;
+  shape?: 'circle' | 'rect' | 'token' | 'vector_arrow';
+  color?: string;
+  width?: number;
+  height?: number;
+}
+
+export interface StepTransformation {
+  elementId: string;
+  x?: number;
+  y?: number;
+  scale?: number;
+  opacity?: number;
+  highlight?: boolean;
+  color?: string;
+  customLabel?: string;
+}
+
+export interface AnimationStep {
+  stepNumber: number;
+  title: string;
+  explanation: string;
+  pedagogicalTip?: string;
+  durationMs?: number;
+  activeElementIds?: string[];
+  transformations: StepTransformation[];
+  spotlightZone?: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    label?: string;
+  };
+}
+
+export interface AnimatedExplanationBlock extends BaseBlock {
+  type: 'animated_explanation';
+  title: string;
+  description?: string;
+  viewBoxWidth: number;
+  viewBoxHeight: number;
+  baseElements: AnimationVisualElement[];
+  steps: AnimationStep[];
+  defaultDurationPerStepMs?: number;
+}
+
+// 3. Visual Comparison Models
+export interface ComparisonCriteria {
+  key: string;
+  label: string;
+  category?: string;
+  description?: string;
+}
+
+export interface ComparisonConceptItem {
+  id: string;
+  name: string;
+  badge?: string;
+  summary: string;
+  characteristics: Record<string, string>;
+  colorTheme?: 'blue' | 'cyan' | 'teal' | 'emerald' | 'amber';
+  visualIcon?: string;
+}
+
+export interface VisualComparisonBlock extends BaseBlock {
+  type: 'visual_comparison';
+  title: string;
+  description?: string;
+  criteria: ComparisonCriteria[];
+  items: ComparisonConceptItem[];
+  defaultItemAId?: string;
+  defaultItemBId?: string;
+  sharedSimilarities?: string[];
+  contrastingDifferencesSummary?: string;
+}
+
+// 4. Visual Sequence Activity Models
+export interface SequenceItem {
+  id: string;
+  text: string;
+  explanation?: string;
+  icon?: string;
+  categoryBadge?: string;
+}
+
+export interface VisualSequenceBlock extends BaseBlock {
+  type: 'visual_sequence';
+  title: string;
+  instructions: string;
+  items: SequenceItem[];
+  correctOrder: string[];
+  explanation: string;
+  conceptContext?: string;
+}
+
 /**
- * Fallback for unknown or future block types (Animated SVG, Simulation, 3D Model, etc.)
+ * Fallback for unknown or future block types (Simulation, 3D Model, etc.)
  * Ensures the renderer never crashes on unknown blocks.
  */
 export interface GenericBlock extends BaseBlock {
@@ -129,6 +287,10 @@ export type ContentBlock =
   | ImageBlock
   | AcademicReferenceBlock
   | InteractivePlaceholderBlock
+  | InteractiveDiagramBlock
+  | AnimatedExplanationBlock
+  | VisualComparisonBlock
+  | VisualSequenceBlock
   | GenericBlock;
 
 // ==========================================

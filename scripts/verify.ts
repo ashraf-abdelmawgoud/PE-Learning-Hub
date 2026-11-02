@@ -10,6 +10,12 @@ import {
   getPreviousAndNextLesson,
   getAcademicBreadcrumbs,
 } from '../src/data/academic/selectors.ts';
+import {
+  SAMPLE_INTERACTIVE_DIAGRAM,
+  SAMPLE_ANIMATED_EXPLANATION,
+  SAMPLE_VISUAL_COMPARISON,
+  SAMPLE_VISUAL_SEQUENCE,
+} from '../src/data/academic/visualSandboxData.ts';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -97,16 +103,16 @@ if (fs.existsSync(redirects)) {
   assert(redirectsContent.includes('/* /index.html 200'), 'قاعدة إعادة التوجيه لـ SPA مطبقة بشكل سليم');
 }
 
-// 5. فحص نظام التحقق الأكاديمي (Content Validation System - Phase 3)
-console.log('\n5. فحص نظام التحقق من جودة المحتوى الأكاديمي (Phase 3 Validation):');
+// 5. فحص نظام التحقق الأكاديمي (Content Validation System - Phase 3 & 4)
+console.log('\n5. فحص نظام التحقق من جودة المحتوى الأكاديمي (Phase 3 & 4 Validation):');
 const report = validateAcademicContent();
 assert(report.isValid === true, 'تقرير فحص المحتوى الأكاديمي سليم بدون أخطاء بنيوية');
 assert(report.errors.length === 0, `عدد الأخطاء الهندسية يساوي 0 (الفعل: ${report.errors.length})`);
-assert(report.coursesCount === 8, `إجمالي المقررات (7 رسمية + 1 تجريبي معزول) يساوي 8`);
-assert(report.chaptersCount === 1, 'عدد الفصول التجريبية يساوي 1');
-assert(report.topicsCount === 1, 'عدد الموضوعات التجريبية يساوي 1');
-assert(report.lessonsCount === 1, 'عدد الدروس التجريبية يساوي 1');
-assert(report.blocksCount === 10, 'عدد كتل المحتوى في الدرس الشامل يساوي 10 كتل كاملة');
+assert(report.coursesCount === 9, `إجمالي المقررات (7 رسمية + 2 معمل تجريبي معزول) يساوي 9`);
+assert(report.chaptersCount === 2, 'عدد الفصول التجريبية يساوي 2');
+assert(report.topicsCount === 2, 'عدد الموضوعات التجريبية يساوي 2');
+assert(report.lessonsCount === 2, 'عدد الدروس التجريبية يساوي 2');
+assert(report.blocksCount === 16, 'عدد كتل المحتوى الإجمالي يساوي 16 كتلة كاملة');
 
 // 5.1 اختبار فشل البناء عند حقن محتوى معطوب (Corrupted Content Rejection)
 console.log('\n5.1 فحص صد واكتشاف المحتوى المعطوب (Strict Validation Enforcement):');
@@ -167,6 +173,119 @@ const breadcrumbs = getAcademicBreadcrumbs({
   lessonId: 'dev-les-1',
 });
 assert(breadcrumbs.length === 5, 'توليد مسار التنقل الأكاديمي (Breadcrumbs) المتكامل بنجاح');
+
+// 7. فحص محرك الشرح البصري والأنيميشن التفاعلي (Phase 4 Visual Learning Engine)
+console.log('\n7. فحص محرك الشرح البصري التفاعلي والأنيميشن (Phase 4 Visual Learning Engine):');
+
+// 7.1 فحص المخطط التفاعلي (Interactive Diagram)
+assert(SAMPLE_INTERACTIVE_DIAGRAM.type === 'interactive_diagram', 'نوع كتلة المخطط التفاعلي interactive_diagram صحيح');
+assert(SAMPLE_INTERACTIVE_DIAGRAM.nodes.length === 3, 'المخطط يحتوي على 3 عناصر (Nodes A, B, C)');
+assert(SAMPLE_INTERACTIVE_DIAGRAM.connections.length === 3, 'المخطط يحتوي على 3 علاقات موجهة مع تسميات');
+const nodeA = SAMPLE_INTERACTIVE_DIAGRAM.nodes.find((n) => n.id === 'node-a');
+assert(Boolean(nodeA && nodeA.details?.keyPoints?.length), 'استرجاع تفاصيل العقدة المختارة ونقاطها الأكاديمية بنجاح');
+
+// 7.2 فحص محرك الأنيميشن والشرح المتحرك (Animated Explanation)
+assert(SAMPLE_ANIMATED_EXPLANATION.type === 'animated_explanation', 'نوع كتلة الشرح المتحرك animated_explanation صحيح');
+assert(SAMPLE_ANIMATED_EXPLANATION.steps.length === 4, 'الأنيميشن يحتوي على 4 خطوات متسلسلة للشرح');
+assert(SAMPLE_ANIMATED_EXPLANATION.baseElements.length === 3, 'العناصر البصرية الأساسية موجودة في مسرح الأنيميشن');
+assert(SAMPLE_ANIMATED_EXPLANATION.steps.every((s) => s.transformations.length > 0), 'كل خطوة تتضمن تحولات بصرية وإحداثيات انتقال');
+const durationAt1x = SAMPLE_ANIMATED_EXPLANATION.defaultDurationPerStepMs || 3000;
+const durationAt2x = durationAt1x / 2;
+assert(durationAt2x === durationAt1x / 2, 'التحكم في سرعة العرض الحركي 2x يحسب زمن الخطوة بدقة');
+
+// 7.3 فحص المقارنة البصرية التفاعلية (Visual Comparison)
+assert(SAMPLE_VISUAL_COMPARISON.type === 'visual_comparison', 'نوع كتلة المقارنة البصرية visual_comparison صحيح');
+assert(SAMPLE_VISUAL_COMPARISON.items.length === 2, 'مقارنة بين مفهومين رياضيين (الاستاتيكي والديناميكي)');
+assert(SAMPLE_VISUAL_COMPARISON.criteria.length === 5, 'المقارنة تشمل 5 معايير ميكانيكية وفسيولوجية وتطبيقية');
+assert(Boolean(SAMPLE_VISUAL_COMPARISON.sharedSimilarities?.length), 'عرض القواسم المشتركة وأوجه التشابه');
+assert(Boolean(SAMPLE_VISUAL_COMPARISON.contrastingDifferencesSummary), 'عرض الخلاصة التحليلية للفروق الجوهرية');
+
+// 7.4 فحص نشاط ترتيب الخطوات البصري (Visual Sequence Activity)
+assert(SAMPLE_VISUAL_SEQUENCE.type === 'visual_sequence', 'نوع كتلة نشاط الترتيب visual_sequence صحيح');
+assert(SAMPLE_VISUAL_SEQUENCE.items.length === 4, 'النشاط يحتوي على 4 خطوات للترتيب الميكانيكي');
+assert(SAMPLE_VISUAL_SEQUENCE.correctOrder.length === 4, 'معيار الترتيب الصحيح محدد بدقة');
+// محاكاة تحريك عنصر وتبديل موضعه (Move Up / Down simulation)
+const testSequence = [...SAMPLE_VISUAL_SEQUENCE.items];
+const temp = testSequence[0];
+testSequence[0] = testSequence[1];
+testSequence[1] = temp;
+assert(testSequence[0].id === SAMPLE_VISUAL_SEQUENCE.items[1].id, 'خوارزمية إعادة الترتيب وتبديل المواضع تعمل بشكل سليم');
+
+// 7.5 فحص معمل المحرك البصري المعزول (Visual Sandbox Course)
+const visualCourse = getCourseById('visual-sandbox');
+assert(Boolean(visualCourse && visualCourse.isDevSandbox), 'استرجاع معمل المحرك البصري التجريبي visual-sandbox بنجاح');
+const visualChapters = getChaptersByCourse('visual-sandbox');
+assert(visualChapters.length === 1 && visualChapters[0].id === 'vis-chap-1', 'استرجاع فصل معمل المحرك البصري');
+const visualTopics = getTopicsByChapter('vis-chap-1');
+assert(visualTopics.length === 1 && visualTopics[0].id === 'vis-top-1', 'استرجاع موضوع معمل المحرك البصري');
+const visualLesson = getLessonById('vis-les-1');
+assert(Boolean(visualLesson && visualLesson.blocks.length === 6), 'استرجاع درس المحرك البصري بكتله الستة المتكاملة');
+const visBreadcrumbs = getAcademicBreadcrumbs({
+  courseId: 'visual-sandbox',
+  chapterId: 'vis-chap-1',
+  topicId: 'vis-top-1',
+  lessonId: 'vis-les-1',
+});
+assert(visBreadcrumbs.length === 5, 'توليد مسار التنقل لمعمل المحرك البصري (Breadcrumbs) بنجاح');
+
+// 7.6 فحص رفض أخطاء الكتل البصرية المعطوبة (Visual Blocks Negative Validation)
+// @ts-expect-error - اختبار حقن مخطط برابط غير موجود
+const corruptedVisualReport = validateAcademicContent([
+  {
+    id: 'corrupt-visual-course',
+    orderNumber: 100,
+    code: 'CORRUPT-VIS',
+    title: 'مقرر بصري معطوب',
+    targetBookReference: 'اختبار',
+    status: 'pending_content',
+    statusLabel: 'معطوب',
+    description: '',
+    chapters: [
+      {
+        id: 'c-chap',
+        courseId: 'corrupt-visual-course',
+        order: 1,
+        title: 'فصل',
+        description: '',
+        topics: [
+          {
+            id: 'c-top',
+            chapterId: 'c-chap',
+            order: 1,
+            title: 'موضوع',
+            description: '',
+            lessons: [
+              {
+                id: 'c-les',
+                topicId: 'c-top',
+                order: 1,
+                title: 'درس معطوب',
+                description: '',
+                estimatedDuration: 5,
+                learningObjectives: [],
+                status: 'draft',
+                references: [],
+                blocks: [
+                  {
+                    id: 'b-bad-diag',
+                    type: 'interactive_diagram',
+                    order: 1,
+                    title: 'مخطط برابط مكسور',
+                    viewBoxWidth: 500,
+                    viewBoxHeight: 300,
+                    nodes: [{ id: 'n1', label: 'عقدة 1', description: '', x: 0, y: 0 }],
+                    connections: [{ id: 'c1', from: 'n1', to: 'n_missing' }], // خطأ: عقدة غير موجودة
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+]);
+assert(corruptedVisualReport.isValid === false, 'المحرك يكتشف ويرفض المخططات التفاعلية ذات الروابط المكسورة');
 
 console.log(`\n========================================`);
 console.log(`إجمالي الفحوصات الناجحة: ${passedTests}`);

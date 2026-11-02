@@ -30,6 +30,10 @@ const VALID_BLOCK_TYPES = new Set([
   'image',
   'academic_reference',
   'interactive_placeholder',
+  'interactive_diagram',
+  'animated_explanation',
+  'visual_comparison',
+  'visual_sequence',
   'generic_future_block',
 ]);
 
@@ -271,6 +275,61 @@ function validateBlockPayload(block: ContentBlock, errors: ValidationError[]) {
     case 'academic_reference':
       if (!block.reference || !block.reference.bookTitle) {
         errors.push({ level: 'error', entity: 'block', id: block.id, message: 'كتلة توثيق مرجعي تفتقر لعنوان الكتاب' });
+      }
+      break;
+    case 'interactive_diagram':
+      if (!block.title || block.title.trim() === '') {
+        errors.push({ level: 'error', entity: 'block', id: block.id, message: 'كتلة مخطط تفاعلي بدون عنوان' });
+      }
+      if (!block.nodes || block.nodes.length === 0) {
+        errors.push({ level: 'error', entity: 'block', id: block.id, message: 'كتلة مخطط تفاعلي لا تحتوي على أي عناصر (nodes)' });
+      } else {
+        const nodeIds = new Set(block.nodes.map((n) => n.id));
+        if (block.connections) {
+          for (const conn of block.connections) {
+            if (!nodeIds.has(conn.from) || !nodeIds.has(conn.to)) {
+              errors.push({
+                level: 'error',
+                entity: 'block',
+                id: block.id,
+                message: `رابط في المخطط التفاعلي يشير إلى عنصر غير موجود: ${conn.from} -> ${conn.to}`,
+              });
+            }
+          }
+        }
+      }
+      break;
+    case 'animated_explanation':
+      if (!block.title || block.title.trim() === '') {
+        errors.push({ level: 'error', entity: 'block', id: block.id, message: 'كتلة شرح متحرك بدون عنوان' });
+      }
+      if (!block.steps || block.steps.length === 0) {
+        errors.push({ level: 'error', entity: 'block', id: block.id, message: 'كتلة شرح متحرك بدون خطوات (steps)' });
+      }
+      if (!block.baseElements || block.baseElements.length === 0) {
+        errors.push({ level: 'error', entity: 'block', id: block.id, message: 'كتلة شرح متحرك بدون عناصر بصرية أساسية (baseElements)' });
+      }
+      break;
+    case 'visual_comparison':
+      if (!block.title || block.title.trim() === '') {
+        errors.push({ level: 'error', entity: 'block', id: block.id, message: 'كتلة مقارنة بصرية بدون عنوان' });
+      }
+      if (!block.items || block.items.length < 2) {
+        errors.push({ level: 'error', entity: 'block', id: block.id, message: 'كتلة مقارنة بصرية يجب أن تحتوي على مفهومين على الأقل' });
+      }
+      if (!block.criteria || block.criteria.length === 0) {
+        errors.push({ level: 'error', entity: 'block', id: block.id, message: 'كتلة مقارنة بصرية بدون معايير مقارنة (criteria)' });
+      }
+      break;
+    case 'visual_sequence':
+      if (!block.title || block.title.trim() === '') {
+        errors.push({ level: 'error', entity: 'block', id: block.id, message: 'نشاط ترتيب الخطوات بدون عنوان' });
+      }
+      if (!block.items || block.items.length < 2) {
+        errors.push({ level: 'error', entity: 'block', id: block.id, message: 'نشاط ترتيب الخطوات يجب أن يحتوي على خطوتين على الأقل' });
+      }
+      if (!block.correctOrder || block.correctOrder.length === 0) {
+        errors.push({ level: 'error', entity: 'block', id: block.id, message: 'نشاط ترتيب الخطوات بدون ترتيب صحيح محدد' });
       }
       break;
   }

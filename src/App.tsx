@@ -49,6 +49,20 @@ export const App: React.FC = () => {
                 )
               }
             />
+            {/* Shortcut route for Phase 4 Visual Learning Sandbox (protected in production) */}
+            <Route
+              path="/visual-sandbox"
+              element={
+                import.meta.env.PROD && typeof window !== 'undefined' && !window.location.search.includes('preview=true') ? (
+                  <Navigate to="/courses" replace />
+                ) : (
+                  <Navigate
+                    to="/courses/visual-sandbox/chapters/vis-chap-1/topics/vis-top-1/lessons/vis-les-1"
+                    replace
+                  />
+                )
+              }
+            />
             <Route path="/about" element={<AboutPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

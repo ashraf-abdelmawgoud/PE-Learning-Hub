@@ -1,5 +1,6 @@
 import { COURSES_PLACEHOLDER_DATA } from '../coursesData.ts';
 import { DEV_SANDBOX_COURSE } from './devSandboxCourse.ts';
+import { VISUAL_SANDBOX_COURSE } from './visualSandboxData.ts';
 import type {
   AcademicCourse,
   Chapter,
@@ -20,11 +21,12 @@ const OFFICIAL_ACADEMIC_COURSES: AcademicCourse[] = COURSES_PLACEHOLDER_DATA.map
 }));
 
 /**
- * جميع المقررات في المنصة (الرسمية + النموذج التجريبي المعزول)
+ * جميع المقررات في المنصة (الرسمية + النماذج التجريبية المعزولة)
  */
 const ALL_COURSES: AcademicCourse[] = [
   ...OFFICIAL_ACADEMIC_COURSES,
   DEV_SANDBOX_COURSE,
+  VISUAL_SANDBOX_COURSE,
 ];
 
 // ==========================================

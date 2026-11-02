@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import type { ContentBlock } from '../../types';
 import { HeadingBlockView } from './blocks/HeadingBlockView';
 import { ParagraphBlockView } from './blocks/ParagraphBlockView';
@@ -11,6 +11,27 @@ import { ImageBlockView } from './blocks/ImageBlockView';
 import { AcademicReferenceBlockView } from './blocks/AcademicReferenceBlockView';
 import { InteractivePlaceholderBlockView } from './blocks/InteractivePlaceholderBlockView';
 import { UnknownBlockView } from './blocks/UnknownBlockView';
+
+// Lazy loading for the Phase 4 Visual Learning Engine components
+const InteractiveDiagramView = lazy(() =>
+  import('./visual/InteractiveDiagramView').then((m) => ({ default: m.InteractiveDiagramView }))
+);
+const AnimatedExplanationView = lazy(() =>
+  import('./visual/AnimatedExplanationView').then((m) => ({ default: m.AnimatedExplanationView }))
+);
+const VisualComparisonView = lazy(() =>
+  import('./visual/VisualComparisonView').then((m) => ({ default: m.VisualComparisonView }))
+);
+const VisualSequenceView = lazy(() =>
+  import('./visual/VisualSequenceView').then((m) => ({ default: m.VisualSequenceView }))
+);
+
+const VisualLoadingFallback: React.FC = () => (
+  <div className="my-6 p-8 rounded-3xl bg-[#F8FCFF] border border-[#D9EAF7] text-center text-xs text-[#64748B] flex items-center justify-center gap-2">
+    <div className="w-4 h-4 rounded-full border-2 border-[#2563EB] border-t-transparent animate-spin" />
+    <span>جاري تحميل المكون البصري التفاعلي...</span>
+  </div>
+);
 
 interface LessonRendererProps {
   blocks: ContentBlock[];
@@ -50,6 +71,30 @@ export const LessonRenderer: React.FC<LessonRendererProps> = ({ blocks }) => {
         return <AcademicReferenceBlockView key={block.id || `ref-${index}`} block={block} />;
       case 'interactive_placeholder':
         return <InteractivePlaceholderBlockView key={block.id || `int-${index}`} block={block} />;
+      case 'interactive_diagram':
+        return (
+          <Suspense key={block.id || `diag-${index}`} fallback={<VisualLoadingFallback />}>
+            <InteractiveDiagramView block={block} />
+          </Suspense>
+        );
+      case 'animated_explanation':
+        return (
+          <Suspense key={block.id || `anim-${index}`} fallback={<VisualLoadingFallback />}>
+            <AnimatedExplanationView block={block} />
+          </Suspense>
+        );
+      case 'visual_comparison':
+        return (
+          <Suspense key={block.id || `vcomp-${index}`} fallback={<VisualLoadingFallback />}>
+            <VisualComparisonView block={block} />
+          </Suspense>
+        );
+      case 'visual_sequence':
+        return (
+          <Suspense key={block.id || `vseq-${index}`} fallback={<VisualLoadingFallback />}>
+            <VisualSequenceView block={block} />
+          </Suspense>
+        );
       default:
         return <UnknownBlockView key={block.id || `unk-${index}`} block={block} />;
     }
