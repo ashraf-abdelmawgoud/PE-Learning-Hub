@@ -206,3 +206,4 @@ export const VisualComparisonView: React.FC<VisualComparisonViewProps> = ({ bloc
     </figure>
   );
 };
+

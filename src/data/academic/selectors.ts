@@ -1,6 +1,10 @@
 import { COURSES_PLACEHOLDER_DATA } from '../coursesData.ts';
 import { DEV_SANDBOX_COURSE } from './devSandboxCourse.ts';
 import { VISUAL_SANDBOX_COURSE } from './visualSandboxData.ts';
+import {
+  CURRICULUM_PILOT_CHAPTER,
+  CURRICULUM_ACADEMIC_REFERENCE,
+} from './curriculumPilotData.ts';
 import type {
   AcademicCourse,
   Chapter,
@@ -11,14 +15,33 @@ import type {
 
 /**
  * تحويل بيانات المقررات السبعة الرسمية إلى النموذج الأكاديمي الشامل
- * مع الحفاظ على حالتها الدقيقة: قيد تجهيز المحتوى، فصول فارغة بانتظار الكتب الرسمية
+ * مع الحفاظ على حالتها الدقيقة:
+ * - المقرر الأول PE-ACAD-01 يتضمن الفصل الأول كمعاينة أكاديمية تجريبية حقيقية (ص 2-5).
+ * - بقية المقررات (2-7) خالية من الفصول بانتظار تزويد المنصة بكتبها الرسمية.
  */
-const OFFICIAL_ACADEMIC_COURSES: AcademicCourse[] = COURSES_PLACEHOLDER_DATA.map((c) => ({
-  ...c,
-  chapters: [],
-  academicReferences: [],
-  isDevSandbox: false,
-}));
+const OFFICIAL_ACADEMIC_COURSES: AcademicCourse[] = COURSES_PLACEHOLDER_DATA.map((c) => {
+  if (c.id === 'course-1') {
+    return {
+      ...c,
+      title: 'المقرر الأول: مناهج التربية الرياضية (الفرقة الرابعة)',
+      targetBookReference: 'كتاب مناهج التربية الرياضية — أ.د. هاني الدسوقي إبراهيم (ص 2 - 5)',
+      status: 'pending_content',
+      statusLabel: 'معاينة تجريبية (الفصل 1)',
+      description:
+        'مقرر مناهج التربية الرياضية لطلاب الفرقة الرابعة (قسم تدريس). يتضمن حالياً معاينة أكاديمية تجريبية للفصل الأول (مقدمة وماهية المنهج)، بينما بقية وحدات وفصول المقرر قيد التجهيز.',
+      chapters: [CURRICULUM_PILOT_CHAPTER],
+      academicReferences: [CURRICULUM_ACADEMIC_REFERENCE],
+      isDevSandbox: false,
+    };
+  }
+
+  return {
+    ...c,
+    chapters: [],
+    academicReferences: [],
+    isDevSandbox: false,
+  };
+});
 
 /**
  * جميع المقررات في المنصة (الرسمية + النماذج التجريبية المعزولة)

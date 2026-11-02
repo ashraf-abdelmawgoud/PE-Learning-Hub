@@ -109,10 +109,10 @@ const report = validateAcademicContent();
 assert(report.isValid === true, 'تقرير فحص المحتوى الأكاديمي سليم بدون أخطاء بنيوية');
 assert(report.errors.length === 0, `عدد الأخطاء الهندسية يساوي 0 (الفعل: ${report.errors.length})`);
 assert(report.coursesCount === 9, `إجمالي المقررات (7 رسمية + 2 معمل تجريبي معزول) يساوي 9`);
-assert(report.chaptersCount === 2, 'عدد الفصول التجريبية يساوي 2');
-assert(report.topicsCount === 2, 'عدد الموضوعات التجريبية يساوي 2');
-assert(report.lessonsCount === 2, 'عدد الدروس التجريبية يساوي 2');
-assert(report.blocksCount === 16, 'عدد كتل المحتوى الإجمالي يساوي 16 كتلة كاملة');
+assert(report.chaptersCount === 3, 'عدد الفصول الإجمالي يساوي 3 (1 تجربة حقيقية + 2 معامل تقنية)');
+assert(report.topicsCount === 3, 'عدد الموضوعات الإجمالي يساوي 3');
+assert(report.lessonsCount === 3, 'عدد الدروس الإجمالي يساوي 3');
+assert(report.blocksCount === 25, 'عدد كتل المحتوى الإجمالي يساوي 25 كتلة كاملة');
 
 // 5.1 اختبار فشل البناء عند حقن محتوى معطوب (Corrupted Content Rejection)
 console.log('\n5.1 فحص صد واكتشاف المحتوى المعطوب (Strict Validation Enforcement):');
@@ -152,7 +152,8 @@ const studentCourses = getAllCourses(false);
 assert(studentCourses.length === 7, 'واجهة الطلاب تسترجع المقررات السبعة فقط');
 assert(studentCourses.every((c) => !c.isDevSandbox), 'لا يوجد أي مقرر تجريبي مسرب لواجهة الطلاب');
 assert(studentCourses.every((c) => c.status === 'pending_content'), 'جميع المقررات السبعة للطلاب بحالة pending_content');
-assert(studentCourses.every((c) => c.chapters.length === 0), 'جميع المقررات السبعة خالية من الفصول بانتظار الكتب الأكاديمية');
+assert(studentCourses[0].chapters.length === 1, 'المقرر الأول PE-ACAD-01 يتضمن فصلاً واحداً كمعاينة أكاديمية تجريبية');
+assert(studentCourses.slice(1).every((c) => c.chapters.length === 0), 'بقية المقررات (2-7) خالية من الفصول بانتظار تزويد المنصة بكتبها');
 
 const devChapters = getChaptersByCourse('dev-sandbox');
 assert(devChapters.length === 1 && devChapters[0].id === 'dev-chap-1', 'استرجاع فصول المقرر التجريبي بترتيب سليم');
@@ -286,6 +287,50 @@ const corruptedVisualReport = validateAcademicContent([
   },
 ]);
 assert(corruptedVisualReport.isValid === false, 'المحرك يكتشف ويرفض المخططات التفاعلية ذات الروابط المكسورة');
+
+// 8. فحص تجربة المحتوى الأكاديمي الحقيقي: كتاب مناهج التربية الرياضية (ص 2 - 5)
+console.log('\n8. فحص التجربة التعليمية الحقيقية (كتاب مناهج التربية الرياضية - أ.د. هاني الدسوقي إبراهيم):');
+
+const course1 = getCourseById('course-1');
+assert(Boolean(course1 && course1.chapters.length === 1), 'المقرر الأول PE-ACAD-01 يتضمن الفصل الأول الحقيقي');
+assert(course1?.code === 'PE-ACAD-01', 'رمز المقرر الأول PE-ACAD-01 صحيح');
+
+const course1Chapters = getChaptersByCourse('course-1');
+assert(course1Chapters.length === 1 && course1Chapters[0].id === 'chap-curriculum-intro', 'استرجاع الفصل الأول: مقدمة وماهية المنهج');
+
+const course1Topics = getTopicsByChapter('chap-curriculum-intro');
+assert(course1Topics.length === 1 && course1Topics[0].id === 'top-curriculum-concept-evolution', 'استرجاع موضوع تطور مفهوم المنهج');
+
+const pilotLesson = getLessonById('les-curriculum-evolution');
+assert(Boolean(pilotLesson), 'استرجاع الدرس الأكاديمي الحقيقي بنجاح');
+assert(pilotLesson?.blocks.length === 9, `الدرس الحقيقي يتضمن 9 كتل محتوى متكاملة (الفعل: ${pilotLesson?.blocks.length})`);
+
+// فحص المرجع الأكاديمي الدقيق
+const ref = pilotLesson?.references[0];
+assert(ref?.bookTitle === 'مناهج التربية الرياضية', 'عنوان المرجع: مناهج التربية الرياضية مطابق للغلاف');
+assert(Boolean(ref?.author.includes('هاني الدسوقي إبراهيم')), 'المؤلف: أ.د. هاني الدسوقي إبراهيم مطابق لصفحة العنوان');
+assert(ref?.pageRange === 'ص 2 - 5', 'الصفحات المرجعية: ص 2 - 5 مطابقة للترقيم الأصلي');
+
+// فحص كتل المحرك البصري في الدرس الحقيقي
+const animBlock = pilotLesson?.blocks.find((b) => b.type === 'animated_explanation');
+assert(Boolean(animBlock && animBlock.type === 'animated_explanation' && animBlock.steps.length === 3), 'شرح متحرك من 3 مراحل: تقليدي -> خبرات وأنشطة -> منظومة شاملة');
+
+const diagBlock = pilotLesson?.blocks.find((b) => b.type === 'interactive_diagram');
+assert(Boolean(diagBlock && diagBlock.type === 'interactive_diagram' && diagBlock.nodes.length === 5), 'مخطط تفاعلي يتضمن 5 أركان مفاهيمية مع علاقاتها');
+
+const compBlock = pilotLesson?.blocks.find((b) => b.type === 'visual_comparison');
+assert(Boolean(compBlock && compBlock.type === 'visual_comparison' && compBlock.criteria.length === 6), 'مقارنة بصرية بين التصور التقليدي والحديث عبر 6 معايير');
+
+const seqBlock = pilotLesson?.blocks.find((b) => b.type === 'visual_sequence');
+assert(Boolean(seqBlock && seqBlock.type === 'visual_sequence' && seqBlock.items.length === 4), 'نشاط ترتيب يضم مراحل تخطيط وتطوير المنهج الأربعة');
+
+const pilotBreadcrumbs = getAcademicBreadcrumbs({
+  courseId: 'course-1',
+  chapterId: 'chap-curriculum-intro',
+  topicId: 'top-curriculum-concept-evolution',
+  lessonId: 'les-curriculum-evolution',
+});
+assert(pilotBreadcrumbs.length === 5, 'توليد مسار التنقل الأكاديمي للدرس الحقيقي (Breadcrumbs)');
 
 console.log(`\n========================================`);
 console.log(`إجمالي الفحوصات الناجحة: ${passedTests}`);

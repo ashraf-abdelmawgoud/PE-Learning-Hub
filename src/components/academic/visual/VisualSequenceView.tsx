@@ -242,3 +242,4 @@ export const VisualSequenceView: React.FC<VisualSequenceViewProps> = ({ block })
     </figure>
   );
 };
+

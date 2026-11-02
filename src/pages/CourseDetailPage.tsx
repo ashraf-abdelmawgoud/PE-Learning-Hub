@@ -39,6 +39,28 @@ export const CourseDetailPage: React.FC = () => {
         {/* Breadcrumb Navigation */}
         <BreadcrumbNav items={breadcrumbs} />
 
+        {/* Pilot Academic Preview Banner for Course 1 */}
+        {course.id === 'course-1' && (
+          <div className="bg-emerald-50 border-2 border-emerald-300 rounded-3xl p-5 sm:p-6 shadow-sm flex items-start gap-4">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0">
+              <BookOpen className="w-5 h-5" />
+            </div>
+            <div className="space-y-1 text-xs sm:text-sm text-emerald-950">
+              <div className="flex items-center gap-2">
+                <span className="font-black text-emerald-900 text-base">
+                  معاينة أكاديمية تجريبية حقيقية (الفصل الأول)
+                </span>
+                <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-200/80 text-emerald-900">
+                  كتاب مناهج التربية الرياضية
+                </span>
+              </div>
+              <p className="text-emerald-800 leading-relaxed">
+                يتضمن هذا المقرر فصلاً تجريبياً أولاً مستخلصاً مباشرة من كتاب مناهج التربية الرياضية (أ.د. هاني الدسوقي إبراهيم — الفرقة الرابعة)، مع الحفاظ على بقية فصول المقرر بحالة قيد الإعداد الأكاديمي.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Development Sandbox Banner if Dev Sandbox */}
         {course.isDevSandbox && (
           <div className="bg-amber-50 border-2 border-amber-300 rounded-3xl p-5 sm:p-6 shadow-sm flex items-start gap-4">
