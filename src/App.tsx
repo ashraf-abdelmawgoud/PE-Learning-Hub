@@ -16,7 +16,7 @@ export const App: React.FC = () => {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <div className="min-h-screen flex flex-col bg-[#F4FAFF] text-[#334155] selection:bg-blue-600 selection:text-white">
+      <div className="min-h-screen flex flex-col bg-[#F4FFF7] text-[#486555] selection:bg-[#00C853] selection:text-[#071C12]">
         <Navbar />
         <main className="flex-1">
           <Routes>

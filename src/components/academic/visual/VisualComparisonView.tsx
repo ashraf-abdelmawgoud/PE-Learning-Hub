@@ -19,23 +19,23 @@ export const VisualComparisonView: React.FC<VisualComparisonViewProps> = ({ bloc
 
   return (
     <figure
-      className="my-8 rounded-3xl bg-white border border-[#D9EAF7] p-5 sm:p-7 shadow-xs overflow-hidden"
+      className="my-8 rounded-3xl bg-white border border-[#D4E9DC] p-5 sm:p-7 shadow-xs overflow-hidden transition-colors"
       aria-labelledby={`comp-title-${block.id}`}
     >
       {/* Header */}
-      <div className="flex items-center gap-2.5 pb-4 mb-5 border-b border-[#D9EAF7]/80">
-        <div className="w-9 h-9 rounded-xl bg-indigo-50 text-[#4F46E5] flex items-center justify-center shrink-0 border border-indigo-200/60">
+      <div className="flex items-center gap-2.5 pb-4 mb-5 border-b border-[#D4E9DC]/80">
+        <div className="w-9 h-9 rounded-xl bg-[#E8F8EE] text-[#00C853] flex items-center justify-center shrink-0 border border-[#D4E9DC]">
           <Columns3 className="w-5 h-5" />
         </div>
         <div>
           <h3
             id={`comp-title-${block.id}`}
-            className="text-base sm:text-lg font-black text-[#172B4D]"
+            className="text-base sm:text-lg font-black text-[#173D2B]"
           >
             {block.title}
           </h3>
           {block.description && (
-            <p className="text-xs text-[#64748B] mt-0.5">{block.description}</p>
+            <p className="text-xs text-[#6C8577] mt-0.5">{block.description}</p>
           )}
         </div>
       </div>
@@ -43,19 +43,19 @@ export const VisualComparisonView: React.FC<VisualComparisonViewProps> = ({ bloc
       {/* Selectors Bar: Choose Item A and Item B */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         {/* Selector A */}
-        <div className="p-3.5 rounded-2xl bg-blue-50/50 border border-blue-200/70 space-y-2">
+        <div className="p-3.5 rounded-2xl bg-[#E8F8EE]/60 border border-[#D4E9DC] space-y-2">
           <label
             htmlFor={`select-item-a-${block.id}`}
-            className="text-xs font-bold text-[#1E40AF] flex items-center gap-1.5"
+            className="text-xs font-bold text-[#173D2B] flex items-center gap-1.5"
           >
-            <span className="w-2 h-2 rounded-full bg-[#2563EB]" />
+            <span className="w-2 h-2 rounded-full bg-[#00C853]" />
             <span>العنصر الأول المقارن:</span>
           </label>
           <select
             id={`select-item-a-${block.id}`}
             value={itemAId}
             onChange={(e) => setItemAId(e.target.value)}
-            className="w-full text-xs sm:text-sm font-bold bg-white text-[#172B4D] border border-blue-300 rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-[#2563EB] cursor-pointer"
+            className="w-full text-xs sm:text-sm font-bold bg-white text-[#173D2B] border border-[#D4E9DC] rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-[#00C853] cursor-pointer"
           >
             {block.items.map((item) => (
               <option key={item.id} value={item.id}>
@@ -66,19 +66,19 @@ export const VisualComparisonView: React.FC<VisualComparisonViewProps> = ({ bloc
         </div>
 
         {/* Selector B */}
-        <div className="p-3.5 rounded-2xl bg-cyan-50/50 border border-cyan-200/70 space-y-2">
+        <div className="p-3.5 rounded-2xl bg-[#F4FFF7] border border-[#D4E9DC] space-y-2">
           <label
             htmlFor={`select-item-b-${block.id}`}
-            className="text-xs font-bold text-[#0E7490] flex items-center gap-1.5"
+            className="text-xs font-bold text-[#173D2B] flex items-center gap-1.5"
           >
-            <span className="w-2 h-2 rounded-full bg-[#06B6D4]" />
+            <span className="w-2 h-2 rounded-full bg-[#059669]" />
             <span>العنصر الثاني المقارن:</span>
           </label>
           <select
             id={`select-item-b-${block.id}`}
             value={itemBId}
             onChange={(e) => setItemBId(e.target.value)}
-            className="w-full text-xs sm:text-sm font-bold bg-white text-[#172B4D] border border-cyan-300 rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-[#06B6D4] cursor-pointer"
+            className="w-full text-xs sm:text-sm font-bold bg-white text-[#173D2B] border border-[#D4E9DC] rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-[#059669] cursor-pointer"
           >
             {block.items.map((item) => (
               <option key={item.id} value={item.id}>
@@ -91,28 +91,28 @@ export const VisualComparisonView: React.FC<VisualComparisonViewProps> = ({ bloc
 
       {/* Concept Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-        <div className="rounded-2xl p-4 bg-[#F8FCFF] border border-blue-200/80 space-y-1.5">
+        <div className="rounded-2xl p-4 bg-[#F4FFF7] border border-[#D4E9DC] space-y-1.5">
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-black text-[#172B4D]">{itemA.name}</h4>
+            <h4 className="text-sm font-black text-[#173D2B]">{itemA.name}</h4>
             {itemA.badge && (
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-blue-100 text-[#2563EB]">
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-[#E8F8EE] text-[#173D2B] border border-[#D4E9DC]">
                 {itemA.badge}
               </span>
             )}
           </div>
-          <p className="text-xs text-[#334155] leading-relaxed">{itemA.summary}</p>
+          <p className="text-xs text-[#486555] leading-relaxed">{itemA.summary}</p>
         </div>
 
-        <div className="rounded-2xl p-4 bg-[#F8FCFF] border border-cyan-200/80 space-y-1.5">
+        <div className="rounded-2xl p-4 bg-[#F4FFF7] border border-[#D4E9DC] space-y-1.5">
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-black text-[#172B4D]">{itemB.name}</h4>
+            <h4 className="text-sm font-black text-[#173D2B]">{itemB.name}</h4>
             {itemB.badge && (
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-cyan-100 text-[#0891B2]">
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-[#E8F8EE] text-[#059669] border border-[#D4E9DC]">
                 {itemB.badge}
               </span>
             )}
           </div>
-          <p className="text-xs text-[#334155] leading-relaxed">{itemB.summary}</p>
+          <p className="text-xs text-[#486555] leading-relaxed">{itemB.summary}</p>
         </div>
       </div>
 

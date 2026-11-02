@@ -132,32 +132,32 @@ export const AnimatedExplanationView: React.FC<AnimatedExplanationViewProps> = (
 
   return (
     <figure
-      className="my-8 rounded-3xl bg-white border border-[#D9EAF7] p-5 sm:p-7 shadow-xs overflow-hidden"
+      className="my-8 rounded-3xl bg-white border border-[#D4E9DC] p-5 sm:p-7 shadow-xs overflow-hidden transition-all"
       aria-labelledby={`anim-title-${block.id}`}
     >
       {/* Title & Speed Control Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 mb-4 border-b border-[#D9EAF7]/80">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 mb-4 border-b border-[#D4E9DC]/80">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-cyan-50 text-[#0891B2] flex items-center justify-center shrink-0 border border-cyan-200">
+          <div className="w-9 h-9 rounded-xl bg-[#E8F8EE] text-[#00C853] flex items-center justify-center shrink-0 border border-[#D4E9DC]">
             <Sparkles className="w-5 h-5" />
           </div>
           <div>
             <h3
               id={`anim-title-${block.id}`}
-              className="text-base sm:text-lg font-black text-[#172B4D]"
+              className="text-base sm:text-lg font-black text-[#173D2B]"
             >
               {block.title}
             </h3>
             {block.description && (
-              <p className="text-xs text-[#64748B] mt-0.5">{block.description}</p>
+              <p className="text-xs text-[#6C8577] mt-0.5">{block.description}</p>
             )}
           </div>
         </div>
 
         {/* Speed Selector */}
-        <div className="flex items-center gap-2 self-start sm:self-auto bg-[#F4FAFF] border border-[#D9EAF7] px-3 py-1.5 rounded-xl">
-          <Gauge className="w-3.5 h-3.5 text-[#64748B]" />
-          <span className="text-[11px] font-bold text-[#64748B]">السرعة:</span>
+        <div className="flex items-center gap-2 self-start sm:self-auto bg-[#F4FFF7] border border-[#D4E9DC] px-3 py-1.5 rounded-xl">
+          <Gauge className="w-3.5 h-3.5 text-[#6C8577]" />
+          <span className="text-[11px] font-bold text-[#6C8577]">السرعة:</span>
           <div className="flex items-center gap-1">
             {[0.5, 1, 1.5, 2].map((s) => (
               <button
@@ -166,8 +166,8 @@ export const AnimatedExplanationView: React.FC<AnimatedExplanationViewProps> = (
                 onClick={() => setSpeed(s)}
                 className={`px-2 py-0.5 rounded-lg text-xs font-mono font-bold transition-colors cursor-pointer ${
                   speed === s
-                    ? 'bg-[#2563EB] text-white shadow-2xs'
-                    : 'text-[#64748B] hover:text-[#172B4D]'
+                    ? 'bg-[#103D27] text-[#39E66D] shadow-2xs'
+                    : 'text-[#6C8577] hover:text-[#173D2B]'
                 }`}
                 aria-label={`تحديد السرعة ${s}x`}
               >
@@ -179,7 +179,7 @@ export const AnimatedExplanationView: React.FC<AnimatedExplanationViewProps> = (
       </div>
 
       {/* SVG Animation Stage */}
-      <div className="relative w-full rounded-2xl bg-[#F8FCFF] border border-[#D9EAF7]/70 p-3 sm:p-5 overflow-hidden">
+      <div className="relative w-full rounded-2xl bg-[#F4FFF7] border border-[#D4E9DC]/70 p-3 sm:p-5 overflow-hidden">
         <svg
           viewBox={`0 0 ${block.viewBoxWidth} ${block.viewBoxHeight}`}
           className="w-full h-auto max-h-[380px] mx-auto select-none"
@@ -302,10 +302,10 @@ export const AnimatedExplanationView: React.FC<AnimatedExplanationViewProps> = (
                 }}
                 className={`h-2 rounded-full transition-all cursor-pointer ${
                   idx === currentStepIndex
-                    ? 'w-7 bg-[#2563EB]'
+                    ? 'w-7 bg-[#00C853]'
                     : idx < currentStepIndex
-                    ? 'w-2 bg-[#93C5FD]'
-                    : 'w-2 bg-[#D9EAF7]'
+                    ? 'w-2 bg-[#39E66D]'
+                    : 'w-2 bg-[#D4E9DC]'
                 }`}
                 aria-label={`الانتقال إلى الخطوة ${s.stepNumber}`}
               />
@@ -319,18 +319,18 @@ export const AnimatedExplanationView: React.FC<AnimatedExplanationViewProps> = (
         <button
           type="button"
           onClick={handleReplay}
-          className="p-2.5 rounded-xl border border-[#D9EAF7] bg-white hover:bg-slate-50 text-[#334155] transition-colors cursor-pointer"
+          className="p-2.5 rounded-xl border border-[#D4E9DC] bg-white hover:bg-[#E8F8EE] text-[#173D2B] transition-colors cursor-pointer"
           title="إعادة التشغيل من البداية"
           aria-label="إعادة التشغيل"
         >
-          <RotateCcw className="w-4 h-4" />
+          <RotateCcw className="w-4 h-4 text-[#00C853]" />
         </button>
 
         <button
           type="button"
           onClick={handlePrev}
           disabled={currentStepIndex === 0}
-          className="p-2.5 rounded-xl border border-[#D9EAF7] bg-white hover:bg-slate-50 text-[#334155] disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+          className="p-2.5 rounded-xl border border-[#D4E9DC] bg-white hover:bg-[#E8F8EE] text-[#173D2B] disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
           title="الخطوة السابقة"
           aria-label="الخطوة السابقة"
         >
@@ -340,17 +340,17 @@ export const AnimatedExplanationView: React.FC<AnimatedExplanationViewProps> = (
         <button
           type="button"
           onClick={handleTogglePlay}
-          className="px-6 py-2.5 rounded-xl bg-[#2563EB] hover:bg-blue-700 text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition-all shadow-sm shadow-blue-600/20 active:scale-98 cursor-pointer"
+          className="px-6 py-2.5 rounded-xl bg-[#00C853] hover:bg-[#39E66D] active:bg-[#00A844] text-[#071C12] font-black text-xs sm:text-sm flex items-center gap-2 transition-all shadow-sm shadow-[#00C853]/20 active:scale-98 cursor-pointer"
           aria-label={isPlaying ? 'إيقاف مؤقت' : 'تشغيل الأنيميشن'}
         >
           {isPlaying ? (
             <>
-              <Pause className="w-4 h-4" />
+              <Pause className="w-4 h-4 text-[#071C12]" />
               <span>إيقاف مؤقت</span>
             </>
           ) : (
             <>
-              <Play className="w-4 h-4" />
+              <Play className="w-4 h-4 text-[#071C12]" />
               <span>{currentStepIndex === totalSteps - 1 ? 'إعادة العرض' : 'تشغيل'}</span>
             </>
           )}
@@ -360,7 +360,7 @@ export const AnimatedExplanationView: React.FC<AnimatedExplanationViewProps> = (
           type="button"
           onClick={handleNext}
           disabled={currentStepIndex === totalSteps - 1}
-          className="p-2.5 rounded-xl border border-[#D9EAF7] bg-white hover:bg-slate-50 text-[#334155] disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+          className="p-2.5 rounded-xl border border-[#D4E9DC] bg-white hover:bg-[#E8F8EE] text-[#173D2B] disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
           title="الخطوة التالية"
           aria-label="الخطوة التالية"
         >
@@ -370,25 +370,25 @@ export const AnimatedExplanationView: React.FC<AnimatedExplanationViewProps> = (
 
       {/* Pedagogical Explanation Box for Active Step */}
       <div
-        className="mt-4 rounded-2xl p-4 sm:p-5 bg-gradient-to-r from-blue-50/70 to-cyan-50/50 border border-blue-200/80 space-y-2.5"
+        className="mt-4 rounded-2xl p-4 sm:p-5 bg-gradient-to-r from-[#E8F8EE] to-[#F4FFF7] border border-[#00C853]/40 space-y-2.5"
         role="region"
         aria-live="polite"
       >
         <div className="flex items-center gap-2">
-          <span className="w-6 h-6 rounded-lg bg-[#2563EB] text-white font-mono text-xs font-bold flex items-center justify-center">
+          <span className="w-6 h-6 rounded-lg bg-[#103D27] text-[#39E66D] font-mono text-xs font-bold flex items-center justify-center">
             {currentStep.stepNumber}
           </span>
-          <h4 className="text-sm sm:text-base font-black text-[#172B4D]">
+          <h4 className="text-sm sm:text-base font-black text-[#173D2B]">
             {currentStep.title}
           </h4>
         </div>
 
-        <p className="text-xs sm:text-sm text-[#334155] leading-relaxed">
+        <p className="text-xs sm:text-sm text-[#486555] leading-relaxed">
           {currentStep.explanation}
         </p>
 
         {currentStep.pedagogicalTip && (
-          <div className="pt-2 border-t border-blue-200/60 flex items-start gap-2 text-xs text-[#0369A1]">
+          <div className="pt-2 border-t border-[#D4E9DC] flex items-start gap-2 text-xs text-[#173D2B]">
             <Lightbulb className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
             <span>
               <strong>ملاحظة تحليلية:</strong> {currentStep.pedagogicalTip}

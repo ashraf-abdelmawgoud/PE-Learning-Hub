@@ -6,12 +6,11 @@ export const ParagraphBlockView: React.FC<{ block: ParagraphBlock }> = ({ block 
 
   return (
     <p
-      className={`leading-relaxed text-[#334155] mb-4 ${
-        lead ? 'text-lg sm:text-xl font-medium text-[#172B4D] leading-loose' : 'text-base'
+      className={`leading-relaxed text-[#486555] mb-4 transition-colors ${
+        lead ? 'text-lg sm:text-xl font-medium text-[#173D2B] leading-loose' : 'text-base'
       }`}
     >
       {text}
     </p>
   );
 };
-

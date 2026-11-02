@@ -39,24 +39,24 @@ export const InteractiveDiagramView: React.FC<InteractiveDiagramViewProps> = ({ 
 
   return (
     <figure
-      className="my-8 rounded-3xl bg-white border border-[#D9EAF7] p-5 sm:p-7 shadow-xs overflow-hidden transition-all"
+      className="my-8 rounded-3xl bg-white border border-[#D4E9DC] p-5 sm:p-7 shadow-xs overflow-hidden transition-all"
       aria-labelledby={`diag-title-${block.id}`}
     >
       {/* Header bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-[#D9EAF7]/80">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-[#D4E9DC]/80">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-blue-50 text-[#2563EB] flex items-center justify-center shrink-0 border border-blue-200/60">
+          <div className="w-9 h-9 rounded-xl bg-[#E8F8EE] text-[#00C853] flex items-center justify-center shrink-0 border border-[#D4E9DC]">
             <Network className="w-5 h-5" />
           </div>
           <div>
             <h3
               id={`diag-title-${block.id}`}
-              className="text-base sm:text-lg font-black text-[#172B4D]"
+              className="text-base sm:text-lg font-black text-[#173D2B]"
             >
               {block.title}
             </h3>
             {block.caption && (
-              <p className="text-xs text-[#64748B] mt-0.5">{block.caption}</p>
+              <p className="text-xs text-[#6C8577] mt-0.5">{block.caption}</p>
             )}
           </div>
         </div>
@@ -66,10 +66,10 @@ export const InteractiveDiagramView: React.FC<InteractiveDiagramViewProps> = ({ 
           <button
             type="button"
             onClick={handleReset}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#F4FAFF] hover:bg-blue-50 text-[#2563EB] border border-[#D9EAF7] transition-colors self-start sm:self-auto cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#F4FFF7] hover:bg-[#E8F8EE] text-[#173D2B] border border-[#D4E9DC] transition-colors self-start sm:self-auto cursor-pointer"
             aria-label="إعادة ضبط تحديد المخطط"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
+            <RotateCcw className="w-3.5 h-3.5 text-[#00C853]" />
             <span>إعادة ضبط التحديد</span>
           </button>
         )}
@@ -359,44 +359,44 @@ export const InteractiveDiagramView: React.FC<InteractiveDiagramViewProps> = ({ 
       <div className="mt-5 transition-all">
         {selectedNode ? (
           <div
-            className="rounded-2xl p-4 sm:p-5 bg-blue-50/70 border border-blue-200/80 space-y-3"
+            className="rounded-2xl p-4 sm:p-5 bg-gradient-to-r from-[#E8F8EE] to-[#F4FFF7] border border-[#00C853]/40 space-y-3"
             role="region"
             aria-live="polite"
           >
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#2563EB] animate-pulse" />
-                <h4 className="text-base font-black text-[#172B4D]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#00C853] animate-pulse" />
+                <h4 className="text-base font-black text-[#173D2B]">
                   {selectedNode.label}
                 </h4>
                 {selectedNode.category && (
-                  <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-blue-100 text-[#2563EB] border border-blue-200">
+                  <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#E8F8EE] text-[#173D2B] border border-[#D4E9DC]">
                     {selectedNode.category}
                   </span>
                 )}
               </div>
 
               {selectedNode.details?.academicTerm && (
-                <span className="text-xs font-mono font-bold text-[#0891B2] bg-cyan-50 px-2.5 py-1 rounded-lg border border-cyan-200">
+                <span className="text-xs font-mono font-bold text-[#173D2B] bg-[#E8F8EE] px-2.5 py-1 rounded-lg border border-[#D4E9DC]">
                   {selectedNode.details.academicTerm}
                 </span>
               )}
             </div>
 
-            <p className="text-sm text-[#334155] leading-relaxed">
+            <p className="text-sm text-[#486555] leading-relaxed">
               {selectedNode.description}
             </p>
 
             {/* Key details if available */}
             {selectedNode.details?.keyPoints && selectedNode.details.keyPoints.length > 0 && (
-              <div className="pt-2 border-t border-blue-200/60 space-y-1.5">
-                <span className="text-xs font-bold text-[#1E40AF] block">
+              <div className="pt-2 border-t border-[#D4E9DC] space-y-1.5">
+                <span className="text-xs font-bold text-[#173D2B] block">
                   النقاط والخصائص الأساسية:
                 </span>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[#334155]">
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[#486555]">
                   {selectedNode.details.keyPoints.map((pt, i) => (
                     <li key={i} className="flex items-start gap-1.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#2563EB] shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#00C853] shrink-0 mt-0.5" />
                       <span>{pt}</span>
                     </li>
                   ))}
@@ -405,8 +405,8 @@ export const InteractiveDiagramView: React.FC<InteractiveDiagramViewProps> = ({ 
             )}
           </div>
         ) : (
-          <div className="rounded-2xl p-4 bg-[#F8FCFF] border border-dashed border-[#D9EAF7] flex items-center justify-center gap-2 text-xs text-[#64748B]">
-            <Info className="w-4 h-4 text-[#2563EB] shrink-0" />
+          <div className="rounded-2xl p-4 bg-[#F4FFF7] border border-dashed border-[#D4E9DC] flex items-center justify-center gap-2 text-xs text-[#6C8577]">
+            <Info className="w-4 h-4 text-[#00C853] shrink-0" />
             <span>
               انقر على أي عنصر في المخطط أعلاه أو استخدم مفتاح Tab لعرض تفاصيله وعلاقاته المباشرة.
             </span>

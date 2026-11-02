@@ -77,28 +77,28 @@ export const VisualSequenceView: React.FC<VisualSequenceViewProps> = ({ block })
 
   return (
     <figure
-      className="my-8 rounded-3xl bg-white border border-[#D9EAF7] p-5 sm:p-7 shadow-xs overflow-hidden"
+      className="my-8 rounded-3xl bg-white border border-[#D4E9DC] p-5 sm:p-7 shadow-xs overflow-hidden transition-colors"
       aria-labelledby={`seq-title-${block.id}`}
     >
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-[#D9EAF7]/80">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-[#D4E9DC]/80">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-teal-50 text-[#0D9488] flex items-center justify-center shrink-0 border border-teal-200/60">
+          <div className="w-9 h-9 rounded-xl bg-[#E8F8EE] text-[#00C853] flex items-center justify-center shrink-0 border border-[#D4E9DC]">
             <ListOrdered className="w-5 h-5" />
           </div>
           <div>
             <h3
               id={`seq-title-${block.id}`}
-              className="text-base sm:text-lg font-black text-[#172B4D]"
+              className="text-base sm:text-lg font-black text-[#173D2B]"
             >
               {block.title}
             </h3>
-            <p className="text-xs text-[#64748B] mt-0.5">{block.instructions}</p>
+            <p className="text-xs text-[#6C8577] mt-0.5">{block.instructions}</p>
           </div>
         </div>
 
         {/* Status Tag */}
-        <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-teal-50 text-[#0D9488] border border-teal-200 self-start sm:self-auto">
+        <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-[#E8F8EE] text-[#173D2B] border border-[#D4E9DC] self-start sm:self-auto">
           نشاط تفاعلي تطبيقي
         </span>
       </div>
@@ -114,24 +114,24 @@ export const VisualSequenceView: React.FC<VisualSequenceViewProps> = ({ block })
               key={item.id}
               className={`rounded-2xl p-3 sm:p-4 border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
                 isCorrectPosition
-                  ? 'bg-emerald-50/60 border-emerald-300'
+                  ? 'bg-[#E8F8EE] border-[#059669]'
                   : isWrongPosition
                   ? 'bg-rose-50/60 border-rose-300'
-                  : 'bg-[#F8FCFF] border-[#D9EAF7] hover:border-[#2563EB]/40'
+                  : 'bg-[#F4FFF7] border-[#D4E9DC] hover:border-[#00C853]'
               }`}
             >
               <div className="flex items-center gap-3">
                 {/* Step Number Tag */}
-                <span className="w-8 h-8 rounded-xl bg-white text-[#2563EB] font-mono text-sm font-black flex items-center justify-center border border-[#D9EAF7] shadow-2xs shrink-0">
+                <span className="w-8 h-8 rounded-xl bg-white text-[#173D2B] font-mono text-sm font-black flex items-center justify-center border border-[#D4E9DC] shadow-2xs shrink-0">
                   {index + 1}
                 </span>
 
                 <div className="space-y-0.5">
-                  <span className="text-xs sm:text-sm font-black text-[#172B4D] block">
+                  <span className="text-xs sm:text-sm font-black text-[#173D2B] block">
                     {item.text}
                   </span>
                   {item.categoryBadge && (
-                    <span className="inline-block text-[10px] font-bold text-[#64748B] bg-slate-100 px-2 py-0.5 rounded">
+                    <span className="inline-block text-[10px] font-bold text-[#6C8577] bg-[#E8F8EE] px-2 py-0.5 rounded border border-[#D4E9DC]">
                       {item.categoryBadge}
                     </span>
                   )}
@@ -139,7 +139,7 @@ export const VisualSequenceView: React.FC<VisualSequenceViewProps> = ({ block })
               </div>
 
               {/* Controls and Feedback */}
-              <div className="flex items-center justify-between sm:justify-end gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-[#D9EAF7]/50">
+              <div className="flex items-center justify-between sm:justify-end gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-[#D4E9DC]/50">
                 {/* Visual Feedback Badges (using both icon AND text, not color alone) */}
                 {isChecked && (
                   <div className="flex items-center gap-1.5 ml-2">
@@ -163,7 +163,7 @@ export const VisualSequenceView: React.FC<VisualSequenceViewProps> = ({ block })
                     type="button"
                     onClick={() => handleMoveUp(index)}
                     disabled={index === 0}
-                    className="p-1.5 rounded-lg border border-[#D9EAF7] bg-white text-[#334155] hover:bg-blue-50 hover:text-[#2563EB] disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                    className="p-1.5 rounded-lg border border-[#D4E9DC] bg-white text-[#173D2B] hover:bg-[#E8F8EE] hover:text-[#00C853] disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
                     title="تحريك لأعلى"
                     aria-label={`تحريك العنصر ${index + 1} لأعلى`}
                   >
@@ -174,7 +174,7 @@ export const VisualSequenceView: React.FC<VisualSequenceViewProps> = ({ block })
                     type="button"
                     onClick={() => handleMoveDown(index)}
                     disabled={index === currentItems.length - 1}
-                    className="p-1.5 rounded-lg border border-[#D9EAF7] bg-white text-[#334155] hover:bg-blue-50 hover:text-[#2563EB] disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                    className="p-1.5 rounded-lg border border-[#D4E9DC] bg-white text-[#173D2B] hover:bg-[#E8F8EE] hover:text-[#00C853] disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
                     title="تحريك لأسفل"
                     aria-label={`تحريك العنصر ${index + 1} لأسفل`}
                   >
@@ -188,24 +188,24 @@ export const VisualSequenceView: React.FC<VisualSequenceViewProps> = ({ block })
       </div>
 
       {/* Action Buttons Toolbar */}
-      <div className="mt-5 flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#D9EAF7]/80">
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#D4E9DC]/80">
         <button
           type="button"
           onClick={handleReset}
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-[#64748B] hover:text-[#172B4D] hover:bg-slate-100 border border-[#D9EAF7] transition-colors cursor-pointer"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-[#6C8577] hover:text-[#173D2B] hover:bg-[#E8F8EE] border border-[#D4E9DC] transition-colors cursor-pointer"
           aria-label="إعادة ترتيب العناصر والمحاولة من جديد"
         >
-          <RotateCcw className="w-3.5 h-3.5" />
+          <RotateCcw className="w-3.5 h-3.5 text-[#00C853]" />
           <span>إعادة المحاولة</span>
         </button>
 
         <button
           type="button"
           onClick={handleCheck}
-          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#2563EB] hover:bg-blue-700 text-white font-bold text-xs sm:text-sm transition-all shadow-sm shadow-blue-600/20 active:scale-98 cursor-pointer"
+          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#00C853] hover:bg-[#39E66D] active:bg-[#00A844] text-[#071C12] font-black text-xs sm:text-sm transition-all shadow-sm shadow-[#00C853]/20 active:scale-98 cursor-pointer"
           aria-label="التحقق من صحة ترتيب الخطوات"
         >
-          <Sparkles className="w-4 h-4" />
+          <Sparkles className="w-4 h-4 text-[#071C12]" />
           <span>التحقق من الترتيب</span>
         </button>
       </div>

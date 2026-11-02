@@ -54,83 +54,83 @@ export const SportsBiomechanicalGraphic: React.FC = () => {
   ];
 
   return (
-    <div className="relative w-full max-w-lg mx-auto bg-white rounded-3xl p-5 sm:p-7 border border-[#D9EAF7] shadow-xl shadow-blue-900/5 overflow-hidden group">
+    <div className="relative w-full max-w-lg mx-auto bg-[#071C12]/90 backdrop-blur-md rounded-3xl p-5 sm:p-7 border border-[#103D27] shadow-2xl shadow-[#00C853]/10 overflow-hidden group transition-all">
       
-      {/* Background Subtle Grid & Radial Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(#06b6d4_1px,transparent_1px)] [background-size:20px_20px] opacity-10 pointer-events-none" />
-      <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
+      {/* Background Subtle Sport Grid & Radial Glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(#00C853_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-64 h-64 bg-[#00C853]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#39E66D]/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Top Graphic Header */}
-      <div className="relative z-10 flex items-center justify-between border-b border-[#D9EAF7] pb-3 mb-4">
+      <div className="relative z-10 flex items-center justify-between border-b border-[#103D27] pb-3 mb-4">
         <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#06B6D4] animate-ping" />
-          <span className="text-xs font-mono font-bold text-[#2563EB] tracking-wider uppercase">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#39E66D] shadow-sm shadow-[#39E66D]" />
+          <span className="text-xs font-mono font-bold text-[#39E66D] tracking-wider uppercase">
             تحليل النموذج الحركي التفاعلي
           </span>
         </div>
-        <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#64748B] bg-[#F4FAFF] px-2.5 py-1 rounded-full border border-[#D9EAF7]">
-          <Activity className="w-3.5 h-3.5 text-[#06B6D4]" />
+        <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#D4E9DC] bg-[#142B20] px-2.5 py-1 rounded-full border border-[#103D27]">
+          <Activity className="w-3.5 h-3.5 text-[#00C853]" />
           <span>انقر أو مرر فوق النقاط</span>
         </div>
       </div>
 
       {/* SVG Canvas */}
-      <div className="relative flex justify-center items-center py-2 bg-gradient-to-b from-[#F8FCFF] to-white rounded-2xl border border-[#D9EAF7]/50">
+      <div className="relative flex justify-center items-center py-2 bg-gradient-to-b from-[#142B20]/60 to-[#071C12]/80 rounded-2xl border border-[#103D27]">
         <svg
           viewBox="0 0 400 380"
-          className="w-full h-auto max-h-[330px] drop-shadow-xs select-none"
+          className="w-full h-auto max-h-[330px] drop-shadow-sm select-none"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
           {/* Reference Grid & Crosshairs */}
-          <line x1="40" y1="360" x2="360" y2="360" stroke="#E2E8F0" strokeWidth="1.5" strokeDasharray="4 4" />
-          <line x1="40" y1="40" x2="40" y2="360" stroke="#E2E8F0" strokeWidth="1.5" strokeDasharray="4 4" />
+          <line x1="40" y1="360" x2="360" y2="360" stroke="#103D27" strokeWidth="1.5" strokeDasharray="4 4" />
+          <line x1="40" y1="40" x2="40" y2="360" stroke="#103D27" strokeWidth="1.5" strokeDasharray="4 4" />
 
-          {/* ECG Telemetry Wave (Ocean Energy Cyan & Teal) */}
+          {/* ECG Telemetry Wave (Sport Energy Neon & Emerald) */}
           <path
             d="M 40 330 L 100 330 L 115 315 L 125 345 L 140 300 L 155 350 L 170 330 L 250 330 L 265 315 L 275 345 L 290 295 L 305 350 L 320 330 L 360 330"
-            stroke="#06B6D4"
+            stroke="#39E66D"
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="animate-ecg opacity-85"
+            className="opacity-90"
           />
 
           {/* Runner Biomechanical Wireframe Silhouette */}
           {/* Torso & Head */}
-          <circle cx="170" cy="80" r="18" stroke="#2563EB" strokeWidth="3" fill="#F4FAFF" />
-          <path d="M 170 98 L 205 155 L 220 180" stroke="#172B4D" strokeWidth="4" strokeLinecap="round" />
+          <circle cx="170" cy="80" r="18" stroke="#39E66D" strokeWidth="3" fill="#142B20" />
+          <path d="M 170 98 L 205 155 L 220 180" stroke="#F4FFF7" strokeWidth="4" strokeLinecap="round" />
 
           {/* Arms: Forward arm & Backward arm */}
-          <path d="M 190 125 L 235 110 L 260 145" stroke="#2563EB" strokeWidth="3.5" strokeLinecap="round" />
-          <path d="M 190 125 L 150 145 L 125 130" stroke="#94A3B8" strokeWidth="3" strokeLinecap="round" />
+          <path d="M 190 125 L 235 110 L 260 145" stroke="#00C853" strokeWidth="3.5" strokeLinecap="round" />
+          <path d="M 190 125 L 150 145 L 125 130" stroke="#6C8577" strokeWidth="3" strokeLinecap="round" />
 
           {/* Forward Leg (Propulsion Phase) */}
-          <path d="M 220 180 L 270 260 L 320 345" stroke="#2563EB" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M 220 180 L 270 260 L 320 345" stroke="#39E66D" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" />
 
           {/* Ground Foot Contact */}
-          <path d="M 310 345 L 340 348" stroke="#14B8A6" strokeWidth="4" strokeLinecap="round" />
+          <path d="M 310 345 L 340 348" stroke="#00C853" strokeWidth="4" strokeLinecap="round" />
 
           {/* Rear Leg (Recovery / Swing Phase) */}
-          <path d="M 220 180 L 165 240 L 120 220" stroke="#94A3B8" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M 220 180 L 165 240 L 120 220" stroke="#6C8577" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
 
           {/* Biomechanical Motion Vectors & Force Arrows */}
           {/* Knee Angle Sector Arc */}
           <path
             d="M 255 235 A 35 35 0 0 1 285 285"
-            stroke="#F59E0B"
+            stroke="#D97706"
             strokeWidth="2"
             strokeDasharray="3 3"
             fill="none"
           />
-          <text x="290" y="255" fill="#D97706" fontSize="12" fontFamily="Cairo" fontWeight="bold">
+          <text x="290" y="255" fill="#F59E0B" fontSize="12" fontFamily="Cairo" fontWeight="bold">
             142°
           </text>
 
           {/* Ground Force Vector Arrow */}
-          <line x1="320" y1="345" x2="270" y2="280" stroke="#06B6D4" strokeWidth="2.5" strokeDasharray="4 2" />
-          <polygon points="266,275 278,279 271,288" fill="#06B6D4" />
+          <line x1="320" y1="345" x2="270" y2="280" stroke="#39E66D" strokeWidth="2.5" strokeDasharray="4 2" />
+          <polygon points="266,275 278,279 271,288" fill="#39E66D" />
 
           {/* Interactive Biomechanical Nodes */}
           {nodes.map((node) => {
@@ -147,7 +147,7 @@ export const SportsBiomechanicalGraphic: React.FC = () => {
                   cx={node.x}
                   cy={node.y}
                   r={isSelected ? 16 : 10}
-                  className={isSelected ? 'fill-blue-500/20 stroke-[#2563EB] animate-ping' : 'fill-cyan-500/15 stroke-[#06B6D4]'}
+                  className={isSelected ? 'fill-[#00C853]/25 stroke-[#39E66D]' : 'fill-[#00C853]/15 stroke-[#00C853]'}
                   strokeWidth="2"
                 />
                 {/* Center node button */}
@@ -155,7 +155,7 @@ export const SportsBiomechanicalGraphic: React.FC = () => {
                   cx={node.x}
                   cy={node.y}
                   r={isSelected ? 7 : 5}
-                  className={isSelected ? 'fill-[#2563EB] stroke-white' : 'fill-[#06B6D4] stroke-white'}
+                  className={isSelected ? 'fill-[#39E66D] stroke-[#071C12]' : 'fill-[#00C853] stroke-[#071C12]'}
                   strokeWidth="2"
                 />
               </g>
@@ -165,46 +165,46 @@ export const SportsBiomechanicalGraphic: React.FC = () => {
       </div>
 
       {/* Dynamic Detail Card for Active Node */}
-      <div className="relative z-10 mt-3 min-h-[92px] bg-[#F8FCFF] rounded-2xl p-4 border border-[#D9EAF7] transition-all duration-300">
+      <div className="relative z-10 mt-3 min-h-[92px] bg-[#142B20] rounded-2xl p-4 border border-[#103D27] transition-all duration-300">
         {activeNode ? (
           <div className="space-y-1 animate-in fade-in duration-200">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-[#172B4D] flex items-center gap-1.5">
-                <Compass className="w-3.5 h-3.5 text-[#2563EB]" />
+              <span className="text-xs font-bold text-[#F4FFF7] flex items-center gap-1.5">
+                <Compass className="w-3.5 h-3.5 text-[#39E66D]" />
                 {activeNode.name}
               </span>
-              <span className="text-[10px] font-mono font-bold text-[#0891B2] bg-cyan-50 px-2 py-0.5 rounded-full border border-cyan-200">
+              <span className="text-[10px] font-mono font-bold text-[#39E66D] bg-[#071C12] px-2.5 py-0.5 rounded-full border border-[#103D27]">
                 {activeNode.metric}
               </span>
             </div>
-            <p className="text-xs text-[#334155] leading-relaxed">
+            <p className="text-xs text-[#D4E9DC] leading-relaxed">
               {activeNode.description}
             </p>
-            <div className="text-[10px] text-[#64748B] font-medium pt-0.5">
+            <div className="text-[10px] text-[#6C8577] font-medium pt-0.5">
               التصنيف: {activeNode.category}
             </div>
           </div>
         ) : (
-          <div className="flex items-center justify-center h-full text-center text-[#64748B] text-xs py-2 gap-2">
-            <HeartPulse className="w-4 h-4 text-[#2563EB] animate-pulse" />
+          <div className="flex items-center justify-center h-full text-center text-[#D4E9DC]/75 text-xs py-2 gap-2">
+            <HeartPulse className="w-4 h-4 text-[#00C853] animate-pulse" />
             <span>حرّك المؤشر أو انقر على النقاط الرياضية لاستكشاف قياسات الحركة والجهد البدني</span>
           </div>
         )}
       </div>
 
       {/* Sports Science Metric Highlights Footer */}
-      <div className="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-[#D9EAF7] text-center text-xs">
-        <div className="p-2 rounded-xl bg-[#F8FCFF] border border-[#D9EAF7]/60">
-          <div className="text-[#2563EB] font-mono font-black text-sm">Kinematics</div>
-          <div className="text-[10px] text-[#64748B] font-semibold">تحليل كينماتيكي</div>
+      <div className="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-[#103D27] text-center text-xs">
+        <div className="p-2 rounded-xl bg-[#142B20] border border-[#103D27]">
+          <div className="text-[#39E66D] font-mono font-black text-sm">Kinematics</div>
+          <div className="text-[10px] text-[#D4E9DC]/70 font-semibold">تحليل كينماتيكي</div>
         </div>
-        <div className="p-2 rounded-xl bg-[#F8FCFF] border border-[#D9EAF7]/60">
-          <div className="text-[#0891B2] font-mono font-black text-sm">Physiology</div>
-          <div className="text-[10px] text-[#64748B] font-semibold">فسيولوجيا الجهد</div>
+        <div className="p-2 rounded-xl bg-[#142B20] border border-[#103D27]">
+          <div className="text-[#00C853] font-mono font-black text-sm">Physiology</div>
+          <div className="text-[10px] text-[#D4E9DC]/70 font-semibold">فسيولوجيا الجهد</div>
         </div>
-        <div className="p-2 rounded-xl bg-[#F8FCFF] border border-[#D9EAF7]/60">
-          <div className="text-[#0D9488] font-mono font-black text-sm">Biomechanics</div>
-          <div className="text-[10px] text-[#64748B] font-semibold">ميكانيكا حيوية</div>
+        <div className="p-2 rounded-xl bg-[#142B20] border border-[#103D27]">
+          <div className="text-[#059669] font-mono font-black text-sm">Biomechanics</div>
+          <div className="text-[10px] text-[#D4E9DC]/70 font-semibold">ميكانيكا حيوية</div>
         </div>
       </div>
 
