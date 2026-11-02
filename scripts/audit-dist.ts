@@ -64,3 +64,4 @@ console.log(`  3. توجيه SPA: وجود ملف _redirects في dist أو publ
 console.log(`  4. خوادم أو دوال مدفوعة: 0 Backend, 0 Functions, 0 Paid APIs -> ✅ ثابت 100% (Static Jamstack)`);
 console.log(`  5. جاهزية خدمة 2000 طالب يومياً: أصول مشفرة بـ Content-Hash وتخزين مؤقت على شبكة Cloudflare Edge العالمية بدون حمل على خادم وسيط.`);
 console.log('==============================================');
+
