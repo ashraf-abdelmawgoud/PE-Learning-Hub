@@ -31,3 +31,4 @@ export interface SimulationStructure {
   renderMode: 'canvas_2d' | 'interactive_svg' | 'webgl_3d';
   isReady: boolean;
 }
+

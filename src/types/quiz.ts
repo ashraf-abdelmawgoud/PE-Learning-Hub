@@ -35,3 +35,4 @@ export interface QuizStructure {
   passingScorePercentage: number;
   questions: AssessmentQuestion[];
 }
+

@@ -59,3 +59,4 @@ export const CoursesPreviewSection: React.FC = () => {
     </section>
   );
 };
+

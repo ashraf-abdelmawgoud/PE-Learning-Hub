@@ -84,6 +84,8 @@ export const Navbar: React.FC = () => {
               type="button"
               className="p-2 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-100 focus:outline-hidden"
               aria-label="قائمة التنقل"
+              aria-expanded={isOpen}
+              aria-controls="mobile-nav"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -93,7 +95,7 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer */}
       {isOpen && (
-        <div className="md:hidden border-b border-slate-200 bg-white px-4 pt-2 pb-5 space-y-3 animate-in fade-in duration-150">
+        <div id="mobile-nav" className="md:hidden border-b border-slate-200 bg-white px-4 pt-2 pb-5 space-y-3 animate-in fade-in duration-150">
           <div className="space-y-1">
             {navLinks.map((link) => {
               const active = isActive(link.path);
@@ -132,3 +134,4 @@ export const Navbar: React.FC = () => {
     </header>
   );
 };
+

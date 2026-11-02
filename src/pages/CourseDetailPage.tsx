@@ -11,23 +11,32 @@ import {
   CheckCircle2,
   AlertTriangle,
   Sparkles,
+  ChevronRight,
+  ChevronLeft,
 } from 'lucide-react';
 
 export const CourseDetailPage: React.FC = () => {
   const { courseId } = useParams<{ courseId: string }>();
 
-  const course = COURSES_PLACEHOLDER_DATA.find((c) => c.id === courseId);
+  const currentIndex = COURSES_PLACEHOLDER_DATA.findIndex((c) => c.id === courseId);
+  const course = currentIndex !== -1 ? COURSES_PLACEHOLDER_DATA[currentIndex] : null;
 
   if (!course) {
     return <Navigate to="/courses" replace />;
   }
 
+  const prevCourse = currentIndex > 0 ? COURSES_PLACEHOLDER_DATA[currentIndex - 1] : null;
+  const nextCourse =
+    currentIndex < COURSES_PLACEHOLDER_DATA.length - 1
+      ? COURSES_PLACEHOLDER_DATA[currentIndex + 1]
+      : null;
+
   return (
     <div className="py-12 sm:py-16">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         
-        {/* Back Link */}
-        <div>
+        {/* Top Breadcrumb & Back Link */}
+        <div className="flex items-center justify-between">
           <Link
             to="/courses"
             className="inline-flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-emerald-700 transition-colors"
@@ -35,6 +44,10 @@ export const CourseDetailPage: React.FC = () => {
             <ArrowRight className="w-4 h-4" />
             <span>العودة إلى قائمة المقررات الدراسية</span>
           </Link>
+
+          <span className="text-xs font-semibold text-slate-400 bg-slate-100 px-3 py-1 rounded-full">
+            مقرر {course.orderNumber} من {COURSES_PLACEHOLDER_DATA.length}
+          </span>
         </div>
 
         {/* Course Header Banner */}
@@ -161,7 +174,64 @@ export const CourseDetailPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Next Step Callout */}
+        {/* Previous & Next Course Navigation */}
+        <div className="pt-4 border-t border-slate-200">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {prevCourse ? (
+              <Link
+                to={`/courses/${prevCourse.id}`}
+                className="group flex items-center justify-between p-4 rounded-2xl bg-white border border-slate-200 hover:border-emerald-500 hover:shadow-md transition-all"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-slate-100 group-hover:bg-emerald-50 group-hover:text-emerald-700 flex items-center justify-center transition-colors">
+                    <ChevronRight className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-[11px] font-bold text-slate-400 block">المقرر السابق</span>
+                    <span className="text-sm font-black text-slate-800 group-hover:text-emerald-700 transition-colors">
+                      {prevCourse.title}
+                    </span>
+                  </div>
+                </div>
+                <span className="font-mono text-xs font-bold text-slate-400">
+                  {prevCourse.code}
+                </span>
+              </Link>
+            ) : (
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/60 text-slate-400 text-xs flex items-center justify-center">
+                هذا هو المقرر الأول في القائمة
+              </div>
+            )}
+
+            {nextCourse ? (
+              <Link
+                to={`/courses/${nextCourse.id}`}
+                className="group flex items-center justify-between p-4 rounded-2xl bg-white border border-slate-200 hover:border-emerald-500 hover:shadow-md transition-all text-left"
+              >
+                <span className="font-mono text-xs font-bold text-slate-400 order-last sm:order-first">
+                  {nextCourse.code}
+                </span>
+                <div className="flex items-center gap-3">
+                  <div className="text-right">
+                    <span className="text-[11px] font-bold text-slate-400 block">المقرر التالي</span>
+                    <span className="text-sm font-black text-slate-800 group-hover:text-emerald-700 transition-colors">
+                      {nextCourse.title}
+                    </span>
+                  </div>
+                  <div className="w-9 h-9 rounded-xl bg-slate-100 group-hover:bg-emerald-50 group-hover:text-emerald-700 flex items-center justify-center transition-colors">
+                    <ChevronLeft className="w-5 h-5" />
+                  </div>
+                </div>
+              </Link>
+            ) : (
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/60 text-slate-400 text-xs flex items-center justify-center">
+                هذا هو المقرر الأخير في القائمة
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Bottom Hub Callout */}
         <div className="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="space-y-2 text-center sm:text-right">
             <h3 className="text-lg font-bold text-white">
@@ -173,9 +243,10 @@ export const CourseDetailPage: React.FC = () => {
           </div>
           <Link
             to="/courses"
-            className="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shrink-0 transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shrink-0 transition-colors"
           >
-            استعراض بقية المقررات (7)
+            <BookOpen className="w-4 h-4" />
+            <span>عرض جميع المقررات السبعة</span>
           </Link>
         </div>
 

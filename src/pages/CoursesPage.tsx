@@ -1,21 +1,31 @@
 import React, { useState, useMemo } from 'react';
 import { COURSES_PLACEHOLDER_DATA } from '../data/coursesData';
 import { CourseCard } from '../components/courses/CourseCard';
-import { BookOpen, Search, Info, SlidersHorizontal } from 'lucide-react';
+import { BookOpen, Search, Info, SlidersHorizontal, X, RotateCcw } from 'lucide-react';
+import { normalizeArabicText } from '../utils/textUtils';
 
 export const CoursesPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredCourses = useMemo(() => {
     if (!searchQuery.trim()) return COURSES_PLACEHOLDER_DATA;
-    const query = searchQuery.toLowerCase().trim();
-    return COURSES_PLACEHOLDER_DATA.filter(
-      (course) =>
-        course.title.toLowerCase().includes(query) ||
-        course.code.toLowerCase().includes(query) ||
-        course.targetBookReference.toLowerCase().includes(query) ||
-        course.description.toLowerCase().includes(query)
-    );
+    const normalizedQuery = normalizeArabicText(searchQuery);
+
+    return COURSES_PLACEHOLDER_DATA.filter((course) => {
+      const normalizedTitle = normalizeArabicText(course.title);
+      const normalizedCode = normalizeArabicText(course.code);
+      const normalizedBook = normalizeArabicText(course.targetBookReference);
+      const normalizedDesc = normalizeArabicText(course.description);
+      const normalizedOrder = course.orderNumber.toString();
+
+      return (
+        normalizedTitle.includes(normalizedQuery) ||
+        normalizedCode.includes(normalizedQuery) ||
+        normalizedBook.includes(normalizedQuery) ||
+        normalizedDesc.includes(normalizedQuery) ||
+        normalizedOrder.includes(normalizedQuery)
+      );
+    });
   }, [searchQuery]);
 
   return (
@@ -67,8 +77,19 @@ export const CoursesPage: React.FC = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="البحث برقم المقرر أو الرمز أو الوصف..."
-              className="w-full pr-10 pl-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-hidden focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-900 placeholder:text-slate-400"
+              className="w-full pr-10 pl-10 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-hidden focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-900 placeholder:text-slate-400"
             />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                type="button"
+                className="absolute left-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-200/60 transition-colors"
+                title="مسح البحث"
+                aria-label="مسح البحث"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
           </div>
 
           <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end text-xs font-semibold text-slate-500">
@@ -87,13 +108,23 @@ export const CoursesPage: React.FC = () => {
             ))}
           </div>
         ) : (
-          <div className="text-center py-16 bg-white rounded-2xl border border-dashed border-slate-300 p-8">
-            <p className="text-base font-bold text-slate-700 mb-1">
-              لا توجد مقررات مطابقة لعبارة البحث
-            </p>
-            <p className="text-xs text-slate-500">
-              يرجى التحقق من الكلمة المدخلة أو مسح البحث لعرض المقررات السبعة.
-            </p>
+          <div className="text-center py-16 bg-white rounded-2xl border border-dashed border-slate-300 p-8 space-y-4">
+            <div className="space-y-1">
+              <p className="text-base font-bold text-slate-700">
+                لا توجد مقررات مطابقة لعبارة البحث
+              </p>
+              <p className="text-xs text-slate-500">
+                يرجى التحقق من الكلمة المدخلة أو مسح البحث لعرض المقررات السبعة.
+              </p>
+            </div>
+            <button
+              onClick={() => setSearchQuery('')}
+              type="button"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>إعادة عرض جميع المقررات</span>
+            </button>
           </div>
         )}
 
