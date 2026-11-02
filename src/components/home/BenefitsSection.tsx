@@ -7,51 +7,55 @@ export const BenefitsSection: React.FC = () => {
       icon: Target,
       title: 'الربط المباشر بين النظرية والميدان',
       description:
-        'تحويل المعادلات الفيزيائية وقوانين الحركة المعقدة إلى تجارب بصرية يراها الطالب تنعكس في الأداء داخل الملعب والمضمار والمسبح.',
+        'تحويل المعادلات الفيزيائية وقوانين الحركة المعقدة إلى شروحات بصرية تفاعلية تنعكس على أدائك في الملعب والمضمار والصالة الرياضية.',
       highlight: 'تطبيق عملي فوري',
-      color: 'from-emerald-600 to-teal-700',
+      gradient: 'from-[#2563EB] to-blue-700',
+      badgeColor: 'bg-blue-50 text-[#2563EB] border-blue-200/70',
     },
     {
       icon: Dumbbell,
       title: 'تحليل دقيق لتشريح المهارات الحركية',
       description:
-        'استيعاب دور المجموعات العضلية العاملة والمساعدة والمثبتة لكل حركة رياضية بدلاً من حفظ الجداول الصامتة.',
-      highlight: 'تشريح حركي تفاعلي',
-      color: 'from-teal-600 to-cyan-700',
+        'استيعاب دور المجموعات العضلية العاملة والمساعدة والمثبتة لكل مهارة بدلاً من الحفظ الصامت للجداول الورقية.',
+      highlight: 'تشريح حركي واضح',
+      gradient: 'from-[#06B6D4] to-cyan-700',
+      badgeColor: 'bg-cyan-50 text-[#0891B2] border-cyan-200/70',
     },
     {
       icon: Flame,
-      title: 'تبسيط فسيولوجيا الجهد البدني والنبض',
+      title: 'تبسيط فسيولوجيا الجهد والنبض',
       description:
-        'تتبع أنظمة إنتاج الطاقة (الهوائية واللاهوائية)، ومعدلات نبض القلب، وتراكم حامض اللاكتيك بمحاكاة واضحة ومبسطة.',
+        'تتبع استجابات القلب، ومناطق التدريب الهوائي واللاهوائي، وتراكم اللاكتات بنماذج بصرية ديناميكية ممتعة ومريحة للعين.',
       highlight: 'أنظمة الطاقة والجهد',
-      color: 'from-cyan-600 to-blue-700',
+      gradient: 'from-[#14B8A6] to-teal-700',
+      badgeColor: 'bg-teal-50 text-[#0D9488] border-teal-200/70',
     },
     {
       icon: Award,
-      title: 'تعزيز التفوق في الامتحانات والتطبيق الميداني',
+      title: 'تعزيز التفوق في الامتحانات والتدريب',
       description:
-        'بناء قاعدة علمية راسخة لطلاب الكلية تسهم في رفع درجاتهم في المقررات وتأهيلهم كمدربين ومعلمين أكفاء.',
-      highlight: 'جاهزية أكاديمية وتدريبية',
-      color: 'from-blue-600 to-indigo-700',
+        'بناء قاعدة معرفية راسخة تسهم في تحسين تحصيلك الأكاديمي وتأهيلك العملي كمدرب أو معلم تربية بدنية محترف.',
+      highlight: 'جاهزية أكاديمية وتطبيقية',
+      gradient: 'from-blue-600 to-indigo-700',
+      badgeColor: 'bg-indigo-50 text-indigo-700 border-indigo-200/70',
     },
   ];
 
   return (
-    <section className="py-16 sm:py-24 bg-slate-50 border-b border-slate-200/80">
+    <section className="py-16 sm:py-24 bg-white border-y border-[#D9EAF7]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <span className="text-xs font-black px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-16 space-y-4">
+          <span className="text-xs font-black px-3.5 py-1.5 rounded-full bg-blue-50 text-[#2563EB] border border-blue-200/70">
             أثر المنصة على مسيرتك الأكاديمية
           </span>
 
-          <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-[#172B4D] tracking-tight">
             كيف تساند هذه المنصة طالب علوم الرياضة؟
           </h2>
 
-          <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+          <p className="text-[#334155] text-sm sm:text-base leading-relaxed">
             التعليم الرياضي يحتاج إلى رؤية ديناميكية للحركة والجهد البدني؛ هذه المنصة صُممت لتضع
             الأدوات التفاعلية في متناول يدك لدراسة أعمق وأبسط.
           </p>
@@ -64,31 +68,31 @@ export const BenefitsSection: React.FC = () => {
             return (
               <div
                 key={idx}
-                className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 hover:border-emerald-500/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+                className="bg-[#F8FCFF] rounded-3xl p-6 sm:p-8 border border-[#D9EAF7] hover:border-[#2563EB]/40 hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-300 flex flex-col justify-between group"
               >
                 <div>
                   <div className="flex items-center justify-between mb-5">
-                    <div className={`w-13 h-13 rounded-2xl bg-gradient-to-br ${item.color} text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-200`}>
+                    <div className={`w-13 h-13 rounded-2xl bg-gradient-to-br ${item.gradient} text-white flex items-center justify-center shadow-md shadow-blue-900/10 group-hover:scale-105 transition-transform duration-200`}>
                       <Icon className="w-6 h-6 stroke-[2.2]" />
                     </div>
 
-                    <span className="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200/80 group-hover:bg-emerald-50 group-hover:text-emerald-700 group-hover:border-emerald-200 transition-colors">
+                    <span className={`text-xs font-bold px-3 py-1 rounded-full border ${item.badgeColor}`}>
                       {item.highlight}
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-black text-slate-900 mb-3 group-hover:text-emerald-700 transition-colors">
+                  <h3 className="text-xl font-black text-[#172B4D] mb-3 group-hover:text-[#2563EB] transition-colors">
                     {item.title}
                   </h3>
 
-                  <p className="text-sm text-slate-600 leading-relaxed">
+                  <p className="text-sm text-[#334155] leading-relaxed">
                     {item.description}
                   </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-slate-100 flex items-center gap-2 text-xs font-bold text-emerald-700">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  <span>ميزة تعليمية موجهة لطلاب كلية علوم الرياضة</span>
+                <div className="mt-6 pt-4 border-t border-[#D9EAF7]/80 flex items-center gap-2 text-xs font-bold text-[#2563EB]">
+                  <CheckCircle2 className="w-4 h-4 text-[#10B981]" />
+                  <span>ميزة تعليمية تفاعلية موجهة لطلاب الكلية</span>
                 </div>
               </div>
             );
