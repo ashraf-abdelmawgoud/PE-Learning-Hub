@@ -19,3 +19,4 @@ export function normalizeArabicText(text: string): string {
     .toLowerCase()
     .trim();
 }
+

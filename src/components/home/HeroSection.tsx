@@ -1,109 +1,101 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Layers, Sparkles, CheckCircle2, ArrowLeft } from 'lucide-react';
+import { BookOpen, ArrowLeft, GraduationCap, Compass, ShieldCheck } from 'lucide-react';
+import { SportsBiomechanicalGraphic } from './SportsBiomechanicalGraphic';
 
 export const HeroSection: React.FC = () => {
+  const scrollToJourney = () => {
+    const el = document.getElementById('learning-journey');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28">
-      {/* Background Decorative Blurs */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-100/60 rounded-full blur-3xl -z-10 pointer-events-none" />
-      <div className="absolute top-20 left-10 w-80 h-80 bg-teal-100/40 rounded-full blur-3xl -z-10 pointer-events-none" />
+    <section className="relative overflow-hidden pt-8 pb-16 lg:pt-16 lg:pb-24 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800 text-white">
+      {/* Background Decorative Lighting */}
+      <div className="absolute top-0 right-1/3 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-80 h-80 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Top Announcement Pill */}
-        <div className="flex justify-center mb-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-xs sm:text-sm font-bold shadow-xs">
-            <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-            <Sparkles className="w-4 h-4 text-emerald-600" />
-            <span>المرحلة الأولى: إطلاق البنية التفاعلية والهيكل البرمجي</span>
-          </div>
-        </div>
-
-        {/* Main Headings */}
-        <div className="text-center max-w-4xl mx-auto space-y-6">
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight sm:leading-tight">
-            المنصة التفاعلية لطلاب
-            <span className="block mt-2 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent">
-              كلية علوم الرياضة والتربية البدنية
-            </span>
-          </h1>
-
-          <p className="text-base sm:text-xl text-slate-600 leading-relaxed max-w-2xl mx-auto font-normal">
-            بيئة تعليمية رقمية حديثة، مصممة لاستيعاب <strong className="text-slate-800 font-bold">7 كتب ومقررات أكاديمية</strong>،
-            مع تجهيز كامل للشروحات التفاعلية، المحاكاة الحركية، والاختبارات الذكية دون الاعتماد على ملفات PDF التقليدية.
-          </p>
-
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
-            <Link
-              to="/courses"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base shadow-lg shadow-emerald-600/25 hover:shadow-emerald-600/40 transition-all duration-200"
-            >
-              <BookOpen className="w-5 h-5" />
-              <span>استعراض المقررات الدراسية السبعة</span>
-              <ArrowLeft className="w-5 h-5" />
-            </Link>
-
-            <Link
-              to="/about"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-bold text-base border border-slate-200 shadow-xs transition-colors"
-            >
-              <Layers className="w-5 h-5 text-slate-500" />
-              <span>أهداف ورؤية المنصة</span>
-            </Link>
-          </div>
-
-          {/* Feature Highlights List */}
-          <div className="pt-8 flex flex-wrap items-center justify-center gap-y-2 gap-x-6 text-xs sm:text-sm text-slate-600 font-semibold">
-            <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span>دعم كامل للغة العربية (RTL)</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span>مهيأ للنشر على Cloudflare Pages</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span>متوافق 100% مع الهاتف والحاسوب</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span>بدون أي متطلبات خادم أو تسجيل دخول</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Highlight Stats Dashboard Card */}
-        <div className="mt-14 max-w-5xl mx-auto bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-6 sm:p-8 text-white shadow-2xl border border-slate-700/60">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        {/* Main Hero Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          
+          {/* Left Column (Right in RTL): Academic Headline & Student Focus */}
+          <div className="lg:col-span-7 space-y-6 text-center lg:text-right">
             
-            <div className="space-y-1 p-3 rounded-2xl bg-slate-800/50 border border-slate-700/50">
-              <div className="text-3xl sm:text-4xl font-black text-emerald-400 font-mono">07</div>
-              <div className="text-xs sm:text-sm font-bold text-slate-300">مقررات أكاديمية</div>
-              <div className="text-[11px] text-slate-400">بانتظار الكتب المعتمدة</div>
+            {/* Top Academic Pill */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-emerald-300 text-xs sm:text-sm font-bold shadow-xs">
+              <GraduationCap className="w-4 h-4 text-emerald-400" />
+              <span>كلية علوم الرياضة والتربية البدنية</span>
             </div>
 
-            <div className="space-y-1 p-3 rounded-2xl bg-slate-800/50 border border-slate-700/50">
-              <div className="text-3xl sm:text-4xl font-black text-cyan-400 font-mono">100%</div>
-              <div className="text-xs sm:text-sm font-bold text-slate-300">محتوى تفاعلي ويب</div>
-              <div className="text-[11px] text-slate-400">بدون ملفات PDF جامدة</div>
+            {/* Main Title */}
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight sm:leading-tight">
+              تعلّم علوم الرياضة
+              <span className="block mt-2 bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
+                بفهم حركي وعلمي متكامل
+              </span>
+            </h1>
+
+            {/* Subtitle - Student Educational Focus */}
+            <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-normal">
+              منصة أكاديمية تفاعلية صُممت خصيصاً لدعم طلاب التربية البدنية، لتربط
+              المفاهيم النظرية في مقرراتك الأكاديمية بالتحليل الحركي، وفسيولوجيا الجهد،
+              والتطبيق الميداني بصورة مرئية ممتعة.
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-2">
+              <Link
+                to="/courses"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm sm:text-base shadow-lg shadow-emerald-900/40 hover:shadow-emerald-600/30 transition-all duration-200 active:scale-98"
+              >
+                <BookOpen className="w-5 h-5" />
+                <span>استكشاف المقررات الدراسية (7)</span>
+                <ArrowLeft className="w-4 h-4" />
+              </Link>
+
+              <button
+                type="button"
+                onClick={scrollToJourney}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700/80 text-slate-200 font-bold text-sm sm:text-base border border-slate-700 transition-colors cursor-pointer"
+              >
+                <Compass className="w-4 h-4 text-emerald-400" />
+                <span>كيف تبدأ رحلة التعلم؟</span>
+              </button>
             </div>
 
-            <div className="space-y-1 p-3 rounded-2xl bg-slate-800/50 border border-slate-700/50">
-              <div className="text-3xl sm:text-4xl font-black text-teal-400 font-mono">DOM+SVG</div>
-              <div className="text-xs sm:text-sm font-bold text-slate-300">محاكاة وأنيميشن</div>
-              <div className="text-[11px] text-slate-400">بنية جاهزة للنماذج الحركية</div>
+            {/* Core Educational Benefits Highlights */}
+            <div className="pt-6 border-t border-slate-800 flex flex-wrap items-center justify-center lg:justify-start gap-y-2.5 gap-x-5 text-xs sm:text-sm text-slate-300 font-medium">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                <span>فهم الميكانيكا الحيوية والمسار الحركي</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-cyan-400" />
+                <span>استيعاب فسيولوجيا الجهد وأنظمة الطاقة</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-amber-400" />
+                <span>اختبارات تقييمية لترسيخ المفاهيم</span>
+              </div>
             </div>
 
-            <div className="space-y-1 p-3 rounded-2xl bg-slate-800/50 border border-slate-700/50">
-              <div className="text-3xl sm:text-4xl font-black text-amber-400 font-mono">0$</div>
-              <div className="text-xs sm:text-sm font-bold text-slate-300">مفتوح ومجاني</div>
-              <div className="text-[11px] text-slate-400">بدون اشتراكات أو قيود</div>
+            {/* Free and Accessible Badge */}
+            <div className="pt-2 flex items-center justify-center lg:justify-start gap-2 text-xs text-slate-400">
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <span>محتوى أكاديمي مفتوح ومجاني لجميع الطلاب دون أي رسوم أو قيود</span>
             </div>
 
           </div>
+
+          {/* Right Column: Interactive Sports Science SVG Graphic */}
+          <div className="lg:col-span-5 flex justify-center">
+            <SportsBiomechanicalGraphic />
+          </div>
+
         </div>
 
       </div>

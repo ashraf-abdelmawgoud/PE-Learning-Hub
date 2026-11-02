@@ -16,10 +16,18 @@
     direction: rtl;
     text-align: right;
     overflow-x: hidden;
+    background-color: #f8fafc;
+    color: #0f172a;
+  }
+
+  /* Accessible focus rings */
+  :focus-visible {
+    outline: 2px solid #059669;
+    outline-offset: 2px;
   }
 }
 
-/* Custom scrollbar for modern feel */
+/* Custom scrollbar for modern athletic feel */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -36,4 +44,46 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+
+/* Biomechanical & Sports Visual SVG Animations */
+@keyframes pulseGlow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes ecgLine {
+  0% {
+    stroke-dashoffset: 800;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+.animate-ecg {
+  stroke-dasharray: 400;
+  animation: ecgLine 4s linear infinite;
+}
+
+/* Accessibility: Support prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

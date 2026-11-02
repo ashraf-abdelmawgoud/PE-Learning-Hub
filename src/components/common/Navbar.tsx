@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Activity, BookOpen, GraduationCap, Menu, X, Sparkles } from 'lucide-react';
 
@@ -9,7 +9,7 @@ export const Navbar: React.FC = () => {
   const navLinks = [
     { path: '/', label: 'الرئيسية' },
     { path: '/courses', label: 'المقررات الدراسية (7)' },
-    { path: '/about', label: 'عن المنصة' },
+    { path: '/about', label: 'عن المنصة والأهداف' },
   ];
 
   const isActive = (path: string) => {
@@ -17,15 +17,27 @@ export const Navbar: React.FC = () => {
     return location.pathname.startsWith(path);
   };
 
+  // Close mobile drawer on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-18">
           
           {/* Logo & Brand */}
-          <Link to="/" className="flex items-center gap-3 group focus:outline-hidden">
-            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 flex items-center justify-center text-white shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform duration-200">
-              <Activity className="w-6 h-6 stroke-[2.5]" />
+          <Link
+            to="/"
+            className="flex items-center gap-3 group focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-xl p-1"
+          >
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-950 flex items-center justify-center text-emerald-400 shadow-md group-hover:scale-105 group-hover:text-emerald-300 transition-all duration-200 border border-slate-700/60">
+              <Activity className="w-6 h-6 stroke-[2.5] group-hover:rotate-6 transition-transform" />
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
@@ -36,23 +48,23 @@ export const Navbar: React.FC = () => {
                   تفاعلية
                 </span>
               </div>
-              <span className="text-xs font-medium text-slate-500 tracking-wide">
+              <span className="text-xs font-semibold text-slate-500 tracking-wide font-sans">
                 PE Interactive Learning Hub
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-1.5" aria-label="شريط التنقل الرئيسي">
             {navLinks.map((link) => {
               const active = isActive(link.path);
               return (
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                  className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${
                     active
-                      ? 'bg-emerald-50 text-emerald-700 shadow-xs font-bold'
+                      ? 'bg-emerald-50 text-emerald-800 shadow-2xs'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
                   }`}
                 >
@@ -64,13 +76,13 @@ export const Navbar: React.FC = () => {
 
           {/* Academic Badge & Action CTA (Desktop) */}
           <div className="hidden lg:flex items-center gap-3">
-            <div className="flex items-center gap-2 text-xs font-semibold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200/60">
+            <div className="flex items-center gap-2 text-xs font-bold text-slate-600 bg-slate-100/80 px-3.5 py-1.5 rounded-full border border-slate-200/70">
               <GraduationCap className="w-4 h-4 text-emerald-600" />
               <span>كلية علوم الرياضة</span>
             </div>
             <Link
               to="/courses"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold shadow-sm shadow-emerald-600/30 transition-all duration-200 hover:shadow-md hover:shadow-emerald-600/40"
+              className="inline-flex items-center gap-2 px-4.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white text-sm font-black shadow-sm shadow-emerald-600/30 transition-all duration-200 hover:shadow-md hover:shadow-emerald-600/40 active:scale-98"
             >
               <BookOpen className="w-4 h-4" />
               <span>المقررات الدراسية</span>
@@ -82,8 +94,8 @@ export const Navbar: React.FC = () => {
             <button
               onClick={() => setIsOpen(!isOpen)}
               type="button"
-              className="p-2 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-100 focus:outline-hidden"
-              aria-label="قائمة التنقل"
+              className="p-2.5 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-slate-100 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-emerald-500"
+              aria-label={isOpen ? 'إغلاق قائمة التنقل' : 'فتح قائمة التنقل'}
               aria-expanded={isOpen}
               aria-controls="mobile-nav"
             >
@@ -95,7 +107,10 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer */}
       {isOpen && (
-        <div id="mobile-nav" className="md:hidden border-b border-slate-200 bg-white px-4 pt-2 pb-5 space-y-3 animate-in fade-in duration-150">
+        <div
+          id="mobile-nav"
+          className="md:hidden border-b border-slate-200 bg-white/98 backdrop-blur-lg px-4 pt-3 pb-6 space-y-3 animate-in fade-in slide-in-from-top-2 duration-200"
+        >
           <div className="space-y-1">
             {navLinks.map((link) => {
               const active = isActive(link.path);
@@ -104,9 +119,9 @@ export const Navbar: React.FC = () => {
                   key={link.path}
                   to={link.path}
                   onClick={() => setIsOpen(false)}
-                  className={`block px-3 py-2.5 rounded-lg text-base font-bold ${
+                  className={`block px-4 py-3 rounded-xl text-base font-bold transition-colors ${
                     active
-                      ? 'bg-emerald-50 text-emerald-700'
+                      ? 'bg-emerald-50 text-emerald-800'
                       : 'text-slate-700 hover:bg-slate-50'
                   }`}
                 >
@@ -116,15 +131,15 @@ export const Navbar: React.FC = () => {
             })}
           </div>
 
-          <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
-            <div className="flex items-center gap-2 text-xs font-semibold text-slate-600 bg-slate-50 p-2.5 rounded-lg">
-              <Sparkles className="w-4 h-4 text-emerald-600" />
-              <span>منصة تعليمية مفتوحة المصدر - خالية من الإعلانات</span>
+          <div className="pt-3 border-t border-slate-100 flex flex-col gap-2.5">
+            <div className="flex items-center gap-2 text-xs font-semibold text-slate-600 bg-slate-50 p-3 rounded-xl">
+              <Sparkles className="w-4 h-4 text-emerald-600 shrink-0" />
+              <span>منصة تعليمية مفتوحة المصدر - لطلاب علوم الرياضة</span>
             </div>
             <Link
               to="/courses"
               onClick={() => setIsOpen(false)}
-              className="w-full text-center py-2.5 px-4 rounded-lg bg-emerald-600 text-white font-bold text-sm shadow-sm hover:bg-emerald-700 transition-colors"
+              className="w-full text-center py-3 px-4 rounded-xl bg-emerald-600 text-white font-black text-sm shadow-sm hover:bg-emerald-700 active:scale-98 transition-all"
             >
               استعراض المقررات السبعة
             </Link>
@@ -134,4 +149,3 @@ export const Navbar: React.FC = () => {
     </header>
   );
 };
-

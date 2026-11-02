@@ -8,17 +8,18 @@ import {
   CheckCircle2,
   Sparkles,
 } from 'lucide-react';
+import { RoadmapSection } from '../components/home/RoadmapSection';
 
 export const AboutPage: React.FC = () => {
   return (
     <div className="py-12 sm:py-16">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
         
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <div className="inline-flex items-center gap-2 text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
             <GraduationCap className="w-3.5 h-3.5" />
-            <span>عن المنصة ورؤيتها</span>
+            <span>عن المنصة والأهداف</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
@@ -57,14 +58,14 @@ export const AboutPage: React.FC = () => {
             </h2>
             <p className="text-sm text-slate-600 leading-relaxed">
               تعتمد المنصة على <strong className="text-slate-800">7 كتب أكاديمية معتمدة</strong>،
-              بحيث يخصص لكل كتاب مقرر تفاعلي مستقل. في هذه المرحلة التأسيسية، تم بناء الهياكل والبطاقات السبعة،
+              بحيث يخصص لكل كتاب مقرر تفاعلي مستقل. في هذه المرحلة، تم بناء الهياكل والبطاقات السبعة،
               وسيتوالى إدخال محتوى كل كتاب بدقة وأمانة علمية فور تزويد المنصة به.
             </p>
           </div>
 
         </div>
 
-        {/* Technical Highlights */}
+        {/* Technical Highlights & Architecture Specifications */}
         <div className="bg-slate-900 text-white rounded-3xl p-8 sm:p-10 shadow-xl border border-slate-800 space-y-6">
           <div className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-emerald-400" />
@@ -78,7 +79,7 @@ export const AboutPage: React.FC = () => {
               <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
               <div>
                 <strong className="block text-white mb-1">تقنيات حديثة ومفتوحة المصدر</strong>
-                <span>بنيت المنصة بأحدث إصدارات React 19، TypeScript، Vite، و Tailwind CSS.</span>
+                <span>بنيت المنصة بأحدث إصدارات React 19، TypeScript، Vite، و Tailwind CSS v4.</span>
               </div>
             </div>
 
@@ -86,14 +87,14 @@ export const AboutPage: React.FC = () => {
               <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
               <div>
                 <strong className="block text-white mb-1">لغة عربية كاملة وتصميم RTL أصيل</strong>
-                <span>ضبط لغوي وطوبوغرافي شامل باستخدام خط Cairo المخصص للواجهات العربية.</span>
+                <span>ضبط لغوي وطوبوغرافي شامل باستخدام خط Cairo ودعم تفضيلات الحركة (prefers-reduced-motion).</span>
               </div>
             </div>
 
             <div className="flex items-start gap-3 bg-slate-800/60 p-4 rounded-xl border border-slate-700/60">
               <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
               <div>
-                <strong className="block text-white mb-1">بدون أي خوادم أو تعقيدات حسابات</strong>
+                <strong className="block text-white mb-1">بدون خوادم أو متطلبات تسجيل دخول</strong>
                 <span>منصة فورية الوصول للطلاب بدون تسجيل دخول أو تخزين بيانات في Supabase/Backend.</span>
               </div>
             </div>
@@ -102,14 +103,17 @@ export const AboutPage: React.FC = () => {
               <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
               <div>
                 <strong className="block text-white mb-1">جاهزية كاملة لـ Cloudflare Pages</strong>
-                <span>تهيئة المسارات وإعدادات الـ Redirects لبناء ونشر سريع ومستقر عالمياً.</span>
+                <span>تهيئة المسارات وإعدادات الـ Redirects لبناء ونشر سريع ومستقر عالمياً بدون أي تكاليف.</span>
               </div>
             </div>
           </div>
         </div>
 
+        {/* Development Roadmap Section */}
+        <RoadmapSection />
+
         {/* CTA */}
-        <div className="text-center pt-6">
+        <div className="text-center pt-4">
           <Link
             to="/courses"
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm sm:text-base shadow-md transition-colors"
