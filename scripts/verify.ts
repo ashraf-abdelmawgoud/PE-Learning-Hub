@@ -1,5 +1,14 @@
 import { COURSES_PLACEHOLDER_DATA } from '../src/data/coursesData.ts';
 import { normalizeArabicText } from '../src/utils/textUtils.ts';
+import { validateAcademicContent } from '../src/utils/contentValidator.ts';
+import {
+  getCourseById,
+  getChaptersByCourse,
+  getTopicsByChapter,
+  getLessonById,
+  getPreviousAndNextLesson,
+  getAcademicBreadcrumbs,
+} from '../src/data/academic/selectors.ts';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -86,6 +95,42 @@ if (fs.existsSync(redirects)) {
   const redirectsContent = fs.readFileSync(redirects, 'utf-8');
   assert(redirectsContent.includes('/* /index.html 200'), 'قاعدة إعادة التوجيه لـ SPA مطبقة بشكل سليم');
 }
+
+// 5. فحص نظام التحقق الأكاديمي (Content Validation System - Phase 3)
+console.log('\n5. فحص نظام التحقق من جودة المحتوى الأكاديمي (Phase 3 Validation):');
+const report = validateAcademicContent();
+assert(report.isValid === true, 'تقرير فحص المحتوى الأكاديمي سليم بدون أخطاء بنيوية');
+assert(report.errors.length === 0, `عدد الأخطاء الهندسية يساوي 0 (الفعل: ${report.errors.length})`);
+assert(report.coursesCount === 8, `إجمالي المقررات (7 رسمية + 1 تجريبي معزول) يساوي 8`);
+assert(report.chaptersCount === 1, 'عدد الفصول التجريبية يساوي 1');
+assert(report.topicsCount === 1, 'عدد الموضوعات التجريبية يساوي 1');
+assert(report.lessonsCount === 1, 'عدد الدروس التجريبية يساوي 1');
+assert(report.blocksCount === 10, 'عدد كتل المحتوى في الدرس الشامل يساوي 10 كتل كاملة');
+
+// 6. فحص استعلامات ومحددات المحتوى الأكاديمي (Academic Selectors & Hierarchy)
+console.log('\n6. فحص محددات التسلسل الأكاديمي (Selectors):');
+const devCourse = getCourseById('dev-sandbox');
+assert(Boolean(devCourse && devCourse.isDevSandbox), 'استرجاع المقرر التجريبي بنجاح عبر معرفه dev-sandbox');
+
+const devChapters = getChaptersByCourse('dev-sandbox');
+assert(devChapters.length === 1 && devChapters[0].id === 'dev-chap-1', 'استرجاع فصول المقرر التجريبي بترتيب سليم');
+
+const devTopics = getTopicsByChapter('dev-chap-1');
+assert(devTopics.length === 1 && devTopics[0].id === 'dev-top-1', 'استرجاع موضوعات الفصل بترتيب سليم');
+
+const devLesson = getLessonById('dev-les-1');
+assert(Boolean(devLesson && devLesson.blocks.length === 10), 'استرجاع الدرس الشامل بكتله العشرة كاملة');
+
+const { prevLesson, nextLesson } = getPreviousAndNextLesson('dev-les-1');
+assert(prevLesson === null && nextLesson === null, 'فحص دالة الانتقال بين الدروس (السابق والتالي لدرس وحيد)');
+
+const breadcrumbs = getAcademicBreadcrumbs({
+  courseId: 'dev-sandbox',
+  chapterId: 'dev-chap-1',
+  topicId: 'dev-top-1',
+  lessonId: 'dev-les-1',
+});
+assert(breadcrumbs.length === 5, 'توليد مسار التنقل الأكاديمي (Breadcrumbs) المتكامل بنجاح');
 
 console.log(`\n========================================`);
 console.log(`إجمالي الفحوصات الناجحة: ${passedTests}`);

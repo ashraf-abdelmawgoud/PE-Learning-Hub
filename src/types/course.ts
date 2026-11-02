@@ -2,7 +2,7 @@
  * Course Types - Types for the 7 Sports Science academic courses
  */
 
-export type CourseStatus = 'pending_content' | 'in_development' | 'ready';
+export type CourseStatus = 'pending_content' | 'in_development' | 'ready' | 'published';
 
 export interface CourseArchitecture {
   lessonsPlanned: boolean;
@@ -25,4 +25,3 @@ export interface CoursePlaceholder {
   futureUnitsCount?: number;
   futureLessonsCount?: number;
 }
-
