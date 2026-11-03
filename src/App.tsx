@@ -10,6 +10,7 @@ import { ChapterDetailPage } from './pages/ChapterDetailPage';
 import { TopicDetailPage } from './pages/TopicDetailPage';
 import { LessonPage } from './pages/LessonPage';
 import { AboutPage } from './pages/AboutPage';
+import { CurriculumAnimationPage } from './pages/CurriculumAnimationPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
 export const App: React.FC = () => {
@@ -64,6 +65,9 @@ export const App: React.FC = () => {
               }
             />
             <Route path="/about" element={<AboutPage />} />
+            {/* Phase 4.1 2D Educational Animation Direct Preview */}
+            <Route path="/curriculum-animation" element={<CurriculumAnimationPage />} />
+            <Route path="/pilot-animation" element={<Navigate to="/curriculum-animation" replace />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>

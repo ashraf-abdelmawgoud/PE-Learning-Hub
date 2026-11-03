@@ -266,6 +266,13 @@ export interface VisualSequenceBlock extends BaseBlock {
   conceptContext?: string;
 }
 
+export interface CurriculumJourneyAnimationBlock extends BaseBlock {
+  type: 'curriculum_journey_animation';
+  title: string;
+  subtitle?: string;
+  academicSource?: string;
+}
+
 /**
  * Fallback for unknown or future block types (Simulation, 3D Model, etc.)
  * Ensures the renderer never crashes on unknown blocks.
@@ -291,6 +298,7 @@ export type ContentBlock =
   | AnimatedExplanationBlock
   | VisualComparisonBlock
   | VisualSequenceBlock
+  | CurriculumJourneyAnimationBlock
   | GenericBlock;
 
 // ==========================================

@@ -25,10 +25,13 @@ const VisualComparisonView = lazy(() =>
 const VisualSequenceView = lazy(() =>
   import('./visual/VisualSequenceView').then((m) => ({ default: m.VisualSequenceView }))
 );
+const CurriculumJourneyAnimationView = lazy(() =>
+  import('./visual/CurriculumJourneyAnimationView').then((m) => ({ default: m.CurriculumJourneyAnimationView }))
+);
 
 const VisualLoadingFallback: React.FC = () => (
-  <div className="my-6 p-8 rounded-3xl bg-[#F8FCFF] border border-[#D9EAF7] text-center text-xs text-[#64748B] flex items-center justify-center gap-2">
-    <div className="w-4 h-4 rounded-full border-2 border-[#2563EB] border-t-transparent animate-spin" />
+  <div className="my-6 p-8 rounded-3xl bg-[#F4FFF7] border border-[#D4E9DC] text-center text-xs text-[#486555] flex items-center justify-center gap-2">
+    <div className="w-4 h-4 rounded-full border-2 border-[#00C853] border-t-transparent animate-spin" />
     <span>جاري تحميل المكون البصري التفاعلي...</span>
   </div>
 );
@@ -93,6 +96,12 @@ export const LessonRenderer: React.FC<LessonRendererProps> = ({ blocks }) => {
         return (
           <Suspense key={block.id || `vseq-${index}`} fallback={<VisualLoadingFallback />}>
             <VisualSequenceView block={block} />
+          </Suspense>
+        );
+      case 'curriculum_journey_animation':
+        return (
+          <Suspense key={block.id || `curranim-${index}`} fallback={<VisualLoadingFallback />}>
+            <CurriculumJourneyAnimationView block={block} />
           </Suspense>
         );
       default:

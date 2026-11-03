@@ -120,6 +120,34 @@ export const CourseDetailPage: React.FC = () => {
           </p>
         </div>
 
+        {/* Phase 4.1 Highlight Banner for Course 1 */}
+        {course.id === 'course-1' && (
+          <div className="bg-gradient-to-r from-[#071C12] via-[#103D27] to-[#0A291A] rounded-3xl p-6 sm:p-8 text-white border border-[#1B5E3A] shadow-lg relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-64 h-64 bg-[#00C853]/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              <div className="space-y-2 max-w-2xl">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00C853]/20 border border-[#00C853]/40 text-[#39E66D] text-xs font-bold">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>المرحلة 4.1 — أول تجربة أنيميشن تعليمية تفاعلية 2D</span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black text-white">
+                  رحلة تطور مفهوم المنهج: من النظرة التقليدية إلى النظرة الحديثة
+                </h3>
+                <p className="text-[#D4E9DC] text-xs sm:text-sm leading-relaxed">
+                  محاكاة بيئة مدرسية حية ورسوم متجهة تفاعلية توضح تطور دور المعلم، ومركزية المقررات، ومنظومة الخبرات الميدانية الأربعة وفق كتاب أ.د. هاني الدسوقي إبراهيم (ص 2–5).
+                </p>
+              </div>
+              <Link
+                to="/curriculum-animation"
+                className="shrink-0 inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-[#00C853] text-[#071C12] font-black text-sm hover:bg-[#39E66D] transition-all duration-300 shadow-md hover:shadow-lg active:scale-95"
+              >
+                <span>خوض تجربة الأنيميشن 2D</span>
+                <ChevronLeft className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        )}
+
         {/* Chapters Section */}
         {chapters.length > 0 ? (
           <div className="space-y-4">

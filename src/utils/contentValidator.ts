@@ -34,6 +34,7 @@ const VALID_BLOCK_TYPES = new Set([
   'animated_explanation',
   'visual_comparison',
   'visual_sequence',
+  'curriculum_journey_animation',
   'generic_future_block',
 ]);
 
@@ -330,6 +331,11 @@ function validateBlockPayload(block: ContentBlock, errors: ValidationError[]) {
       }
       if (!block.correctOrder || block.correctOrder.length === 0) {
         errors.push({ level: 'error', entity: 'block', id: block.id, message: 'نشاط ترتيب الخطوات بدون ترتيب صحيح محدد' });
+      }
+      break;
+    case 'curriculum_journey_animation':
+      if (!block.title || block.title.trim() === '') {
+        errors.push({ level: 'error', entity: 'block', id: block.id, message: 'كتلة أنيميشن رحلة المنهج بدون عنوان' });
       }
       break;
   }

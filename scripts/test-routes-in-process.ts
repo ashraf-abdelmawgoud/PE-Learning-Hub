@@ -46,6 +46,8 @@ server.listen(4173, '127.0.0.1', async () => {
     { name: 'معمل المحرك البصري التجريبي', path: '/courses/visual-sandbox' },
     { name: 'درس المحرك البصري والأنيميشن', path: '/courses/visual-sandbox/chapters/vis-chap-1/topics/vis-top-1/lessons/vis-les-1' },
     { name: 'مسار معمل المحرك البصري المختصر', path: '/visual-sandbox' },
+    { name: 'معاينة تجربة الأنيميشن التعليمي 2D (المرحلة 4.1)', path: '/curriculum-animation' },
+    { name: 'مسار مختصر لأنيميشن تطور المنهج', path: '/pilot-animation' },
     { name: 'مسار غير موجود (404 Fallback)', path: '/some-random-route' },
   ];
 

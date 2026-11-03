@@ -7,6 +7,7 @@ import type {
   InteractiveDiagramBlock,
   VisualComparisonBlock,
   VisualSequenceBlock,
+  CurriculumJourneyAnimationBlock,
   HeadingBlock,
   ParagraphBlock,
   DefinitionBlock,
@@ -59,11 +60,23 @@ const BLOCK_DEFINITION: DefinitionBlock = {
   academicContext: 'كتاب مناهج التربية الرياضية — أ.د. هاني الدسوقي إبراهيم (ص 5)',
 };
 
-// 4. محرك الشرح المتحرك ثلاثي المراحل (AnimatedExplanationView)
+// 4. أنيميشن تعليمي تفاعلي احترافي (المرحلة 4.1)
+const BLOCK_CURRICULUM_JOURNEY_ANIMATION: CurriculumJourneyAnimationBlock = {
+  id: 'curric-blk-journey-anim-2d',
+  type: 'curriculum_journey_animation',
+  order: 4,
+  title: 'أنيميشن تعليمي تفاعلي: رحلة تطور مفهوم المنهج (2D Educational Scene)',
+  subtitle:
+    'محاكاة بيئة مدرسية حية توضح التحول من مركزية المواد الدراسية إلى شمولية الخبرات والأنشطة الميدانية',
+  academicSource:
+    'كتاب مناهج التربية الرياضية — أ.د. هاني الدسوقي إبراهيم (الفصل الأول: ص 2 - 5)',
+};
+
+// 5. محرك الشرح المتحرك ثلاثي المراحل (AnimatedExplanationView)
 const BLOCK_ANIMATED_EXPLANATION: AnimatedExplanationBlock = {
   id: 'curric-blk-anim-evolution',
   type: 'animated_explanation',
-  order: 4,
+  order: 5,
   title: 'شرح متحرك ثلاثي المراحل: مسار التحول من المنهج التقليدي إلى المنهج الحديث',
   description:
     'محاكاة بصرية من 3 مراحل توضح اتساع بؤرة التركيز التربوي من حفظ المواد الدراسية إلى شمولية الخبرات والأنشطة وتحقيق التنمية المتكاملة لشخصية المتعلم (وفق صفحات الكتاب 2–5).',
@@ -280,11 +293,11 @@ const BLOCK_ANIMATED_EXPLANATION: AnimatedExplanationBlock = {
   ],
 };
 
-// 5. محرك المخططات المتجهية التفاعلية (InteractiveDiagramView)
+// 6. محرك المخططات المتجهية التفاعلية (InteractiveDiagramView)
 const BLOCK_INTERACTIVE_DIAGRAM: InteractiveDiagramBlock = {
   id: 'curric-blk-diag-system',
   type: 'interactive_diagram',
-  order: 5,
+  order: 6,
   title: 'المخطط المفاهيمي لمنظومة المنهج الحديث في التربية الرياضية',
   caption:
     'انقر على أي ركن مفاهيمي لاستعراض تأصيله العلمي في كتاب مناهج التربية الرياضية وتطبيقه الميداني للفرقة الرابعة.',
@@ -445,11 +458,11 @@ const BLOCK_INTERACTIVE_DIAGRAM: InteractiveDiagramBlock = {
   ],
 };
 
-// 6. مكون المقارنة البصرية التفاعلية (VisualComparisonView)
+// 7. مكون المقارنة البصرية التفاعلية (VisualComparisonView)
 const BLOCK_VISUAL_COMPARISON: VisualComparisonBlock = {
   id: 'curric-blk-comp-trad-vs-mod',
   type: 'visual_comparison',
-  order: 6,
+  order: 7,
   title: 'مقارنة بصرية تحليلية: المفهوم التقليدي في مقابل المفهوم الحديث للمنهج',
   description:
     'مقارنة علمية دقيقة مستخلصة من نصوص الصفحات 2 إلى 5 توضح التحول الجوهري في فلسفة وأهداف وتطبيقات مناهج التربية الرياضية.',
@@ -504,11 +517,11 @@ const BLOCK_VISUAL_COMPARISON: VisualComparisonBlock = {
     'نقلت النظرة الحديثة بؤرة الاهتمام من مجرد حفظ المقررات والمعلومات بصورة سلبية إلى تفعيل الخبرات والأنشطة والمواقف الحركية والاجتماعية التي تبني شخصية رياضية متكاملة بدنياً ومهارياً ونفسياً واجتماعياً.',
 };
 
-// 7. نشاط ترتيب الخطوات البصري التطبيقي (VisualSequenceView)
+// 8. نشاط ترتيب الخطوات البصري التطبيقي (VisualSequenceView)
 const BLOCK_VISUAL_SEQUENCE: VisualSequenceBlock = {
   id: 'curric-blk-seq-planning-steps',
   type: 'visual_sequence',
-  order: 7,
+  order: 8,
   title: 'نشاط تطبيقي: ترتيب خطوات تخطيط وتطوير المنهج المدرسي الحديث',
   instructions:
     'رتب المراحل الأربعة التالية لتخطيط وتطوير منهج التربية الرياضية الحديث بالتسلسل العلمي المنطقي الوارد في الكتاب (ص 2، 4):',
@@ -544,11 +557,11 @@ const BLOCK_VISUAL_SEQUENCE: VisualSequenceBlock = {
     'التخطيط العلمي للمنهج الحديث (ص 2، 4) يبدأ بدراسة فلسفة المجتمع وحاجات وقدرات المتعلمين (1)، ثم تحديد الأهداف التربوية المركزية بدقة (2)، يليها اختيار وتنظيم الخبرات والأنشطة الرياضية بما يتلاءم مع الإمكانات (3)، وأخيراً التقويم المستمر والتجريب الميداني لتطوير المنهج في عملية دائمة لا نهاية لها (4).',
 };
 
-// 8. كتلة النقاط الجوهرية والكبسولة الأكاديمية
+// 9. كتلة النقاط الجوهرية والكبسولة الأكاديمية
 const BLOCK_KEY_POINTS: KeyPointBlock = {
   id: 'curric-blk-kp-summary',
   type: 'key_point',
-  order: 8,
+  order: 9,
   title: 'أبرز الأسس المستفادة من الفصل الأول (كتاب مناهج التربية الرياضية ص 2 - 5)',
   points: [
     'المنهج ليس مجرد مقرر دراسي جامد، بل هو سلسلة موجهة من الخبرات والأنشطة التربوية الهادفة (ص 2، 5).',
@@ -561,11 +574,11 @@ const BLOCK_KEY_POINTS: KeyPointBlock = {
   importance: 'essential',
 };
 
-// 9. كتلة التوثيق الأكاديمي والاستشهاد
+// 10. كتلة التوثيق الأكاديمي والاستشهاد
 const BLOCK_ACADEMIC_REFERENCE: AcademicReferenceBlock = {
   id: 'curric-blk-ref-ch1',
   type: 'academic_reference',
-  order: 9,
+  order: 10,
   referenceId: CURRICULUM_ACADEMIC_REFERENCE.id,
   reference: CURRICULUM_ACADEMIC_REFERENCE,
   citationText:
@@ -594,6 +607,7 @@ export const CURRICULUM_PILOT_LESSON: Lesson = {
     BLOCK_HEADING,
     BLOCK_PARAGRAPH_INTRO,
     BLOCK_DEFINITION,
+    BLOCK_CURRICULUM_JOURNEY_ANIMATION,
     BLOCK_ANIMATED_EXPLANATION,
     BLOCK_INTERACTIVE_DIAGRAM,
     BLOCK_VISUAL_COMPARISON,

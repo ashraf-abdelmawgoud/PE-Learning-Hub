@@ -112,7 +112,7 @@ assert(report.coursesCount === 9, `إجمالي المقررات (7 رسمية +
 assert(report.chaptersCount === 3, 'عدد الفصول الإجمالي يساوي 3 (1 تجربة حقيقية + 2 معامل تقنية)');
 assert(report.topicsCount === 3, 'عدد الموضوعات الإجمالي يساوي 3');
 assert(report.lessonsCount === 3, 'عدد الدروس الإجمالي يساوي 3');
-assert(report.blocksCount === 25, 'عدد كتل المحتوى الإجمالي يساوي 25 كتلة كاملة');
+assert(report.blocksCount === 26, `عدد كتل المحتوى الإجمالي يساوي 26 كتلة كاملة (الفعل: ${report.blocksCount})`);
 
 // 5.1 اختبار فشل البناء عند حقن محتوى معطوب (Corrupted Content Rejection)
 console.log('\n5.1 فحص صد واكتشاف المحتوى المعطوب (Strict Validation Enforcement):');
@@ -303,7 +303,11 @@ assert(course1Topics.length === 1 && course1Topics[0].id === 'top-curriculum-con
 
 const pilotLesson = getLessonById('les-curriculum-evolution');
 assert(Boolean(pilotLesson), 'استرجاع الدرس الأكاديمي الحقيقي بنجاح');
-assert(pilotLesson?.blocks.length === 9, `الدرس الحقيقي يتضمن 9 كتل محتوى متكاملة (الفعل: ${pilotLesson?.blocks.length})`);
+assert(pilotLesson?.blocks.length === 10, `الدرس الحقيقي يتضمن 10 كتل محتوى متكاملة (الفعل: ${pilotLesson?.blocks.length})`);
+
+// فحص كتلة الأنيميشن التعليمي الاحترافي 2D (المرحلة 4.1)
+const journeyAnimBlock = pilotLesson?.blocks.find((b) => b.type === 'curriculum_journey_animation');
+assert(Boolean(journeyAnimBlock && journeyAnimBlock.type === 'curriculum_journey_animation' && journeyAnimBlock.id === 'curric-blk-journey-anim-2d'), 'أنيميشن تعليمي احترافي 2D لمسار تطور المنهج (المرحلة 4.1)');
 
 // فحص المرجع الأكاديمي الدقيق
 const ref = pilotLesson?.references[0];
