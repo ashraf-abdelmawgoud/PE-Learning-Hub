@@ -19,13 +19,13 @@ export const CoachPocPage: React.FC = () => {
       <div className="mb-8 bg-white p-6 rounded-2xl border border-[#00C853]/20 shadow-sm">
         <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#00C853] mb-2">
           <Sparkles className="w-4 h-4" />
-          <span>المرحلة 4.1 — تدقيق الجودة والتحريك المفصلي</span>
+          <span>المرحلة 4.1 — الفلسفة المعتمدة: Stylized Static Scene with Gentle Motion</span>
         </div>
         <h1 className="text-2xl md:text-3xl font-black text-[#071C12] mb-3">
-          معاينة نموذج إثبات المفهوم: شخصية المعلم (Coach Character PoC)
+          معاينة وتدقيق حركة المعلم الهادئة (Gentle Motion Coach)
         </h1>
         <p className="text-sm text-[#486555] leading-relaxed max-w-3xl">
-          هذه الصفحة مخصصة لمعاينة وفحص شخصية المعلم المستخرجة من الصورة المرجعية المعتمدة. تم فصل الرأس والجذع والذراع المشيرة مع تدوير المفاصل حول نقاط الارتكاز التشريحية، والتأكد من إغلاق تجويف الكتف وقاعدة العنق لمنع أي فجوات عند تدوير الأطراف، مع الحفاظ على ميزانية حجم منخفضة جدًا (73.74 KiB) متوافقة تمامًا مع Cloudflare Pages Free.
+          تم تحديث الحركة وتثبيت المفاصل وفق الفلسفة الجديدة: التركيز على جمال الرسم الأصلي وراحة العين وخدمة الشرح الأكاديمي، مع تقليل الحركة إلى الحد الأدنى (تنفس هادئ للجسم، ميل بسيط جداً للرأس، وتثبيت مفصل الكتف بنسبة 100% لمنع أي تشوه بصري).
         </p>
       </div>
 

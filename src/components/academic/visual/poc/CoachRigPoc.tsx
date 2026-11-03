@@ -9,16 +9,18 @@ export const CoachRigPoc: React.FC<CoachRigPocProps> = ({ className = '' }) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [armAngle, setArmAngle] = useState<number>(0);
   const [headAngle, setHeadAngle] = useState<number>(0);
+  const [breathY, setBreathY] = useState<number>(0);
+  const [armMode, setArmMode] = useState<'locked' | 'micro'>('locked');
   const [manualMode, setManualMode] = useState<boolean>(false);
   const [fps, setFps] = useState<number>(60);
-  const [activePreset, setActivePreset] = useState<'welcoming' | 'neutral' | 'custom'>('welcoming');
+  const [activePreset, setActivePreset] = useState<'gentle' | 'neutral' | 'custom'>('gentle');
 
   const animationFrameRef = useRef<number | null>(null);
   const lastTimeRef = useRef<number>(0);
   const frameCountRef = useRef<number>(0);
   const fpsTimerRef = useRef<number>(0);
 
-  // Animation loop when playing and not in manual override
+  // Animation loop: Minimal Gentle Motion (Stylized Static Scene)
   useEffect(() => {
     lastTimeRef.current = performance.now();
     fpsTimerRef.current = performance.now();
@@ -39,16 +41,21 @@ export const CoachRigPoc: React.FC<CoachRigPocProps> = ({ className = '' }) => {
       if (isPlaying && !manualMode) {
         const elapsed = (currentTime - startTime) / 1000;
         
-        // Welcoming arm gesture: smooth sinusoidal oscillation between 0° and 16°
-        // Frequency: 0.5 Hz (2-second cycle)
-        const armCycle = Math.sin(elapsed * Math.PI * 0.9);
-        const currentArm = 8 + armCycle * 8; // 0 to 16 degrees
-        setArmAngle(currentArm);
+        // 1. Gentle body breathing (4.5s cycle: -1.8px to +1.8px)
+        const breath = Math.sin(elapsed * 1.4) * -1.8;
+        setBreathY(breath);
 
-        // Head tilt: subtle nod -2° to +2.5°
-        const headCycle = Math.sin(elapsed * Math.PI * 0.9 + 0.4);
-        const currentHead = -0.5 - headCycle * 2.2;
-        setHeadAngle(currentHead);
+        // 2. Very subtle head tilt (5.2s cycle: -0.65° to +0.65°)
+        const headCycle = Math.sin(elapsed * 1.1) * 0.65;
+        setHeadAngle(headCycle);
+
+        // 3. Arm motion: Locked (0°) or Micro-float (0° to 1.0° max)
+        if (armMode === 'locked') {
+          setArmAngle(0);
+        } else {
+          const armCycle = (Math.sin(elapsed * 0.9) * 0.5 + 0.5) * 1.0; // 0° to 1.0°
+          setArmAngle(armCycle);
+        }
       }
 
       lastTimeRef.current = currentTime;
@@ -59,17 +66,19 @@ export const CoachRigPoc: React.FC<CoachRigPocProps> = ({ className = '' }) => {
     return () => {
       if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
     };
-  }, [isPlaying, manualMode]);
+  }, [isPlaying, manualMode, armMode]);
 
-  const setPreset = (preset: 'welcoming' | 'neutral') => {
+  const setPreset = (preset: 'gentle' | 'neutral') => {
     setActivePreset(preset);
     setManualMode(false);
     if (preset === 'neutral') {
       setIsPlaying(false);
       setArmAngle(0);
       setHeadAngle(0);
+      setBreathY(0);
     } else {
       setIsPlaying(true);
+      setArmMode('locked');
     }
   };
 
@@ -121,7 +130,13 @@ export const CoachRigPoc: React.FC<CoachRigPocProps> = ({ className = '' }) => {
             </div>
 
             {/* Coach Character Stack (896x1200 Coordinate Space) */}
-            <div className="absolute inset-0 w-full h-full select-none pointer-events-none">
+            <div
+              className="absolute inset-0 w-full h-full select-none pointer-events-none will-change-transform"
+              style={{
+                transform: `translateY(${breathY}px)`,
+                transition: manualMode ? 'none' : 'transform 0.08s linear',
+              }}
+            >
               {/* Layer 1: Body & Legs (Z: 10) */}
               <img
                 src="/assets/poc/coach/coach_body_full.webp"
@@ -140,7 +155,7 @@ export const CoachRigPoc: React.FC<CoachRigPocProps> = ({ className = '' }) => {
                   zIndex: 15,
                   transformOrigin: '60.27% 23.33%',
                   transform: `rotate(${headAngle}deg)`,
-                  transition: manualMode ? 'none' : 'transform 0.05s linear',
+                  transition: manualMode ? 'none' : 'transform 0.08s linear',
                 }}
               />
 
@@ -154,51 +169,62 @@ export const CoachRigPoc: React.FC<CoachRigPocProps> = ({ className = '' }) => {
                   zIndex: 20,
                   transformOrigin: '47.43% 25.42%',
                   transform: `rotate(${armAngle}deg)`,
-                  transition: manualMode ? 'none' : 'transform 0.05s linear',
+                  transition: manualMode ? 'none' : 'transform 0.08s linear',
                 }}
               />
             </div>
 
             {/* Live Angle Indicator Overlay */}
             <div className="absolute bottom-3 left-3 bg-[#071C12]/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-[#00C853]/30 text-xs font-mono text-[#86efac]">
-              <div>Arm: {armAngle.toFixed(1)}°</div>
+              <div>Breath: {breathY.toFixed(1)}px</div>
               <div>Head: {headAngle.toFixed(1)}°</div>
+              <div>Arm: {armAngle.toFixed(1)}° {armMode === 'locked' ? '(ثابت 0°)' : '(ميكرو)'}</div>
             </div>
           </div>
 
           {/* Quick Playback Bar */}
-          <div className="flex items-center justify-center gap-3 mt-4 w-full">
+          <div className="flex flex-wrap items-center justify-center gap-2 mt-4 w-full">
             <button
               onClick={() => {
                 setIsPlaying(!isPlaying);
                 setManualMode(false);
               }}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm bg-[#00C853] text-[#071C12] hover:bg-[#00E676] active:scale-95 transition-all shadow-lg"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-xs bg-[#00C853] text-[#071C12] hover:bg-[#00E676] active:scale-95 transition-all shadow-md"
             >
-              {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+              {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
               <span>{isPlaying ? 'إيقاف مؤقت' : 'تشغيل الحركة'}</span>
             </button>
 
             <button
-              onClick={() => setPreset('welcoming')}
-              className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all border ${
-                activePreset === 'welcoming' && !manualMode
+              onClick={() => setPreset('gentle')}
+              className={`px-3 py-2 rounded-xl text-xs font-bold transition-all border ${
+                activePreset === 'gentle' && !manualMode
                   ? 'bg-[#15803d] text-white border-[#86efac]'
                   : 'bg-[#0E2F20] text-[#a7f3d0] border-[#00C853]/30 hover:bg-[#15803d]/40'
               }`}
             >
-              حركة الترحيب
+              حركة هادئة معتمدة (Gentle)
+            </button>
+
+            <button
+              onClick={() => {
+                setArmMode(armMode === 'locked' ? 'micro' : 'locked');
+                setManualMode(false);
+              }}
+              className="px-3 py-2 rounded-xl text-xs font-bold transition-all border bg-[#0E2F20] text-[#a7f3d0] border-[#00C853]/30 hover:bg-[#15803d]/40"
+            >
+              {armMode === 'locked' ? 'تثبيت الذراع: مفعّل (0°)' : 'حركة الذراع: ميكرو (0° - 1°)'}
             </button>
 
             <button
               onClick={() => setPreset('neutral')}
-              className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all border ${
+              className={`px-3 py-2 rounded-xl text-xs font-bold transition-all border ${
                 activePreset === 'neutral' && !manualMode
                   ? 'bg-[#15803d] text-white border-[#86efac]'
                   : 'bg-[#0E2F20] text-[#a7f3d0] border-[#00C853]/30 hover:bg-[#15803d]/40'
               }`}
             >
-              الوضع المحايد (0°)
+              ثبات تام (0°)
             </button>
           </div>
         </div>
@@ -209,24 +235,24 @@ export const CoachRigPoc: React.FC<CoachRigPocProps> = ({ className = '' }) => {
           <div className="p-4 rounded-xl bg-[#071C12]/80 border border-[#00C853]/20">
             <div className="flex items-center gap-2 text-sm font-bold text-[#00C853] mb-3">
               <Sliders className="w-4 h-4" />
-              <span>مختبر دوران المفاصل (اختبار الفجوات يدويًا)</span>
+              <span>مختبر ضبط الحركة الدقيقة (Gentle Range Inspector)</span>
             </div>
 
             <p className="text-xs text-[#a7f3d0]/80 mb-4 leading-relaxed">
-              حرّك أشرطة التمرير لاختبار زاوية الذراع والرأس عند أي درجة للتأكد من عدم ظهور أي فراغات أو حواف مقطوعة خلف الكتف أو الرقبة.
+              تم حصر زوايا الحركة في المدى الآمن الخفيف لمنع أي تشوه لمفصل الكتف أو الرقبة وضمان ثبات جمال الرسم الأصلي.
             </p>
 
-            {/* Arm Rotation Slider */}
+            {/* Arm Rotation Slider (Safe Minimal Range) */}
             <div className="space-y-1.5 mb-4">
               <div className="flex justify-between text-xs font-mono text-[#86efac]">
-                <span>زاوية دوران الذراع المشيرة:</span>
+                <span>زاوية دوران الذراع المشيرة (المدى الدقيق):</span>
                 <span className="font-bold text-[#00C853]">{armAngle.toFixed(1)}°</span>
               </div>
               <input
                 type="range"
-                min="-15"
-                max="25"
-                step="0.5"
+                min="-3"
+                max="4"
+                step="0.2"
                 value={armAngle}
                 onChange={(e) => {
                   setManualMode(true);
@@ -237,9 +263,9 @@ export const CoachRigPoc: React.FC<CoachRigPocProps> = ({ className = '' }) => {
                 className="w-full accent-[#00C853] cursor-pointer"
               />
               <div className="flex justify-between text-[10px] text-gray-400">
-                <span>-15° (خفض الذراع)</span>
-                <span>0° (محايد)</span>
-                <span>+25° (رفع الذراع للترحيب)</span>
+                <span>-3° (خفض خفيف)</span>
+                <span>0° (الوضع المثالي المعتمد)</span>
+                <span>+4° (رفع ميكرو)</span>
               </div>
             </div>
 
@@ -251,9 +277,9 @@ export const CoachRigPoc: React.FC<CoachRigPocProps> = ({ className = '' }) => {
               </div>
               <input
                 type="range"
-                min="-6"
-                max="6"
-                step="0.5"
+                min="-2"
+                max="2"
+                step="0.1"
                 value={headAngle}
                 onChange={(e) => {
                   setManualMode(true);
@@ -264,9 +290,9 @@ export const CoachRigPoc: React.FC<CoachRigPocProps> = ({ className = '' }) => {
                 className="w-full accent-[#00C853] cursor-pointer"
               />
               <div className="flex justify-between text-[10px] text-gray-400">
-                <span>-6° (التفاتة يسار)</span>
+                <span>-2° (إيماءة خفيفة يسار)</span>
                 <span>0° (مستقيم)</span>
-                <span>+6° (التفاتة يمين)</span>
+                <span>+2° (إيماءة خفيفة يمين)</span>
               </div>
             </div>
           </div>

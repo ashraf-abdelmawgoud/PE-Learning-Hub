@@ -216,7 +216,7 @@ export const CoachCharacter: React.FC<CoachCharacterProps> = ({
         <g
           style={{
             transformOrigin: '74px 48px',
-            animation: isPaused ? 'none' : 'pe-teacher-wave 3.2s ease-in-out infinite',
+            animation: isPaused ? 'none' : 'pe-teacher-wave 4.5s ease-in-out infinite',
           }}
         >
           {/* Upper Arm */}
@@ -274,7 +274,7 @@ export const CoachCharacter: React.FC<CoachCharacterProps> = ({
       )}
 
       {/* 8. Coach Head, Face & Athletic Visor Cap */}
-      <g>
+      <g style={{ transformOrigin: "50px 44px", animation: isPaused ? "none" : "pe-coach-head-nod 5s ease-in-out infinite" }}>
         {/* Muscular Neck */}
         <path d="M 44 38 L 44 48 L 56 48 L 56 38 Z" fill="#FBCFE8" />
 

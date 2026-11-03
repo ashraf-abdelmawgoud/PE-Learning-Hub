@@ -304,34 +304,38 @@ export const CurriculumJourneyAnimationView: React.FC<{
           animation-play-state: running;
         }
 
-        /* 1. SCENE 1: Educational Cartoon Motions */
+        /* 1. SCENE 1: Minimal Gentle Motions (Stylized Static Scene with Gentle Motion) */
+        @keyframes pe-coach-breathe {
+          0%, 100% { transform: translateY(0); }
+          50%      { transform: translateY(-1.5px); }
+        }
+        @keyframes pe-coach-head-nod {
+          0%, 100% { transform: rotate(0deg); }
+          50%      { transform: rotate(-0.75deg); }
+        }
         @keyframes pe-teacher-wave {
           0%, 100% { transform: rotate(0deg); }
-          25%      { transform: rotate(-12deg); }
-          50%      { transform: rotate(4deg); }
-          75%      { transform: rotate(-8deg); }
+          50%      { transform: rotate(-0.6deg); }
         }
         @keyframes pe-whistle-sway {
           0%, 100% { transform: rotate(0deg); }
-          50%      { transform: rotate(7deg); }
+          50%      { transform: rotate(1.2deg); }
         }
         @keyframes pe-curiosity-glow {
           0%, 100% { opacity: 0.35; transform: scale(1); }
-          50%      { opacity: 0.95; transform: scale(1.12); }
+          50%      { opacity: 0.85; transform: scale(1.05); }
         }
         @keyframes pe-tariq-think {
           0%, 100% { transform: rotate(0deg); }
-          40%      { transform: rotate(-4deg); }
-          80%      { transform: rotate(2deg); }
+          50%      { transform: rotate(-0.8deg); }
         }
         @keyframes pe-head-inquiry {
           0%, 100% { transform: rotate(0deg); }
-          45%      { transform: rotate(-7deg); }
-          85%      { transform: rotate(-3deg); }
+          50%      { transform: rotate(-1deg); }
         }
         @keyframes pe-peer-nod {
           0%, 100% { transform: rotate(0deg); }
-          50%      { transform: rotate(5deg); }
+          50%      { transform: rotate(0.8deg); }
         }
         @keyframes pe-pulse-glow {
           0%, 100% { opacity: 0.35; transform: scale(1); }
