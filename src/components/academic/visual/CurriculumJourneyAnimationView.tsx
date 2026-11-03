@@ -33,6 +33,7 @@ import {
   Award,
 } from 'lucide-react';
 import { CoachCharacter } from './cartoon/CoachCharacter';
+import { HybridCoachCharacter } from './cartoon/HybridCoachCharacter';
 import { StudentCharacter } from './cartoon/StudentCharacter';
 import { AthleticCourtEnvironment } from './cartoon/AthleticCourtEnvironment';
 
@@ -91,6 +92,9 @@ const SCENES: SceneInfo[] = [
 interface TraditionalSubjectItem {
   id: string;
   name: string;
+  shortTitle: string;
+  code: string;
+  icon: string;
   targetY: number;
   pointerAngle: number;
   role: string;
@@ -102,8 +106,11 @@ const TRADITIONAL_SUBJECTS: TraditionalSubjectItem[] = [
   {
     id: 'sub-rules',
     name: 'مقرر قواعد الألعاب والمسابقات',
-    targetY: 60,
-    pointerAngle: -20,
+    shortTitle: 'قواعد الألعاب والمسابقات',
+    code: 'مقرر ١',
+    icon: '📋',
+    targetY: 56,
+    pointerAngle: -18,
     role: 'المقرر كمحتوى دراسي محدد لفرقة معينة',
     explanation:
       'يُعرّف المنهج تقليدياً بأنه "مجموعة من المفاهيم والمعارف والحقائق والنظريات ليكون مقرر دراسي لفرقة معينة". التركيز ينصب على الإلمام باللوائح وقوانين المسابقات بصورة معرفية محددة.',
@@ -112,6 +119,9 @@ const TRADITIONAL_SUBJECTS: TraditionalSubjectItem[] = [
   {
     id: 'sub-anatomy',
     name: 'مقرر المعارف الصحية والتشريح',
+    shortTitle: 'المعارف الصحية والتشريح',
+    code: 'مقرر ٢',
+    icon: '🫀',
     targetY: 108,
     pointerAngle: 0,
     role: 'المعرفة بوصفها حصيلة التراث الثقافي والاجتماعي',
@@ -122,8 +132,11 @@ const TRADITIONAL_SUBJECTS: TraditionalSubjectItem[] = [
   {
     id: 'sub-training',
     name: 'مقرر نظريات وأصول التدريب الرياضي',
-    targetY: 156,
-    pointerAngle: 20,
+    shortTitle: 'نظريات وأصول التدريب',
+    code: 'مقرر ٣',
+    icon: '⏱️',
+    targetY: 160,
+    pointerAngle: 18,
     role: 'التركيز على المفاهيم المخططة والموحدة',
     explanation:
       'المنهج التقليدي يركز على تزويد ذهن المتعلم بالمعارف النظرية المحددة في الخطة الدراسية، ويجعل المادة التعليمية هي محور العملية التعليمية وغاية الموقف التعليمي.',
@@ -478,6 +491,50 @@ export const CurriculumJourneyAnimationView: React.FC<{
             </div>
           )}
 
+          {/* =========================================================================
+              SCENE 1 QUESTION CARD: High Contrast Responsive HTML Card (Cairo Font)
+              Replaces static SVG bubble for 100% legibility and zero clipping on mobile.
+             ========================================================================= */}
+          {currentScene === 1 && (
+            <>
+              {/* Mobile Question Card (Clean, responsive header above court canvas) */}
+              <div className="sm:hidden p-3.5 bg-gradient-to-r from-[#0E2F20] to-[#071C12] border-b border-[#00C853]/30">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <span className="w-2 h-2 rounded-full bg-[#00C853] animate-pulse" />
+                  <span className="text-[11px] font-black text-[#39E66D] font-mono">سؤال المنهج التأسيسي (ص 2، 5):</span>
+                </div>
+                <p className="text-sm font-black text-white leading-snug">
+                  «هل المنهج مجرد مجموعة من المواد الدراسية؟»
+                </p>
+              </div>
+
+              {/* Desktop/Tablet Floating Dialogue Card (Upper sky area above students, styled like reference art) */}
+              <div
+                className="hidden sm:block absolute top-4 left-6 md:left-10 z-10 max-w-[460px] pointer-events-auto"
+                style={{
+                  animation: !isPlaying ? 'none' : 'pe-pulse-glow 3.5s ease-in-out infinite',
+                }}
+              >
+                <div className="bg-white rounded-2xl p-4 sm:p-5 border-2 border-[#00C853] shadow-xl relative">
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="w-5 h-5 rounded-full bg-[#E8F8EE] text-[#00C853] flex items-center justify-center text-xs font-black">
+                      ؟
+                    </div>
+                    <span className="text-xs font-black text-[#173D2B]">
+                      سؤال المنهج التأسيسي (ص 2، 5):
+                    </span>
+                  </div>
+                  <h4 className="text-base sm:text-lg font-black text-[#071C12] leading-tight">
+                    «هل المنهج مجرد مجموعة من المواد الدراسية؟»
+                  </h4>
+                  {/* Dialogue Pointer Tail towards Coach on the Right */}
+                  <div className="absolute -bottom-3 right-14 w-0 h-0 border-x-8 border-x-transparent border-t-[12px] border-t-[#00C853]" />
+                  <div className="absolute -bottom-2 right-14 w-0 h-0 border-x-7 border-x-transparent border-t-[10px] border-t-white" />
+                </div>
+              </div>
+            </>
+          )}
+
           {/* Native High-Detail Educational SVG Stage */}
           <svg
             viewBox="0 0 1000 540"
@@ -490,7 +547,7 @@ export const CurriculumJourneyAnimationView: React.FC<{
             <AthleticCourtEnvironment idPrefix={idPrefix} />
 
             {/* =========================================================================
-                SCENE 1: «بداية الرحلة: ما المقصود بالمنهج؟» (Premium Educational Cartoon)
+                SCENE 1: «بداية الرحلة: ما المقصود بالمنهج؟» (Hybrid Coach + Cohesive Students)
                ========================================================================= */}
             {currentScene === 1 && (
               <g
@@ -500,12 +557,11 @@ export const CurriculumJourneyAnimationView: React.FC<{
                   transition: 'transform 1400ms cubic-bezier(0.25, 1, 0.5, 1)',
                 }}
               >
-                {/* 1. PE Teacher / Coach Character (Welcoming & Addressing Students) */}
-                <CoachCharacter
-                  x={640}
-                  y={260}
-                  scale={1.12}
-                  pose="welcome"
+                {/* 1. PE Teacher / Coach Character: Professional Hybrid WebP Rig (Phase 4.1B) */}
+                <HybridCoachCharacter
+                  x={635}
+                  y={135}
+                  scale={0.325}
                   isPaused={!isPlaying}
                 />
 
@@ -537,55 +593,7 @@ export const CurriculumJourneyAnimationView: React.FC<{
                   isPaused={!isPlaying}
                 />
 
-                {/* 3. Central Inquiry Question Card (Unobstructed in Upper-Center Field) */}
-                <g
-                  transform="translate(240, 68)"
-                  style={{
-                    animation: !isPlaying ? 'none' : 'pe-pulse-glow 3.5s ease-in-out infinite',
-                  }}
-                >
-                  {/* Card Background with Emerald Border & Drop Shadow */}
-                  <rect
-                    x="0"
-                    y="0"
-                    width="520"
-                    height="92"
-                    rx="22"
-                    fill="#FFFFFF"
-                    stroke="#00C853"
-                    strokeWidth="3"
-                    filter="drop-shadow(0 10px 24px rgba(0,0,0,0.3))"
-                  />
-                  
-                  {/* Speech Pointer / Dialogue Tail towards Teacher */}
-                  <polygon points="390,92 415,116 370,92" fill="#FFFFFF" />
-                  <polygon points="390,92 415,116 370,92" stroke="#00C853" strokeWidth="3" fill="none" />
-                  <rect x="368" y="90" width="24" height="4" fill="#FFFFFF" />
-
-                  {/* Header Sub-bar */}
-                  <g transform="translate(24, 18)">
-                    <circle cx="12" cy="12" r="11" fill="#E8F8EE" />
-                    <text x="12" y="16.5" fill="#00C853" fontSize="13" fontWeight="900" textAnchor="middle">؟</text>
-                    <text x="32" y="16.5" fill="#173D2B" fontSize="13" fontWeight="900" fontFamily="Cairo">
-                      سؤال المنهج التأسيسي:
-                    </text>
-                  </g>
-
-                  {/* The Core Pedagogical Question */}
-                  <text
-                    x="260"
-                    y="63"
-                    fill="#071C12"
-                    fontSize="18"
-                    fontWeight="900"
-                    textAnchor="middle"
-                    fontFamily="Cairo"
-                  >
-                    «هل المنهج مجرد مجموعة من المواد الدراسية؟»
-                  </text>
-                </g>
-
-                {/* 4. Interactive Call-To-Action Button on Court */}
+                {/* 3. Interactive Call-To-Action Button on Court */}
                 <g
                   transform="translate(390, 465)"
                   className="cursor-pointer group"
@@ -645,7 +653,7 @@ export const CurriculumJourneyAnimationView: React.FC<{
                     filter={`url(#${idPrefix}-glow)`}
                   />
 
-                  {/* 3 Clickable Textbooks */}
+                  {/* 3 Clickable Textbooks with Concise Short Titles (Zero Collision) */}
                   {TRADITIONAL_SUBJECTS.map((sub) => {
                     const isSelected = sub.id === activeSubjectId;
                     const yPos = sub.targetY;
@@ -664,19 +672,19 @@ export const CurriculumJourneyAnimationView: React.FC<{
                           rx="10"
                           fill={isSelected ? '#E8F8EE' : '#F8FAFC'}
                           stroke={isSelected ? '#00C853' : '#CBD5E1'}
-                          strokeWidth={isSelected ? 3 : 1.5}
+                          strokeWidth={isSelected ? 2.5 : 1.5}
                           filter={isSelected ? 'drop-shadow(0 4px 10px rgba(0,200,83,0.35))' : undefined}
                         />
                         <rect x="8" y="7" width="28" height="28" rx="6" fill={isSelected ? '#00C853' : '#64748B'} />
                         <text x="22" y="25" fill="#FFFFFF" fontSize="13" fontWeight="bold" textAnchor="middle">
-                          📚
+                          {sub.icon}
                         </text>
-                        <text x="46" y="24" fill="#173D2B" fontSize="12" fontWeight="900" fontFamily="Cairo">
-                          {sub.name}
+                        <text x="44" y="25" fill="#173D2B" fontSize="12" fontWeight="900" fontFamily="Cairo">
+                          {sub.shortTitle}
                         </text>
                         <rect x="250" y="10" width="80" height="22" rx="11" fill={isSelected ? '#103D27' : '#F1F5F9'} />
                         <text x="290" y="25" fill={isSelected ? '#39E66D' : '#64748B'} fontSize="10" fontWeight="bold" textAnchor="middle" fontFamily="Cairo">
-                          {isSelected ? '✓ محدد للشرح' : 'انقر للفحص'}
+                          {isSelected ? '✓ بالشرح' : 'فحص'}
                         </text>
                       </g>
                     );
@@ -880,15 +888,15 @@ export const CurriculumJourneyAnimationView: React.FC<{
             </div>
           )}
 
-          {/* Interactive Scene 2: Clickable Subject Cards with High Contrast */}
+          {/* Interactive Scene 2: Clickable Subject Cards with High Contrast & Responsive RTL Layout */}
           {currentScene === 2 && (
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-black text-[#39E66D]">
-                  انقر على أي مقرر على السبورة أو البطاقات أدناه لتوجيه المعلم إليه:
+            <div className="space-y-3" dir="rtl">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="text-xs sm:text-sm font-black text-[#39E66D]">
+                  انقر على أي مقرر على السبورة أو البطاقات أدناه لتوجيه المعلم وفحص مفهومه:
                 </span>
-                <span className="text-[11px] font-bold text-[#D4E9DC]/70">
-                  {activeSubject.quotePage}
+                <span className="text-xs font-bold text-[#D4E9DC]/75 bg-[#142B20] px-2.5 py-1 rounded-lg border border-[#143D27]">
+                  المرجع: {activeSubject.quotePage}
                 </span>
               </div>
 
@@ -900,23 +908,43 @@ export const CurriculumJourneyAnimationView: React.FC<{
                       key={sub.id}
                       type="button"
                       onClick={() => setActiveSubjectId(sub.id)}
-                      className={`p-3.5 rounded-2xl text-right transition-all cursor-pointer border ${
+                      className={`p-4 rounded-2xl text-right transition-all cursor-pointer border ${
                         isSelected
-                          ? 'bg-[#103D27] border-[#00C853] shadow-md shadow-[#00C853]/15'
-                          : 'bg-[#0B2519] border-[#143D27] hover:bg-[#142B20]'
+                          ? 'bg-[#103D27] border-2 border-[#00C853] shadow-lg shadow-[#00C853]/20 ring-2 ring-[#00C853]/40'
+                          : 'bg-[#0B2519] border border-[#143D27] hover:bg-[#142B20] hover:border-[#00C853]/40'
                       }`}
                     >
-                      <div className="flex items-center justify-between mb-1.5">
-                        <span className="font-bold text-xs text-[#F4FFF7]">
-                          {sub.name}
-                        </span>
-                        {isSelected && (
-                          <span className="text-[10px] font-black bg-[#00C853] text-[#071C12] px-2 py-0.5 rounded-full">
-                            مُشار إليه ✓
+                      <div className="flex items-center justify-between gap-2 mb-2">
+                        <div className="flex items-center gap-1.5 min-w-0">
+                          <span className="text-base shrink-0">{sub.icon}</span>
+                          <span className="font-bold text-xs text-[#86efac] font-mono shrink-0">
+                            {sub.code}
+                          </span>
+                          <span className="text-[11px] text-[#D4E9DC]/70 truncate">
+                            ({sub.quotePage})
+                          </span>
+                        </div>
+                        {isSelected ? (
+                          <span className="text-[11px] font-black bg-[#00C853] text-[#071C12] px-2.5 py-0.5 rounded-full shrink-0 flex items-center gap-1">
+                            <CheckCircle2 className="w-3 h-3" />
+                            مُشار إليه
+                          </span>
+                        ) : (
+                          <span className="text-[11px] font-bold text-[#D4E9DC]/60 hover:text-white shrink-0">
+                            انقر للتوجيه 👈
                           </span>
                         )}
                       </div>
-                      <p className="text-[11px] text-[#D4E9DC]/80 leading-relaxed">
+
+                      <h5 className="font-black text-sm text-[#F4FFF7] mb-1.5 leading-snug">
+                        {sub.name}
+                      </h5>
+
+                      <div className="text-[11px] font-bold text-[#39E66D] mb-1.5 line-clamp-1">
+                        {sub.role}
+                      </div>
+
+                      <p className="text-xs text-[#D4E9DC]/85 leading-relaxed break-words">
                         {sub.explanation}
                       </p>
                     </button>
@@ -926,15 +954,15 @@ export const CurriculumJourneyAnimationView: React.FC<{
             </div>
           )}
 
-          {/* Interactive Scene 3: Clickable Modern Experience Cards */}
+          {/* Interactive Scene 3: Clickable Modern Experience Cards with High Contrast & Responsive RTL Layout */}
           {currentScene === 3 && (
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-black text-[#39E66D]">
+            <div className="space-y-3" dir="rtl">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="text-xs sm:text-sm font-black text-[#39E66D]">
                   انقر على أي منطقة خبرة في الملعب لتفعيل النشاط والمفاهيم التربوية:
                 </span>
-                <span className="text-[11px] font-bold text-[#D4E9DC]/70">
-                  {activeExperience.quotePage}
+                <span className="text-xs font-bold text-[#D4E9DC]/75 bg-[#142B20] px-2.5 py-1 rounded-lg border border-[#143D27]">
+                  المرجع: {activeExperience.quotePage}
                 </span>
               </div>
 
@@ -946,29 +974,41 @@ export const CurriculumJourneyAnimationView: React.FC<{
                       key={exp.id}
                       type="button"
                       onClick={() => setActiveExperienceId(exp.id)}
-                      className={`p-3.5 rounded-2xl text-right transition-all cursor-pointer border ${
+                      className={`p-4 rounded-2xl text-right transition-all cursor-pointer border flex flex-col justify-between ${
                         isSelected
-                          ? 'bg-[#103D27] border-[#00C853] shadow-md shadow-[#00C853]/20 ring-1 ring-[#00C853]'
-                          : 'bg-[#0B2519] border-[#143D27] hover:bg-[#142B20]'
+                          ? 'bg-[#103D27] border-2 border-[#00C853] shadow-lg shadow-[#00C853]/20 ring-2 ring-[#00C853]/40'
+                          : 'bg-[#0B2519] border border-[#143D27] hover:bg-[#142B20] hover:border-[#00C853]/40'
                       }`}
                     >
-                      <div className="flex items-center gap-2 mb-1.5">
-                        {exp.iconType === 'collab' && <Users className="w-4 h-4 text-[#39E66D]" />}
-                        {exp.iconType === 'motor' && <Activity className="w-4 h-4 text-[#00C853]" />}
-                        {exp.iconType === 'analysis' && <Eye className="w-4 h-4 text-[#39E66D]" />}
-                        {exp.iconType === 'guidance' && <Award className="w-4 h-4 text-[#00C853]" />}
-                        <span className="font-bold text-xs text-[#F4FFF7]">
-                          {exp.title}
-                        </span>
+                      <div>
+                        <div className="flex items-center justify-between gap-2 mb-2">
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            {exp.iconType === 'collab' && <Users className="w-4 h-4 text-[#39E66D] shrink-0" />}
+                            {exp.iconType === 'motor' && <Activity className="w-4 h-4 text-[#00C853] shrink-0" />}
+                            {exp.iconType === 'analysis' && <Eye className="w-4 h-4 text-[#39E66D] shrink-0" />}
+                            {exp.iconType === 'guidance' && <Award className="w-4 h-4 text-[#00C853] shrink-0" />}
+                            <span className="font-bold text-xs text-[#F4FFF7] truncate">
+                              {exp.title}
+                            </span>
+                          </div>
+                          {isSelected && (
+                            <span className="text-[10px] font-black bg-[#00C853] text-[#071C12] px-2 py-0.5 rounded-full shrink-0">
+                              نشط ✓
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="text-[11px] font-bold text-[#39E66D] mb-1.5">
+                          {exp.category}
+                        </div>
+
+                        <p className="text-xs text-[#D4E9DC]/85 leading-relaxed mb-3 break-words">
+                          {exp.description}
+                        </p>
                       </div>
-                      <div className="text-[10px] font-bold text-[#39E66D] mb-1">
-                        {exp.category}
-                      </div>
-                      <p className="text-[11px] text-[#D4E9DC]/80 leading-relaxed mb-2">
-                        {exp.description}
-                      </p>
-                      <div className="text-[10px] text-[#00C853] font-bold flex items-center gap-1 border-t border-[#143D27] pt-1.5">
-                        <CheckCircle2 className="w-3 h-3 shrink-0" />
+
+                      <div className="text-[11px] text-[#00C853] font-bold flex items-center gap-1.5 border-t border-[#143D27] pt-2">
+                        <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
                         <span className="truncate">دور الطالب: {exp.studentRole}</span>
                       </div>
                     </button>
