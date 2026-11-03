@@ -39,16 +39,16 @@ export const Navbar: React.FC = () => {
             <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#103D27] to-[#00C853] flex items-center justify-center text-[#071C12] shadow-md shadow-[#00C853]/25 group-hover:scale-105 group-hover:shadow-[#39E66D]/35 transition-all duration-200">
               <Activity className="w-6 h-6 stroke-[2.7] group-hover:rotate-6 transition-transform" />
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col min-w-0">
               <div className="flex items-center gap-2">
-                <span className="text-lg font-black tracking-tight text-[#F4FFF7] group-hover:text-[#39E66D] transition-colors">
+                <span className="text-base sm:text-lg font-black tracking-tight text-[#F4FFF7] group-hover:text-[#39E66D] transition-colors truncate">
                   منصة علوم الرياضة
                 </span>
-                <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-[#142B20] text-[#39E66D] border border-[#00C853]/30">
+                <span className="hidden sm:inline-block text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-[#142B20] text-[#39E66D] border border-[#00C853]/30 shrink-0">
                   SPORT ENERGY
                 </span>
               </div>
-              <span className="text-xs font-semibold text-[#6C8577] tracking-wide font-sans">
+              <span className="text-[11px] sm:text-xs font-semibold text-[#6C8577] tracking-wide font-sans truncate">
                 PE Interactive Learning Hub
               </span>
             </div>
