@@ -8,6 +8,8 @@ import type {
   VisualComparisonBlock,
   VisualSequenceBlock,
   CurriculumJourneyAnimationBlock,
+  AnimatedStepsBlock,
+  DecisionScenarioBlock,
   HeadingBlock,
   ParagraphBlock,
   DefinitionBlock,
@@ -61,7 +63,7 @@ const BLOCK_DEFINITION: DefinitionBlock = {
 };
 
 // 4. أنيميشن تعليمي تفاعلي احترافي (المرحلة 4.1)
-const BLOCK_CURRICULUM_JOURNEY_ANIMATION: CurriculumJourneyAnimationBlock = {
+export const BLOCK_CURRICULUM_JOURNEY_ANIMATION: CurriculumJourneyAnimationBlock = {
   id: 'curric-blk-journey-anim-2d',
   type: 'curriculum_journey_animation',
   order: 4,
@@ -294,7 +296,7 @@ const BLOCK_ANIMATED_EXPLANATION: AnimatedExplanationBlock = {
 };
 
 // 6. محرك المخططات المتجهية التفاعلية (InteractiveDiagramView)
-const BLOCK_INTERACTIVE_DIAGRAM: InteractiveDiagramBlock = {
+export const BLOCK_INTERACTIVE_DIAGRAM: InteractiveDiagramBlock = {
   id: 'curric-blk-diag-system',
   type: 'interactive_diagram',
   order: 6,
@@ -458,8 +460,8 @@ const BLOCK_INTERACTIVE_DIAGRAM: InteractiveDiagramBlock = {
   ],
 };
 
-// 7. مكون المقارنة البصرية التفاعلية (VisualComparisonView)
-const BLOCK_VISUAL_COMPARISON: VisualComparisonBlock = {
+// 7. مكون المقارنة البصرية التفاعلية (VisualComparisonView) - النوع الأول
+export const BLOCK_VISUAL_COMPARISON: VisualComparisonBlock = {
   id: 'curric-blk-comp-trad-vs-mod',
   type: 'visual_comparison',
   order: 7,
@@ -517,8 +519,129 @@ const BLOCK_VISUAL_COMPARISON: VisualComparisonBlock = {
     'نقلت النظرة الحديثة بؤرة الاهتمام من مجرد حفظ المقررات والمعلومات بصورة سلبية إلى تفعيل الخبرات والأنشطة والمواقف الحركية والاجتماعية التي تبني شخصية رياضية متكاملة بدنياً ومهارياً ونفسياً واجتماعياً.',
 };
 
-// 8. نشاط ترتيب الخطوات البصري التطبيقي (VisualSequenceView)
-const BLOCK_VISUAL_SEQUENCE: VisualSequenceBlock = {
+// 8. مكون تسلسل الخطوات والمراحل التعليمية (AnimatedStepsView) - النوع الثاني
+export const BLOCK_ANIMATED_STEPS: AnimatedStepsBlock = {
+  id: 'curric-blk-steps-dev',
+  type: 'animated_steps',
+  order: 8,
+  title: 'تسلسل مراحل تخطيط وتطوير المنهج الرياضي الحديث',
+  description:
+    'تسلسل المراحل العلمية الأربعة المعتمدة في بناء وتطوير منهج التربية الرياضية استناداً لصفحات الكتاب (ص 2، 4):',
+  academicCitation: 'كتاب مناهج التربية الرياضية — أ.د. هاني الدسوقي إبراهيم (ص 2، 4)',
+  steps: [
+    {
+      id: 'step-1-needs',
+      stepNumber: 1,
+      title: 'دراسة الواقع وتحديد الحاجات',
+      shortSummary: 'تحليل فلسفة المجتمع واحتياجات وميول واستعدادات الطلاب وقدراتهم البدنية والمهارية.',
+      detailedExplanation:
+        'ينطلق التخطيط العلمي للمنهج من دراسة متأنية لفلسفة المجتمع وثقافته، وتحديد المشكلات الصحية والبدنية، والتعرف على خصائص نمو المرحلة السنية للطلاب وميولهم الحركية لضمان واقعية المنهج وملامسته لبيئة المدرسة.',
+      keyPedagogicalPoint:
+        'المنهج لا يُبنى بمعزل عن المجتمع؛ بل هو استجابة لاحتياجات أفراده وطموحاتهم التنموية (ص 2).',
+      practicalExample:
+        'إجراء استبيان للياقة البدنية واستطلاع ميول الطلاب بين ألعاب القوى والألعاب الجماعية في بداية العام الدراسي.',
+      pageCitation: 'ص 2، 4',
+      icon: '🔍',
+    },
+    {
+      id: 'step-2-goals',
+      stepNumber: 2,
+      title: 'صياغة الأهداف التربوية المركزية',
+      shortSummary: 'تحديد الغايات والأهداف المنشودة في كافة الأبعاد: البدنية، والمهارية، والصحية، والنفسية، والاجتماعية.',
+      detailedExplanation:
+        'يقوم التخطيط الناجح على مبدأ "مركزية الأهداف"؛ أي أن الدولة تضع أهدافاً عامة موحدة تكفل تنمية الشخصية المتكاملة للطلاب، وتحدد معايير الكفاءة البدنية والصحية والروح الرياضية المراد الوصول إليها.',
+      keyPedagogicalPoint:
+        'الأهداف المركزية هي البوصلة؛ فبدونها تصبح الأنشطة الحركية مجرد لعب غير هادف (ص 4).',
+      practicalExample:
+        'تحديد هدف إكساب 90% من طلاب الصف مهارة التمرير الدقيق في كرة اليد وقواعد التعاون الجماعي.',
+      pageCitation: 'ص 4',
+      icon: '🎯',
+    },
+    {
+      id: 'step-3-design',
+      stepNumber: 3,
+      title: 'اختيار الخبرات والأنشطة وتكييفها',
+      shortSummary: 'انتقاء المواقف الحركية والخبرات التعليمية وفق مبدأ "لا مركزية المحتوى" ومرونة الإمكانات.',
+      detailedExplanation:
+        'تُترجم الأهداف النظرية إلى مواقف وخبرات حركية واقعية في الملعب؛ مع منح معلم المدرسة حرية تكييف المحتوى والألعاب حسب إمكانات الملعب والأدوات المتاحة وحالة الطقس، بما يحقق الأهداف المركزية بمرونة.',
+      keyPedagogicalPoint:
+        'لا مركزية المحتوى تعني أن المدرسة تختار النشاط الأنسب لإمكاناتها بشرط تحقيق نفس الهدف التربوي المركزي (ص 4).',
+      practicalExample:
+        'استخدام كرات بديلة أو ملاعب مصغرة في حال عدم توفر ملاعب قانونية كاملة لتدريب الرشاقة.',
+      pageCitation: 'ص 2، 4',
+      icon: '⚙️',
+    },
+    {
+      id: 'step-4-eval',
+      stepNumber: 4,
+      title: 'التقويم المستمر والتطوير الدائم',
+      shortSummary: 'قياس أثر الخبرات وتجريب المقررات في الميدان لتحديث المنهج في عملية مستمرة لا نهاية لها.',
+      detailedExplanation:
+        'المنهج ليس وثيقة جامدة بل كائن متطور؛ ولذا يتطلب التخطيط تجريب الوحدات التعليمية وملاحظة تفاعل الطلاب وتقويم مخرجات اللياقة والسلوك، ثم تعديل الخبرات بما يستجد من معارف ومستحدثات تكنولوجية.',
+      keyPedagogicalPoint:
+        'تطوير المنهج عملية مستمرة وليس لها نهاية، وتتطلب تجريب المقررات والاستفادة من منجزات العصر (ص 2، 3).',
+      practicalExample:
+        'إجراء اختبارات قبلية وبعدية للكفاءة الحركية وتدوين ملاحظات المعلم على صعوبة بعض التدريبات لتعديلها.',
+      pageCitation: 'ص 2، 3',
+      icon: '📊',
+    },
+  ],
+};
+
+// 9. مكون المواقف القائمة على اتخاذ القرار (DecisionScenarioView) - النوع الرابع
+export const BLOCK_DECISION_SCENARIO: DecisionScenarioBlock = {
+  id: 'curric-blk-decision-school-facility',
+  type: 'decision_scenario',
+  order: 9,
+  title: 'موقف تطبيقي: اتخاذ القرار في اختيار نشاط المنهج وفق إمكانات المدرسة',
+  targetRole: 'معلم تربية رياضية يخطط للدرس الميداني في مدرسة حكومية متوسطة',
+  academicFoundation: 'مبدأ مركزية الأهداف ولا مركزية المحتوى ومراعاة الإمكانات الميدانية والفروق الفردية (ص 2، 4، 5)',
+  contextSituation:
+    'تسلمت عملك كمعلم تربية رياضية في مدرسة تضم 35 طالباً في الفصل، ولديك ملعب أسمنتي واحد وكرتان فقط وبعض الأقماع، والهدف المركزي للدرس هو "تنمية الرشاقة والتوافق العضلي العصبي والتعاون الجماعي". كيف تتخذ قرارك في تنظيم نشاط المنهج؟',
+  academicCitation: 'كتاب مناهج التربية الرياضية — ص 2، 4، 5',
+  isVirtualSimulation: true,
+  options: [
+    {
+      id: 'opt-traditional-comp',
+      text: 'الخيار (أ): تقسيم الطلاب إلى فريقين وإجراء مباراة كرة قدم كاملة بين 11 لاعباً وترك باقي الطلاب (24 طالباً) يشاهدون من الخارج.',
+      isOptimal: false,
+      consequenceBadge: 'قرار تقليدي ضيق',
+      feedbackTitle: 'قرار غير سليم — يعكس النظرة التقليدية الضيقة للمنهج',
+      feedbackText:
+        'هذا القرار يقصر الاستفادة على قلة من الطلاب ويحول الأغلبية (24 طالباً) إلى متفرجين سلبيين، مما يتعارض تماماً مع مبدأ شمولية المنهج لجميع المتعلمين ومراعاة الفروق الفردية.',
+      pedagogicalJustification:
+        'المنهج الحديث يهدف إلى تنمية شخصية كل متعلم وإشراك الجميع إيجابياً في الموقف الحركي؛ وحرمان الأغلبية يهدر وقت التعلم ويفقد النشاط قيمته التربوية (ص 2، 3).',
+      fieldExample: 'يؤدي هذا إلى ملل الطلاب غير المشاركين وفقدانهم لدافعية ممارسة الرياضة.',
+    },
+    {
+      id: 'opt-lecture-only',
+      text: 'الخيار (ب): إلغاء الممارسة الميدانية واقتياد الطلاب للفصل لشرح قوانين كرة اليد نظرياً على السبورة تجنباً للزحام وضعف الأدوات.',
+      isOptimal: false,
+      consequenceBadge: 'تركيز نظري مفرط',
+      feedbackTitle: 'قرار غير مناسب — يفرغ التربية الرياضية من طبيعتها الحركية',
+      feedbackText:
+        'هذا الاختيار يرتد بالمنهج إلى النظرة التقليدية البحتة التي تعامل المنهج كمقررات ومعارف تحفظ في الذهن، ويلغي الخبرة الحركية والبدنية التي هي جوهر التربية الرياضية.',
+      pedagogicalJustification:
+        'المنهج الرياضي وسيلته الحركة والنشاط الميداني؛ والاقتصار على التلقين النظري لا ينمي كفاءة بدنية ولا توافقاً عضلياً عصبياً (ص 5).',
+      fieldExample: 'التربية الرياضية ليست مادة مكتبية تحفظ، بل خبرة حركية واجتماعية تعاش في الملعب.',
+    },
+    {
+      id: 'opt-modern-adaptive',
+      text: 'الخيار (ج): تقسيم الطلاب إلى 4 محطات تدريبية دائرية (أقماع للرشاقة، تمرير بالكرة، حركات توافق بدني، ومحطة ملاحظة وتقويم) لتدوير جميع الطلاب بالتساوي.',
+      isOptimal: true,
+      consequenceBadge: 'قرار حديث متوازن (الأمثل)',
+      feedbackTitle: 'قرار تربوي مثالي — يجسد روح المفهوم الحديث للمنهج',
+      feedbackText:
+        'هذا القرار يطبق بدقة مبدأ "لا مركزية المحتوى وتكييف الخبرات وفق الإمكانات المتاحة"؛ حيث تم استثمار الأدوات البسيطة لإشراك جميع الـ 35 طالباً بنشاط وحيوية متزامنة، مع تحقيق الهدف المركزي وهو تنمية الرشاقة والتوافق والتعاون.',
+      pedagogicalJustification:
+        'المنهج الحديث منظومة متكاملة من الخبرات الموجهة التي ترعى النمو الشامل لجميع المتعلمين؛ واستخدام أسلوب المحطات يتيح تفريد التعليم ومراعاة الفروق الفردية وتحقيق أقصى فاعلية تعليمية (ص 2، 4).',
+      fieldExample: 'بهذه الطريقة يتحول الملعب إلى بيئة حيوية يمارس فيها كل طالب دوراً نشطاً تحت إشراف وتوجيه المعلم.',
+    },
+  ],
+};
+
+// 10. نشاط ترتيب الخطوات البصري التطبيقي (VisualSequenceView)
+export const BLOCK_VISUAL_SEQUENCE: VisualSequenceBlock = {
   id: 'curric-blk-seq-planning-steps',
   type: 'visual_sequence',
   order: 8,
@@ -557,8 +680,8 @@ const BLOCK_VISUAL_SEQUENCE: VisualSequenceBlock = {
     'التخطيط العلمي للمنهج الحديث (ص 2، 4) يبدأ بدراسة فلسفة المجتمع وحاجات وقدرات المتعلمين (1)، ثم تحديد الأهداف التربوية المركزية بدقة (2)، يليها اختيار وتنظيم الخبرات والأنشطة الرياضية بما يتلاءم مع الإمكانات (3)، وأخيراً التقويم المستمر والتجريب الميداني لتطوير المنهج في عملية دائمة لا نهاية لها (4).',
 };
 
-// 9. كتلة النقاط الجوهرية والكبسولة الأكاديمية
-const BLOCK_KEY_POINTS: KeyPointBlock = {
+// 11. كتلة النقاط الجوهرية والكبسولة الأكاديمية
+export const BLOCK_KEY_POINTS: KeyPointBlock = {
   id: 'curric-blk-kp-summary',
   type: 'key_point',
   order: 9,
@@ -611,6 +734,8 @@ export const CURRICULUM_PILOT_LESSON: Lesson = {
     BLOCK_ANIMATED_EXPLANATION,
     BLOCK_INTERACTIVE_DIAGRAM,
     BLOCK_VISUAL_COMPARISON,
+    BLOCK_ANIMATED_STEPS,
+    BLOCK_DECISION_SCENARIO,
     BLOCK_VISUAL_SEQUENCE,
     BLOCK_KEY_POINTS,
     BLOCK_ACADEMIC_REFERENCE,
@@ -639,10 +764,17 @@ export const CURRICULUM_PILOT_TOPIC: Topic = {
 export const CURRICULUM_PILOT_CHAPTER: Chapter = {
   id: 'chap-curriculum-intro',
   courseId: 'course-1',
-  title: 'الفصل الأول: مقدمة وماهية المنهج (معاينة أكاديمية تجريبية)',
+  title: 'الفصل الأول: مقدمة وماهية المنهج',
   description:
-    'يتناول هذا الفصل ماهية المنهج في اللغة والاصطلاح، وتطور مفهوم المنهج من النظرة التقليدية إلى النظرة الحديثة، وأسس ومكونات بناء المنهج المدرسي.',
+    'يتناول هذا الفصل ماهية المنهج في اللغة والاصطلاح، وتطور مفهوم المنهج من النظرة التقليدية إلى النظرة الحديثة، وأسس ومكونات بناء المنهج المدرسي، ومراحل تخطيطه وتطويره.',
   order: 1,
+  learningObjectives: [
+    'استيعاب ماهية المنهج لغةً واصطلاحاً وأصله اللاتيني (سلسلة أفعال ومسار الجري الهادف).',
+    'المقارنة الجوهرية بين المفهوم التقليدي (مركزية المقررات) والمفهوم الحديث (منظومة الخبرات الميدانية).',
+    'تتبع التحول التربوي لدور المعلم من ملقن وناقل إلى موجه ومرشد للتعلم الذاتي.',
+    'إدراك أبعاد التنمية الشاملة لشخصية المتعلم في التربية الرياضية (بدنياً، ومهارياً، ونفسياً، واجتماعياً).',
+    'تطبيق مبدأ "مركزية الأهداف ولا مركزية المحتوى" ومراعاة إمكانات المدارس الميدانية والفروق الفردية.',
+  ],
   topics: [CURRICULUM_PILOT_TOPIC],
   status: 'published',
 };

@@ -35,6 +35,8 @@ const VALID_BLOCK_TYPES = new Set([
   'visual_comparison',
   'visual_sequence',
   'curriculum_journey_animation',
+  'animated_steps',
+  'decision_scenario',
   'generic_future_block',
 ]);
 
@@ -336,6 +338,25 @@ function validateBlockPayload(block: ContentBlock, errors: ValidationError[]) {
     case 'curriculum_journey_animation':
       if (!block.title || block.title.trim() === '') {
         errors.push({ level: 'error', entity: 'block', id: block.id, message: 'كتلة أنيميشن رحلة المنهج بدون عنوان' });
+      }
+      break;
+    case 'animated_steps':
+      if (!block.title || block.title.trim() === '') {
+        errors.push({ level: 'error', entity: 'block', id: block.id, message: 'كتلة الخطوات التعليمية المتحركة بدون عنوان' });
+      }
+      if (!block.steps || block.steps.length < 2) {
+        errors.push({ level: 'error', entity: 'block', id: block.id, message: 'كتلة الخطوات التعليمية يجب أن تحتوي على خطوتين على الأقل' });
+      }
+      break;
+    case 'decision_scenario':
+      if (!block.title || block.title.trim() === '') {
+        errors.push({ level: 'error', entity: 'block', id: block.id, message: 'كتلة موقف اتخاذ القرار بدون عنوان' });
+      }
+      if (!block.contextSituation || block.contextSituation.trim() === '') {
+        errors.push({ level: 'error', entity: 'block', id: block.id, message: 'كتلة موقف اتخاذ القرار بدون وصف للموقف التعليمي' });
+      }
+      if (!block.options || block.options.length < 2) {
+        errors.push({ level: 'error', entity: 'block', id: block.id, message: 'كتلة موقف اتخاذ القرار يجب أن تحتوي على خيارين على الأقل' });
       }
       break;
   }

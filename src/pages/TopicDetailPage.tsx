@@ -8,7 +8,7 @@ import {
   getAcademicBreadcrumbs,
 } from '../data/academic/selectors';
 import { BreadcrumbNav } from '../components/academic/BreadcrumbNav';
-import { BookOpen, Clock, FileText, ArrowLeft, ChevronRight, Layers, Sparkles } from 'lucide-react';
+import { BookOpen, Target, FileText, ArrowLeft, ChevronRight, Layers, Sparkles } from 'lucide-react';
 
 export const TopicDetailPage: React.FC = () => {
   const { courseId, chapterId, topicId } = useParams<{
@@ -117,8 +117,8 @@ export const TopicDetailPage: React.FC = () => {
 
                     <div className="flex flex-wrap items-center gap-3 text-xs text-[#6C8577] pt-1">
                       <span className="flex items-center gap-1 font-semibold text-[#173D2B] bg-[#E8F8EE] px-2.5 py-1 rounded-lg">
-                        <Clock className="w-3.5 h-3.5 text-[#00C853]" />
-                        <span>المدة المقدرة: {lesson.estimatedDuration} دقيقة</span>
+                        <Target className="w-3.5 h-3.5 text-[#00C853]" />
+                        <span>أهداف التعلم: {lesson.learningObjectives?.length || 0} أهداف</span>
                       </span>
 
                       <span className="flex items-center gap-1 font-semibold text-[#173D2B] bg-[#E8F8EE] px-2.5 py-1 rounded-lg">

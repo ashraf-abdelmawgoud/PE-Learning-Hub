@@ -4,7 +4,7 @@ import { getCourseById, getChaptersByCourse, getAcademicBreadcrumbs } from '../d
 import { BreadcrumbNav } from '../components/academic/BreadcrumbNav';
 import {
   BookOpen,
-  Clock,
+  BookmarkCheck,
   Layers,
   HelpCircle,
   Activity,
@@ -101,7 +101,7 @@ export const CourseDetailPage: React.FC = () => {
             </div>
 
             <div className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full bg-amber-50 text-amber-900 border border-amber-200/80">
-              <Clock className="w-3.5 h-3.5 text-amber-600" />
+              <BookmarkCheck className="w-3.5 h-3.5 text-amber-600" />
               <span>{course.statusLabel}</span>
             </div>
           </div>

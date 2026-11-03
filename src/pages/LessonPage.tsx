@@ -13,7 +13,7 @@ import { LessonRenderer } from '../components/academic/LessonRenderer';
 import { BreadcrumbNav } from '../components/academic/BreadcrumbNav';
 import {
   BookOpen,
-  Clock,
+  Layers,
   Target,
   ArrowRight,
   ArrowLeft,
@@ -91,8 +91,8 @@ export const LessonPage: React.FC = () => {
               {topic.title} &bull; {chapter.title}
             </span>
             <span className="mr-auto inline-flex items-center gap-1.5 text-xs font-bold text-[#173D2B] bg-[#E8F8EE] px-2.5 py-1 rounded-full border border-[#D4E9DC]">
-              <Clock className="w-3.5 h-3.5 text-[#00C853]" />
-              <span>{lesson.estimatedDuration} دقيقة قراءة تفاعلية</span>
+              <Layers className="w-3.5 h-3.5 text-[#00C853]" />
+              <span>{lesson.blocks.length} كتل تعليمية تفاعلية</span>
             </span>
           </div>
 

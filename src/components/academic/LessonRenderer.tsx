@@ -28,6 +28,12 @@ const VisualSequenceView = lazy(() =>
 const CurriculumJourneyAnimationView = lazy(() =>
   import('./visual/CurriculumJourneyAnimationView').then((m) => ({ default: m.CurriculumJourneyAnimationView }))
 );
+const EducationalStepsView = lazy(() =>
+  import('./visual/EducationalStepsView').then((m) => ({ default: m.EducationalStepsView }))
+);
+const DecisionScenarioView = lazy(() =>
+  import('./visual/DecisionScenarioView').then((m) => ({ default: m.DecisionScenarioView }))
+);
 
 const VisualLoadingFallback: React.FC = () => (
   <div className="my-6 p-8 rounded-3xl bg-[#F4FFF7] border border-[#D4E9DC] text-center text-xs text-[#486555] flex items-center justify-center gap-2">
@@ -102,6 +108,18 @@ export const LessonRenderer: React.FC<LessonRendererProps> = ({ blocks }) => {
         return (
           <Suspense key={block.id || `curranim-${index}`} fallback={<VisualLoadingFallback />}>
             <CurriculumJourneyAnimationView block={block} />
+          </Suspense>
+        );
+      case 'animated_steps':
+        return (
+          <Suspense key={block.id || `steps-${index}`} fallback={<VisualLoadingFallback />}>
+            <EducationalStepsView block={block} />
+          </Suspense>
+        );
+      case 'decision_scenario':
+        return (
+          <Suspense key={block.id || `decision-${index}`} fallback={<VisualLoadingFallback />}>
+            <DecisionScenarioView block={block} />
           </Suspense>
         );
       default:

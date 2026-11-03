@@ -112,7 +112,7 @@ assert(report.coursesCount === 9, `إجمالي المقررات (7 رسمية +
 assert(report.chaptersCount === 3, 'عدد الفصول الإجمالي يساوي 3 (1 تجربة حقيقية + 2 معامل تقنية)');
 assert(report.topicsCount === 3, 'عدد الموضوعات الإجمالي يساوي 3');
 assert(report.lessonsCount === 3, 'عدد الدروس الإجمالي يساوي 3');
-assert(report.blocksCount === 26, `عدد كتل المحتوى الإجمالي يساوي 26 كتلة كاملة (الفعل: ${report.blocksCount})`);
+assert(report.blocksCount === 28, `عدد كتل المحتوى الإجمالي يساوي 28 كتلة كاملة (الفعل: ${report.blocksCount})`);
 
 // 5.1 اختبار فشل البناء عند حقن محتوى معطوب (Corrupted Content Rejection)
 console.log('\n5.1 فحص صد واكتشاف المحتوى المعطوب (Strict Validation Enforcement):');
@@ -303,7 +303,7 @@ assert(course1Topics.length === 1 && course1Topics[0].id === 'top-curriculum-con
 
 const pilotLesson = getLessonById('les-curriculum-evolution');
 assert(Boolean(pilotLesson), 'استرجاع الدرس الأكاديمي الحقيقي بنجاح');
-assert(pilotLesson?.blocks.length === 10, `الدرس الحقيقي يتضمن 10 كتل محتوى متكاملة (الفعل: ${pilotLesson?.blocks.length})`);
+assert(pilotLesson?.blocks.length === 12, `الدرس الحقيقي يتضمن 12 كتلة محتوى متكاملة (الفعل: ${pilotLesson?.blocks.length})`);
 
 // فحص كتلة الأنيميشن التعليمي الاحترافي 2D (المرحلة 4.1)
 const journeyAnimBlock = pilotLesson?.blocks.find((b) => b.type === 'curriculum_journey_animation');
@@ -324,6 +324,12 @@ assert(Boolean(diagBlock && diagBlock.type === 'interactive_diagram' && diagBloc
 
 const compBlock = pilotLesson?.blocks.find((b) => b.type === 'visual_comparison');
 assert(Boolean(compBlock && compBlock.type === 'visual_comparison' && compBlock.criteria.length === 6), 'مقارنة بصرية بين التصور التقليدي والحديث عبر 6 معايير');
+
+const stepsBlock = pilotLesson?.blocks.find((b) => b.type === 'animated_steps');
+assert(Boolean(stepsBlock && stepsBlock.type === 'animated_steps' && stepsBlock.steps.length === 4), 'تسلسل خطوات تعليمية ذكية يضم 4 مراحل لتخطيط المنهج (المرحلة 4.2)');
+
+const decisionBlock = pilotLesson?.blocks.find((b) => b.type === 'decision_scenario');
+assert(Boolean(decisionBlock && decisionBlock.type === 'decision_scenario' && decisionBlock.options.length === 3), 'موقف تعليمي تطبيقي لاتخاذ القرار يضم 3 بدائل وتفسيراً تربوياً (المرحلة 4.2)');
 
 const seqBlock = pilotLesson?.blocks.find((b) => b.type === 'visual_sequence');
 assert(Boolean(seqBlock && seqBlock.type === 'visual_sequence' && seqBlock.items.length === 4), 'نشاط ترتيب يضم مراحل تخطيط وتطوير المنهج الأربعة');

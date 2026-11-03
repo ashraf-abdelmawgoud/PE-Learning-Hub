@@ -273,6 +273,55 @@ export interface CurriculumJourneyAnimationBlock extends BaseBlock {
   academicSource?: string;
 }
 
+// ==========================================
+// Phase 4.2: Smart Educational Visual Models
+// ==========================================
+
+// Type 2: Animated Steps / Sequential Educational Stages
+export interface EducationalStepItem {
+  id: string;
+  stepNumber: number;
+  title: string;
+  shortSummary: string;
+  detailedExplanation: string;
+  keyPedagogicalPoint?: string;
+  practicalExample?: string;
+  pageCitation?: string;
+  icon?: string;
+}
+
+export interface AnimatedStepsBlock extends BaseBlock {
+  type: 'animated_steps';
+  title: string;
+  description?: string;
+  academicCitation?: string;
+  steps: EducationalStepItem[];
+  defaultStepIndex?: number;
+}
+
+// Type 4: Decision-Based Learning Scenario
+export interface DecisionScenarioOption {
+  id: string;
+  text: string;
+  isOptimal: boolean;
+  feedbackTitle: string;
+  feedbackText: string;
+  pedagogicalJustification: string;
+  consequenceBadge?: string;
+  fieldExample?: string;
+}
+
+export interface DecisionScenarioBlock extends BaseBlock {
+  type: 'decision_scenario';
+  title: string;
+  contextSituation: string;
+  targetRole?: string;
+  academicFoundation: string;
+  options: DecisionScenarioOption[];
+  academicCitation?: string;
+  isVirtualSimulation?: boolean;
+}
+
 /**
  * Fallback for unknown or future block types (Simulation, 3D Model, etc.)
  * Ensures the renderer never crashes on unknown blocks.
@@ -299,6 +348,8 @@ export type ContentBlock =
   | VisualComparisonBlock
   | VisualSequenceBlock
   | CurriculumJourneyAnimationBlock
+  | AnimatedStepsBlock
+  | DecisionScenarioBlock
   | GenericBlock;
 
 // ==========================================
@@ -312,7 +363,7 @@ export interface Lesson {
   description: string;
   order: number;
   learningObjectives: string[];
-  estimatedDuration: number; // in minutes
+  estimatedDuration?: number; // Optional legacy field; study time displays are strictly prohibited (Phase 4.2)
   blocks: ContentBlock[];
   references: AcademicReference[];
   relatedLessons?: string[]; // IDs of related lessons
@@ -336,6 +387,7 @@ export interface Chapter {
   title: string;
   description: string;
   order: number;
+  learningObjectives?: string[];
   topics: Topic[];
   status: ContentStatus;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import type { CoursePlaceholder } from '../../types';
-import { BookOpen, ArrowLeft, Clock, Sparkles } from 'lucide-react';
+import { BookOpen, ArrowLeft, BookmarkCheck, Sparkles } from 'lucide-react';
 
 interface CourseCardProps {
   course: CoursePlaceholder;
@@ -28,7 +28,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
           </div>
 
           <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-1 rounded-full bg-amber-50 text-amber-900 border border-amber-200/80">
-            <Clock className="w-3.5 h-3.5 text-amber-600" />
+            <BookmarkCheck className="w-3.5 h-3.5 text-amber-600" />
             <span>{course.statusLabel}</span>
           </span>
         </div>
