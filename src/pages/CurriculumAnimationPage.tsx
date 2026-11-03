@@ -123,7 +123,7 @@ export const CurriculumAnimationPage: React.FC = () => {
                 «مركزية المقررات والمعارف»
               </h3>
               <p className="text-xs text-[#486555] leading-relaxed">
-                الانتقال للوحة المقررات: توضيح تركيز المفهوم التقليدي على حفظ واسترجاع المعارف، مع 3 كتب تفاعلية يمكن النقر عليها لاكتشاف دور كل مقرر.
+                الانتقال للوحة المقررات: توضيح تركيز المفهوم التقليدي على مركزية المواد والمقررات الدراسية بوصفها حصيلة التراث الثقافي، مع 3 كتب تفاعلية يتفاعل معها المعلم بالإشارة المباشرة.
               </p>
               <div className="pt-2 border-t border-[#D4E9DC] text-[11px] text-[#059669] font-bold flex items-center gap-1">
                 <CheckCircle2 className="w-3.5 h-3.5 text-[#00C853]" />
