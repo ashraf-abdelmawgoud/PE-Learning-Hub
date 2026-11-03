@@ -17,6 +17,7 @@ const server = http.createServer((req, res) => {
     if (ext === '.js') contentType = 'application/javascript';
     if (ext === '.css') contentType = 'text/css';
     if (ext === '.svg') contentType = 'image/svg+xml';
+    if (ext === '.webp') contentType = 'image/webp';
 
     res.writeHead(200, { 'Content-Type': contentType });
     res.end(fs.readFileSync(filePath));
@@ -48,6 +49,7 @@ server.listen(4173, '127.0.0.1', async () => {
     { name: 'مسار معمل المحرك البصري المختصر', path: '/visual-sandbox' },
     { name: 'معاينة تجربة الأنيميشن التعليمي 2D (المرحلة 4.1)', path: '/curriculum-animation' },
     { name: 'مسار مختصر لأنيميشن تطور المنهج', path: '/pilot-animation' },
+    { name: 'معاينة شخصية المعلم المفصلية (Coach Rig PoC)', path: '/coach-poc' },
     { name: 'مسار غير موجود (404 Fallback)', path: '/some-random-route' },
   ];
 
@@ -98,6 +100,23 @@ server.listen(4173, '127.0.0.1', async () => {
       passed++;
     } else {
       console.error(`  [FAIL] تعذر تحميل ملف التنسيقات CSS (${cssFile})`);
+      failed++;
+    }
+  }
+
+  // فحص أصول نموذج المعلم (Coach PoC WebP Assets)
+  const coachWebpAssets = [
+    'coach_body_full.webp',
+    'coach_head_full.webp',
+    'coach_arm_full.webp'
+  ];
+  for (const asset of coachWebpAssets) {
+    const webpTest = await fetch(`http://127.0.0.1:4173/assets/poc/coach/${asset}`);
+    if (webpTest.status === 200 && webpTest.headers.get('content-type')?.includes('webp')) {
+      console.log(`  [PASS] تحميل أصل المعلم المفصلي (${asset}) بنجاح`);
+      passed++;
+    } else {
+      console.error(`  [FAIL] تعذر تحميل أصل المعلم (${asset})`);
       failed++;
     }
   }
