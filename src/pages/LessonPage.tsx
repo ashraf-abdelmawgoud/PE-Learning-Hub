@@ -123,28 +123,6 @@ export const LessonPage: React.FC = () => {
           )}
         </header>
 
-        {/* Dedicated 2D Animation View Banner for Curriculum Evolution Pilot */}
-        {lesson.id === 'les-curriculum-evolution' && (
-          <div className="bg-gradient-to-r from-[#071C12] via-[#103D27] to-[#0A291A] rounded-2xl p-4 sm:p-5 text-white border border-[#1B5E3A] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-md">
-            <div className="flex items-center gap-3">
-              <span className="w-10 h-10 rounded-xl bg-[#00C853]/20 border border-[#00C853]/40 flex items-center justify-center text-[#39E66D] shrink-0">
-                <Sparkles className="w-5 h-5" />
-              </span>
-              <div>
-                <div className="text-xs font-bold text-[#39E66D]">تجربة بصرية تفاعلية مستقلة (المرحلة 4.1)</div>
-                <div className="text-sm font-black text-white">استكشف أنيميشن رحلة تطور المنهج في صفحة عرض مخصصة</div>
-              </div>
-            </div>
-            <Link
-              to="/curriculum-animation"
-              className="inline-flex items-center gap-1.5 px-4.5 py-2.5 rounded-xl bg-[#00C853] text-[#071C12] text-xs font-bold hover:bg-[#39E66D] transition-all duration-200 shadow-xs shrink-0 self-end sm:self-auto active:scale-95"
-            >
-              <span>فتح شاشة العرض المخصصة</span>
-              <ChevronLeft className="w-4 h-4" />
-            </Link>
-          </div>
-        )}
-
         {/* Main Lesson Content (Rendered via LessonRenderer) */}
         <article className="bg-white rounded-3xl border border-[#D4E9DC] p-6 sm:p-10 shadow-xs">
           <LessonRenderer blocks={lesson.blocks} />

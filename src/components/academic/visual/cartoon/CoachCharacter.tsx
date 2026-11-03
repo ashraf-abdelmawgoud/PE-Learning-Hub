@@ -274,7 +274,7 @@ export const CoachCharacter: React.FC<CoachCharacterProps> = ({
       )}
 
       {/* 8. Coach Head, Face & Athletic Visor Cap */}
-      <g style={{ transformOrigin: "50px 44px", animation: isPaused ? "none" : "pe-coach-head-nod 5s ease-in-out infinite" }}>
+      <g>
         {/* Muscular Neck */}
         <path d="M 44 38 L 44 48 L 56 48 L 56 38 Z" fill="#FBCFE8" />
 

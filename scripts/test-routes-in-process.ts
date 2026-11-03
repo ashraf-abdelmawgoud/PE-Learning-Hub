@@ -104,11 +104,12 @@ server.listen(4173, '127.0.0.1', async () => {
     }
   }
 
-  // فحص أصول نموذج المعلم (Coach PoC WebP Assets)
+  // فحص أصول نموذج المعلم (Coach PoC & Unified WebP Assets)
   const coachWebpAssets = [
     'coach_body_full.webp',
     'coach_head_full.webp',
-    'coach_arm_full.webp'
+    'coach_arm_full.webp',
+    'coach_unified.webp'
   ];
   for (const asset of coachWebpAssets) {
     const webpTest = await fetch(`http://127.0.0.1:4173/assets/poc/coach/${asset}`);

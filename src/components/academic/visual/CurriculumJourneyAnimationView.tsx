@@ -1,19 +1,19 @@
 /**
- * Phase 4.1A: Premium Hybrid Animation Redesign + Strict Performance Budget
+ * CurriculumJourneyAnimationView.tsx
+ * Phase 4.1 / 4.2 Revision: Clean Educational Animation with Minimal Motion
  * Experience: «رحلة تطور مفهوم المنهج — من المفهوم التقليدي إلى المفهوم الحديث»
  * Course: مناهج التربية الرياضية — الفرقة الرابعة (أ.د. هاني الدسوقي إبراهيم)
  *
- * Core Enhancements (Phase 4.1A):
- * 1. Scene 1 Redesign: Premium Educational Cartoon + Interactive Learning Simulation.
- * 2. Articulated cartoon characters (Coach + 3 cohesive students: Tariq the thinker, Ziad the athlete, Salma the peer).
- * 3. Deep 2D athletic environment: morning sky, campus silhouette, terracotta track, painted turf pitch, sports props.
- * 4. Thoughtful student reaction: Tariq contemplates with hand-to-chin pose & animated educational curiosity spark.
- * 5. Smooth camera choreography: gentle wide-to-focus entry push-in.
- * 6. Play / Pause / Replay full synchronization via CSS animation-play-state.
- * 7. Verified RTL navigation (Prev = Right ➡, Next = Left ⬅) with Chevrons.
- * 8. Responsive HTML deck with clear Cairo typography (360px - 768px clarity).
- * 9. Strict Chapter 1 academic boundary adhered to (ص 2 - 5، وقمة ص 6).
- * 10. Strict Performance Budget: Pure lightweight vector SVG (expected increase << 150 KiB).
+ * Core Fixes & Enhancements:
+ * 1. Coach Character: 100% unified anatomy via HybridCoachCharacter (coach_unified.webp).
+ *    Head, neck, body, tracksuit, pointing arm, and tactical clipboard are a single piece.
+ *    ZERO separation, gaps, or offset joints.
+ * 2. Minimal Motion Principle: Subtle vertical breathing micro-float (-1.5px) or rock-solid static.
+ *    No jarring limb motions or distracting spins.
+ * 3. Simplified Academic Content: Clear title, short core idea (1 line), concise explanation (1-2 lines),
+ *    and a direct practical PE field example for each scene.
+ * 4. Flawless Arabic RTL Typography: Generous spacing, responsive cards, zero overflow or text clipping.
+ * 5. Direct In-Lesson Execution: Operates directly inside the real lesson page.
  */
 
 import React, { useState, useEffect, useCallback, useId, useRef } from 'react';
@@ -31,6 +31,8 @@ import {
   Users,
   Eye,
   Award,
+  Lightbulb,
+  Dumbbell,
 } from 'lucide-react';
 import { CoachCharacter } from './cartoon/CoachCharacter';
 import { HybridCoachCharacter } from './cartoon/HybridCoachCharacter';
@@ -51,8 +53,9 @@ interface SceneInfo {
   numberArabic: string;
   title: string;
   headline: string;
-  pedagogicalConcept: string;
-  summary: string;
+  coreIdea: string;
+  simpleExplanation: string;
+  fieldExample: string;
   academicCitation: string;
 }
 
@@ -60,31 +63,37 @@ const SCENES: SceneInfo[] = [
   {
     id: 1,
     numberArabic: '١',
-    title: 'بداية الرحلة والاستكشاف',
+    title: 'تساؤل البداية: ماهية المنهج',
     headline: 'ما المقصود بالمنهج في التربية الرياضية؟',
-    pedagogicalConcept: 'استثارة الفضول وتأصيل مفهوم المنهج لغةً واصطلاحاً',
-    summary:
-      'نبدأ جولتنا الميدانية داخل ملعب المدرسة الرياضي: يرحب المعلم بطلابه ويوجه انتباههم للتساؤل الجوهري: هل المنهج مجرد كتب ومقررات دراسية تحفظ، أم مسار أوسع من ذلك لتحقيق أهداف المجتمع؟',
+    coreIdea: 'المنهج ليس مجرد كتب ومقررات تحفظ، بل مسار تعليمي شامل لبناء شخصية الطالب الرياضي.',
+    simpleExplanation:
+      'كلمة «منهج» لغةً تعني الطريق الواضح، واصطلاحاً (Curriculum) تعني مضمار الجري أو مسار النمو المتكامل الذي تهيئه وتوجهه المدرسة.',
+    fieldExample:
+      'في درس التربية الرياضية، لا نكتفي بحفظ قوانين الألعاب نظرياً، بل ننمي اللياقة والمهارة الحركية والروح الرياضية في الملعب.',
     academicCitation: 'كتاب مناهج التربية الرياضية — أ.د. هاني الدسوقي إبراهيم (ص 2، 5، 6)',
   },
   {
     id: 2,
     numberArabic: '٢',
     title: 'المفهوم التقليدي للمنهج',
-    headline: 'مركزية المقررات والمعارف المنقولة',
-    pedagogicalConcept: 'المنهج كمجموعة مواد دراسية تضع المعرفة في بؤرة الاهتمام',
-    summary:
-      'تتحول زاوية الشرح نحو سبورة المقررات: يُظهر المعلم كيف وضع المفهوم التقليدي المعرفة في المركز بوصفها حصيلة التراث الثقافي، مع تركيز التدريس على تزويد ذهن المتعلم بالمفاهيم والحقائق المقررة لفرقته.',
+    headline: 'المفهوم التقليدي: حصر المنهج في المقررات والمعلومات',
+    coreIdea: 'وضع المعرفة والمادة العلمية في المركز بوصفها تراثاً ثابتاً، واقتصار دور المعلم على التلقين ونقل المعلومات.',
+    simpleExplanation:
+      'يركز المفهوم التقليدي على تزويد ذهن المتعلم بالحقائق النظرية الجاهزة، مهملاً ميول الطالب ونموه البدني والاجتماعي والنفسي.',
+    fieldExample:
+      'الاكتفاء بشرح قوانين وخطط الألعاب على السبورة داخل قاعة الدرس، دون إتاحة الفرصة للممارسة الحركية الفعلية في الملعب.',
     academicCitation: 'كتاب مناهج التربية الرياضية — ص 3، 5، 6',
   },
   {
     id: 3,
     numberArabic: '٣',
     title: 'المفهوم الحديث للمنهج',
-    headline: 'منظومة الخبرات الميدانية تحت إشراف وتوجيه المدرسة',
-    pedagogicalConcept: 'المنهج كمنظومة خبرات متكاملة لرعاية نمو شخصية المتعلم الشاملة',
-    summary:
-      'ينبض الملعب بالحياة التفاعلية: لم تُلغَ المقررات بل بقيت كمرجع علمي على طاولة التخطيط، بينما اتسعت العملية لتشمل النشاط الحركي، والتعلم التعاوني، والملاحظة الذاتية، وتوجيه المعلم لبناء الشخصية المتكاملة.',
+    headline: 'المفهوم الحديث: منظومة الخبرات الميدانية المتكاملة',
+    coreIdea: 'المنهج هو مجموع الخبرات والأنشطة التربوية التي يمارسها الطالب تحت إشراف وتوجيه المدرسة لرعاية نموه الشامل.',
+    simpleExplanation:
+      'لم تعد المقررات غاية، بل وسيلة؛ وانتقل التركيز إلى النشاط الحركي الفعلي، والتعلم التعاوني، والتفكير الذاتي بإرشاد المعلم.',
+    fieldExample:
+      'تنظيم مباراة جماعية بالكرة يكتسب فيها الطالب التوافق الحركي، ويتدرب على القيادة والتعاون مع زملائه بتوجيه المعلم.',
     academicCitation: 'كتاب مناهج التربية الرياضية — ص 2، 3، 4، 5',
   },
 ];
@@ -97,8 +106,8 @@ interface TraditionalSubjectItem {
   icon: string;
   targetY: number;
   pointerAngle: number;
-  role: string;
-  explanation: string;
+  traditionalRole: string;
+  practicalExample: string;
   quotePage: string;
 }
 
@@ -111,9 +120,8 @@ const TRADITIONAL_SUBJECTS: TraditionalSubjectItem[] = [
     icon: '📋',
     targetY: 56,
     pointerAngle: -18,
-    role: 'المقرر كمحتوى دراسي محدد لفرقة معينة',
-    explanation:
-      'يُعرّف المنهج تقليدياً بأنه "مجموعة من المفاهيم والمعارف والحقائق والنظريات ليكون مقرر دراسي لفرقة معينة". التركيز ينصب على الإلمام باللوائح وقوانين المسابقات بصورة معرفية محددة.',
+    traditionalRole: 'معارف ولوائح محددة لفرقة دراسية معينة يجب حفظها واسترجاعها.',
+    practicalExample: 'حفظ قياسات ملعب كرة السلة وعقوبات الأخطاء على الورق دون تطبيق ميداني.',
     quotePage: 'ص 5، 6',
   },
   {
@@ -124,9 +132,8 @@ const TRADITIONAL_SUBJECTS: TraditionalSubjectItem[] = [
     icon: '🫀',
     targetY: 108,
     pointerAngle: 0,
-    role: 'المعرفة بوصفها حصيلة التراث الثقافي والاجتماعي',
-    explanation:
-      'تضع هذه النظرة المعرفة العلمية في بؤرة الاهتمام بوصفها تراثاً مستقراً؛ ويكون دور المعلم نقل هذه المعلومات وتوضيحها للطلاب بصورة مباشرة.',
+    traditionalRole: 'معلومات علمية تُلقن للطالب بوصفها تراثاً نظرياً مستقراً.',
+    practicalExample: 'سرد أسماء العضلات الرئيسية دون ربطها بحركات الإحماء أو التكنيك الحركي.',
     quotePage: 'ص 5',
   },
   {
@@ -137,9 +144,8 @@ const TRADITIONAL_SUBJECTS: TraditionalSubjectItem[] = [
     icon: '⏱️',
     targetY: 160,
     pointerAngle: 18,
-    role: 'التركيز على المفاهيم المخططة والموحدة',
-    explanation:
-      'المنهج التقليدي يركز على تزويد ذهن المتعلم بالمعارف النظرية المحددة في الخطة الدراسية، ويجعل المادة التعليمية هي محور العملية التعليمية وغاية الموقف التعليمي.',
+    traditionalRole: 'مقررات خططية تجعل الكتاب الورقي هو محور الموقف التعليمي.',
+    practicalExample: 'قراءة مراحل تنمية التحمل الدوري التنفسي دون قياس نبض أو تدريب عملي.',
     quotePage: 'ص 2، 5',
   },
 ];
@@ -149,7 +155,8 @@ interface ModernExperienceItem {
   title: string;
   category: string;
   iconType: 'motor' | 'collab' | 'analysis' | 'guidance';
-  description: string;
+  coreConcept: string;
+  fieldExample: string;
   studentRole: string;
   quotePage: string;
 }
@@ -160,38 +167,38 @@ const MODERN_EXPERIENCES: ModernExperienceItem[] = [
     title: 'التعلم التعاوني والتفاعل الجماعي',
     category: 'توافق اجتماعي ونفسي وروح رياضية',
     iconType: 'collab',
-    description:
-      'تبادل التمرير والتعاون الحركي المشترك بين الطلاب، لتجسيد دور المنهج في بناء الروح الرياضية، والتعاون الإيجابي، والتوافق الاجتماعي والنفسي مع الزملاء.',
+    coreConcept: 'تنمية الروح الرياضية، والتعاون الإيجابي، والعمل بروح الفريق الواحد.',
+    fieldExample: 'تبادل التمرير السريع وبناء هجمة مشتركة بين الطلاب داخل الملعب.',
     studentRole: 'مشارك متعاون في منظومة النشاط الاجتماعي',
     quotePage: 'ص 2، 4',
   },
   {
     id: 'exp-motor',
-    title: 'النشاط الحركي والبدني الميداني',
-    category: 'ممارسة مهارية وكفاءة حركية',
+    title: 'النشاط الحركي والممارسة الميدانية',
+    category: 'ممارسة مهارية وكفاءة بدنية',
     iconType: 'motor',
-    description:
-      'ممارسة الجري المتعرج والرشاقة بالكرة بين الأقماع التدريبية. تتحول المفاهيم النظرية إلى كفاءة حركية فعلية تنمي طاقات الفرد البدنية والمهارية.',
+    coreConcept: 'تحويل المفاهيم النظرية إلى كفاءة بدنية ومهارية في مواقف اللعب الحية.',
+    fieldExample: 'تدريبات الجري المتعرج والرشاقة بالكرة بين الأقماع التدريبية.',
     studentRole: 'مشارك نشط وإيجابي في المواقف الحركية',
     quotePage: 'ص 2، 5',
   },
   {
     id: 'exp-analysis',
     title: 'الملاحظة والتحليل والتعلم الذاتي',
-    category: 'تفكير ناقد وتقويم مستمر للأداء',
+    category: 'تفكير ناقد وتقويم مستمر',
     iconType: 'analysis',
-    description:
-      'تدوين ملاحظات الأداء الحركي للزميل وتحليل مسارات الحركة على لوحة الملاحظة. المعرفة هنا تصبح نتاجاً للبحث المنظم والتعلم الذاتي الواعي.',
+    coreConcept: 'جعل المعرفة نتاجاً للبحث والتدريب الذاتي وتدوين الملاحظات الفنية.',
+    fieldExample: 'طالب يلاحظ تكنيك زميله في التصويب ويدون نقاط القوة وفرص التحسين.',
     studentRole: 'متعلم مفكر، يلاحظ ويحلل ويقوم الأداء',
     quotePage: 'ص 3، 4',
   },
   {
     id: 'exp-guidance',
     title: 'توجيه المعلم وإشرافه المهني',
-    category: 'قيادة الموقف التعليمي وتيسير الخبرات',
+    category: 'قيادة الموقف وتيسير بيئة التعلم',
     iconType: 'guidance',
-    description:
-      'يقوم معلم التربية الرياضية بدور المرشد والموجه ومراقب بيئة التعلم؛ يصمم الخبرات الهادفة ويشجع المبادرات الذاتية دون اقتصار دوره على التلقين.',
+    coreConcept: 'تحول المعلم من ملقن إلى قائد وموجه وميسر لبيئة التعلم الآمنة.',
+    fieldExample: 'تشجيع المبادرات الفردية وتصحيح الأخطاء الحركية ميدانياً بأسلوب تربوي.',
     studentRole: 'متعلم يكتسب الخبرة تحت إشراف وتوجيه المدرسة',
     quotePage: 'ص 3، 5',
   },
@@ -230,8 +237,8 @@ export const CurriculumJourneyAnimationView: React.FC<{
   const activeExperience =
     MODERN_EXPERIENCES.find((e) => e.id === activeExperienceId) || MODERN_EXPERIENCES[0];
 
-  // Auto-play timer with smooth progress updates (9 seconds per scene)
-  const SCENE_DURATION_MS = 9000;
+  // Auto-play timer with smooth progress updates (10 seconds per scene)
+  const SCENE_DURATION_MS = 10000;
   const progressIntervalRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -248,22 +255,16 @@ export const CurriculumJourneyAnimationView: React.FC<{
       setProgressPercent(pct);
 
       if (elapsed >= SCENE_DURATION_MS) {
-        if (currentScene < 3) {
-          setCurrentScene((prev) => prev + 1);
-          setProgressPercent(0);
-        } else {
-          setIsPlaying(false);
-          setProgressPercent(100);
-        }
+        setProgressPercent(0);
+        setCurrentScene((prev) => (prev < 3 ? prev + 1 : 1));
       }
     }, 50);
 
     return () => {
       if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
     };
-  }, [isPlaying, currentScene, progressPercent]);
+  }, [isPlaying, progressPercent, currentScene]);
 
-  // Handle scene transitions cleanly
   const goToScene = useCallback((sceneId: number) => {
     setCurrentScene(sceneId);
     setProgressPercent(0);
@@ -281,21 +282,15 @@ export const CurriculumJourneyAnimationView: React.FC<{
     }
   }, [currentScene, goToScene]);
 
-  const handleResetScene = useCallback(() => {
-    setCurrentScene(1);
-    setProgressPercent(0);
-    setActiveSubjectId('sub-rules');
-    setActiveExperienceId('exp-collab');
-    setIsPlaying(false);
+  const handleTogglePlay = useCallback(() => {
+    setIsPlaying((prev) => !prev);
   }, []);
 
-  const handleTogglePlay = () => {
-    if (progressPercent >= 100 && currentScene === 3) {
-      setCurrentScene(1);
-      setProgressPercent(0);
-    }
-    setIsPlaying((prev) => !prev);
-  };
+  const handleResetScene = useCallback(() => {
+    setIsPlaying(false);
+    setProgressPercent(0);
+    setCurrentScene(1);
+  }, []);
 
   const idPrefix = useId();
 
@@ -307,7 +302,7 @@ export const CurriculumJourneyAnimationView: React.FC<{
       className="my-8 rounded-3xl bg-[#071C12] text-[#F4FFF7] border-2 border-[#103D27] shadow-2xl overflow-hidden transition-all duration-300"
       aria-labelledby={`${idPrefix}-title`}
     >
-      {/* Scoped CSS Keyframes for Meaningful Educational Animation */}
+      {/* Scoped CSS Keyframes: Minimal Motion Principle */}
       <style>{`
         /* Master Control: Pause all animations when paused or reducedMotion */
         .pe-anim-paused * {
@@ -317,98 +312,36 @@ export const CurriculumJourneyAnimationView: React.FC<{
           animation-play-state: running;
         }
 
-        /* 1. SCENE 1: Minimal Gentle Motions (Stylized Static Scene with Gentle Motion) */
+        /* 1. SCENE 1: Minimal Gentle Breathing Motion for the Coach (-1.5px float) */
         @keyframes pe-coach-breathe {
           0%, 100% { transform: translateY(0); }
           50%      { transform: translateY(-1.5px); }
         }
-        @keyframes pe-coach-head-nod {
-          0%, 100% { transform: rotate(0deg); }
-          50%      { transform: rotate(-0.75deg); }
-        }
-        @keyframes pe-teacher-wave {
-          0%, 100% { transform: rotate(0deg); }
-          50%      { transform: rotate(-0.6deg); }
-        }
-        @keyframes pe-whistle-sway {
-          0%, 100% { transform: rotate(0deg); }
-          50%      { transform: rotate(1.2deg); }
-        }
-        @keyframes pe-curiosity-glow {
-          0%, 100% { opacity: 0.35; transform: scale(1); }
-          50%      { opacity: 0.85; transform: scale(1.05); }
-        }
+
+        /* Subtle Head inquiry for student */
         @keyframes pe-tariq-think {
           0%, 100% { transform: rotate(0deg); }
-          50%      { transform: rotate(-0.8deg); }
-        }
-        @keyframes pe-head-inquiry {
-          0%, 100% { transform: rotate(0deg); }
-          50%      { transform: rotate(-1deg); }
-        }
-        @keyframes pe-peer-nod {
-          0%, 100% { transform: rotate(0deg); }
-          50%      { transform: rotate(0.8deg); }
-        }
-        @keyframes pe-pulse-glow {
-          0%, 100% { opacity: 0.35; transform: scale(1); }
-          50%      { opacity: 0.85; transform: scale(1.03); }
+          50%      { transform: rotate(-0.5deg); }
         }
 
-        /* 2. SCENE 2: Spotlight glow pulse */
+        /* 2. SCENE 2: Gentle spotlight indicator */
         @keyframes pe-spotlight-beam {
-          0%, 100% { opacity: 0.22; }
-          50%      { opacity: 0.42; }
+          0%, 100% { opacity: 0.18; }
+          50%      { opacity: 0.32; }
         }
 
-        /* 3. SCENE 3: Cooperative Passing (Ball Arc & Player Response) */
+        /* 3. SCENE 3: Cooperative Passing (Gentle Ball Arc) */
         @keyframes pe-ball-pass-arc {
-          0%   { transform: translate(0px, 0px) scale(1); }
-          22%  { transform: translate(65px, -48px) scale(1.15); }
-          48%  { transform: translate(140px, 0px) scale(1); }
-          52%  { transform: translate(140px, 0px) scale(1); }
-          74%  { transform: translate(65px, -48px) scale(1.15); }
-          98%  { transform: translate(0px, 0px) scale(1); }
-          100% { transform: translate(0px, 0px) scale(1); }
-        }
-        @keyframes pe-kicker-leg {
-          0%, 100% { transform: rotate(0deg); }
-          4%, 14%  { transform: rotate(-18deg); }
-          22%      { transform: rotate(0deg); }
-        }
-        @keyframes pe-receiver-leg {
-          0%, 46%, 100% { transform: rotate(0deg); }
-          52%, 62%      { transform: rotate(18deg); }
-          70%           { transform: rotate(0deg); }
-        }
-
-        /* 4. SCENE 3: Slalom Dribbling between Cones */
-        @keyframes pe-slalom-run {
           0%   { transform: translate(0px, 0px); }
-          25%  { transform: translate(32px, -16px); }
-          50%  { transform: translate(70px, 14px); }
-          75%  { transform: translate(105px, -16px); }
+          50%  { transform: translate(140px, -28px); }
           100% { transform: translate(0px, 0px); }
         }
 
-        /* 5. SCENE 3: Observer Head & Pen Tracking */
-        @keyframes pe-observer-glance {
-          0%, 45%  { transform: rotate(-14deg); }
-          55%, 95% { transform: rotate(12deg); }
-          100%     { transform: rotate(-14deg); }
-        }
-        @keyframes pe-observer-scribble {
-          0%, 50%, 100% { transform: translate(0px, 0px); }
-          60%           { transform: translate(2px, -1.5px); }
-          70%           { transform: translate(-2px, 1.5px); }
-          80%           { transform: translate(1.5px, 0px); }
-        }
-
-        /* 6. SCENE 3: Coach Encouragement & Whistle Gesture */
-        @keyframes pe-coach-prompt {
-          0%, 100% { transform: rotate(0deg); }
-          30%      { transform: rotate(-16deg); }
-          65%      { transform: rotate(6deg); }
+        /* 4. SCENE 3: Slalom Dribbling */
+        @keyframes pe-slalom-run {
+          0%   { transform: translate(0px, 0px); }
+          50%  { transform: translate(60px, -10px); }
+          100% { transform: translate(0px, 0px); }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -418,16 +351,16 @@ export const CurriculumJourneyAnimationView: React.FC<{
         }
       `}</style>
 
-      {/* 1. Header Bar: Identity, Scene Progress & Sound / Drawer Controls */}
+      {/* 1. Header Bar: Identity, Scene Stepper & Drawer Controls */}
       <div className="bg-[#0B2519] border-b border-[#143D27] px-4 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#103D27] to-[#00C853] text-[#071C12] flex items-center justify-center font-black shadow-md shadow-[#00C853]/20">
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#103D27] to-[#00C853] text-[#071C12] flex items-center justify-center font-black shadow-md shadow-[#00C853]/20 shrink-0">
             <Sparkles className="w-5 h-5 stroke-[2.5]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
               <span className="text-xs font-mono font-bold text-[#39E66D] bg-[#142B20] px-2.5 py-0.5 rounded-full border border-[#00C853]/30">
-                أنيميشن تعليمي 2D تفاعلي
+                أنيميشن تعليمي 2D مبسط
               </span>
               <span className="text-[11px] font-bold text-[#D4E9DC]/70 hidden sm:inline">
                 الفرقة الرابعة &bull; مناهج التربية الرياضية
@@ -492,15 +425,15 @@ export const CurriculumJourneyAnimationView: React.FC<{
           )}
 
           {/* =========================================================================
-              SCENE 1 QUESTION CARD: High Contrast Responsive HTML Card (Cairo Font)
-              Replaces static SVG bubble for 100% legibility and zero clipping on mobile.
+              SCENE 1: Clean, Responsive Dialogue Box (Cairo Typography)
+              Zero clipping, high contrast, positioned naturally in upper pitch sky
              ========================================================================= */}
           {currentScene === 1 && (
             <>
-              {/* Mobile Question Card (Clean, responsive header above court canvas) */}
+              {/* Mobile Card (situated cleanly above SVG canvas on < 640px) */}
               <div className="sm:hidden p-3.5 bg-gradient-to-r from-[#0E2F20] to-[#071C12] border-b border-[#00C853]/30">
                 <div className="flex items-center gap-1.5 mb-1">
-                  <span className="w-2 h-2 rounded-full bg-[#00C853] animate-pulse" />
+                  <span className="w-2 h-2 rounded-full bg-[#00C853]" />
                   <span className="text-[11px] font-black text-[#39E66D] font-mono">سؤال المنهج التأسيسي (ص 2، 5):</span>
                 </div>
                 <p className="text-sm font-black text-white leading-snug">
@@ -508,28 +441,26 @@ export const CurriculumJourneyAnimationView: React.FC<{
                 </p>
               </div>
 
-              {/* Desktop/Tablet Floating Dialogue Card (Upper sky area above students, styled like reference art) */}
-              <div
-                className="hidden sm:block absolute top-4 left-6 md:left-10 z-10 max-w-[460px] pointer-events-auto"
-                style={{
-                  animation: !isPlaying ? 'none' : 'pe-pulse-glow 3.5s ease-in-out infinite',
-                }}
-              >
-                <div className="bg-white rounded-2xl p-4 sm:p-5 border-2 border-[#00C853] shadow-xl relative">
-                  <div className="flex items-center gap-2 mb-1">
-                    <div className="w-5 h-5 rounded-full bg-[#E8F8EE] text-[#00C853] flex items-center justify-center text-xs font-black">
+              {/* Desktop/Tablet Floating Dialogue Box (Upper left sky area) */}
+              <div className="hidden sm:block absolute top-4 left-6 md:left-8 z-10 max-w-[420px] pointer-events-auto">
+                <div className="bg-white rounded-2xl p-4 sm:p-5 border-2 border-[#00C853] shadow-xl relative text-right" dir="rtl">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <div className="w-5 h-5 rounded-full bg-[#E8F8EE] text-[#00C853] flex items-center justify-center text-xs font-black shrink-0">
                       ؟
                     </div>
                     <span className="text-xs font-black text-[#173D2B]">
                       سؤال المنهج التأسيسي (ص 2، 5):
                     </span>
                   </div>
-                  <h4 className="text-base sm:text-lg font-black text-[#071C12] leading-tight">
+                  <h4 className="text-base sm:text-lg font-black text-[#071C12] leading-snug mb-1">
                     «هل المنهج مجرد مجموعة من المواد الدراسية؟»
                   </h4>
-                  {/* Dialogue Pointer Tail towards Coach on the Right */}
-                  <div className="absolute -bottom-3 right-14 w-0 h-0 border-x-8 border-x-transparent border-t-[12px] border-t-[#00C853]" />
-                  <div className="absolute -bottom-2 right-14 w-0 h-0 border-x-7 border-x-transparent border-t-[10px] border-t-white" />
+                  <p className="text-xs text-[#486555] leading-relaxed">
+                    يبدأ معلم التربية الرياضية بتوجيه طلابه لإدراك أن المنهج منظومة خبرات أوسع من مجرد كتب تحفظ.
+                  </p>
+                  {/* Speech pointer towards the coach */}
+                  <div className="absolute -bottom-3 right-12 w-0 h-0 border-x-8 border-x-transparent border-t-[12px] border-t-[#00C853]" />
+                  <div className="absolute -bottom-2 right-12 w-0 h-0 border-x-7 border-x-transparent border-t-[10px] border-t-white" />
                 </div>
               </div>
             </>
@@ -547,17 +478,13 @@ export const CurriculumJourneyAnimationView: React.FC<{
             <AthleticCourtEnvironment idPrefix={idPrefix} />
 
             {/* =========================================================================
-                SCENE 1: «بداية الرحلة: ما المقصود بالمنهج؟» (Hybrid Coach + Cohesive Students)
+                SCENE 1: «بداية الرحلة: ما المقصود بالمنهج؟»
+                Unified Pristine Coach Character + Cohesive Attentive Students
                ========================================================================= */}
             {currentScene === 1 && (
-              <g
-                key="scene-stage-1"
-                style={{
-                  transform: !reducedMotion && isPlaying ? 'scale(1.025) translate(-8px, -4px)' : 'none',
-                  transition: 'transform 1400ms cubic-bezier(0.25, 1, 0.5, 1)',
-                }}
-              >
-                {/* 1. PE Teacher / Coach Character: Professional Hybrid WebP Rig (Phase 4.1B) */}
+              <g key="scene-stage-1">
+                {/* 1. PE Teacher / Coach: 100% Unified Pristine WebP Character */}
+                {/* Head, neck, body, tracksuit, arm, and tactical clipboard are ONE piece */}
                 <HybridCoachCharacter
                   x={635}
                   y={135}
@@ -565,8 +492,8 @@ export const CurriculumJourneyAnimationView: React.FC<{
                   isPaused={!isPlaying}
                 />
 
-                {/* 2. Student Group on Court (Center & Left) */}
-                {/* Student 1: Tariq (The Thinker — Reacts to the Question) */}
+                {/* 2. Cohesive Students Group on Court */}
+                {/* Student 1: Tariq (The Thinker) */}
                 <StudentCharacter
                   x={375}
                   y={280}
@@ -575,7 +502,7 @@ export const CurriculumJourneyAnimationView: React.FC<{
                   isPaused={!isPlaying}
                 />
 
-                {/* Student 2: Ziad (The Athlete — Resting foot on Soccer Ball) */}
+                {/* Student 2: Ziad (The Athlete with soccer ball) */}
                 <StudentCharacter
                   x={240}
                   y={290}
@@ -584,7 +511,7 @@ export const CurriculumJourneyAnimationView: React.FC<{
                   isPaused={!isPlaying}
                 />
 
-                {/* Student 3: Salma (The Engaged Peer — Listening & Nodding) */}
+                {/* Student 3: Salma (The Engaged Peer) */}
                 <StudentCharacter
                   x={130}
                   y={295}
@@ -593,7 +520,7 @@ export const CurriculumJourneyAnimationView: React.FC<{
                   isPaused={!isPlaying}
                 />
 
-                {/* 3. Interactive Call-To-Action Button on Court */}
+                {/* 3. Interactive Call-To-Action Button on Court Ground */}
                 <g
                   transform="translate(390, 465)"
                   className="cursor-pointer group"
@@ -647,9 +574,9 @@ export const CurriculumJourneyAnimationView: React.FC<{
                   <circle
                     cx="250"
                     cy={activeSubject.targetY + 20}
-                    r="60"
+                    r="55"
                     fill="#00C853"
-                    style={{ animation: 'pe-spotlight-beam 2s ease-in-out infinite' }}
+                    style={{ animation: 'pe-spotlight-beam 2.5s ease-in-out infinite' }}
                     filter={`url(#${idPrefix}-glow)`}
                   />
 
@@ -691,7 +618,7 @@ export const CurriculumJourneyAnimationView: React.FC<{
                   })}
                 </g>
 
-                {/* Reusable Coach Character (Pointing Pose in Scene 2) */}
+                {/* Pointing Coach in Scene 2 */}
                 <CoachCharacter
                   x={120}
                   y={285}
@@ -744,16 +671,14 @@ export const CurriculumJourneyAnimationView: React.FC<{
 
                   <path d="M 35 125 Q 105 75 175 125" fill="none" stroke="#39E66D" strokeWidth="3" strokeDasharray="6 4" opacity="0.75" />
 
-                  <g style={{ animation: 'pe-ball-pass-arc 2.6s ease-in-out infinite' }}>
+                  <g style={{ animation: 'pe-ball-pass-arc 3s ease-in-out infinite' }}>
                     <circle cx="35" cy="125" r="9.5" fill="#FFFFFF" stroke="#071C12" strokeWidth="1.5" />
                     <circle cx="35" cy="125" r="3" fill="#071C12" />
                   </g>
 
                   <g transform="translate(10, 55)">
                     <ellipse cx="20" cy="85" rx="16" ry="5" fill="#071C12" opacity="0.4" />
-                    <g style={{ transformOrigin: '20px 50px', animation: 'pe-kicker-leg 2.6s ease-in-out infinite' }}>
-                      <rect x="14" y="50" width="6" height="35" fill="#1E293B" rx="2" />
-                    </g>
+                    <rect x="14" y="50" width="6" height="35" fill="#1E293B" rx="2" />
                     <rect x="24" y="50" width="6" height="35" fill="#1E293B" rx="2" />
                     <rect x="10" y="15" width="22" height="40" fill="#00C853" rx="3" />
                     <circle cx="21" cy="6" r="9" fill="#FED7AA" />
@@ -761,9 +686,7 @@ export const CurriculumJourneyAnimationView: React.FC<{
 
                   <g transform="translate(165, 55)">
                     <ellipse cx="20" cy="85" rx="16" ry="5" fill="#071C12" opacity="0.4" />
-                    <g style={{ transformOrigin: '20px 50px', animation: 'pe-receiver-leg 2.6s ease-in-out infinite' }}>
-                      <rect x="14" y="50" width="6" height="35" fill="#1E293B" rx="2" />
-                    </g>
+                    <rect x="14" y="50" width="6" height="35" fill="#1E293B" rx="2" />
                     <rect x="24" y="50" width="6" height="35" fill="#1E293B" rx="2" />
                     <rect x="10" y="15" width="22" height="40" fill="#0284C7" rx="3" />
                     <circle cx="21" cy="6" r="9" fill="#FED7AA" />
@@ -784,7 +707,7 @@ export const CurriculumJourneyAnimationView: React.FC<{
                   <polygon points="65,150 75,125 85,150" fill="#EA580C" />
                   <polygon points="115,150 125,125 135,150" fill="#EA580C" />
 
-                  <g style={{ animation: 'pe-slalom-run 3.2s ease-in-out infinite' }}>
+                  <g style={{ animation: 'pe-slalom-run 3.6s ease-in-out infinite' }}>
                     <ellipse cx="25" cy="140" rx="16" ry="5" fill="#071C12" opacity="0.4" />
                     <rect x="18" y="95" width="6" height="42" fill="#071C12" rx="2" />
                     <rect x="28" y="95" width="6" height="42" fill="#071C12" rx="2" />
@@ -809,20 +732,14 @@ export const CurriculumJourneyAnimationView: React.FC<{
                     <rect x="14" y="60" width="7" height="40" fill="#334155" rx="2" />
                     <rect x="25" y="60" width="7" height="40" fill="#334155" rx="2" />
                     <rect x="10" y="20" width="24" height="42" fill="#059669" rx="3" />
-                    
-                    <g style={{ transformOrigin: '22px 9px', animation: 'pe-observer-glance 3.5s ease-in-out infinite' }}>
-                      <circle cx="22" cy="9" r="10" fill="#FED7AA" />
-                    </g>
-
+                    <circle cx="22" cy="9" r="10" fill="#FED7AA" />
                     <rect x="26" y="28" width="18" height="24" rx="2" fill="#FFFFFF" stroke="#0F172A" strokeWidth="1.5" />
-                    <g style={{ animation: 'pe-observer-scribble 1.5s ease-in-out infinite' }}>
-                      <line x1="30" y1="36" x2="38" y2="36" stroke="#00C853" strokeWidth="1.5" />
-                      <line x1="30" y1="41" x2="36" y2="41" stroke="#0F172A" strokeWidth="1" />
-                    </g>
+                    <line x1="30" y1="36" x2="38" y2="36" stroke="#00C853" strokeWidth="1.5" />
+                    <line x1="30" y1="41" x2="36" y2="41" stroke="#0F172A" strokeWidth="1" />
                   </g>
                 </g>
 
-                {/* 5. ACTIVITY ZONE D: Reusable Coach in Coaching Pose */}
+                {/* 5. ACTIVITY ZONE D: Coach Guidance */}
                 <g
                   transform="translate(830, 290)"
                   className="cursor-pointer group"
@@ -844,26 +761,59 @@ export const CurriculumJourneyAnimationView: React.FC<{
           </svg>
         </div>
 
-        {/* 3. Responsive HTML HUD & Educational Text Deck (Clean Typography for All Screen Sizes) */}
-        <div className="mt-4 space-y-4">
+        {/* =========================================================================
+            3. Responsive Academic Deck: Crystal Clear, Simplified Explanations
+            Conforms strictly to 4th year PE students' needs (Cairo font, generous margins)
+           ========================================================================= */}
+        <div className="mt-4 space-y-3.5" dir="rtl">
           
-          {/* Active Scene Summary Banner (Responsive, Readable on 360px-768px) */}
-          <div className="bg-[#0B2519] border border-[#143D27] rounded-2xl p-4 sm:p-5">
-            <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+          {/* Main Active Scene Card */}
+          <div className="bg-[#0B2519] border border-[#143D27] rounded-2xl p-4 sm:p-5 shadow-md">
+            
+            {/* Header: Scene Badge & Clear Title */}
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-3 border-b border-[#143D27] pb-3">
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#00C853] animate-pulse" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#00C853]" />
                 <h4 className="text-base sm:text-lg font-black text-[#F4FFF7]">
                   {activeSceneInfo.headline}
                 </h4>
               </div>
-              <span className="text-xs font-mono font-bold text-[#39E66D] bg-[#142B20] px-3 py-1 rounded-full border border-[#00C853]/30">
-                المشهد {activeSceneInfo.numberArabic} من ٣
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-mono font-bold text-[#39E66D] bg-[#142B20] px-3 py-1 rounded-full border border-[#00C853]/30">
+                  المشهد {activeSceneInfo.numberArabic} من ٣
+                </span>
+                <span className="text-xs font-bold text-[#D4E9DC]/70 hidden md:inline">
+                  {activeSceneInfo.academicCitation}
+                </span>
+              </div>
             </div>
 
-            <p className="text-xs sm:text-sm text-[#D4E9DC]/90 leading-relaxed">
-              {activeSceneInfo.summary}
-            </p>
+            {/* Core Idea (Short, Punchy, Highlighted) */}
+            <div className="bg-[#103D27]/80 rounded-xl p-3 border border-[#00C853]/30 mb-3 flex items-start gap-2.5">
+              <Lightbulb className="w-4 h-4 text-[#39E66D] shrink-0 mt-0.5" />
+              <div>
+                <span className="text-xs font-black text-[#39E66D] block mb-0.5">الفكرة الجوهرية للمشهد:</span>
+                <p className="text-xs sm:text-sm font-bold text-[#F4FFF7] leading-relaxed">
+                  {activeSceneInfo.coreIdea}
+                </p>
+              </div>
+            </div>
+
+            {/* Simplified 1-2 Line Academic Explanation */}
+            <div className="text-xs sm:text-sm text-[#D4E9DC] leading-relaxed mb-3">
+              <p>{activeSceneInfo.simpleExplanation}</p>
+            </div>
+
+            {/* Practical Field Example (Real PE Class Context) */}
+            <div className="bg-[#071C12] rounded-xl p-3 border border-[#143D27] flex items-start gap-2.5">
+              <Dumbbell className="w-4 h-4 text-[#00C853] shrink-0 mt-0.5" />
+              <div>
+                <span className="text-xs font-black text-[#00C853] block mb-0.5">مثال تطبيقي من درس التربية الرياضية:</span>
+                <p className="text-xs sm:text-sm text-[#D4E9DC]/90 leading-relaxed">
+                  {activeSceneInfo.fieldExample}
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Interactive Scene 1 Callout */}
@@ -890,10 +840,10 @@ export const CurriculumJourneyAnimationView: React.FC<{
 
           {/* Interactive Scene 2: Clickable Subject Cards with High Contrast & Responsive RTL Layout */}
           {currentScene === 2 && (
-            <div className="space-y-3" dir="rtl">
+            <div className="space-y-2.5" dir="rtl">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="text-xs sm:text-sm font-black text-[#39E66D]">
-                  انقر على أي مقرر على السبورة أو البطاقات أدناه لتوجيه المعلم وفحص مفهومه:
+                  انقر على أي مقرر على السبورة أو البطاقات أدناه لفحص المفهوم التقليدي:
                 </span>
                 <span className="text-xs font-bold text-[#D4E9DC]/75 bg-[#142B20] px-2.5 py-1 rounded-lg border border-[#143D27]">
                   المرجع: {activeSubject.quotePage}
@@ -908,45 +858,44 @@ export const CurriculumJourneyAnimationView: React.FC<{
                       key={sub.id}
                       type="button"
                       onClick={() => setActiveSubjectId(sub.id)}
-                      className={`p-4 rounded-2xl text-right transition-all cursor-pointer border ${
+                      className={`p-4 rounded-2xl text-right transition-all cursor-pointer border flex flex-col justify-between ${
                         isSelected
                           ? 'bg-[#103D27] border-2 border-[#00C853] shadow-lg shadow-[#00C853]/20 ring-2 ring-[#00C853]/40'
                           : 'bg-[#0B2519] border border-[#143D27] hover:bg-[#142B20] hover:border-[#00C853]/40'
                       }`}
                     >
-                      <div className="flex items-center justify-between gap-2 mb-2">
-                        <div className="flex items-center gap-1.5 min-w-0">
-                          <span className="text-base shrink-0">{sub.icon}</span>
-                          <span className="font-bold text-xs text-[#86efac] font-mono shrink-0">
-                            {sub.code}
-                          </span>
-                          <span className="text-[11px] text-[#D4E9DC]/70 truncate">
-                            ({sub.quotePage})
-                          </span>
+                      <div>
+                        <div className="flex items-center justify-between gap-2 mb-2">
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            <span className="text-base shrink-0">{sub.icon}</span>
+                            <span className="font-bold text-xs text-[#86efac] font-mono shrink-0">
+                              {sub.code}
+                            </span>
+                          </div>
+                          {isSelected ? (
+                            <span className="text-[11px] font-black bg-[#00C853] text-[#071C12] px-2.5 py-0.5 rounded-full shrink-0 flex items-center gap-1">
+                              <CheckCircle2 className="w-3 h-3" />
+                              مُختار
+                            </span>
+                          ) : (
+                            <span className="text-[11px] font-bold text-[#D4E9DC]/60 hover:text-white shrink-0">
+                              فحص 👈
+                            </span>
+                          )}
                         </div>
-                        {isSelected ? (
-                          <span className="text-[11px] font-black bg-[#00C853] text-[#071C12] px-2.5 py-0.5 rounded-full shrink-0 flex items-center gap-1">
-                            <CheckCircle2 className="w-3 h-3" />
-                            مُشار إليه
-                          </span>
-                        ) : (
-                          <span className="text-[11px] font-bold text-[#D4E9DC]/60 hover:text-white shrink-0">
-                            انقر للتوجيه 👈
-                          </span>
-                        )}
+
+                        <h5 className="font-black text-sm text-[#F4FFF7] mb-1.5 leading-snug">
+                          {sub.name}
+                        </h5>
+
+                        <p className="text-xs text-[#D4E9DC]/85 leading-relaxed mb-2.5">
+                          {sub.traditionalRole}
+                        </p>
                       </div>
 
-                      <h5 className="font-black text-sm text-[#F4FFF7] mb-1.5 leading-snug">
-                        {sub.name}
-                      </h5>
-
-                      <div className="text-[11px] font-bold text-[#39E66D] mb-1.5 line-clamp-1">
-                        {sub.role}
+                      <div className="text-[11px] text-[#39E66D] font-bold border-t border-[#143D27] pt-2">
+                        <span>مثال: {sub.practicalExample}</span>
                       </div>
-
-                      <p className="text-xs text-[#D4E9DC]/85 leading-relaxed break-words">
-                        {sub.explanation}
-                      </p>
                     </button>
                   );
                 })}
@@ -956,7 +905,7 @@ export const CurriculumJourneyAnimationView: React.FC<{
 
           {/* Interactive Scene 3: Clickable Modern Experience Cards with High Contrast & Responsive RTL Layout */}
           {currentScene === 3 && (
-            <div className="space-y-3" dir="rtl">
+            <div className="space-y-2.5" dir="rtl">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="text-xs sm:text-sm font-black text-[#39E66D]">
                   انقر على أي منطقة خبرة في الملعب لتفعيل النشاط والمفاهيم التربوية:
@@ -1002,14 +951,17 @@ export const CurriculumJourneyAnimationView: React.FC<{
                           {exp.category}
                         </div>
 
-                        <p className="text-xs text-[#D4E9DC]/85 leading-relaxed mb-3 break-words">
-                          {exp.description}
+                        <p className="text-xs text-[#D4E9DC]/85 leading-relaxed mb-2.5">
+                          {exp.coreConcept}
                         </p>
                       </div>
 
-                      <div className="text-[11px] text-[#00C853] font-bold flex items-center gap-1.5 border-t border-[#143D27] pt-2">
-                        <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-                        <span className="truncate">دور الطالب: {exp.studentRole}</span>
+                      <div className="text-[11px] text-[#00C853] font-bold border-t border-[#143D27] pt-2 space-y-1">
+                        <div className="text-[#D4E9DC]/80 text-[10.5px]">مثال: {exp.fieldExample}</div>
+                        <div className="flex items-center gap-1 text-[#39E66D]">
+                          <CheckCircle2 className="w-3 h-3 shrink-0" />
+                          <span className="truncate">{exp.studentRole}</span>
+                        </div>
                       </div>
                     </button>
                   );
@@ -1099,7 +1051,7 @@ export const CurriculumJourneyAnimationView: React.FC<{
         </div>
       </div>
 
-      {/* 5. Comprehensive Academic Drawer (Expandable on demand) */}
+      {/* 5. Comprehensive Academic Drawer */}
       {showAcademicDrawer && (
         <div className="bg-[#05170E] border-t-2 border-[#00C853] p-5 sm:p-7 space-y-4 animate-in fade-in duration-200">
           <div className="flex items-center justify-between">
