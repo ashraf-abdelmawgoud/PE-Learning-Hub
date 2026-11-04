@@ -69,7 +69,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <Link to="/courses" className="text-[#D4E9DC] hover:text-[#39E66D] transition-colors">
-                  المقررات الدراسية السبعة
+                  المواد الدراسية (6 مواد)
                 </Link>
               </li>
               <li>
@@ -98,7 +98,7 @@ export const Footer: React.FC = () => {
                   className="text-[#D4E9DC] hover:text-[#39E66D] transition-colors flex items-center gap-1.5 font-bold"
                 >
                   <span className="text-[#00C853]">←</span>
-                  <span>المقرر الأول: مناهج التربية الرياضية</span>
+                  <span>مناهج التربية الرياضية (معاينة معتمدة)</span>
                 </Link>
               </li>
               <li>

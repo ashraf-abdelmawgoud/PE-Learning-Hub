@@ -54,8 +54,8 @@ export const FeaturedLessonSection: React.FC = () => {
             {/* Meta Tags Row */}
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-xs font-mono font-bold text-[#071C12] bg-[#00C853] px-3 py-1 rounded-full shadow-2xs">
-                  مقرر 01 • الفرقة الرابعة
+                <span className="text-xs font-bold text-[#071C12] bg-[#00C853] px-3 py-1 rounded-full shadow-2xs">
+                  مناهج التربية الرياضية • الفرقة الرابعة
                 </span>
                 <span className="text-xs font-bold text-[#173D2B] bg-[#E8F8EE] px-3 py-1 rounded-full border border-[#D4E9DC]">
                   الفصل الأول: مقدمة وماهية المنهج

@@ -8,7 +8,7 @@ export const Navbar: React.FC = () => {
 
   const navLinks = [
     { path: '/', label: 'الرئيسية' },
-    { path: '/courses', label: 'المقررات الدراسية (7)' },
+    { path: '/courses', label: 'المواد الدراسية (6)' },
     { path: '/about', label: 'عن المنصة والأهداف' },
   ];
 
@@ -85,7 +85,7 @@ export const Navbar: React.FC = () => {
               className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl bg-[#00C853] hover:bg-[#39E66D] active:bg-[#00A844] text-[#071C12] text-sm font-black shadow-sm shadow-[#00C853]/25 transition-all duration-200 hover:shadow-md hover:shadow-[#39E66D]/35 active:scale-98"
             >
               <BookOpen className="w-4 h-4 text-[#071C12]" />
-              <span>المقررات الدراسية (7)</span>
+              <span>المواد الدراسية (6)</span>
             </Link>
           </div>
 
@@ -141,7 +141,7 @@ export const Navbar: React.FC = () => {
               onClick={() => setIsOpen(false)}
               className="w-full text-center py-3 px-4 rounded-xl bg-[#00C853] text-[#071C12] font-black text-sm shadow-sm hover:bg-[#39E66D] active:scale-98 transition-all"
             >
-              استعراض المقررات السبعة
+              استعراض المواد الست
             </Link>
           </div>
         </div>

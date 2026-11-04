@@ -54,12 +54,12 @@ export const AboutPage: React.FC = () => {
               <BookOpen className="w-6 h-6 stroke-[2.3] text-[#00C853]" />
             </div>
             <h2 className="text-xl font-black text-[#173D2B]">
-              فلسفة المقررات السبعة
+              فلسفة المواد الدراسية الست
             </h2>
             <p className="text-sm text-[#486555] leading-relaxed">
-              تعتمد المنصة على <strong className="text-[#173D2B]">7 كتب أكاديمية معتمدة</strong>،
-              بحيث يخصص لكل كتاب مقرر تفاعلي مستقل. تم ربط المقرر الأول بنموذج دراسي تطبيقي حقيقي معتمد،
-              وسيتوالى إدخال محتوى كل كتاب بدقة وأمانة علمية فور تزويد المنصة به.
+              تعتمد المنصة على <strong className="text-[#173D2B]">6 مواد دراسية معتمدة</strong>،
+              بحيث يخصص لكل مادة مسار تعليمي مستقل. تم ربط مادة مناهج التربية الرياضية بنموذج دراسي تطبيقي حقيقي معتمد،
+              وسيتوالى إدخال محتوى كل مادة بدقة وأمانة علمية فور تزويد المنصة به.
             </p>
           </div>
 
@@ -118,7 +118,7 @@ export const AboutPage: React.FC = () => {
             to="/courses"
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[#00C853] hover:bg-[#39E66D] active:bg-[#00A844] text-[#071C12] font-black text-sm sm:text-base shadow-md shadow-[#00C853]/20 transition-all active:scale-98"
           >
-            <span>استعراض المقررات السبعة</span>
+            <span>استعراض المواد الدراسية</span>
             <ArrowLeft className="w-4 h-4 text-[#071C12]" />
           </Link>
         </div>

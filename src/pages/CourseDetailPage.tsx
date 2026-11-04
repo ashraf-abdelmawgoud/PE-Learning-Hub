@@ -75,7 +75,7 @@ export const CourseDetailPage: React.FC = () => {
                 </span>
               </div>
               <p className="text-amber-800 leading-relaxed">
-                هذا المقرر مخصص للمعاينة التقنية واختبار نظام كتل المحتوى والعلاقات الهرمية. ليس مادة أكاديمية معتمدة ومعزول تماماً عن المقررات السبعة الرسمية.
+                هذا المقرر مخصص للمعاينة التقنية واختبار نظام كتل المحتوى والعلاقات الهرمية. ليس مادة أكاديمية معتمدة ومعزول تماماً عن المواد الست الرسمية.
               </p>
             </div>
           </div>
@@ -293,7 +293,7 @@ export const CourseDetailPage: React.FC = () => {
             className="inline-flex items-center gap-2 text-sm font-bold text-[#173D2B] hover:text-[#00A844] transition-colors"
           >
             <ChevronLeft className="w-4 h-4" />
-            <span>العودة إلى دليل المقررات السبعة</span>
+            <span>العودة إلى دليل المواد الدراسية</span>
           </Link>
         </div>
 

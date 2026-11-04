@@ -34,21 +34,30 @@ function assert(condition: boolean, testName: string) {
 
 console.log('--- بدء فحص واختبار سلامة بيانات المنصة ووظائفها ---');
 
-// 1. فحص بيانات المقررات السبعة
-console.log('\n1. فحص سلامة المقررات الأكاديمية السبعة:');
-assert(COURSES_PLACEHOLDER_DATA.length === 7, 'عدد المقررات يساوي 7 بالضبط');
+// 1. فحص بيانات المواد الدراسية الست الرسمية
+console.log('\n1. فحص سلامة المواد الدراسية الأكاديمية الست:');
+assert(COURSES_PLACEHOLDER_DATA.length === 6, 'عدد المواد الدراسية يساوي 6 بالضبط');
+
+const OFFICIAL_NAMES = [
+  'التعليم الحركي',
+  'البحث العلمي',
+  'التربية المقارنة ونظم التعليم',
+  'مناهج التربية الرياضية',
+  'مادة المضرب',
+  'مادة المضمار',
+];
 
 COURSES_PLACEHOLDER_DATA.forEach((course, idx) => {
   const expectedNum = idx + 1;
-  assert(course.orderNumber === expectedNum, `المقرر ${expectedNum}: الترتيب صحيح (${expectedNum})`);
-  assert(course.id === `course-${expectedNum}`, `المقرر ${expectedNum}: المعرف id صحيح (${course.id})`);
-  assert(course.code === `PE-ACAD-0${expectedNum}`, `المقرر ${expectedNum}: الرمز code صحيح (${course.code})`);
-  assert(course.status === 'pending_content', `المقرر ${expectedNum}: الحالة pending_content`);
-  assert(Boolean(course.title && course.title.trim()), `المقرر ${expectedNum}: العنوان موجود`);
-  assert(Boolean(course.targetBookReference), `المقرر ${expectedNum}: مرجع الكتاب موجود`);
-  assert(course.architecture.lessonsPlanned === true, `المقرر ${expectedNum}: بنية الدروس مخططة`);
-  assert(course.architecture.quizzesPlanned === true, `المقرر ${expectedNum}: بنية الاختبارات مخططة`);
-  assert(course.architecture.simulationsPlanned === true, `المقرر ${expectedNum}: بنية المحاكاة مخططة`);
+  assert(course.orderNumber === expectedNum, `المادة ${expectedNum}: الترتيب صحيح (${expectedNum})`);
+  assert(Boolean(course.id), `المادة ${expectedNum}: المعرف id موجود (${course.id})`);
+  assert(Boolean(course.code), `المادة ${expectedNum}: الرمز code موجود (${course.code})`);
+  assert(course.status === 'pending_content', `المادة ${expectedNum}: الحالة pending_content`);
+  assert(course.title === OFFICIAL_NAMES[idx], `المادة ${expectedNum}: المسمى الرسمي معتمد (${course.title})`);
+  assert(Boolean(course.targetBookReference), `المادة ${expectedNum}: مرجع الكتاب موجود`);
+  assert(course.architecture.lessonsPlanned === true, `المادة ${expectedNum}: بنية الدروس مخططة`);
+  assert(course.architecture.quizzesPlanned === true, `المادة ${expectedNum}: بنية الاختبارات مخططة`);
+  assert(course.architecture.simulationsPlanned === true, `المادة ${expectedNum}: بنية المحاكاة مخططة`);
 });
 
 // 2. فحص محرك معالجة النصوص والبحث العربي
@@ -76,12 +85,14 @@ function searchCourses(query: string) {
   });
 }
 
-assert(searchCourses('').length === 7, 'البحث الفارغ يعيد جميع المقررات السبعة');
-assert(searchCourses('1').length >= 1 && searchCourses('1')[0].id === 'course-1', 'البحث برقم 1 يجد المقرر الأول');
-assert(searchCourses('١').length >= 1 && searchCourses('١')[0].id === 'course-1', 'البحث برقم ١ (أرقام مشرقية) يجد المقرر الأول');
-assert(searchCourses('الاول').length >= 1 && searchCourses('الاول')[0].id === 'course-1', 'البحث بكلمة الاول (بدون همزة) يجد المقرر الأول');
-assert(searchCourses('السابع').length >= 1 && searchCourses('السابع')[0].id === 'course-7', 'البحث بكلمة السابع يجد المقرر السابع');
-assert(searchCourses('PE-ACAD-04').length === 1 && searchCourses('PE-ACAD-04')[0].id === 'course-4', 'البحث بالرمز PE-ACAD-04 يجد المقرر الرابع');
+assert(searchCourses('').length === 6, 'البحث الفارغ يعيد جميع المواد الست');
+assert(searchCourses('مناهج التربية الرياضية').length >= 1 && searchCourses('مناهج التربية الرياضية')[0].id === 'course-1', 'البحث بعبارة مناهج التربية الرياضية يجد مادة مناهج التربية الرياضية');
+assert(searchCourses('حركي').length >= 1 && searchCourses('حركي')[0].id === 'course-2', 'البحث بكلمة حركي يجد مادة التعليم الحركي');
+assert(searchCourses('البحث العلمي').length >= 1 && searchCourses('البحث العلمي')[0].id === 'course-3', 'البحث بكلمة البحث العلمي يجد مادة البحث العلمي');
+assert(searchCourses('مقارنة').length >= 1 && searchCourses('مقارنة')[0].id === 'course-4', 'البحث بكلمة مقارنة يجد مادة التربية المقارنة');
+assert(searchCourses('مضرب').length >= 1 && searchCourses('مضرب')[0].id === 'course-5', 'البحث بكلمة مضرب يجد مادة المضرب');
+assert(searchCourses('مضمار').length >= 1 && searchCourses('مضمار')[0].id === 'course-6', 'البحث بكلمة مضمار يجد مادة المضمار');
+assert(searchCourses('PE-ACAD-01').length === 1 && searchCourses('PE-ACAD-01')[0].id === 'course-1', 'البحث بالرمز PE-ACAD-01 يجد مادة مناهج التربية الرياضية');
 assert(searchCourses('كلمة_غير_موجودة_نهائيا').length === 0, 'البحث بكلمة مجهولة يعيد 0 نتائج دون أخطاء');
 
 // 4. فحص مخرجات الإنتاج الجاهزة لـ Cloudflare Pages
@@ -108,7 +119,7 @@ console.log('\n5. فحص نظام التحقق من جودة المحتوى ال
 const report = validateAcademicContent();
 assert(report.isValid === true, 'تقرير فحص المحتوى الأكاديمي سليم بدون أخطاء بنيوية');
 assert(report.errors.length === 0, `عدد الأخطاء الهندسية يساوي 0 (الفعل: ${report.errors.length})`);
-assert(report.coursesCount === 9, `إجمالي المقررات (7 رسمية + 2 معمل تجريبي معزول) يساوي 9`);
+assert(report.coursesCount === 8, `إجمالي المقررات (6 رسمية + 2 معمل تجريبي معزول) يساوي 8`);
 assert(report.chaptersCount === 3, 'عدد الفصول الإجمالي يساوي 3 (1 تجربة حقيقية + 2 معامل تقنية)');
 assert(report.topicsCount === 3, 'عدد الموضوعات الإجمالي يساوي 3');
 assert(report.lessonsCount === 3, 'عدد الدروس الإجمالي يساوي 3');
@@ -149,11 +160,11 @@ assert(Boolean(devCourse && devCourse.isDevSandbox), 'استرجاع المقر�
 
 // 6.1 عزل المقرر التجريبي عن واجهة الطلاب
 const studentCourses = getAllCourses(false);
-assert(studentCourses.length === 7, 'واجهة الطلاب تسترجع المقررات السبعة فقط');
+assert(studentCourses.length === 6, 'واجهة الطلاب تسترجع المواد الدراسية الست فقط');
 assert(studentCourses.every((c) => !c.isDevSandbox), 'لا يوجد أي مقرر تجريبي مسرب لواجهة الطلاب');
-assert(studentCourses.every((c) => c.status === 'pending_content'), 'جميع المقررات السبعة للطلاب بحالة pending_content');
-assert(studentCourses[0].chapters.length === 1, 'المقرر الأول PE-ACAD-01 يتضمن فصلاً واحداً كمعاينة أكاديمية تجريبية');
-assert(studentCourses.slice(1).every((c) => c.chapters.length === 0), 'بقية المقررات (2-7) خالية من الفصول بانتظار تزويد المنصة بكتبها');
+assert(studentCourses.every((c) => c.status === 'pending_content'), 'جميع المواد الست للطلاب بحالة pending_content');
+assert(studentCourses.find((c) => c.id === 'course-1')?.chapters.length === 1, 'مادة مناهج التربية الرياضية PE-ACAD-01 تتضمن فصلاً واحداً كمعاينة أكاديمية تجريبية');
+assert(studentCourses.filter((c) => c.id !== 'course-1').every((c) => c.chapters.length === 0), 'بقية المواد الخمس خالية من الفصول بانتظار تزويد المنصة بكتبها');
 
 const devChapters = getChaptersByCourse('dev-sandbox');
 assert(devChapters.length === 1 && devChapters[0].id === 'dev-chap-1', 'استرجاع فصول المقرر التجريبي بترتيب سليم');
