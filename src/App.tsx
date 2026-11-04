@@ -12,6 +12,7 @@ import { LessonPage } from './pages/LessonPage';
 import { AboutPage } from './pages/AboutPage';
 import { CurriculumAnimationPage } from './pages/CurriculumAnimationPage';
 import { CoachPocPage } from './pages/CoachPocPage';
+import { LogoPreviewPage } from './pages/LogoPreviewPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
 export const App: React.FC = () => {
@@ -71,6 +72,8 @@ export const App: React.FC = () => {
             <Route path="/pilot-animation" element={<Navigate to="/curriculum-animation" replace />} />
             {/* Proof of Concept: Coach Character Rig */}
             <Route path="/coach-poc" element={<CoachPocPage />} />
+            {/* Brand Identity / Logo Concepts Preview */}
+            <Route path="/logo-preview" element={<LogoPreviewPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>

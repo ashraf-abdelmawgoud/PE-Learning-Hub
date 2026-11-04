@@ -1,130 +1,106 @@
 /**
  * Footer.tsx
- * Clean, Academic Footer for PE Interactive Learning Hub
+ * Minimal, Elegant Academic Footer for منصة علوم الرياضة
  *
- * Contains:
- * - Platform identity & Sport Energy branding
- * - Concise, honest description
- * - Working platform & course navigation links
- * - Zero invented contact details or fake social media
+ * Structure:
+ * - Column 1: Brand & Identity (Logo, Name, Short Academic Description)
+ * - Column 2: Platform Navigation (الرئيسية، المواد الدراسية، عن المنصة)
+ * - Column 3: The 6 Official Subjects (Clean, compact links)
+ * - Bottom Bar: Simple copyright line
  */
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { GraduationCap, ShieldCheck, Heart, BookOpen } from 'lucide-react';
 import { PlatformLogo } from './PlatformLogo';
 
 const currentYear = new Date().getFullYear();
 
+const OFFICIAL_SUBJECTS = [
+  { id: 'course-2', title: 'التعليم الحركي' },
+  { id: 'course-3', title: 'البحث العلمي' },
+  { id: 'course-4', title: 'التربية المقارنة ونظم التعليم' },
+  { id: 'course-1', title: 'مناهج التربية الرياضية' },
+  { id: 'course-5', title: 'مادة المضرب' },
+  { id: 'course-6', title: 'مادة المضمار' },
+];
+
 export const Footer: React.FC = () => {
   return (
     <footer className="bg-[#071C12] text-[#D4E9DC] border-t border-[#103D27] transition-colors" dir="rtl">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
           
-          {/* Brand & Purpose (col-span-5) */}
-          <div className="md:col-span-5 space-y-4">
-            <PlatformLogo showSubtitle={true} symbolSize={40} />
-
-            <p className="text-sm text-[#D4E9DC]/80 leading-relaxed max-w-md">
-              منصة تعليمية أكاديمية مجانية صُممت خصيصاً لدعم طلاب كليات علوم الرياضة والتربية البدنية؛
-              تجمع بين الشرح المبسط، والفيديوهات التوضيحية، والأنشطة التفاعلية لفهم المقررات الأكاديمية
-              وتطبيقها ميدانياً.
+          {/* Column 1: Brand & Mission (md:col-span-5) */}
+          <div className="md:col-span-5 space-y-3.5">
+            <PlatformLogo showSubtitle={false} symbolSize={38} />
+            <p className="text-sm text-[#A3C2B0] leading-relaxed max-w-md">
+              منصة تعليمية تفاعلية مجانية لتبسيط مقررات علوم الرياضة ومساعدة الطلاب على الفهم والمراجعة.
             </p>
-
-            <div className="flex flex-wrap gap-2 pt-2">
-              <span className="inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full bg-[#142B20] text-[#39E66D] border border-[#103D27] font-bold">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#00C853]" />
-                مفتوح ومجاني 100%
-              </span>
-              <span className="inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full bg-[#142B20] text-[#D4E9DC] border border-[#103D27] font-bold">
-                <GraduationCap className="w-3.5 h-3.5 text-[#39E66D]" />
-                لطلاب التربية الرياضية
-              </span>
-            </div>
           </div>
 
-          {/* Quick Platform Links (col-span-3) */}
+          {/* Column 2: Platform Navigation (md:col-span-3) */}
           <div className="md:col-span-3 space-y-3">
-            <h4 className="text-sm font-black uppercase tracking-wider text-[#F4FFF7] flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#00C853]" />
-              <span>روابط المنصة</span>
+            <h4 className="text-sm font-bold text-[#F4FFF7]">
+              روابط المنصة
             </h4>
-            <ul className="space-y-2.5 text-sm font-semibold">
+            <ul className="space-y-2 text-sm">
               <li>
-                <Link to="/" className="text-[#D4E9DC] hover:text-[#39E66D] transition-colors">
-                  الصفحة الرئيسية
+                <Link to="/" className="text-[#A3C2B0] hover:text-[#39E66D] transition-colors">
+                  الرئيسية
                 </Link>
               </li>
               <li>
-                <Link to="/courses" className="text-[#D4E9DC] hover:text-[#39E66D] transition-colors">
-                  المواد الدراسية (6 مواد)
+                <Link to="/courses" className="text-[#A3C2B0] hover:text-[#39E66D] transition-colors">
+                  المواد الدراسية
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="text-[#D4E9DC] hover:text-[#39E66D] transition-colors">
-                  عن المنصة والأهداف
+                <Link to="/about" className="text-[#A3C2B0] hover:text-[#39E66D] transition-colors">
+                  عن المنصة
                 </Link>
-              </li>
-              <li>
-                <a href="#how-it-works" className="text-[#D4E9DC] hover:text-[#39E66D] transition-colors">
-                  كيف تتعلم معنا؟
-                </a>
               </li>
             </ul>
           </div>
 
-          {/* Direct Academic Course Links (col-span-4) */}
+          {/* Column 3: The 6 Official Subjects (md:col-span-4) */}
           <div className="md:col-span-4 space-y-3">
-            <h4 className="text-sm font-black uppercase tracking-wider text-[#F4FFF7] flex items-center gap-2">
-              <BookOpen className="w-4 h-4 text-[#00C853]" />
-              <span>المحتوى الأكاديمي المتاح</span>
+            <h4 className="text-sm font-bold text-[#F4FFF7]">
+              المواد الدراسية
             </h4>
-            <ul className="space-y-2.5 text-xs sm:text-sm">
-              <li>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-2 text-xs sm:text-sm">
+              {OFFICIAL_SUBJECTS.map((subject) => (
+                <li key={subject.id}>
+                  <Link
+                    to={`/courses/${subject.id}`}
+                    className="text-[#A3C2B0] hover:text-[#39E66D] transition-colors flex items-center gap-1.5"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#1B5E3A] shrink-0" />
+                    <span>{subject.title}</span>
+                  </Link>
+                </li>
+              ))}
+              <li className="pt-1">
                 <Link
-                  to="/courses/course-1"
-                  className="text-[#D4E9DC] hover:text-[#39E66D] transition-colors flex items-center gap-1.5 font-bold"
+                  to="/courses"
+                  className="text-xs text-[#39E66D] hover:underline font-bold inline-flex items-center gap-1"
                 >
-                  <span className="text-[#00C853]">←</span>
-                  <span>مناهج التربية الرياضية (معاينة معتمدة)</span>
+                  <span>استكشف جميع المواد</span>
+                  <span>←</span>
                 </Link>
-              </li>
-              <li>
-                <Link
-                  to="/courses/course-1/chapters/chap-curriculum-intro"
-                  className="text-[#D4E9DC]/80 hover:text-[#39E66D] transition-colors flex items-center gap-1.5"
-                >
-                  <span className="text-[#00C853]">←</span>
-                  <span>الفصل الأول: مقدمة وماهية المنهج</span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/courses/course-1/chapters/chap-curriculum-intro/topics/top-curriculum-concept-evolution/lessons/les-curriculum-evolution"
-                  className="text-[#D4E9DC]/80 hover:text-[#39E66D] transition-colors flex items-center gap-1.5"
-                >
-                  <span className="text-[#00C853]">←</span>
-                  <span>درس تطور مفهوم المنهج (ص 2 - 6)</span>
-                </Link>
-              </li>
-              <li className="pt-2 text-[11px] text-[#6C8577]">
-                * المقررات من 2 إلى 7 قيد إدراج الكتب الأكاديمية الرسمية.
               </li>
             </ul>
           </div>
 
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-[#103D27] mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#6C8577]">
+        {/* Bottom Bar: Simple Copyright */}
+        <div className="border-t border-[#103D27] mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#709280]">
           <p>
-            جميع الحقوق محفوظة &copy; {currentYear} — منصة PE Interactive Learning Hub
+            © {currentYear} منصة علوم الرياضة — جميع الحقوق محفوظة
           </p>
-          <div className="flex items-center gap-2 font-medium text-[#D4E9DC]/80">
-            <span>صُممت لخدمة طلاب كليات علوم الرياضة والتربية البدنية</span>
-            <Heart className="w-3.5 h-3.5 text-[#00C853] fill-[#00C853]" />
-          </div>
+          <p className="text-[#A3C2B0]/80">
+            منصة أكاديمية لطلاب كليات علوم الرياضة والتربية البدنية
+          </p>
         </div>
       </div>
     </footer>

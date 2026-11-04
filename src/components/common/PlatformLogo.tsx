@@ -139,3 +139,4 @@ export const PlatformLogo: React.FC<PlatformLogoProps> = ({
     </div>
   );
 };
+

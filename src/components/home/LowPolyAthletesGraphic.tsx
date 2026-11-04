@@ -36,3 +36,4 @@ export const LowPolyAthletesGraphic: React.FC = () => {
     </div>
   );
 };
+
