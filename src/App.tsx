@@ -10,9 +10,15 @@ import { ChapterDetailPage } from './pages/ChapterDetailPage';
 import { TopicDetailPage } from './pages/TopicDetailPage';
 import { LessonPage } from './pages/LessonPage';
 import { AboutPage } from './pages/AboutPage';
-import { LogoPreviewPage } from './pages/LogoPreviewPage';
 import { NotFoundPage } from './pages/NotFoundPage';
-import { isDevSandboxAllowed } from './utils/devRouteGuard';
+
+// In production build, import.meta.env.DEV is literal false, so dead-code elimination prunes LogoPreviewPage
+const isDev = Boolean(import.meta.env.DEV);
+const LogoPreviewPage = import.meta.env.DEV
+  ? React.lazy(() =>
+      import('./pages/LogoPreviewPage').then((m) => ({ default: m.LogoPreviewPage }))
+    )
+  : null;
 
 export const App: React.FC = () => {
   return (
@@ -45,46 +51,42 @@ export const App: React.FC = () => {
               path="/courses/:courseId/chapters/:chapterId/topics/:topicId/lessons/:lessonId"
               element={<LessonPage />}
             />
-            {/* Shortcut route for the isolated development sandbox (protected in production) */}
-            <Route
-              path="/dev-sandbox"
-              element={
-                isDevSandboxAllowed() ? (
-                  <Navigate
-                    to="/courses/dev-sandbox/chapters/dev-chap-1/topics/dev-top-1/lessons/dev-les-1"
-                    replace
-                  />
-                ) : (
-                  <Navigate to="/courses" replace />
-                )
-              }
-            />
-            {/* Shortcut route for Phase 4 Visual Learning Sandbox (protected in production) */}
-            <Route
-              path="/visual-sandbox"
-              element={
-                isDevSandboxAllowed() ? (
-                  <Navigate
-                    to="/courses/visual-sandbox/chapters/vis-chap-1/topics/vis-top-1/lessons/vis-les-1"
-                    replace
-                  />
-                ) : (
-                  <Navigate to="/courses" replace />
-                )
-              }
-            />
+            
+            {/* Development-Only Routes (Strictly registered in local dev; excluded in production) */}
+            {isDev && LogoPreviewPage && (
+              <Route
+                path="/logo-preview"
+                element={
+                  <React.Suspense fallback={<div className="min-h-screen bg-[#F4FFF7]" />}>
+                    <LogoPreviewPage />
+                  </React.Suspense>
+                }
+              />
+            )}
+            {isDev && (
+              <>
+                <Route
+                  path="/dev-sandbox"
+                  element={
+                    <Navigate
+                      to="/courses/dev-sandbox/chapters/dev-chap-1/topics/dev-top-1/lessons/dev-les-1"
+                      replace
+                    />
+                  }
+                />
+                <Route
+                  path="/visual-sandbox"
+                  element={
+                    <Navigate
+                      to="/courses/visual-sandbox/chapters/vis-chap-1/topics/vis-top-1/lessons/vis-les-1"
+                      replace
+                    />
+                  }
+                />
+              </>
+            )}
+
             <Route path="/about" element={<AboutPage />} />
-            {/* Brand Identity / Logo Concepts Preview (Development Only) */}
-            <Route
-              path="/logo-preview"
-              element={
-                isDevSandboxAllowed() ? (
-                  <LogoPreviewPage />
-                ) : (
-                  <NotFoundPage />
-                )
-              }
-            />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>

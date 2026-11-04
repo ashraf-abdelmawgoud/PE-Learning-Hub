@@ -140,13 +140,8 @@ export const ChapterDetailPage: React.FC = () => {
     return <Navigate to="/courses" replace />;
   }
 
-  // Guard development sandbox in production
-  if (course && course.isDevSandbox && !isDevSandboxAllowed()) {
-    return <Navigate to="/courses" replace />;
-  }
-
-  // If the course itself does not exist, navigate safely to courses catalog
-  if (!course) {
+  // If the course does not exist or is a dev sandbox in production, render not-found state
+  if (!course || (course.isDevSandbox && !isDevSandboxAllowed())) {
     return (
       <div className="py-16 bg-[#F4FFF7] min-h-[75vh] flex items-center justify-center text-right" dir="rtl">
         <div className="max-w-md mx-auto px-4 text-center space-y-5 bg-white p-8 rounded-3xl border border-[#D4E9DC] shadow-xs">

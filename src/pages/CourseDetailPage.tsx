@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { getCourseById, getChaptersByCourse, getAcademicBreadcrumbs } from '../data/academic/selectors';
 import { BreadcrumbNav } from '../components/academic/BreadcrumbNav';
+import { NotFoundPage } from './NotFoundPage';
 import { isDevSandboxAllowed } from '../utils/devRouteGuard';
 import {
   BookOpen,
@@ -26,13 +27,9 @@ export const CourseDetailPage: React.FC = () => {
 
   const course = getCourseById(courseId);
 
-  if (!course) {
-    return <Navigate to="/courses" replace />;
-  }
-
-  // Guard development sandbox in production
-  if (course.isDevSandbox && !isDevSandboxAllowed()) {
-    return <Navigate to="/courses" replace />;
+  // In production, unlisted courses or dev fixtures render 404
+  if (!course || (course.isDevSandbox && !isDevSandboxAllowed())) {
+    return <NotFoundPage />;
   }
 
   const chapters = getChaptersByCourse(course.id);

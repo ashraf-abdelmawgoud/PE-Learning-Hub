@@ -974,8 +974,23 @@ assert(appTsxContent.includes('id="main-content"'), 'عنصر main الأساس�
 assert(appTsxContent.includes('href="#main-content"'), 'رابط التخطي السريع للمحتوى الرئيسي (Skip-to-Content) متاح في أعلى الصفحة');
 assert(!homePageContent.includes('<main'), 'صفحة HomePage لا تحتوي على عنصر main إضافي (منع تكرار landmark)');
 
-// ج. فحص عزل مسارات وبيانات التطوير (Dev Route Guard)
+// ج. فحص عزل مسارات وبيانات التطوير (Dev Route Guard & Production Isolation)
 assert(typeof isDevSandboxAllowed === 'function', 'دالة فحص صلاحية المسارات التجريبية isDevSandboxAllowed معرفة وتعمل');
+
+const devRouteGuardContent = fs.readFileSync(path.resolve('src/utils/devRouteGuard.ts'), 'utf-8');
+assert(!devRouteGuardContent.includes('preview=true'), 'إلغاء ثغرة التجاوز ?preview=true نهائياً من كود المنصة (Zero Production Bypass)');
+
+assert(appTsxContent.includes('import.meta.env.DEV'), 'تطبيق استبعاد كود المعاينة الميت في الإنتاج عبر import.meta.env.DEV (Dead Code Elimination)');
+assert(appTsxContent.includes('{isDev && LogoPreviewPage && ('), 'حجب مسار استعراض الشعار /logo-preview في الإنتاج');
+assert(appTsxContent.includes('{isDev && ('), 'حجب المسارات المختصرة /dev-sandbox و /visual-sandbox في الإنتاج');
+
+// فحص محتويات حزمة الإنتاج dist والتأكد من خلوها من مكونات المعاينة
+const distExists = fs.existsSync(path.resolve('dist/assets'));
+if (distExists) {
+  const distFiles = fs.readdirSync(path.resolve('dist/assets'));
+  const hasLogoPreviewChunk = distFiles.some((f) => f.includes('LogoPreviewPage'));
+  assert(!hasLogoPreviewChunk, 'حزمة الإنتاج dist خالية تماماً من ملف LogoPreviewPage (استبعاد كامل للشفرة التجريبية)');
+}
 
 // د. التحقق من جاهزية البنية لاستيعاب المحتوى الأكاديمي الشامل عبر ملفات البيانات
 const mockComprehensiveCourse = {

@@ -8,6 +8,7 @@ import {
   getAcademicBreadcrumbs,
 } from '../data/academic/selectors';
 import { BreadcrumbNav } from '../components/academic/BreadcrumbNav';
+import { NotFoundPage } from './NotFoundPage';
 import { isDevSandboxAllowed } from '../utils/devRouteGuard';
 import { BookOpen, Target, FileText, ArrowLeft, ChevronRight, Layers, Sparkles } from 'lucide-react';
 
@@ -26,13 +27,8 @@ export const TopicDetailPage: React.FC = () => {
   const chapter = getChapterById(courseId, chapterId);
   const topic = getTopicById(chapterId, topicId);
 
-  if (!course || !chapter || !topic) {
-    return <Navigate to={`/courses/${courseId}`} replace />;
-  }
-
-  // Guard development sandbox in production
-  if (course.isDevSandbox && !isDevSandboxAllowed()) {
-    return <Navigate to="/courses" replace />;
+  if (!course || !chapter || !topic || (course.isDevSandbox && !isDevSandboxAllowed())) {
+    return <NotFoundPage />;
   }
 
   const lessons = getLessonsByTopic(topic.id);

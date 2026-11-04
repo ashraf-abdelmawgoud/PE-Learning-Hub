@@ -44,13 +44,23 @@ const OFFICIAL_ACADEMIC_COURSES: AcademicCourse[] = COURSES_PLACEHOLDER_DATA.map
 });
 
 /**
- * جميع المقررات في المنصة (الرسمية + النماذج التجريبية المعزولة)
+ * بيئة التشغيل: هل نحن في وضع التطوير المحلي؟
+ * في بيئة الإنتاج: import.meta.env.DEV تكون false قطعياً أثناء البناء
  */
-const ALL_COURSES: AcademicCourse[] = [
-  ...OFFICIAL_ACADEMIC_COURSES,
-  DEV_SANDBOX_COURSE,
-  VISUAL_SANDBOX_COURSE,
-];
+const isDevMode = import.meta.env ? import.meta.env.DEV : true;
+
+/**
+ * جميع المقررات في المنصة:
+ * في الإنتاج (Production): تقتصر حصراً على المقررات الرسمية الست (OFFICIAL_ACADEMIC_COURSES).
+ * في التطوير (Development): يُضاف إليها النموذجان التجريبيان (DEV_SANDBOX_COURSE و VISUAL_SANDBOX_COURSE).
+ */
+const ALL_COURSES: AcademicCourse[] = isDevMode
+  ? [
+      ...OFFICIAL_ACADEMIC_COURSES,
+      DEV_SANDBOX_COURSE,
+      VISUAL_SANDBOX_COURSE,
+    ]
+  : OFFICIAL_ACADEMIC_COURSES;
 
 // ==========================================
 // Selectors & Query Functions
@@ -61,7 +71,7 @@ const ALL_COURSES: AcademicCourse[] = [
  * @param includeDevSandbox هل يشمل النموذج التقني التجريبي (افتراضياً: false لحماية المقررات الرسمية)
  */
 export function getAllCourses(includeDevSandbox = false): AcademicCourse[] {
-  if (includeDevSandbox) {
+  if (includeDevSandbox && isDevMode) {
     return ALL_COURSES;
   }
   return OFFICIAL_ACADEMIC_COURSES;
