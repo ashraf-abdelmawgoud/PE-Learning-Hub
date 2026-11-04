@@ -11,6 +11,7 @@
  */
 
 import React from 'react';
+import { PlatformLogoSymbol } from './PlatformLogo';
 
 export interface LogoSymbolProps {
   size?: number;
@@ -157,7 +158,7 @@ export const LogoConceptASymbol: React.FC<LogoSymbolProps> = ({
 
 /* =========================================================================
    CONCEPT B: مسار المضمار والقوس الأكاديمي (Athletic Track Arc & Chevron Crest)
-   Philosophy: Overlapping running track lanes converging into a collegiate crest
+   [OFFICIALLY SELECTED BRAND IDENTITY] - Refined & Scalable
    ========================================================================= */
 export const LogoConceptBSymbol: React.FC<LogoSymbolProps> = ({
   size = 40,
@@ -165,103 +166,17 @@ export const LogoConceptBSymbol: React.FC<LogoSymbolProps> = ({
   variant = 'color',
   showBackground = true,
   bgFill = '#071C12',
-  bgStroke = '#1B5E3A',
+  bgStroke = '#164E2E',
 }) => {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 100 100"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={`shrink-0 ${className}`}
-      aria-label="شعار منصة علوم الرياضة — النموذج ب (المضمار والقوس)"
-    >
-      <defs>
-        <linearGradient id="conceptB_grad1" x1="0%" y1="100%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#00C853" />
-          <stop offset="100%" stopColor="#39E66D" />
-        </linearGradient>
-        <linearGradient id="conceptB_grad2" x1="100%" y1="100%" x2="0%" y2="0%">
-          <stop offset="0%" stopColor="#059669" />
-          <stop offset="100%" stopColor="#00E676" />
-        </linearGradient>
-        <linearGradient id="conceptB_star" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#F4FFF7" />
-          <stop offset="100%" stopColor="#39E66D" />
-        </linearGradient>
-      </defs>
-
-      {/* Rounded Squircle Container */}
-      {showBackground && (
-        <rect
-          x="3"
-          y="3"
-          width="94"
-          height="94"
-          rx="26"
-          fill={bgFill}
-          stroke={bgStroke}
-          strokeWidth="2.5"
-        />
-      )}
-
-      <g id="conceptB-mark">
-        {/* Collegiate Shield Contour */}
-        <path
-          d="M 50 13 L 83 30 C 83 58, 69 75, 50 86 C 31 75, 17 58, 17 30 Z"
-          fill="none"
-          stroke={variant === 'color' ? '#1B5E3A' : 'currentColor'}
-          strokeWidth="2.5"
-          strokeLinejoin="round"
-          opacity="0.6"
-        />
-
-        {/* Stadium Running Track Curve 1 (Outer Dynamic Lane) */}
-        <path
-          d="M 25 56 C 27 38, 38 25, 50 18 C 62 25, 73 38, 75 56"
-          fill="none"
-          stroke={variant === 'color' ? 'url(#conceptB_grad1)' : 'currentColor'}
-          strokeWidth="4"
-          strokeLinecap="round"
-        />
-
-        {/* Stadium Running Track Curve 2 (Mid Dynamic Lane) */}
-        <path
-          d="M 31 63 C 34 49, 41 38, 50 33 C 59 38, 66 49, 69 63"
-          fill="none"
-          stroke={variant === 'color' ? 'url(#conceptB_grad2)' : 'currentColor'}
-          strokeWidth="4"
-          strokeLinecap="round"
-        />
-
-        {/* Academic Open Book at Podium Base */}
-        {/* Left Book Page */}
-        <path
-          d="M 50 80 L 32 71 C 38 60, 44 58, 50 63 Z"
-          fill={variant === 'color' ? 'url(#conceptB_grad1)' : 'currentColor'}
-        />
-        {/* Right Book Page */}
-        <path
-          d="M 50 80 L 68 71 C 62 60, 56 58, 50 63 Z"
-          fill={variant === 'color' ? 'url(#conceptB_grad2)' : 'currentColor'}
-        />
-
-        {/* Central Achievement Torch / Apex Victory Star */}
-        <circle
-          cx="50"
-          cy="20"
-          r="4"
-          fill={variant === 'color' ? 'url(#conceptB_star)' : 'currentColor'}
-        />
-        <circle
-          cx="50"
-          cy="46"
-          r="3"
-          fill={variant === 'color' ? '#39E66D' : 'currentColor'}
-        />
-      </g>
-    </svg>
+    <PlatformLogoSymbol
+      size={size}
+      className={className}
+      variant={variant}
+      showBackground={showBackground}
+      bgFill={bgFill}
+      bgStroke={bgStroke}
+    />
   );
 };
 

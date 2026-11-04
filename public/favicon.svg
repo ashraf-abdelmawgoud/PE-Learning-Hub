@@ -1,17 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
   <defs>
-    <linearGradient id="favGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stopColor="#39E66D" />
-      <stop offset="100%" stopColor="#00C853" />
+    <linearGradient id="favTrackGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00C853" />
+      <stop offset="100%" stop-color="#39E66D" />
     </linearGradient>
   </defs>
-  <rect width="32" height="32" rx="9" fill="#071C12" stroke="#1B5E3A" stroke-width="1"/>
-  <g transform="translate(16, 16) scale(0.8)">
-    <circle cx="0" cy="-9" r="3.2" fill="#F4FFF7" />
-    <path d="M 1.5 -5 C 6 -6, 12 -3, 13 4 C 11 3, 7 0, 1.5 1 Z" fill="url(#favGrad)" />
-    <path d="M -1.5 -5 C -6 -6, -12 -3, -13 4 C -11 3, -7 0, -1.5 1 Z" fill="url(#favGrad)" />
-    <path d="M 1.5 4 C 6 2.5, 10.5 4, 11 9 C 8 8, 4 6.8, 1.5 7.5 Z" fill="url(#favGrad)" opacity="0.9" />
-    <path d="M -1.5 4 C -6 2.5, -10.5 4, -11 9 C -8 8, -4 6.8, -1.5 7.5 Z" fill="url(#favGrad)" opacity="0.9" />
-    <path d="M 0 -4 L 0 10.5" stroke="#F4FFF7" stroke-width="1.5" stroke-linecap="round" opacity="0.9" />
-  </g>
+
+  <!-- Dark Base Squircle -->
+  <rect x="3" y="3" width="94" height="94" rx="26" fill="#071C12" stroke="#164E2E" stroke-width="3" />
+
+  <!-- Academic Crest Shield Outline -->
+  <path
+    d="M 50 10 L 84 28 C 84 58, 69 76, 50 88 C 31 76, 16 58, 16 28 Z"
+    fill="none"
+    stroke="#1B5E3A"
+    stroke-width="3"
+    stroke-linejoin="round"
+  />
+
+  <!-- Bold Athletic Track Arc & Chevron -->
+  <path
+    d="M 24 55 C 27 34, 38 21, 50 16 C 62 21, 73 34, 76 55"
+    fill="none"
+    stroke="url(#favTrackGrad)"
+    stroke-width="7"
+    stroke-linecap="round"
+  />
+
+  <!-- Bold Academic Open Book Base -->
+  <path
+    d="M 50 82 L 28 71 C 36 58, 44 58, 50 63 Z"
+    fill="#00E676"
+  />
+  <path
+    d="M 50 82 L 72 71 C 64 58, 56 58, 50 63 Z"
+    fill="#00C853"
+  />
+
+  <!-- Apex Achievement Star Node -->
+  <circle cx="50" cy="18" r="5.5" fill="#F4FFF7" />
 </svg>
