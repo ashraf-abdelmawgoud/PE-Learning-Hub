@@ -25,9 +25,6 @@ const VisualComparisonView = lazy(() =>
 const VisualSequenceView = lazy(() =>
   import('./visual/VisualSequenceView').then((m) => ({ default: m.VisualSequenceView }))
 );
-const CurriculumJourneyAnimationView = lazy(() =>
-  import('./visual/CurriculumJourneyAnimationView').then((m) => ({ default: m.CurriculumJourneyAnimationView }))
-);
 const EducationalStepsView = lazy(() =>
   import('./visual/EducationalStepsView').then((m) => ({ default: m.EducationalStepsView }))
 );
@@ -102,12 +99,6 @@ export const LessonRenderer: React.FC<LessonRendererProps> = ({ blocks }) => {
         return (
           <Suspense key={block.id || `vseq-${index}`} fallback={<VisualLoadingFallback />}>
             <VisualSequenceView block={block} />
-          </Suspense>
-        );
-      case 'curriculum_journey_animation':
-        return (
-          <Suspense key={block.id || `curranim-${index}`} fallback={<VisualLoadingFallback />}>
-            <CurriculumJourneyAnimationView block={block} />
           </Suspense>
         );
       case 'animated_steps':

@@ -105,19 +105,14 @@ server.listen(4173, '127.0.0.1', async () => {
     }
   }
 
-  // فحص أصل المعلم الموحد المتبقي للمشهد التعليمي النشط (Unified WebP Asset)
-  const coachWebpAssets = [
-    'coach_unified.webp'
-  ];
-  for (const asset of coachWebpAssets) {
-    const webpTest = await fetch(`http://127.0.0.1:4173/assets/poc/coach/${asset}`);
-    if (webpTest.status === 200 && webpTest.headers.get('content-type')?.includes('webp')) {
-      console.log(`  [PASS] تحميل أصل المعلم المفصلي (${asset}) بنجاح`);
-      passed++;
-    } else {
-      console.error(`  [FAIL] تعذر تحميل أصل المعلم (${asset})`);
-      failed++;
-    }
+  // فحص أصل الرسم الرياضي المعتمد في الواجهة (Approved Sports Illustration WebP Asset)
+  const heroTest = await fetch('http://127.0.0.1:4173/assets/hero/athletes_lowpoly_transparent.webp');
+  if (heroTest.status === 200 && heroTest.headers.get('content-type')?.includes('webp')) {
+    console.log('  [PASS] تحميل أصل الرسم الرياضي المعتمد (athletes_lowpoly_transparent.webp) بنجاح');
+    passed++;
+  } else {
+    console.error('  [FAIL] تعذر تحميل أصل الرسم الرياضي المعتمد');
+    failed++;
   }
 
   server.close(() => {

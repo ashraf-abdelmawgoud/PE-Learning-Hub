@@ -7,7 +7,6 @@ import type {
   InteractiveDiagramBlock,
   VisualComparisonBlock,
   VisualSequenceBlock,
-  CurriculumJourneyAnimationBlock,
   AnimatedStepsBlock,
   DecisionScenarioBlock,
   HeadingBlock,
@@ -62,16 +61,63 @@ const BLOCK_DEFINITION: DefinitionBlock = {
   academicContext: 'كتاب مناهج التربية الرياضية — أ.د. هاني الدسوقي إبراهيم (ص 5)',
 };
 
-// 4. أنيميشن تعليمي تفاعلي احترافي (المرحلة 4.1)
-export const BLOCK_CURRICULUM_JOURNEY_ANIMATION: CurriculumJourneyAnimationBlock = {
-  id: 'curric-blk-journey-anim-2d',
-  type: 'curriculum_journey_animation',
+// 4. مكون المقارنة البصرية التفاعلية (VisualComparisonView) - النظرة التقليدية في مقابل النظرة الحديثة
+export const BLOCK_VISUAL_COMPARISON: VisualComparisonBlock = {
+  id: 'curric-blk-comp-trad-vs-mod',
+  type: 'visual_comparison',
   order: 4,
-  title: 'أنيميشن تعليمي تفاعلي: رحلة تطور مفهوم المنهج (2D Educational Scene)',
-  subtitle:
-    'محاكاة بيئة مدرسية حية توضح التحول من مركزية المواد الدراسية إلى شمولية الخبرات والأنشطة الميدانية',
-  academicSource:
-    'كتاب مناهج التربية الرياضية — أ.د. هاني الدسوقي إبراهيم (الفصل الأول: ص 2 - 5)',
+  title: 'مقارنة بصرية تحليلية: المفهوم التقليدي في مقابل المفهوم الحديث للمنهج',
+  description:
+    'مقارنة علمية دقيقة مستخلصة من نصوص الصفحات 2 إلى 5 توضح التحول الجوهري في فلسفة وأهداف وتطبيقات مناهج التربية الرياضية.',
+  defaultItemAId: 'concept-traditional',
+  defaultItemBId: 'concept-modern',
+  criteria: [
+    { key: 'focus_core', label: 'مفهوم المنهج وبؤرة الاهتمام', category: 'الفلسفة' },
+    { key: 'teacher_role', label: 'دور معلم التربية الرياضية', category: 'التدريس' },
+    { key: 'learner_role', label: 'دور الطالب / المتعلم', category: 'التعلم' },
+    { key: 'activity_scope', label: 'نطاق ومجال الأنشطة والخبرات', category: 'التطبيق' },
+    { key: 'final_goal', label: 'الغاية والهدف التربوي الأسمى', category: 'المخرجات' },
+    { key: 'planning_style', label: 'طبيعة التخطيط وتطوير المنهج', category: 'الإدارة' },
+  ],
+  items: [
+    {
+      id: 'concept-traditional',
+      name: 'التصور التقليدي (المنهج كمقررات ومواد)',
+      badge: 'نظرة معرفية ضيقة',
+      summary:
+        'يرى المنهج مجموعة من المواد والمقررات الدراسية والمفاهيم والنظريات المحددة لفرقة معينة، ويضع المعرفة وحفظها في بؤرة الاهتمام بوصفها غاية في ذاتها (ص 5، 6).',
+      characteristics: {
+        focus_core: 'المعرفة والمواد الدراسية في بؤرة الاهتمام بوصفها حصيلة التراث الثقافي الثابت (ص 5)',
+        teacher_role: 'ناقل وملقن للمعلومات، ومصدر وحيد للسلطة التعليمية وإصدار الأوامر (ص 3)',
+        learner_role: 'متلقٍ سلبي، مطلوب منه حفظ واسترجاع المحتوى النظري دون فاعلية أو إبداع (ص 3)',
+        activity_scope: 'محدود داخل حدود المدرسة والفصل، وإهمال للأنشطة والخبرات الحركية خارج المدرسة (ص 2)',
+        final_goal: 'تزويد ذهن المتعلم بالمعلومات واجتياز الاختبارات النظرية والامتحانات (ص 5)',
+        planning_style: 'مركزية صارمة تفرض مقررات موحدة دون مراعاة لتباين الإمكانات أو حاجات الطلاب (ص 4)',
+      },
+    },
+    {
+      id: 'concept-modern',
+      name: 'التصور الحديث (منظومة الخبرات المتكاملة)',
+      badge: 'نظرة تربوية شاملة',
+      summary:
+        'منظومة متكاملة من الأنشطة والخبرات الموجهة التي تخططها المدرسة وتشرف عليها داخلها وخارجها لتحقيق أقصى تنمية شاملة ومتكاملة لشخصية المتعلم (ص 2، 5).',
+      characteristics: {
+        focus_core: 'المتعلم ونموه الشامل في بؤرة الاهتمام من خلال سلسلة خبرات وأنشطة موجهة (ص 2، 5)',
+        teacher_role: 'موجه ومرشد ومراقب لبيئة التعلم الذاتي ومحفز للتفكير والابتكار (ص 3)',
+        learner_role: 'مشارك إيجابي نشط، يمارس التعلم الذاتي ويبدع في حل المشكلات الحركية (ص 3)',
+        activity_scope: 'شامل ومرن؛ يضم الفعاليات الرياضية التي تقع داخل المدرسة وخارجها في المجتمع (ص 2، 5)',
+        final_goal: 'التنمية الشاملة المتكاملة (بدنياً، ومهارياً، ونفسياً، واجتماعياً) وتحسين نوعية الحياة (ص 2)',
+        planning_style: 'مركزية الأهداف التربوية العامة مع لا مركزية ومرونة المحتوى وفق الإمكانات الميدانية (ص 4)',
+      },
+    },
+  ],
+  sharedSimilarities: [
+    'كلا المفهومين يعتبران المنهج الأداة الأساسية للمنظومة التعليمية لتحقيق الأهداف التربوية (ص 2، 5).',
+    'كلاهما يتضمنان قدراً من المعرفة والمفاهيم العلمية الضرورية لبناء الأساس المعرفي للمتعلم (ص 6).',
+    'كلاهما يمثلان فكراً تربوياً يهدف إلى خدمة المجتمع وتخريج أجيال قادرة على ممارسة الحياة (ص 2).',
+  ],
+  contrastingDifferencesSummary:
+    'نقلت النظرة الحديثة بؤرة الاهتمام من مجرد حفظ المقررات والمعلومات بصورة سلبية إلى تفعيل الخبرات والأنشطة والمواقف الحركية والاجتماعية التي تبني شخصية رياضية متكاملة بدنياً ومهارياً ونفسياً واجتماعياً.',
 };
 
 // 5. محرك الشرح المتحرك ثلاثي المراحل (AnimatedExplanationView)
@@ -460,70 +506,11 @@ export const BLOCK_INTERACTIVE_DIAGRAM: InteractiveDiagramBlock = {
   ],
 };
 
-// 7. مكون المقارنة البصرية التفاعلية (VisualComparisonView) - النوع الأول
-export const BLOCK_VISUAL_COMPARISON: VisualComparisonBlock = {
-  id: 'curric-blk-comp-trad-vs-mod',
-  type: 'visual_comparison',
-  order: 7,
-  title: 'مقارنة بصرية تحليلية: المفهوم التقليدي في مقابل المفهوم الحديث للمنهج',
-  description:
-    'مقارنة علمية دقيقة مستخلصة من نصوص الصفحات 2 إلى 5 توضح التحول الجوهري في فلسفة وأهداف وتطبيقات مناهج التربية الرياضية.',
-  defaultItemAId: 'concept-traditional',
-  defaultItemBId: 'concept-modern',
-  criteria: [
-    { key: 'focus_core', label: 'مفهوم المنهج وبؤرة الاهتمام', category: 'الفلسفة' },
-    { key: 'teacher_role', label: 'دور معلم التربية الرياضية', category: 'التدريس' },
-    { key: 'learner_role', label: 'دور الطالب / المتعلم', category: 'التعلم' },
-    { key: 'activity_scope', label: 'نطاق ومجال الأنشطة والخبرات', category: 'التطبيق' },
-    { key: 'final_goal', label: 'الغاية والهدف التربوي الأسمى', category: 'المخرجات' },
-    { key: 'planning_style', label: 'طبيعة التخطيط وتطوير المنهج', category: 'الإدارة' },
-  ],
-  items: [
-    {
-      id: 'concept-traditional',
-      name: 'التصور التقليدي (المنهج كمقررات ومواد)',
-      badge: 'نظرة معرفية ضيقة',
-      summary:
-        'يرى المنهج مجموعة من المواد والمقررات الدراسية والمفاهيم والنظريات المحددة لفرقة معينة، ويضع المعرفة وحفظها في بؤرة الاهتمام بوصفها غاية في ذاتها (ص 5، 6).',
-      characteristics: {
-        focus_core: 'المعرفة والمواد الدراسية في بؤرة الاهتمام بوصفها حصيلة التراث الثقافي الثابت (ص 5)',
-        teacher_role: 'ناقل وملقن للمعلومات، ومصدر وحيد للسلطة التعليمية وإصدار الأوامر (ص 3)',
-        learner_role: 'متلقٍ سلبي، مطلوب منه حفظ واسترجاع المحتوى النظري دون فاعلية أو إبداع (ص 3)',
-        activity_scope: 'محدود داخل حدود المدرسة والفصل، وإهمال للأنشطة والخبرات الحركية خارج المدرسة (ص 2)',
-        final_goal: 'تزويد ذهن المتعلم بالمعلومات واجتياز الاختبارات النظرية والامتحانات (ص 5)',
-        planning_style: 'مركزية صارمة تفرض مقررات موحدة دون مراعاة لتباين الإمكانات أو حاجات الطلاب (ص 4)',
-      },
-    },
-    {
-      id: 'concept-modern',
-      name: 'التصور الحديث (منظومة الخبرات المتكاملة)',
-      badge: 'نظرة تربوية شاملة',
-      summary:
-        'منظومة متكاملة من الأنشطة والخبرات الموجهة التي تخططها المدرسة وتشرف عليها داخلها وخارجها لتحقيق أقصى تنمية شاملة ومتكاملة لشخصية المتعلم (ص 2، 5).',
-      characteristics: {
-        focus_core: 'المتعلم ونموه الشامل في بؤرة الاهتمام من خلال سلسلة خبرات وأنشطة موجهة (ص 2، 5)',
-        teacher_role: 'موجه ومرشد ومراقب لبيئة التعلم الذاتي ومحفز للتفكير والابتكار (ص 3)',
-        learner_role: 'مشارك إيجابي نشط، يمارس التعلم الذاتي ويبدع في حل المشكلات الحركية (ص 3)',
-        activity_scope: 'شامل ومرن؛ يضم الفعاليات الرياضية التي تقع داخل المدرسة وخارجها في المجتمع (ص 2، 5)',
-        final_goal: 'التنمية الشاملة المتكاملة (بدنياً، ومهارياً، ونفسياً، واجتماعياً) وتحسين نوعية الحياة (ص 2)',
-        planning_style: 'مركزية الأهداف التربوية العامة مع لا مركزية ومرونة المحتوى وفق الإمكانات الميدانية (ص 4)',
-      },
-    },
-  ],
-  sharedSimilarities: [
-    'كلا المفهومين يعتبران المنهج الأداة الأساسية للمنظومة التعليمية لتحقيق الأهداف التربوية (ص 2، 5).',
-    'كلاهما يتضمنان قدراً من المعرفة والمفاهيم العلمية الضرورية لبناء الأساس المعرفي للمتعلم (ص 6).',
-    'كلاهما يمثلان فكراً تربوياً يهدف إلى خدمة المجتمع وتخريج أجيال قادرة على ممارسة الحياة (ص 2).',
-  ],
-  contrastingDifferencesSummary:
-    'نقلت النظرة الحديثة بؤرة الاهتمام من مجرد حفظ المقررات والمعلومات بصورة سلبية إلى تفعيل الخبرات والأنشطة والمواقف الحركية والاجتماعية التي تبني شخصية رياضية متكاملة بدنياً ومهارياً ونفسياً واجتماعياً.',
-};
-
-// 8. مكون تسلسل الخطوات والمراحل التعليمية (AnimatedStepsView) - النوع الثاني
+// 7. مكون تسلسل الخطوات والمراحل التعليمية (AnimatedStepsView)
 export const BLOCK_ANIMATED_STEPS: AnimatedStepsBlock = {
   id: 'curric-blk-steps-dev',
   type: 'animated_steps',
-  order: 8,
+  order: 7,
   title: 'تسلسل مراحل تخطيط وتطوير المنهج الرياضي الحديث',
   description:
     'تسلسل المراحل العلمية الأربعة المعتمدة في بناء وتطوير منهج التربية الرياضية استناداً لصفحات الكتاب (ص 2، 4):',
@@ -588,11 +575,11 @@ export const BLOCK_ANIMATED_STEPS: AnimatedStepsBlock = {
   ],
 };
 
-// 9. مكون المواقف القائمة على اتخاذ القرار (DecisionScenarioView) - النوع الرابع
+// 8. مكون المواقف القائمة على اتخاذ القرار (DecisionScenarioView)
 export const BLOCK_DECISION_SCENARIO: DecisionScenarioBlock = {
   id: 'curric-blk-decision-school-facility',
   type: 'decision_scenario',
-  order: 9,
+  order: 8,
   title: 'موقف تطبيقي: اتخاذ القرار في اختيار نشاط المنهج وفق إمكانات المدرسة',
   targetRole: 'معلم تربية رياضية يخطط للدرس الميداني في مدرسة حكومية متوسطة',
   academicFoundation: 'مبدأ مركزية الأهداف ولا مركزية المحتوى ومراعاة الإمكانات الميدانية والفروق الفردية (ص 2، 4، 5)',
@@ -640,11 +627,11 @@ export const BLOCK_DECISION_SCENARIO: DecisionScenarioBlock = {
   ],
 };
 
-// 10. نشاط ترتيب الخطوات البصري التطبيقي (VisualSequenceView)
+// 9. نشاط ترتيب الخطوات البصري التطبيقي (VisualSequenceView)
 export const BLOCK_VISUAL_SEQUENCE: VisualSequenceBlock = {
   id: 'curric-blk-seq-planning-steps',
   type: 'visual_sequence',
-  order: 8,
+  order: 9,
   title: 'نشاط تطبيقي: ترتيب خطوات تخطيط وتطوير المنهج المدرسي الحديث',
   instructions:
     'رتب المراحل الأربعة التالية لتخطيط وتطوير منهج التربية الرياضية الحديث بالتسلسل العلمي المنطقي الوارد في الكتاب (ص 2، 4):',
@@ -680,11 +667,11 @@ export const BLOCK_VISUAL_SEQUENCE: VisualSequenceBlock = {
     'التخطيط العلمي للمنهج الحديث (ص 2، 4) يبدأ بدراسة فلسفة المجتمع وحاجات وقدرات المتعلمين (1)، ثم تحديد الأهداف التربوية المركزية بدقة (2)، يليها اختيار وتنظيم الخبرات والأنشطة الرياضية بما يتلاءم مع الإمكانات (3)، وأخيراً التقويم المستمر والتجريب الميداني لتطوير المنهج في عملية دائمة لا نهاية لها (4).',
 };
 
-// 11. كتلة النقاط الجوهرية والكبسولة الأكاديمية
+// 10. كتلة النقاط الجوهرية والكبسولة الأكاديمية
 export const BLOCK_KEY_POINTS: KeyPointBlock = {
   id: 'curric-blk-kp-summary',
   type: 'key_point',
-  order: 9,
+  order: 10,
   title: 'أبرز الأسس المستفادة من الفصل الأول (كتاب مناهج التربية الرياضية ص 2 - 5)',
   points: [
     'المنهج ليس مجرد مقرر دراسي جامد، بل هو سلسلة موجهة من الخبرات والأنشطة التربوية الهادفة (ص 2، 5).',
@@ -697,11 +684,11 @@ export const BLOCK_KEY_POINTS: KeyPointBlock = {
   importance: 'essential',
 };
 
-// 10. كتلة التوثيق الأكاديمي والاستشهاد
+// 11. كتلة التوثيق الأكاديمي والاستشهاد
 const BLOCK_ACADEMIC_REFERENCE: AcademicReferenceBlock = {
   id: 'curric-blk-ref-ch1',
   type: 'academic_reference',
-  order: 10,
+  order: 11,
   referenceId: CURRICULUM_ACADEMIC_REFERENCE.id,
   reference: CURRICULUM_ACADEMIC_REFERENCE,
   citationText:
@@ -730,10 +717,9 @@ export const CURRICULUM_PILOT_LESSON: Lesson = {
     BLOCK_HEADING,
     BLOCK_PARAGRAPH_INTRO,
     BLOCK_DEFINITION,
-    BLOCK_CURRICULUM_JOURNEY_ANIMATION,
+    BLOCK_VISUAL_COMPARISON,
     BLOCK_ANIMATED_EXPLANATION,
     BLOCK_INTERACTIVE_DIAGRAM,
-    BLOCK_VISUAL_COMPARISON,
     BLOCK_ANIMATED_STEPS,
     BLOCK_DECISION_SCENARIO,
     BLOCK_VISUAL_SEQUENCE,

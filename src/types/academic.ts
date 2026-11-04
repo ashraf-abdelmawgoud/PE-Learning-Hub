@@ -266,13 +266,6 @@ export interface VisualSequenceBlock extends BaseBlock {
   conceptContext?: string;
 }
 
-export interface CurriculumJourneyAnimationBlock extends BaseBlock {
-  type: 'curriculum_journey_animation';
-  title: string;
-  subtitle?: string;
-  academicSource?: string;
-}
-
 // ==========================================
 // Phase 4.2: Smart Educational Visual Models
 // ==========================================
@@ -347,7 +340,6 @@ export type ContentBlock =
   | AnimatedExplanationBlock
   | VisualComparisonBlock
   | VisualSequenceBlock
-  | CurriculumJourneyAnimationBlock
   | AnimatedStepsBlock
   | DecisionScenarioBlock
   | GenericBlock;

@@ -123,7 +123,7 @@ assert(report.coursesCount === 8, `إجمالي المقررات (6 رسمية +
 assert(report.chaptersCount === 3, 'عدد الفصول الإجمالي يساوي 3 (1 تجربة حقيقية + 2 معامل تقنية)');
 assert(report.topicsCount === 3, 'عدد الموضوعات الإجمالي يساوي 3');
 assert(report.lessonsCount === 3, 'عدد الدروس الإجمالي يساوي 3');
-assert(report.blocksCount === 28, `عدد كتل المحتوى الإجمالي يساوي 28 كتلة كاملة (الفعل: ${report.blocksCount})`);
+assert(report.blocksCount === 27, `عدد كتل المحتوى الإجمالي يساوي 27 كتلة رصينة (الفعل: ${report.blocksCount})`);
 
 // 5.1 اختبار فشل البناء عند حقن محتوى معطوب (Corrupted Content Rejection)
 console.log('\n5.1 فحص صد واكتشاف المحتوى المعطوب (Strict Validation Enforcement):');
@@ -314,11 +314,18 @@ assert(course1Topics.length === 1 && course1Topics[0].id === 'top-curriculum-con
 
 const pilotLesson = getLessonById('les-curriculum-evolution');
 assert(Boolean(pilotLesson), 'استرجاع الدرس الأكاديمي الحقيقي بنجاح');
-assert(pilotLesson?.blocks.length === 12, `الدرس الحقيقي يتضمن 12 كتلة محتوى متكاملة (الفعل: ${pilotLesson?.blocks.length})`);
+assert(pilotLesson?.blocks.length === 11, `الدرس الحقيقي يتضمن 11 كتلة محتوى متكاملة رصينة (الفعل: ${pilotLesson?.blocks.length})`);
 
-// فحص كتلة الأنيميشن التعليمي الاحترافي 2D (المرحلة 4.1)
-const journeyAnimBlock = pilotLesson?.blocks.find((b) => b.type === 'curriculum_journey_animation');
-assert(Boolean(journeyAnimBlock && journeyAnimBlock.type === 'curriculum_journey_animation' && journeyAnimBlock.id === 'curric-blk-journey-anim-2d'), 'أنيميشن تعليمي احترافي 2D لمسار تطور المنهج (المرحلة 4.1)');
+// التحقق من خلو الدرس تماماً من أي كتل كرتونية قديمة
+const legacyAnimBlock = pilotLesson?.blocks.find((b) => (b.type as string) === 'curriculum_journey_animation');
+assert(legacyAnimBlock === undefined, 'الدرس خالي تماماً من كتل الأنيميشن الكرتوني التجريبية القديمة');
+
+// التحقق من تموضع المقارنة البصرية التفاعلية ككتلة رابعة رئيسية
+const comparisonBlock = pilotLesson?.blocks[3];
+assert(
+  Boolean(comparisonBlock && comparisonBlock.type === 'visual_comparison' && comparisonBlock.id === 'curric-blk-comp-trad-vs-mod'),
+  'المقارنة البصرية التفاعلية بين المفهوم التقليدي والحديث موضوعة بنجاح ككتلة رابعة رئيسية بعد التعريف'
+);
 
 // فحص المرجع الأكاديمي الدقيق
 const ref = pilotLesson?.references[0];
