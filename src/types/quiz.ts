@@ -1,12 +1,25 @@
 /**
- * Quiz & Assessment Types - Ready for future interactive self-assessment
+ * Quiz & Assessment Types - Interactive Self-Assessment Engine (Phase 3)
  */
+
+export type {
+  QuizQuestionType,
+  BaseQuizQuestion,
+  McqOption,
+  McqQuestion,
+  TrueFalseQuestion,
+  OrderingItem,
+  OrderingQuestion,
+  QuizQuestion,
+  QuizBlock,
+} from './academic';
 
 export type QuestionType =
   | 'multiple_choice'
   | 'true_false'
-  | 'movement_sequence' // Arranging movement phases (e.g. phases of running, jumping)
-  | 'anatomical_matching' // Matching muscle to function
+  | 'ordering'
+  | 'movement_sequence'
+  | 'anatomical_matching'
   | 'concept_application';
 
 export interface QuestionOption {

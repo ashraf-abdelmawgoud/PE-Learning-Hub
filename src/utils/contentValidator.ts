@@ -37,6 +37,7 @@ const VALID_BLOCK_TYPES = new Set([
   'animated_steps',
   'decision_scenario',
   'video',
+  'quiz',
   'generic_future_block',
 ]);
 
@@ -398,6 +399,117 @@ function validateBlockPayload(block: ContentBlock, errors: ValidationError[]) {
           id: block.id,
           message: `معرف فيديو YouTube غير صالح في الكتلة ${block.id}: "${(block as any).videoId}". يجب أن يتكون المعرف من 11 رمزاً قياسياً.`,
         });
+      }
+      break;
+    case 'quiz':
+      if (!block.title || block.title.trim() === '') {
+        errors.push({ level: 'error', entity: 'block', id: block.id, message: 'كتلة الاختبار بدون عنوان' });
+      }
+      if (!block.questions || !Array.isArray(block.questions) || block.questions.length === 0) {
+        errors.push({ level: 'error', entity: 'block', id: block.id, message: 'كتلة الاختبار يجب أن تحتوي على سؤال واحد على الأقل' });
+      } else {
+        const questionIds = new Set<string>();
+        for (const [qIdx, q] of block.questions.entries()) {
+          if (!q.id || q.id.trim() === '') {
+            errors.push({ level: 'error', entity: 'block', id: block.id, message: `السؤال رقم ${qIdx + 1} في الاختبار بدون معرف id` });
+          } else if (questionIds.has(q.id)) {
+            errors.push({ level: 'error', entity: 'block', id: block.id, message: `تكرار معرف السؤال في الاختبار: ${q.id}` });
+          } else {
+            questionIds.add(q.id);
+          }
+
+          if (!q.prompt || q.prompt.trim() === '') {
+            errors.push({ level: 'error', entity: 'block', id: block.id, message: `السؤال ${q.id || qIdx + 1} بدون نص السؤال (prompt)` });
+          }
+
+          if (!['multiple_choice', 'true_false', 'ordering'].includes(q.type)) {
+            errors.push({
+              level: 'error',
+              entity: 'block',
+              id: block.id,
+              message: `نوع السؤال غير مدعوم في الاختبار: ${(q as any).type}`,
+            });
+            continue;
+          }
+
+          if (q.type === 'multiple_choice') {
+            if (!q.options || !Array.isArray(q.options) || q.options.length < 2) {
+              errors.push({
+                level: 'error',
+                entity: 'block',
+                id: block.id,
+                message: `سؤال الاختيار من متعدد (${q.id}) يجب أن يحتوي على خيارين على الأقل`,
+              });
+            } else {
+              const optIds = new Set<string>();
+              for (const opt of q.options) {
+                if (!opt.id || opt.id.trim() === '') {
+                  errors.push({ level: 'error', entity: 'block', id: block.id, message: `خيار في السؤال ${q.id} بدون معرف id` });
+                } else if (optIds.has(opt.id)) {
+                  errors.push({ level: 'error', entity: 'block', id: block.id, message: `تكرار معرف الخيار (${opt.id}) في السؤال ${q.id}` });
+                } else {
+                  optIds.add(opt.id);
+                }
+                if (!opt.text || opt.text.trim() === '') {
+                  errors.push({ level: 'error', entity: 'block', id: block.id, message: `خيار في السؤال ${q.id} بدون نص` });
+                }
+              }
+              if (!q.correctOptionId || !optIds.has(q.correctOptionId)) {
+                errors.push({
+                  level: 'error',
+                  entity: 'block',
+                  id: block.id,
+                  message: `معرف الإجابة الصحيحة (correctOptionId) في السؤال ${q.id} غير مطابق لأي خيار متاح`,
+                });
+              }
+            }
+          } else if (q.type === 'true_false') {
+            if (typeof q.correctAnswer !== 'boolean') {
+              errors.push({
+                level: 'error',
+                entity: 'block',
+                id: block.id,
+                message: `سؤال الصواب والخطأ (${q.id}) يجب أن يحدد قيمة correctAnswer كقيمة منطقية (true أو false)`,
+              });
+            }
+          } else if (q.type === 'ordering') {
+            if (!q.items || !Array.isArray(q.items) || q.items.length < 2) {
+              errors.push({
+                level: 'error',
+                entity: 'block',
+                id: block.id,
+                message: `سؤال الترتيب (${q.id}) يجب أن يحتوي على عنصرين على الأقل للترتيب`,
+              });
+            } else {
+              const itemIds = new Set<string>();
+              for (const it of q.items) {
+                if (!it.id || it.id.trim() === '') {
+                  errors.push({ level: 'error', entity: 'block', id: block.id, message: `عنصر في سؤال الترتيب ${q.id} بدون معرف id` });
+                } else if (itemIds.has(it.id)) {
+                  errors.push({ level: 'error', entity: 'block', id: block.id, message: `تكرار معرف العنصر (${it.id}) في سؤال الترتيب ${q.id}` });
+                } else {
+                  itemIds.add(it.id);
+                }
+                if (!it.text || it.text.trim() === '') {
+                  errors.push({ level: 'error', entity: 'block', id: block.id, message: `عنصر في سؤال الترتيب ${q.id} بدون نص` });
+                }
+              }
+              if (
+                !q.correctOrder ||
+                !Array.isArray(q.correctOrder) ||
+                q.correctOrder.length !== q.items.length ||
+                !q.correctOrder.every((id) => itemIds.has(id))
+              ) {
+                errors.push({
+                  level: 'error',
+                  entity: 'block',
+                  id: block.id,
+                  message: `قائمة الترتيب الصحيح (correctOrder) في السؤال ${q.id} غير مطابقة لعناصر السؤال`,
+                });
+              }
+            }
+          }
+        }
       }
       break;
   }

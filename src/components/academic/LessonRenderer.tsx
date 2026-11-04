@@ -13,7 +13,10 @@ import { InteractivePlaceholderBlockView } from './blocks/InteractivePlaceholder
 import { VideoPlayerBlockView } from './VideoPlayerBlockView';
 import { UnknownBlockView } from './blocks/UnknownBlockView';
 
-// Lazy loading for the Phase 4 Visual Learning Engine components
+// Lazy loading for the Phase 4 Visual Learning Engine & Assessment components
+const QuizBlockView = lazy(() =>
+  import('./quiz/QuizBlockView').then((m) => ({ default: m.QuizBlockView }))
+);
 const InteractiveDiagramView = lazy(() =>
   import('./visual/InteractiveDiagramView').then((m) => ({ default: m.InteractiveDiagramView }))
 );
@@ -116,6 +119,12 @@ export const LessonRenderer: React.FC<LessonRendererProps> = ({ blocks }) => {
         );
       case 'video':
         return <VideoPlayerBlockView key={block.id || `vid-${index}`} block={block} />;
+      case 'quiz':
+        return (
+          <Suspense key={block.id || `quiz-${index}`} fallback={<VisualLoadingFallback />}>
+            <QuizBlockView block={block} />
+          </Suspense>
+        );
       default:
         return <UnknownBlockView key={block.id || `unk-${index}`} block={block} />;
     }

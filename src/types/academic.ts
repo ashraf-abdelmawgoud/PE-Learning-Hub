@@ -328,6 +328,59 @@ export interface VideoBlock extends BaseBlock {
   captionLanguage?: string;
 }
 
+// ==========================================
+// Phase 3: Reusable Interactive Quiz & Assessment Engine
+// ==========================================
+
+export type QuizQuestionType = 'multiple_choice' | 'true_false' | 'ordering';
+
+export interface BaseQuizQuestion {
+  id: string;
+  order: number;
+  prompt: string;
+  explanation?: string;
+  sourceReference?: string;
+}
+
+export interface McqOption {
+  id: string;
+  text: string;
+}
+
+export interface McqQuestion extends BaseQuizQuestion {
+  type: 'multiple_choice';
+  options: McqOption[];
+  correctOptionId: string;
+}
+
+export interface TrueFalseQuestion extends BaseQuizQuestion {
+  type: 'true_false';
+  correctAnswer: boolean;
+}
+
+export interface OrderingItem {
+  id: string;
+  text: string;
+}
+
+export interface OrderingQuestion extends BaseQuizQuestion {
+  type: 'ordering';
+  items: OrderingItem[];
+  correctOrder: string[]; // List of item IDs representing the 100% correct sequence
+}
+
+export type QuizQuestion = McqQuestion | TrueFalseQuestion | OrderingQuestion;
+
+export interface QuizBlock extends BaseBlock {
+  type: 'quiz';
+  title: string;
+  description?: string;
+  instructions?: string;
+  questions: QuizQuestion[];
+  passingScorePercentage?: number; // Default 60%
+  sourceReference?: string;
+}
+
 /**
  * Fallback for unknown or future block types (Simulation, 3D Model, etc.)
  * Ensures the renderer never crashes on unknown blocks.
@@ -356,6 +409,7 @@ export type ContentBlock =
   | AnimatedStepsBlock
   | DecisionScenarioBlock
   | VideoBlock
+  | QuizBlock
   | GenericBlock;
 
 // ==========================================

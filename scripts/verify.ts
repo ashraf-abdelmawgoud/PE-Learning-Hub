@@ -24,6 +24,15 @@ import {
   getYouTubeWatchUrl,
   getYouTubeThumbnailUrl,
 } from '../src/utils/videoUtils.ts';
+import {
+  evaluateQuestion,
+  evaluateQuiz,
+  getUnansweredQuestionIds,
+  isQuizComplete,
+  shuffleOrderingItems,
+  getExpectedAnswerText,
+} from '../src/utils/quizScoring.ts';
+import type { QuizBlock } from '../src/types/academic.ts';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -131,7 +140,7 @@ assert(report.coursesCount === 8, `إجمالي المقررات (6 رسمية +
 assert(report.chaptersCount === 3, 'عدد الفصول الإجمالي يساوي 3 (1 تجربة حقيقية + 2 معامل تقنية)');
 assert(report.topicsCount === 3, 'عدد الموضوعات الإجمالي يساوي 3');
 assert(report.lessonsCount === 3, 'عدد الدروس الإجمالي يساوي 3');
-assert(report.blocksCount === 28, `عدد كتل المحتوى الإجمالي يساوي 28 كتلة رصينة (الفعل: ${report.blocksCount})`);
+assert(report.blocksCount === 29, `عدد كتل المحتوى الإجمالي يساوي 29 كتلة رصينة (الفعل: ${report.blocksCount})`);
 
 // 5.1 اختبار فشل البناء عند حقن محتوى معطوب (Corrupted Content Rejection)
 console.log('\n5.1 فحص صد واكتشاف المحتوى المعطوب (Strict Validation Enforcement):');
@@ -181,7 +190,7 @@ const devTopics = getTopicsByChapter('dev-chap-1');
 assert(devTopics.length === 1 && devTopics[0].id === 'dev-top-1', 'استرجاع موضوعات الفصل بترتيب سليم');
 
 const devLesson = getLessonById('dev-les-1');
-assert(Boolean(devLesson && devLesson.blocks.length === 11), 'استرجاع الدرس الشامل بكتله الإحدى عشرة كاملة');
+assert(Boolean(devLesson && devLesson.blocks.length === 12), 'استرجاع الدرس الشامل بكتله الاثنتي عشرة كاملة');
 
 const { prevLesson, nextLesson } = getPreviousAndNextLesson('dev-les-1');
 assert(prevLesson === null && nextLesson === null, 'فحص دالة الانتقال بين الدروس (السابق والتالي لدرس وحيد)');
@@ -618,6 +627,324 @@ const corruptVideoReport = validateAcademicContent([
 ]);
 assert(corruptVideoReport.isValid === false, 'المحرك يكتشف ويرفض كتل الفيديو المعطوبة (العنوان الفارغ، المزود غير المدعوم، المعرف المشوه)');
 assert(corruptVideoReport.errors.length >= 3, `تم حصر جميع أخطاء الفيديو المعطوبة (تم اكتشاف ${corruptVideoReport.errors.length} أخطاء)`);
+
+// 11. فحص محرك التقييم الذاتي التفاعلي وتكامل كتل الاختبارات (Phase 3: Interactive Quiz & Assessment Engine)
+console.log('\n11. فحص محرك التقييم الذاتي التفاعلي وتكامل كتل الاختبارات (Phase 3: Assessment Engine):');
+
+// 11.1 فحص دوال تقييم الأسئلة الفردية (Pure Question Evaluation)
+const sampleMcq: QuizQuestion = {
+  id: 'q-mcq-test',
+  order: 1,
+  type: 'multiple_choice',
+  prompt: 'ما هي عضلات السحب الرئيسية في الأداء الرياضي؟',
+  options: [
+    { id: 'opt-1', text: 'العضلة الظهرية العريضة' },
+    { id: 'opt-2', text: 'العضلة رباعية الرؤوس الفخذية' },
+  ],
+  correctOptionId: 'opt-1',
+  explanation: 'العضلة الظهرية العريضة هي المحرك الرئيسي لحركات السحب.',
+};
+
+const mcqCorrectResult = evaluateQuestion(sampleMcq, { type: 'multiple_choice', selectedOptionId: 'opt-1' });
+assert(mcqCorrectResult.isCorrect === true && mcqCorrectResult.score === 1, 'سؤال الاختيار من متعدد: الإجابة الصحيحة تحتسب 1 نقطة');
+
+const mcqWrongResult = evaluateQuestion(sampleMcq, { type: 'multiple_choice', selectedOptionId: 'opt-2' });
+assert(mcqWrongResult.isCorrect === false && mcqWrongResult.score === 0, 'سؤال الاختيار من متعدد: الإجابة الخاطئة تحتسب 0 نقطة ولا يوجد خصم');
+
+const mcqUnanswered = evaluateQuestion(sampleMcq, undefined);
+assert(mcqUnanswered.isAnswered === false && mcqUnanswered.score === 0, 'سؤال غير مجاب يحتسب 0 نقطة دون وضع علامة صواب');
+
+// 11.2 فحص سؤال الصواب والخطأ (True/False Evaluation)
+const sampleTf: QuizQuestion = {
+  id: 'q-tf-test',
+  order: 2,
+  type: 'true_false',
+  prompt: 'قوة الاحتكاك دائماً في اتجاه الحركة نفسه.',
+  correctAnswer: false,
+  explanation: 'قوة الاحتكاك تعمل دائماً في الاتجاه المعاكس لاتجاه الحركة النسبية.',
+};
+
+const tfCorrectResult = evaluateQuestion(sampleTf, { type: 'true_false', selectedAnswer: false });
+assert(tfCorrectResult.isCorrect === true && tfCorrectResult.score === 1, 'سؤال الصواب والخطأ: الإجابة الصحيحة تحتسب 1 نقطة');
+
+const tfWrongResult = evaluateQuestion(sampleTf, { type: 'true_false', selectedAnswer: true });
+assert(tfWrongResult.isCorrect === false && tfWrongResult.score === 0, 'سؤال الصواب والخطأ: الإجابة الخاطئة تحتسب 0 نقطة');
+assert(getExpectedAnswerText(sampleTf) === 'خطأ', 'استرجاع النص البشري للإجابة المتوقعة لسؤال الصواب والخطأ');
+assert(getExpectedAnswerText(sampleMcq) === 'العضلة الظهرية العريضة', 'استرجاع النص البشري للإجابة المتوقعة لسؤال الاختيار من متعدد');
+
+// 11.3 فحص سؤال الترتيب التسلسلي (Ordering Evaluation)
+const sampleOrder: QuizQuestion = {
+  id: 'q-order-test',
+  order: 3,
+  type: 'ordering',
+  prompt: 'رتب مراحل الوثب الطويل:',
+  items: [
+    { id: 'step-a', text: 'الاقتراب' },
+    { id: 'step-b', text: 'الارتقاء' },
+    { id: 'step-c', text: 'الطيران' },
+    { id: 'step-d', text: 'الهبوط' },
+  ],
+  correctOrder: ['step-a', 'step-b', 'step-c', 'step-d'],
+  explanation: 'التسلسل الميكانيكي الصحيح: الاقتراب ثم الارتقاء ثم الطيران ثم الهبوط.',
+};
+
+const orderCorrectResult = evaluateQuestion(sampleOrder, {
+  type: 'ordering',
+  itemOrder: ['step-a', 'step-b', 'step-c', 'step-d'],
+});
+assert(orderCorrectResult.isCorrect === true && orderCorrectResult.score === 1, 'سؤال الترتيب: التسلسل المتطابق 100% يحتسب 1 نقطة');
+
+const orderWrongResult = evaluateQuestion(sampleOrder, {
+  type: 'ordering',
+  itemOrder: ['step-b', 'step-a', 'step-c', 'step-d'],
+});
+assert(orderWrongResult.isCorrect === false && orderWrongResult.score === 0, 'سؤال الترتيب: أي تبديل في موضع العناصر يحتسب 0 نقطة');
+
+// 11.4 فحص تقييم الاختبار الشامل وحساب النسب المئوية (Full Quiz Evaluation & Scoring)
+const sampleQuizBlock: QuizBlock = {
+  id: 'test-quiz-full',
+  order: 1,
+  type: 'quiz',
+  title: 'اختبار تجريبي شامل',
+  passingScorePercentage: 60,
+  questions: [sampleMcq, sampleTf, sampleOrder],
+};
+
+const perfectAnswers: StudentAnswersMap = {
+  'q-mcq-test': { type: 'multiple_choice', selectedOptionId: 'opt-1' },
+  'q-tf-test': { type: 'true_false', selectedAnswer: false },
+  'q-order-test': { type: 'ordering', itemOrder: ['step-a', 'step-b', 'step-c', 'step-d'] },
+};
+const perfectQuizResult = evaluateQuiz(sampleQuizBlock, perfectAnswers);
+assert(
+  perfectQuizResult.totalQuestions === 3 &&
+  perfectQuizResult.score === 3 &&
+  perfectQuizResult.percentage === 100 &&
+  perfectQuizResult.isPassed === true,
+  'تقييم الاختبار بنتيجة كاملة: 3/3 ونسبة 100% واجتياز ناجح'
+);
+
+const partialAnswers: StudentAnswersMap = {
+  'q-mcq-test': { type: 'multiple_choice', selectedOptionId: 'opt-1' }, // صح
+  'q-tf-test': { type: 'true_false', selectedAnswer: true },             // خطأ
+  'q-order-test': { type: 'ordering', itemOrder: ['step-a', 'step-b', 'step-c', 'step-d'] }, // صح
+};
+const partialQuizResult = evaluateQuiz(sampleQuizBlock, partialAnswers);
+assert(
+  partialQuizResult.score === 2 &&
+  partialQuizResult.percentage === 67 &&
+  partialQuizResult.isPassed === true,
+  'تقييم الاختبار بنتيجة جزئية: 2/3 ونسبة 67% واجتياز ناجح (فوق 60%)'
+);
+
+const failingAnswers: StudentAnswersMap = {
+  'q-mcq-test': { type: 'multiple_choice', selectedOptionId: 'opt-2' }, // خطأ
+  'q-tf-test': { type: 'true_false', selectedAnswer: true },             // خطأ
+  'q-order-test': { type: 'ordering', itemOrder: ['step-b', 'step-a', 'step-c', 'step-d'] }, // خطأ
+};
+const failingQuizResult = evaluateQuiz(sampleQuizBlock, failingAnswers);
+assert(
+  failingQuizResult.score === 0 &&
+  failingQuizResult.percentage === 0 &&
+  failingQuizResult.isPassed === false,
+  'تقييم الاختبار بنتيجة راسبة: 0/3 ونسبة 0% وعدم اجتياز'
+);
+
+// 11.5 فحص كشف وتحديد الأسئلة غير المكتملة (Incomplete Answers Detection)
+const incompleteAnswers: StudentAnswersMap = {
+  'q-mcq-test': { type: 'multiple_choice', selectedOptionId: 'opt-1' },
+};
+const unansweredList = getUnansweredQuestionIds(sampleQuizBlock, incompleteAnswers);
+assert(
+  unansweredList.length === 2 &&
+  unansweredList.includes('q-tf-test') &&
+  unansweredList.includes('q-order-test'),
+  'كشف الأسئلة غير المكتملة بنجاح وتحديد معرّفاتها بدقة'
+);
+assert(isQuizComplete(sampleQuizBlock, incompleteAnswers) === false, 'دالة isQuizComplete تؤكد عدم اكتمال الإجابات');
+assert(isQuizComplete(sampleQuizBlock, perfectAnswers) === true, 'دالة isQuizComplete تؤكد اكتمال كافة الأسئلة');
+
+// 11.6 فحص تجهيز عناصر الترتيب وعدم كشف الإجابة في البداية (Ordering Shuffle)
+const shuffledTest = shuffleOrderingItems(sampleOrder.items, sampleOrder.correctOrder);
+const isSameAsCorrect = shuffledTest.every((it, idx) => it.id === sampleOrder.correctOrder[idx]);
+assert(isSameAsCorrect === false, 'عناصر سؤال الترتيب تظهر مبعثرة للتدريب ولا تكشف الترتيب الصحيح مسبقاً');
+
+// 11.7 فحص كتلة الاختبار في الدرس النموذجي لمعمل التطوير التقني (dev-les-1)
+const devQuizLesson = getLessonById('dev-les-1');
+const devQuizBlock = devQuizLesson?.blocks.find((b) => b.type === 'quiz') as QuizBlock | undefined;
+assert(Boolean(devQuizBlock), 'استرجاع كتلة الاختبار التقني من الدرس النموذجي بنجاح');
+assert(devQuizBlock?.order === 11, 'تموضع كتلة الاختبار بالترتيب الحادي عشر');
+assert(devQuizBlock?.questions.length === 3, 'كتلة الاختبار تضم 3 أسئلة تدريبية');
+assert(
+  Boolean(devQuizBlock?.questions.some((q) => q.type === 'multiple_choice')),
+  'الاختبار يضم سؤال اختيار من متعدد'
+);
+assert(
+  Boolean(devQuizBlock?.questions.some((q) => q.type === 'true_false')),
+  'الاختبار يضم سؤال صواب وخطأ'
+);
+assert(
+  Boolean(devQuizBlock?.questions.some((q) => q.type === 'ordering')),
+  'الاختبار يضم سؤال ترتيب تسلسلي'
+);
+
+// 11.8 فحص خلو المقررات الأكاديمية الرسمية من أي اختبارات تجريبية أو مفبركة
+const officialCurriculumLesson = getLessonById('les-curriculum-evolution');
+assert(Boolean(officialCurriculumLesson), 'استرجاع الدرس الرسمي لمناهج التربية الرياضية');
+const officialQuizzes = officialCurriculumLesson?.blocks.filter((b) => b.type === 'quiz') || [];
+assert(
+  officialQuizzes.length === 0,
+  'المقرر الأكاديمي الرسمي خالٍ تماماً من كتل الاختبارات التجريبية ريثما تُعتمد الأسئلة الأكاديمية الرسمية من أساتذة المادة'
+);
+
+// 11.9 فحص دعم وجود كتل اختبارات متعددة في الدرس الواحد (Multiple Quiz Blocks Support)
+// @ts-expect-error - اختبار حقن درس يضم اختبارين
+const multiQuizReport = validateAcademicContent([
+  {
+    id: 'test-multi-quiz-course',
+    orderNumber: 210,
+    code: 'MULTI-QUIZ',
+    title: 'مقرر باختبارات متعددة',
+    targetBookReference: 'مرجع',
+    status: 'pending_content',
+    statusLabel: 'تجريبي',
+    description: '',
+    chapters: [
+      {
+        id: 'mq-chap',
+        courseId: 'test-multi-quiz-course',
+        order: 1,
+        title: 'فصل',
+        description: '',
+        topics: [
+          {
+            id: 'mq-top',
+            chapterId: 'mq-chap',
+            order: 1,
+            title: 'موضوع',
+            description: '',
+            lessons: [
+              {
+                id: 'mq-les',
+                topicId: 'mq-top',
+                order: 1,
+                title: 'درس باختبارين',
+                description: '',
+                learningObjectives: [],
+                status: 'published',
+                references: [],
+                blocks: [
+                  {
+                    id: 'mq-blk-q1',
+                    order: 1,
+                    type: 'quiz',
+                    title: 'اختبار قصير تمهيدي',
+                    questions: [sampleMcq],
+                  },
+                  {
+                    id: 'mq-blk-q2',
+                    order: 2,
+                    type: 'quiz',
+                    title: 'اختبار ختامي للدرس',
+                    questions: [sampleTf, sampleOrder],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+]);
+assert(multiQuizReport.isValid === true, 'محرك التحقق يقبل بنجاح وجود أكثر من كتلة اختبار واحدة داخل الدرس');
+
+// 11.10 فحص الرفض الصارم لكتل الاختبارات المعطوبة (Negative Quiz Validation)
+// @ts-expect-error - اختبار حقن كتل اختبار معطوبة
+const corruptQuizReport = validateAcademicContent([
+  {
+    id: 'test-corrupt-quiz-course',
+    orderNumber: 211,
+    code: 'BAD-QUIZ',
+    title: 'مقرر باختبارات معطوبة',
+    targetBookReference: 'مرجع',
+    status: 'pending_content',
+    statusLabel: 'معطوب',
+    description: '',
+    chapters: [
+      {
+        id: 'bq-chap',
+        courseId: 'test-corrupt-quiz-course',
+        order: 1,
+        title: 'فصل',
+        description: '',
+        topics: [
+          {
+            id: 'bq-top',
+            chapterId: 'bq-chap',
+            order: 1,
+            title: 'موضوع',
+            description: '',
+            lessons: [
+              {
+                id: 'bq-les',
+                topicId: 'bq-top',
+                order: 1,
+                title: 'درس معطوب',
+                description: '',
+                learningObjectives: [],
+                status: 'published',
+                references: [],
+                blocks: [
+                  {
+                    id: 'bq-blk-1',
+                    order: 1,
+                    type: 'quiz',
+                    title: '', // خطأ: عنوان فارغ
+                    questions: [], // خطأ: مصفوفة أسئلة فارغة
+                  },
+                  {
+                    id: 'bq-blk-2',
+                    order: 2,
+                    type: 'quiz',
+                    title: 'اختبار بأسئلة مشوهة',
+                    questions: [
+                      {
+                        id: 'bad-mcq',
+                        order: 1,
+                        type: 'multiple_choice',
+                        prompt: '', // خطأ: نص السؤال فارغ
+                        options: [{ id: 'opt-1', text: 'خيار وحيد' }], // خطأ: أقل من خيارين
+                        correctOptionId: 'non-existent-opt', // خطأ: لا يطابق أي خيار
+                      },
+                      {
+                        id: 'bad-tf',
+                        order: 2,
+                        type: 'true_false',
+                        prompt: 'سؤال صواب بخطأ منطقي',
+                        correctAnswer: 'not-a-boolean' as any, // خطأ: قيمة غير منطقية
+                      },
+                      {
+                        id: 'bad-order',
+                        order: 3,
+                        type: 'ordering',
+                        prompt: 'سؤال ترتيب معطوب',
+                        items: [{ id: 'it-1', text: 'عنصر' }], // خطأ: أقل من عنصرين
+                        correctOrder: ['it-missing'], // خطأ: لا يطابق
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+]);
+assert(corruptQuizReport.isValid === false, 'المحرك يكتشف ويرفض كتل الاختبارات المعطوبة بمختلف أنماط أخطائها');
+assert(corruptQuizReport.errors.length >= 6, `اكتشاف جميع أخطاء الاختبار المعطوبة بدقة (${corruptQuizReport.errors.length} أخطاء تم رصدها)`);
 
 console.log(`\n========================================`);
 console.log(`إجمالي الفحوصات الناجحة: ${passedTests}`);
