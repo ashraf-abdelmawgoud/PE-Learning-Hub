@@ -373,6 +373,27 @@ export interface Topic {
   status: ContentStatus;
 }
 
+export interface ChapterGlossaryItem {
+  term: string;
+  definition: string;
+  citation?: string;
+}
+
+export interface ChapterSelfCheckQuestion {
+  id: string;
+  question: string;
+  answer: string;
+  citation?: string;
+}
+
+export interface ChapterVisualHub {
+  comparisonBlock?: VisualComparisonBlock;
+  stepsBlock?: AnimatedStepsBlock;
+  diagramBlock?: InteractiveDiagramBlock;
+  decisionBlock?: DecisionScenarioBlock;
+  sequenceBlock?: VisualSequenceBlock;
+}
+
 export interface Chapter {
   id: string;
   courseId: string;
@@ -382,6 +403,11 @@ export interface Chapter {
   learningObjectives?: string[];
   topics: Topic[];
   status: ContentStatus;
+  academicReference?: AcademicReference;
+  glossary?: ChapterGlossaryItem[];
+  keyPoints?: string[];
+  selfCheckQuestions?: ChapterSelfCheckQuestion[];
+  visualHub?: ChapterVisualHub;
 }
 
 export interface AcademicCourse extends CoursePlaceholder {

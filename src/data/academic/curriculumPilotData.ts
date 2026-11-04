@@ -14,6 +14,8 @@ import type {
   DefinitionBlock,
   KeyPointBlock,
   AcademicReferenceBlock,
+  ChapterGlossaryItem,
+  ChapterSelfCheckQuestion,
 } from '../../types';
 
 /**
@@ -745,6 +747,68 @@ export const CURRICULUM_PILOT_TOPIC: Topic = {
 };
 
 /**
+ * قاموس المصطلحات الأساسية المعتمدة للفصل الأول
+ */
+export const CURRICULUM_CHAPTER_GLOSSARY: ChapterGlossaryItem[] = [
+  {
+    term: 'المنهج لغةً',
+    definition: 'النهج أو الطريق والمسار الواضح للتعليم والتعلم (ص 6).',
+    citation: 'ص 6',
+  },
+  {
+    term: 'المنهج اصطلاحاً',
+    definition:
+      'مشتق من اللاتينية Curriculum بمعنى سلسلة أفعال أو مضمار الجري الهادف؛ وهو مجموعة الأنشطة والخبرات الموجهة لتنمية قدرات الفرد (ص 5).',
+    citation: 'ص 5',
+  },
+  {
+    term: 'المفهوم التقليدي للمنهج',
+    definition:
+      'مجموعة من المواد والمقررات الدراسية والمعارف والحقائق التي يضعها المختصون لتزويد ذهن المتعلم بها بوصفها حصيلة التراث الثقافي (ص 5).',
+    citation: 'ص 5',
+  },
+  {
+    term: 'المفهوم الحديث للمنهج',
+    definition:
+      'منظومة متكاملة من الخبرات والأنشطة الموجهة التي تخططها المدرسة وتشرف عليها داخلها وخارجها لتحقيق أقصى تنمية شاملة لشخصية المتعلم (ص 2).',
+    citation: 'ص 2',
+  },
+  {
+    term: 'مركزية الأهداف ولا مركزية المحتوى',
+    definition:
+      'توحيد الأهداف العامة المنشودة على مستوى الدولة مع منح المعلم والمدرسة المرونة في اختيار وتكييف الأنشطة والألعاب وفق إمكانات البيئة الميدانية (ص 4).',
+    citation: 'ص 4',
+  },
+];
+
+/**
+ * أسئلة الفهم والتقويم الذاتي للفصل الأول
+ */
+export const CURRICULUM_CHAPTER_SELF_CHECK_QUESTIONS: ChapterSelfCheckQuestion[] = [
+  {
+    id: 'q1',
+    question: 'ما الفارق الجوهري بين تركيز المفهوم التقليدي وتركيز المفهوم الحديث للمنهج؟',
+    answer:
+      'المفهوم التقليدي يضع المادة الدراسية والمعرفة المجردة في المركز والغاية النهائية، بينما المفهوم الحديث ينقل بؤرة الاهتمام إلى المتعلم ونموه الشامل في كافة الأبعاد (البدنية، المهارية، النفسية، والاجتماعية) من خلال سلسلة من الخبرات والأنشطة الموجهة تحت إشراف وتوجيه المدرسة (ص 2، 5).',
+    citation: 'ص 2، 5',
+  },
+  {
+    id: 'q2',
+    question: 'كيف يطبق معلم التربية الرياضية مبدأ "لا مركزية المحتوى" في مدرسة تفتقر لملاعب قانونية؟',
+    answer:
+      'تلتزم المدرسة بالأهداف التربوية المركزية العامة (تنمية الرشاقة، التوافق، والتعاون)، لكن يمتلك المعلم مرونة تكييف المحتوى الحركي والألعاب واستخدام أدوات بديلة وملاعب مصغرة أو أسلوب المحطات الدائرية بما يتلاءم تماماً مع إمكانات المدرسة المتاحة دون إخلال بالأهداف المركزية (ص 4).',
+    citation: 'ص 4',
+  },
+  {
+    id: 'q3',
+    question: 'لماذا يعتبر تطوير منهج التربية الرياضية عملية مستمرة ليس لها نهاية؟',
+    answer:
+      'لأن احتياجات المجتمع وفلسفته تتغير باستمرار، وتتجدد منجزات التكنولوجيا والعلوم الرياضية، مما يستوجب التقويم الدائم للمناهج وتجريب المقررات في الميدان لتعديلها وإتاحة فرص التحسين المستمر ومواكبة متطلبات العصر (ص 2، 3).',
+    citation: 'ص 2، 3',
+  },
+];
+
+/**
  * الفصل الأكاديمي الأول (معاينة أكاديمية تجريبية حقيقية)
  */
 export const CURRICULUM_PILOT_CHAPTER: Chapter = {
@@ -763,5 +827,16 @@ export const CURRICULUM_PILOT_CHAPTER: Chapter = {
   ],
   topics: [CURRICULUM_PILOT_TOPIC],
   status: 'published',
+  academicReference: CURRICULUM_ACADEMIC_REFERENCE,
+  glossary: CURRICULUM_CHAPTER_GLOSSARY,
+  keyPoints: BLOCK_KEY_POINTS.points,
+  selfCheckQuestions: CURRICULUM_CHAPTER_SELF_CHECK_QUESTIONS,
+  visualHub: {
+    comparisonBlock: BLOCK_VISUAL_COMPARISON,
+    stepsBlock: BLOCK_ANIMATED_STEPS,
+    diagramBlock: BLOCK_INTERACTIVE_DIAGRAM,
+    decisionBlock: BLOCK_DECISION_SCENARIO,
+    sequenceBlock: BLOCK_VISUAL_SEQUENCE,
+  },
 };
 

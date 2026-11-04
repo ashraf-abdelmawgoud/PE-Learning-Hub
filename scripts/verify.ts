@@ -5,6 +5,7 @@ import {
   getAllCourses,
   getCourseById,
   getChaptersByCourse,
+  getChapterById,
   getTopicsByChapter,
   getLessonById,
   getPreviousAndNextLesson,
@@ -359,6 +360,46 @@ const pilotBreadcrumbs = getAcademicBreadcrumbs({
   lessonId: 'les-curriculum-evolution',
 });
 assert(pilotBreadcrumbs.length === 5, 'توليد مسار التنقل الأكاديمي للدرس الحقيقي (Breadcrumbs)');
+
+// 9. فحص بنية الفصل الديناميكية وعزل الموارد الأكاديمية (Dynamic Chapter Architecture & Isolation - Phase 1)
+console.log('\n9. فحص بنية الفصل الديناميكية وعزل الموارد الأكاديمية (Dynamic Chapter Architecture):');
+
+// 9.1 فحص الفصل التجريبي لمناهج التربية الرياضية
+const resolvedPilotChapter = getChapterById('course-1', 'chap-curriculum-intro');
+assert(Boolean(resolvedPilotChapter), 'استرجاع الفصل الأول لمناهج التربية الرياضية عبر getChapterById');
+assert(
+  Boolean(resolvedPilotChapter?.academicReference?.bookTitle === 'مناهج التربية الرياضية'),
+  'الفصل الأول يتضمن المرجع الأكاديمي المعتمد من الكتاب (أ.د. هاني الدسوقي إبراهيم)'
+);
+assert(
+  Boolean(resolvedPilotChapter?.visualHub?.comparisonBlock && resolvedPilotChapter?.visualHub?.stepsBlock),
+  'الفصل الأول يتضمن كتل المحور البصري المخصصة (Visual Hub)'
+);
+assert(
+  Boolean(resolvedPilotChapter?.glossary && resolvedPilotChapter.glossary.length === 5),
+  'الفصل الأول يتضمن قاموس مصطلحات المنهج (5 مصطلحات أكاديمية)'
+);
+assert(
+  Boolean(resolvedPilotChapter?.selfCheckQuestions && resolvedPilotChapter.selfCheckQuestions.length === 3),
+  'الفصل الأول يتضمن أسئلة التقويم الذاتي الثلاثة مع إجاباتها النموذجية'
+);
+assert(
+  Boolean(resolvedPilotChapter?.keyPoints && resolvedPilotChapter.keyPoints.length === 6),
+  'الفصل الأول يتضمن النقاط الجوهرية الست'
+);
+
+// 9.2 فحص عزل الفصول الأخرى وعدم تسرب بيانات المنهج إليها
+const devSandboxChap = getChapterById('dev-sandbox', 'dev-chap-1');
+assert(Boolean(devSandboxChap), 'استرجاع فصل المعمل التقني dev-chap-1');
+assert(devSandboxChap?.visualHub === undefined, 'معمل التقنية لا يتضمن Visual Hub (معزول تماماً عن كتل مناهج التربية الرياضية)');
+assert(devSandboxChap?.glossary === undefined, 'معمل التقنية لا يتضمن قاموس مصطلحات (لا تسريب لمصطلحات المنهج)');
+assert(devSandboxChap?.selfCheckQuestions === undefined, 'معمل التقنية لا يتضمن أسئلة تقويم ذاتي');
+
+// 9.3 فحص استجابة محدد الفصول عند طلب فصل أو مقرر غير موجود
+const missingChap = getChapterById('course-1', 'non-existent-chap');
+assert(missingChap === undefined, 'طلب فصل غير موجود يعيد undefined بأمان دون انهيار');
+const missingCourseChap = getChapterById('non-existent-course', 'chap-1');
+assert(missingCourseChap === undefined, 'طلب فصل لمقرر غير موجود يعيد undefined بأمان');
 
 console.log(`\n========================================`);
 console.log(`إجمالي الفحوصات الناجحة: ${passedTests}`);

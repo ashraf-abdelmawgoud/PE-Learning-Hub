@@ -107,6 +107,31 @@ export function validateAcademicContent(
         }
         chapterOrders.add(chapter.order);
 
+        // فحص الموارد الأكاديمية الاختيارية للفصل
+        if (chapter.glossary) {
+          for (let i = 0; i < chapter.glossary.length; i++) {
+            const g = chapter.glossary[i];
+            if (!g.term || g.term.trim() === '') {
+              errors.push({ level: 'error', entity: 'chapter', id: chapter.id, message: `المصطلح في المسرد [${i}] فارغ في الفصل ${chapter.id}` });
+            }
+            if (!g.definition || g.definition.trim() === '') {
+              errors.push({ level: 'error', entity: 'chapter', id: chapter.id, message: `تعريف المصطلح [${g.term || i}] فارغ في الفصل ${chapter.id}` });
+            }
+          }
+        }
+
+        if (chapter.selfCheckQuestions) {
+          for (let i = 0; i < chapter.selfCheckQuestions.length; i++) {
+            const q = chapter.selfCheckQuestions[i];
+            if (!q.question || q.question.trim() === '') {
+              errors.push({ level: 'error', entity: 'chapter', id: chapter.id, message: `نص سؤال التقويم [${i}] فارغ في الفصل ${chapter.id}` });
+            }
+            if (!q.answer || q.answer.trim() === '') {
+              errors.push({ level: 'error', entity: 'chapter', id: chapter.id, message: `إجابة سؤال التقويم [${q.id || i}] فارغة في الفصل ${chapter.id}` });
+            }
+          }
+        }
+
         // 3. فحص الموضوعات
         if (chapter.topics && chapter.topics.length > 0) {
           const topicOrders = new Set<number>();

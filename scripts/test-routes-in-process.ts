@@ -51,6 +51,8 @@ server.listen(4173, '127.0.0.1', async () => {
     { name: 'معمل المحرك البصري التجريبي', path: '/courses/visual-sandbox' },
     { name: 'درس المحرك البصري والأنيميشن', path: '/courses/visual-sandbox/chapters/vis-chap-1/topics/vis-top-1/lessons/vis-les-1' },
     { name: 'مسار معمل المحرك البصري المختصر', path: '/visual-sandbox' },
+    { name: 'فصل غير موجود لمادة موجودة (404 Chapter)', path: '/courses/course-1/chapters/non-existent-chap' },
+    { name: 'فصل لمادة غير موجودة (404 Course)', path: '/courses/non-existent-course/chapters/chap-1' },
     { name: 'مسار غير موجود (404 Fallback)', path: '/some-random-route' },
   ];
 
