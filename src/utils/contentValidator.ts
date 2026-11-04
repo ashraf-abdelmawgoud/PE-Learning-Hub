@@ -36,6 +36,7 @@ const VALID_BLOCK_TYPES = new Set([
   'visual_sequence',
   'animated_steps',
   'decision_scenario',
+  'video',
   'generic_future_block',
 ]);
 
@@ -376,6 +377,27 @@ function validateBlockPayload(block: ContentBlock, errors: ValidationError[]) {
       }
       if (!block.options || block.options.length < 2) {
         errors.push({ level: 'error', entity: 'block', id: block.id, message: 'كتلة موقف اتخاذ القرار يجب أن تحتوي على خيارين على الأقل' });
+      }
+      break;
+    case 'video':
+      if (!block.title || block.title.trim() === '') {
+        errors.push({ level: 'error', entity: 'block', id: block.id, message: 'كتلة الفيديو التعليمي بدون عنوان' });
+      }
+      if (!block.provider || block.provider !== 'youtube') {
+        errors.push({
+          level: 'error',
+          entity: 'block',
+          id: block.id,
+          message: `مزود الفيديو غير مدعوم في الكتلة ${block.id}: ${(block as any).provider || 'غير محدد'}. المزود المدعوم حصراً هو youtube.`,
+        });
+      }
+      if (!block.videoId || !/^[a-zA-Z0-9_-]{11}$/.test(block.videoId.trim())) {
+        errors.push({
+          level: 'error',
+          entity: 'block',
+          id: block.id,
+          message: `معرف فيديو YouTube غير صالح في الكتلة ${block.id}: "${(block as any).videoId}". يجب أن يتكون المعرف من 11 رمزاً قياسياً.`,
+        });
       }
       break;
   }

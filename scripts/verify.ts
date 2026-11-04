@@ -17,6 +17,13 @@ import {
   SAMPLE_VISUAL_COMPARISON,
   SAMPLE_VISUAL_SEQUENCE,
 } from '../src/data/academic/visualSandboxData.ts';
+import {
+  isValidYouTubeVideoId,
+  normalizeYouTubeVideoId,
+  getYouTubeEmbedUrl,
+  getYouTubeWatchUrl,
+  getYouTubeThumbnailUrl,
+} from '../src/utils/videoUtils.ts';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -124,7 +131,7 @@ assert(report.coursesCount === 8, `إجمالي المقررات (6 رسمية +
 assert(report.chaptersCount === 3, 'عدد الفصول الإجمالي يساوي 3 (1 تجربة حقيقية + 2 معامل تقنية)');
 assert(report.topicsCount === 3, 'عدد الموضوعات الإجمالي يساوي 3');
 assert(report.lessonsCount === 3, 'عدد الدروس الإجمالي يساوي 3');
-assert(report.blocksCount === 27, `عدد كتل المحتوى الإجمالي يساوي 27 كتلة رصينة (الفعل: ${report.blocksCount})`);
+assert(report.blocksCount === 28, `عدد كتل المحتوى الإجمالي يساوي 28 كتلة رصينة (الفعل: ${report.blocksCount})`);
 
 // 5.1 اختبار فشل البناء عند حقن محتوى معطوب (Corrupted Content Rejection)
 console.log('\n5.1 فحص صد واكتشاف المحتوى المعطوب (Strict Validation Enforcement):');
@@ -174,7 +181,7 @@ const devTopics = getTopicsByChapter('dev-chap-1');
 assert(devTopics.length === 1 && devTopics[0].id === 'dev-top-1', 'استرجاع موضوعات الفصل بترتيب سليم');
 
 const devLesson = getLessonById('dev-les-1');
-assert(Boolean(devLesson && devLesson.blocks.length === 10), 'استرجاع الدرس الشامل بكتله العشرة كاملة');
+assert(Boolean(devLesson && devLesson.blocks.length === 11), 'استرجاع الدرس الشامل بكتله الإحدى عشرة كاملة');
 
 const { prevLesson, nextLesson } = getPreviousAndNextLesson('dev-les-1');
 assert(prevLesson === null && nextLesson === null, 'فحص دالة الانتقال بين الدروس (السابق والتالي لدرس وحيد)');
@@ -400,6 +407,217 @@ const missingChap = getChapterById('course-1', 'non-existent-chap');
 assert(missingChap === undefined, 'طلب فصل غير موجود يعيد undefined بأمان دون انهيار');
 const missingCourseChap = getChapterById('non-existent-course', 'chap-1');
 assert(missingCourseChap === undefined, 'طلب فصل لمقرر غير موجود يعيد undefined بأمان');
+
+// 10. فحص مشغل الفيديو التعليمي وتكامل كتل الفيديو (Phase 2: Educational Video Integration & Reusable Player)
+console.log('\n10. فحص مشغل الفيديو التعليمي وتكامل كتل الفيديو (Phase 2: Video Integration):');
+
+// 10.1 فحص دوال التحقق والتطبيع لروابط ومعرفات YouTube
+assert(isValidYouTubeVideoId('KA_pExdDSUo') === true, 'التحقق من صحة معرف YouTube القياسي (11 رمزاً)');
+assert(isValidYouTubeVideoId('short_id') === false, 'رفض معرف YouTube غير المكتمل (أقل من 11 رمزاً)');
+assert(isValidYouTubeVideoId('toolongvideoid123') === false, 'رفض معرف YouTube الزائد عن 11 رمزاً');
+assert(isValidYouTubeVideoId('with spaces ') === false, 'رفض معرف YouTube الذي يحتوي على مسافات');
+assert(isValidYouTubeVideoId('<script>alert</script>') === false, 'رفض محاولات حقن وسوم HTML في معرف الفيديو');
+
+assert(
+  normalizeYouTubeVideoId('KA_pExdDSUo') === 'KA_pExdDSUo',
+  'تطبيع المعرف النظيف يعيد المعرف نفسه'
+);
+assert(
+  normalizeYouTubeVideoId('https://www.youtube.com/watch?v=KA_pExdDSUo') === 'KA_pExdDSUo',
+  'تطبيع رابط YouTube القياسي المستخرج من شريط المتصفح'
+);
+assert(
+  normalizeYouTubeVideoId('https://youtu.be/KA_pExdDSUo') === 'KA_pExdDSUo',
+  'تطبيع الرابط المختصر youtu.be'
+);
+assert(
+  normalizeYouTubeVideoId('https://www.youtube-nocookie.com/embed/KA_pExdDSUo') === 'KA_pExdDSUo',
+  'تطبيع رابط التضمين الآمن youtube-nocookie'
+);
+assert(
+  normalizeYouTubeVideoId('not-a-valid-url-or-id') === null,
+  'تطبيع مدخل مشوه يعيد null بأمان'
+);
+
+// 10.2 فحص روابط التضمين والمشاهدة والصور المصغرة
+const embedUrl = getYouTubeEmbedUrl('KA_pExdDSUo', { autoplay: true });
+assert(
+  embedUrl.includes('https://www.youtube-nocookie.com/embed/KA_pExdDSUo') &&
+  embedUrl.includes('autoplay=1') &&
+  embedUrl.includes('rel=0') &&
+  embedUrl.includes('modestbranding=1'),
+  'توليد رابط التضمين الآمن الخالي من ملفات تعريف الارتباط youtube-nocookie بنجاح'
+);
+
+const watchUrl = getYouTubeWatchUrl('KA_pExdDSUo');
+assert(watchUrl === 'https://www.youtube.com/watch?v=KA_pExdDSUo', 'توليد رابط المشاهدة المباشرة الاحتياطي على YouTube بنجاح');
+
+const thumbUrl = getYouTubeThumbnailUrl('KA_pExdDSUo', 'hq');
+assert(thumbUrl === 'https://i.ytimg.com/vi/KA_pExdDSUo/hqdefault.jpg', 'توليد رابط الصورة المصغرة خفيفة الوزن بنجاح');
+
+// 10.3 فحص كتلة الفيديو في الدرس النموذجي لمعمل الاختبار التقني (dev-les-1)
+const devVideoLesson = getLessonById('dev-les-1');
+const devVideoBlock = devVideoLesson?.blocks.find((b) => b.type === 'video');
+assert(Boolean(devVideoBlock), 'استرجاع كتلة الفيديو التعليمي من الدرس النموذجي بنجاح');
+assert(devVideoBlock?.order === 4, 'تموضع كتلة الفيديو التعليمي بالترتيب الرابع بعد التعريف التأسيسي');
+assert(
+  Boolean(devVideoBlock && (devVideoBlock as any).provider === 'youtube'),
+  'مزود الفيديو المعتمد هو youtube'
+);
+assert(
+  Boolean(devVideoBlock && (devVideoBlock as any).videoId === 'KA_pExdDSUo'),
+  'معرف الفيديو التعليمي التجريبي المعتمد KA_pExdDSUo'
+);
+assert(
+  Boolean(devVideoBlock && (devVideoBlock as any).sourceReference),
+  'كتلة الفيديو تتضمن التوثيق المرجعي الأكاديمي لشرح NotebookLM'
+);
+
+// 10.4 فحص خلو المقررات الرسمية من أي فيديوهات غير معتمدة أو مزيفة (Zero Fake Videos in Official Curriculum)
+const officialLesson = getLessonById('les-curriculum-evolution');
+assert(Boolean(officialLesson), 'استرجاع الدرس الأكاديمي الرسمي لمناهج التربية الرياضية');
+const officialVideoBlocks = officialLesson?.blocks.filter((b) => b.type === 'video') || [];
+assert(
+  officialVideoBlocks.length === 0,
+  'المقرر الأكاديمي الرسمي خالي تماماً من الفيديوهات ريثما يتم إنتاج وتدقيق فيديوهات NotebookLM الرسمية'
+);
+
+// 10.5 فحص دعم درس يتضمن فيديوهات متعددة (Multiple Video Blocks Support)
+// @ts-expect-error - اختبار حقن درس يضم فيديوهين للتحقق من دعم التعدد
+const multiVideoReport = validateAcademicContent([
+  {
+    id: 'test-multi-video-course',
+    orderNumber: 200,
+    code: 'MULTI-VID',
+    title: 'مقرر تجريبي لفيديوهات متعددة',
+    targetBookReference: 'مرجع',
+    status: 'pending_content',
+    statusLabel: 'تجريبي',
+    description: '',
+    chapters: [
+      {
+        id: 'mv-chap',
+        courseId: 'test-multi-video-course',
+        order: 1,
+        title: 'فصل',
+        description: '',
+        topics: [
+          {
+            id: 'mv-top',
+            chapterId: 'mv-chap',
+            order: 1,
+            title: 'موضوع',
+            description: '',
+            lessons: [
+              {
+                id: 'mv-les',
+                topicId: 'mv-top',
+                order: 1,
+                title: 'درس يضم فيديوهين',
+                description: '',
+                learningObjectives: [],
+                status: 'published',
+                references: [],
+                blocks: [
+                  {
+                    id: 'mv-blk-vid-1',
+                    order: 1,
+                    type: 'video',
+                    title: 'الفيديو التعليمي الأول: المفاهيم الأساسية',
+                    provider: 'youtube',
+                    videoId: 'KA_pExdDSUo',
+                  },
+                  {
+                    id: 'mv-blk-vid-2',
+                    order: 2,
+                    type: 'video',
+                    title: 'الفيديو التعليمي الثاني: التطبيق العملي',
+                    provider: 'youtube',
+                    videoId: 'KA_pExdDSUo',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+]);
+assert(multiVideoReport.isValid === true, 'محرك التحقق يقبل بنجاح وجود أكثر من كتلة فيديو واحدة داخل الدرس الواحد');
+
+// 10.6 فحص الرفض الصارم لكتل الفيديو المعطوبة (Negative Video Validation)
+// @ts-expect-error - اختبار حقن كتل فيديو معطوبة
+const corruptVideoReport = validateAcademicContent([
+  {
+    id: 'test-corrupt-video-course',
+    orderNumber: 201,
+    code: 'BAD-VID',
+    title: 'مقرر تجريبي لفيديوهات معطوبة',
+    targetBookReference: 'مرجع',
+    status: 'pending_content',
+    statusLabel: 'معطوب',
+    description: '',
+    chapters: [
+      {
+        id: 'bv-chap',
+        courseId: 'test-corrupt-video-course',
+        order: 1,
+        title: 'فصل',
+        description: '',
+        topics: [
+          {
+            id: 'bv-top',
+            chapterId: 'bv-chap',
+            order: 1,
+            title: 'موضوع',
+            description: '',
+            lessons: [
+              {
+                id: 'bv-les',
+                topicId: 'bv-top',
+                order: 1,
+                title: 'درس معطوب',
+                description: '',
+                learningObjectives: [],
+                status: 'published',
+                references: [],
+                blocks: [
+                  {
+                    id: 'bv-blk-1',
+                    order: 1,
+                    type: 'video',
+                    title: '', // خطأ: عنوان فارغ
+                    provider: 'youtube',
+                    videoId: 'KA_pExdDSUo',
+                  },
+                  {
+                    id: 'bv-blk-2',
+                    order: 2,
+                    type: 'video',
+                    title: 'فيديو بمزود غير معتمد',
+                    provider: 'vimeo', // خطأ: مزود غير مدعوم
+                    videoId: 'KA_pExdDSUo',
+                  },
+                  {
+                    id: 'bv-blk-3',
+                    order: 3,
+                    type: 'video',
+                    title: 'فيديو بمعرف معطوب',
+                    provider: 'youtube',
+                    videoId: 'short_id', // خطأ: أقل من 11 رمزاً
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+]);
+assert(corruptVideoReport.isValid === false, 'المحرك يكتشف ويرفض كتل الفيديو المعطوبة (العنوان الفارغ، المزود غير المدعوم، المعرف المشوه)');
+assert(corruptVideoReport.errors.length >= 3, `تم حصر جميع أخطاء الفيديو المعطوبة (تم اكتشاف ${corruptVideoReport.errors.length} أخطاء)`);
 
 console.log(`\n========================================`);
 console.log(`إجمالي الفحوصات الناجحة: ${passedTests}`);

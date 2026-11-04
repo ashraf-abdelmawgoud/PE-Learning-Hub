@@ -10,6 +10,7 @@ import { ComparisonBlockView } from './blocks/ComparisonBlockView';
 import { ImageBlockView } from './blocks/ImageBlockView';
 import { AcademicReferenceBlockView } from './blocks/AcademicReferenceBlockView';
 import { InteractivePlaceholderBlockView } from './blocks/InteractivePlaceholderBlockView';
+import { VideoPlayerBlockView } from './VideoPlayerBlockView';
 import { UnknownBlockView } from './blocks/UnknownBlockView';
 
 // Lazy loading for the Phase 4 Visual Learning Engine components
@@ -113,6 +114,8 @@ export const LessonRenderer: React.FC<LessonRendererProps> = ({ blocks }) => {
             <DecisionScenarioView block={block} />
           </Suspense>
         );
+      case 'video':
+        return <VideoPlayerBlockView key={block.id || `vid-${index}`} block={block} />;
       default:
         return <UnknownBlockView key={block.id || `unk-${index}`} block={block} />;
     }

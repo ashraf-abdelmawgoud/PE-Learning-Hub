@@ -315,6 +315,19 @@ export interface DecisionScenarioBlock extends BaseBlock {
   isVirtualSimulation?: boolean;
 }
 
+// Phase 2: NotebookLM Educational Video Integration
+export type VideoProvider = 'youtube';
+
+export interface VideoBlock extends BaseBlock {
+  type: 'video';
+  title: string;
+  description?: string;
+  provider: VideoProvider;
+  videoId: string;
+  sourceReference?: string;
+  captionLanguage?: string;
+}
+
 /**
  * Fallback for unknown or future block types (Simulation, 3D Model, etc.)
  * Ensures the renderer never crashes on unknown blocks.
@@ -342,6 +355,7 @@ export type ContentBlock =
   | VisualSequenceBlock
   | AnimatedStepsBlock
   | DecisionScenarioBlock
+  | VideoBlock
   | GenericBlock;
 
 // ==========================================
