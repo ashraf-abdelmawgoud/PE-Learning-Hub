@@ -1,6 +1,6 @@
 /**
  * LogoConcepts.tsx
- * Three Distinct Brand Identity Concepts for منصة علوم الرياضة
+ * Three Distinct Brand Identity Concepts for علوم الرياضة (OloomSport)
  *
  * Designed specifically for Physical Education & Sports Sciences:
  * - Concept A: الكتاب الحركي والأجنحة الديناميكية (Kinetic Book & Wing)
@@ -48,7 +48,7 @@ export const LogoConceptASymbol: React.FC<LogoSymbolProps> = ({
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={`shrink-0 ${className}`}
-      aria-label="شعار منصة علوم الرياضة — النموذج أ (الكتاب الحركي)"
+      aria-label="شعار علوم الرياضة — النموذج أ (الكتاب الحركي)"
     >
       <defs>
         <linearGradient id="conceptA_wingR" x1="0%" y1="100%" x2="100%" y2="0%">
@@ -200,7 +200,7 @@ export const LogoConceptCSymbol: React.FC<LogoSymbolProps> = ({
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={`shrink-0 ${className}`}
-      aria-label="شعار منصة علوم الرياضة — النموذج ج (الشعلة البيوميكانيكية)"
+      aria-label="شعار علوم الرياضة — النموذج ج (الشعلة البيوميكانيكية)"
     >
       <defs>
         <linearGradient id="conceptC_hex" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -384,11 +384,11 @@ export const ConceptFullLogo: React.FC<FullLogoProps> = ({
       {renderSymbol()}
       <div className="flex flex-col min-w-0">
         <span className={`text-base sm:text-lg font-black tracking-tight leading-none ${textColor}`}>
-          منصة علوم الرياضة
+          علوم الرياضة
         </span>
         {showSubtitle && (
           <span className={`text-[11px] font-semibold tracking-wide font-sans mt-1 ${subtitleColor}`}>
-            PE Interactive Learning Hub
+            OloomSport
           </span>
         )}
       </div>

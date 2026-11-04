@@ -3,7 +3,7 @@
  * Clean, Minimal, Premium Header for PE Interactive Learning Hub
  *
  * RTL Layout:
- * - Right: Platform Logo + Platform Name (منصة علوم الرياضة)
+ * - Right: Platform Logo + Brand Name (علوم الرياضة / OloomSport)
  * - Center: 3 Navigation Links (الرئيسية, المواد الدراسية, عن المنصة)
  * - Left: 1 Primary CTA (استكشف المواد)
  */
@@ -57,7 +57,7 @@ export const Navbar: React.FC = () => {
           <Link
             to="/"
             className="flex items-center gap-3 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#00C853] rounded-xl p-1 group"
-            aria-label="الصفحة الرئيسية لمنصة علوم الرياضة"
+            aria-label="الصفحة الرئيسية — علوم الرياضة"
           >
             <PlatformLogo showSubtitle={false} symbolSize={34} />
           </Link>

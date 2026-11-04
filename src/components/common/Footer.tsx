@@ -1,6 +1,6 @@
 /**
  * Footer.tsx
- * Minimal, Elegant Academic Footer for منصة علوم الرياضة
+ * Minimal, Elegant Academic Footer for علوم الرياضة (OloomSport)
  *
  * Structure:
  * - Column 1: Brand & Identity (Logo, Name, Short Academic Description)
@@ -96,7 +96,7 @@ export const Footer: React.FC = () => {
         {/* Bottom Bar: Simple Copyright */}
         <div className="border-t border-[#103D27] mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#709280]">
           <p>
-            © {currentYear} منصة علوم الرياضة — جميع الحقوق محفوظة
+            © {currentYear} علوم الرياضة — جميع الحقوق محفوظة
           </p>
           <p className="text-[#A3C2B0]/80">
             منصة أكاديمية لطلاب كليات علوم الرياضة والتربية البدنية

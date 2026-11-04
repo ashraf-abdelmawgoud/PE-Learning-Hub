@@ -43,7 +43,7 @@ const CONCEPTS_DATA: ConceptInfo[] = [
     academicPillar: 'شكل درع كلاسيكي وكتاب مفتوح مدمج في قاعدة منصة التتويج يمثل أسس المعرفة.',
     progressPillar: 'نواة التميز الماسية في القمة ترمز لبلوغ خط النهاية وتحقيق الريادة والبطولة.',
     details:
-      'تم اعتماد هذا النموذج رسمياً لهوية منصة علوم الرياضة بعد ترقيته بنظام هندسي متطور يضمن الوضوح التام في كافة المقاسات من 16px حتى 512px.',
+      'تم اعتماد هذا النموذج رسمياً لهوية علوم الرياضة (OloomSport) بعد ترقيته بنظام هندسي متطور يضمن الوضوح التام في كافة المقاسات من 16px حتى 512px.',
     isApproved: true,
   },
   {
@@ -82,7 +82,7 @@ export const LogoPreviewPage: React.FC = () => {
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#142B20] text-[#39E66D] border border-[#103D27] text-xs font-bold">
               <Award className="w-3.5 h-3.5 text-[#00C853]" />
-              <span>الهوية البصرية الرسمية المعتمدة — منصة علوم الرياضة</span>
+              <span>الهوية البصرية الرسمية المعتمدة — علوم الرياضة (OloomSport)</span>
             </div>
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#F4FFF7]">
               اعتماد وترقية الشعار الرسمي (Concept B: المضمار والقوس الأكاديمي)

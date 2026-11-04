@@ -371,15 +371,6 @@ export const ChapterDetailPage: React.FC = () => {
                 </p>
               </div>
             </div>
-
-            {/* Link to Historical Animation Showcase */}
-            <Link
-              to="/curriculum-animation"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#059669] hover:text-[#00C853] bg-[#E8F8EE] px-3 py-1.5 rounded-xl border border-[#D4E9DC] transition-colors self-start sm:self-auto"
-            >
-              <span>معاينة أنيميشن 2D للرحلة</span>
-              <ArrowLeft className="w-3.5 h-3.5" />
-            </Link>
           </div>
 
           {/* Visual Tabs Navigation */}

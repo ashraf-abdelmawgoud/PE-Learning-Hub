@@ -23,7 +23,7 @@ export const AboutPage: React.FC = () => {
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-black text-[#173D2B] tracking-tight">
-            منصة علوم الرياضة التفاعلية
+            علوم الرياضة — OloomSport
           </h1>
 
           <p className="text-[#486555] text-sm sm:text-base leading-relaxed">

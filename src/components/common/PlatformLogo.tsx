@@ -1,6 +1,6 @@
 /**
  * PlatformLogo.tsx
- * Official Brand Identity for منصة علوم الرياضة
+ * Official Brand Identity for علوم الرياضة (OloomSport)
  *
  * Concept B — Athletic Track Arc & Chevron Crest (Refined & Scalable)
  *
@@ -65,7 +65,7 @@ export const PrimaryConceptBSymbol: React.FC<{
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={`shrink-0 ${className}`}
-      aria-label="شعار منصة علوم الرياضة"
+      aria-label="شعار علوم الرياضة"
     >
       <defs>
         <linearGradient id="trackArcGrad1" x1="0%" y1="100%" x2="100%" y2="0%">
@@ -187,7 +187,7 @@ export const MicroConceptBSymbol: React.FC<{
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={`shrink-0 ${className}`}
-      aria-label="شعار منصة علوم الرياضة — أيقونة مصغرة"
+      aria-label="شعار علوم الرياضة — أيقونة مصغرة"
     >
       <defs>
         <linearGradient id="microTrackGrad" x1="0%" y1="100%" x2="100%" y2="0%">
@@ -333,11 +333,11 @@ export const PlatformLogo: React.FC<PlatformLogoProps> = ({
       />
       <div className="flex flex-col min-w-0">
         <span className={`text-base sm:text-lg font-black tracking-tight leading-none ${textColor}`}>
-          منصة علوم الرياضة
+          علوم الرياضة
         </span>
         {showSubtitle && (
           <span className={`text-[11px] font-semibold tracking-wide font-sans mt-1 ${subtitleColor}`}>
-            PE Interactive Learning Hub
+            OloomSport
           </span>
         )}
       </div>
