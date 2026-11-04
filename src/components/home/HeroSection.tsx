@@ -2,13 +2,15 @@
  * HeroSection.tsx
  * Clean, Elegant Hero Section for PE Interactive Learning Hub
  *
- * Designed with minimal text, strong sports-education identity,
- * and high Arabic readability for sports science students.
+ * Layout:
+ * - Right (Desktop RTL): Headline, Short Description, Primary & Secondary CTAs
+ * - Left (Desktop RTL): Colorful Low-Poly Geometric Athletes Illustration
+ * - Mobile: Headline & CTAs prominent above-the-fold, illustration proportional below
  */
 
 import React from 'react';
 import { BookOpen, Compass, ArrowLeft } from 'lucide-react';
-import { SportsMotionHeroGraphic } from './SportsMotionHeroGraphic';
+import { LowPolyAthletesGraphic } from './LowPolyAthletesGraphic';
 
 export const HeroSection: React.FC = () => {
   const scrollToHowItWorks = () => {
@@ -26,7 +28,7 @@ export const HeroSection: React.FC = () => {
   };
 
   return (
-    <section className="relative overflow-hidden pt-10 pb-16 lg:pt-18 lg:pb-22 bg-gradient-to-b from-[#071C12] via-[#0B2519] to-[#071C12] text-[#F4FFF7] transition-colors" dir="rtl">
+    <section className="relative overflow-hidden pt-8 pb-14 lg:pt-16 lg:pb-20 bg-gradient-to-b from-[#071C12] via-[#0B2519] to-[#071C12] text-[#F4FFF7] transition-colors" dir="rtl">
       
       {/* Subtle Atmospheric Sport Glow */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#00C853]/10 rounded-full blur-3xl pointer-events-none hidden sm:block" />
@@ -78,9 +80,9 @@ export const HeroSection: React.FC = () => {
 
           </div>
 
-          {/* Left Column in RTL: Pure Vector Sports Motion Graphic */}
+          {/* Left Column in RTL: Colorful Low-Poly Geometric Athletes Illustration */}
           <div className="lg:col-span-5 flex justify-center w-full">
-            <SportsMotionHeroGraphic />
+            <LowPolyAthletesGraphic />
           </div>
 
         </div>

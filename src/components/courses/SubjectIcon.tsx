@@ -80,3 +80,4 @@ export const SubjectIcon: React.FC<SubjectIconProps> = ({ title, className = 'w-
 
   return <BookOpen className={className} aria-hidden="true" />;
 };
+

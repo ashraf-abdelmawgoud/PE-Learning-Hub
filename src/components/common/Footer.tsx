@@ -11,7 +11,8 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Activity, GraduationCap, ShieldCheck, Heart, BookOpen } from 'lucide-react';
+import { GraduationCap, ShieldCheck, Heart, BookOpen } from 'lucide-react';
+import { PlatformLogo } from './PlatformLogo';
 
 const currentYear = new Date().getFullYear();
 
@@ -23,19 +24,7 @@ export const Footer: React.FC = () => {
           
           {/* Brand & Purpose (col-span-5) */}
           <div className="md:col-span-5 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#103D27] to-[#00C853] flex items-center justify-center text-[#071C12] shadow-md shadow-[#00C853]/20">
-                <Activity className="w-5 h-5 stroke-[2.7]" />
-              </div>
-              <div>
-                <span className="text-xl font-black text-[#F4FFF7] tracking-tight">
-                  منصة علوم الرياضة التفاعلية
-                </span>
-                <p className="text-xs text-[#39E66D] font-bold">
-                  PE Interactive Learning Hub — Sport Energy
-                </p>
-              </div>
-            </div>
+            <PlatformLogo showSubtitle={true} symbolSize={40} />
 
             <p className="text-sm text-[#D4E9DC]/80 leading-relaxed max-w-md">
               منصة تعليمية أكاديمية مجانية صُممت خصيصاً لدعم طلاب كليات علوم الرياضة والتربية البدنية؛

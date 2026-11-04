@@ -240,3 +240,4 @@ export const SportsMotionHeroGraphic: React.FC = () => {
     </div>
   );
 };
+
