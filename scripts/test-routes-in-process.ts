@@ -51,9 +51,6 @@ server.listen(4173, '127.0.0.1', async () => {
     { name: 'معمل المحرك البصري التجريبي', path: '/courses/visual-sandbox' },
     { name: 'درس المحرك البصري والأنيميشن', path: '/courses/visual-sandbox/chapters/vis-chap-1/topics/vis-top-1/lessons/vis-les-1' },
     { name: 'مسار معمل المحرك البصري المختصر', path: '/visual-sandbox' },
-    { name: 'معاينة تجربة الأنيميشن التعليمي 2D (المرحلة 4.1)', path: '/curriculum-animation' },
-    { name: 'مسار مختصر لأنيميشن تطور المنهج', path: '/pilot-animation' },
-    { name: 'معاينة شخصية المعلم المفصلية (Coach Rig PoC)', path: '/coach-poc' },
     { name: 'مسار غير موجود (404 Fallback)', path: '/some-random-route' },
   ];
 
@@ -108,11 +105,8 @@ server.listen(4173, '127.0.0.1', async () => {
     }
   }
 
-  // فحص أصول نموذج المعلم (Coach PoC & Unified WebP Assets)
+  // فحص أصل المعلم الموحد المتبقي للمشهد التعليمي النشط (Unified WebP Asset)
   const coachWebpAssets = [
-    'coach_body_full.webp',
-    'coach_head_full.webp',
-    'coach_arm_full.webp',
     'coach_unified.webp'
   ];
   for (const asset of coachWebpAssets) {

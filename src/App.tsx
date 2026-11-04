@@ -10,8 +10,6 @@ import { ChapterDetailPage } from './pages/ChapterDetailPage';
 import { TopicDetailPage } from './pages/TopicDetailPage';
 import { LessonPage } from './pages/LessonPage';
 import { AboutPage } from './pages/AboutPage';
-import { CurriculumAnimationPage } from './pages/CurriculumAnimationPage';
-import { CoachPocPage } from './pages/CoachPocPage';
 import { LogoPreviewPage } from './pages/LogoPreviewPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
@@ -67,11 +65,6 @@ export const App: React.FC = () => {
               }
             />
             <Route path="/about" element={<AboutPage />} />
-            {/* Phase 4.1 2D Educational Animation Direct Preview */}
-            <Route path="/curriculum-animation" element={<CurriculumAnimationPage />} />
-            <Route path="/pilot-animation" element={<Navigate to="/curriculum-animation" replace />} />
-            {/* Proof of Concept: Coach Character Rig */}
-            <Route path="/coach-poc" element={<CoachPocPage />} />
             {/* Brand Identity / Logo Concepts Preview */}
             <Route path="/logo-preview" element={<LogoPreviewPage />} />
             <Route path="*" element={<NotFoundPage />} />
