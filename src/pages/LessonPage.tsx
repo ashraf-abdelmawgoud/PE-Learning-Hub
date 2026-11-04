@@ -11,6 +11,7 @@ import {
 } from '../data/academic/selectors';
 import { LessonRenderer } from '../components/academic/LessonRenderer';
 import { BreadcrumbNav } from '../components/academic/BreadcrumbNav';
+import { isDevSandboxAllowed } from '../utils/devRouteGuard';
 import {
   BookOpen,
   Layers,
@@ -43,6 +44,11 @@ export const LessonPage: React.FC = () => {
 
   if (!course || !chapter || !topic || !lesson) {
     return <Navigate to={`/courses/${courseId}`} replace />;
+  }
+
+  // Guard development sandbox in production
+  if (course.isDevSandbox && !isDevSandboxAllowed()) {
+    return <Navigate to="/courses" replace />;
   }
 
   const { prevLesson, nextLesson } = getPreviousAndNextLesson(lesson.id);

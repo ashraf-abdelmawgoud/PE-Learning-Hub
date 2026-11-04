@@ -8,6 +8,7 @@ import {
   getAcademicBreadcrumbs,
 } from '../data/academic/selectors';
 import { BreadcrumbNav } from '../components/academic/BreadcrumbNav';
+import { isDevSandboxAllowed } from '../utils/devRouteGuard';
 import { BookOpen, Target, FileText, ArrowLeft, ChevronRight, Layers, Sparkles } from 'lucide-react';
 
 export const TopicDetailPage: React.FC = () => {
@@ -27,6 +28,11 @@ export const TopicDetailPage: React.FC = () => {
 
   if (!course || !chapter || !topic) {
     return <Navigate to={`/courses/${courseId}`} replace />;
+  }
+
+  // Guard development sandbox in production
+  if (course.isDevSandbox && !isDevSandboxAllowed()) {
+    return <Navigate to="/courses" replace />;
   }
 
   const lessons = getLessonsByTopic(topic.id);

@@ -100,6 +100,7 @@ export const CoursesPage: React.FC = () => {
         </div>
 
         {/* Courses Grid */}
+        <h2 className="sr-only">قائمة المواد الدراسية المعتمدة</h2>
         {filteredCourses.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {filteredCourses.map((course) => (

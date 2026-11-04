@@ -23,6 +23,7 @@ import {
   getAcademicBreadcrumbs,
 } from '../data/academic/selectors';
 import { BreadcrumbNav } from '../components/academic/BreadcrumbNav';
+import { isDevSandboxAllowed } from '../utils/devRouteGuard';
 import {
   Folder,
   ArrowLeft,
@@ -136,6 +137,11 @@ export const ChapterDetailPage: React.FC = () => {
   };
 
   if (!courseId || !chapterId) {
+    return <Navigate to="/courses" replace />;
+  }
+
+  // Guard development sandbox in production
+  if (course && course.isDevSandbox && !isDevSandboxAllowed()) {
     return <Navigate to="/courses" replace />;
   }
 

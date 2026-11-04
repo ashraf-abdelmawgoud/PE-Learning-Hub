@@ -19,7 +19,7 @@ import { FinalCtaSection } from '../components/home/FinalCtaSection';
 
 export const HomePage: React.FC = () => {
   return (
-    <main className="space-y-0" id="main-content">
+    <div className="space-y-0">
       {/* 1. Premium Hero */}
       <HeroSection />
 
@@ -34,6 +34,6 @@ export const HomePage: React.FC = () => {
 
       {/* 5. Final Closing CTA */}
       <FinalCtaSection />
-    </main>
+    </div>
   );
 };

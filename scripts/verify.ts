@@ -32,6 +32,7 @@ import {
   shuffleOrderingItems,
   getExpectedAnswerText,
 } from '../src/utils/quizScoring.ts';
+import { isDevSandboxAllowed } from '../src/utils/devRouteGuard.ts';
 import type { QuizBlock } from '../src/types/academic.ts';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -945,6 +946,152 @@ const corruptQuizReport = validateAcademicContent([
 ]);
 assert(corruptQuizReport.isValid === false, 'المحرك يكتشف ويرفض كتل الاختبارات المعطوبة بمختلف أنماط أخطائها');
 assert(corruptQuizReport.errors.length >= 6, `اكتشاف جميع أخطاء الاختبار المعطوبة بدقة (${corruptQuizReport.errors.length} أخطاء تم رصدها)`);
+
+// 12. فحص استقرار الواجهات وتثبيت الجودة للمرحلة الرابعة (Phase 4 Stabilization)
+console.log('\n12. فحص استقرار الواجهات وعزل المسارات وإمكانية الوصول (Phase 4 Final Stabilization):');
+
+// أ. التحقق من حذف المكونات غير المستخدمة
+const removedComponents = [
+  'src/components/home/BenefitsSection.tsx',
+  'src/components/home/CoursesPreviewSection.tsx',
+  'src/components/home/FeaturedLessonSection.tsx',
+  'src/components/home/LearningJourneySection.tsx',
+  'src/components/home/SportsAcademicHeroGraphic.tsx',
+  'src/components/home/SportsBiomechanicalGraphic.tsx',
+  'src/components/home/SportsMotionHeroGraphic.tsx',
+];
+
+removedComponents.forEach((filePath) => {
+  const exists = fs.existsSync(path.resolve(filePath));
+  assert(!exists, `المكون غير المستخدم محذوف بنجاح: ${path.basename(filePath)}`);
+});
+
+// ب. التحقق من سلامة البنية الدلالية وإمكانية الوصول (Semantic HTML & Accessibility)
+const appTsxContent = fs.readFileSync(path.resolve('src/App.tsx'), 'utf-8');
+const homePageContent = fs.readFileSync(path.resolve('src/pages/HomePage.tsx'), 'utf-8');
+
+assert(appTsxContent.includes('id="main-content"'), 'عنصر main الأساسي الوحيد يحمل المعرف id="main-content" في App.tsx');
+assert(appTsxContent.includes('href="#main-content"'), 'رابط التخطي السريع للمحتوى الرئيسي (Skip-to-Content) متاح في أعلى الصفحة');
+assert(!homePageContent.includes('<main'), 'صفحة HomePage لا تحتوي على عنصر main إضافي (منع تكرار landmark)');
+
+// ج. فحص عزل مسارات وبيانات التطوير (Dev Route Guard)
+assert(typeof isDevSandboxAllowed === 'function', 'دالة فحص صلاحية المسارات التجريبية isDevSandboxAllowed معرفة وتعمل');
+
+// د. التحقق من جاهزية البنية لاستيعاب المحتوى الأكاديمي الشامل عبر ملفات البيانات
+const mockComprehensiveCourse = {
+  id: 'course-test-comprehensive',
+  orderNumber: 1,
+  code: 'PE-TEST-01',
+  title: 'مقرر اختباري شامل للتحقق',
+  description: 'وصف المقرر الاختباري',
+  targetBookReference: 'مرجع كتاب اختباري',
+  status: 'pending_content' as const,
+  statusLabel: 'جاهز للاختبار',
+  categoryPlaceholder: 'اختبارات المحتوى',
+  architecture: {
+    lessonsPlanned: true,
+    quizzesPlanned: true,
+    simulationsPlanned: true,
+    interactiveDiagramsPlanned: true,
+  },
+  futureUnitsCount: 1,
+  futureLessonsCount: 1,
+  chapters: [
+    {
+      id: 'test-chap-1',
+      courseId: 'course-test-comprehensive',
+      order: 1,
+      title: 'الفصل الأول الاختباري',
+      description: 'وصف الفصل',
+      status: 'pending_content' as const,
+      topics: [
+        {
+          id: 'test-top-1',
+          chapterId: 'test-chap-1',
+          order: 1,
+          title: 'الموضوع الأول الاختباري',
+          description: 'وصف الموضوع',
+          status: 'pending_content' as const,
+          lessons: [
+            {
+              id: 'test-les-1',
+              topicId: 'test-top-1',
+              order: 1,
+              title: 'الدرس الاختباري الشامل لجميع الكتل',
+              description: 'شامل لكافة كتل المحتوى المعتمدة',
+              status: 'pending_content' as const,
+              learningObjectives: ['الهدف 1', 'الهدف 2'],
+              blocks: [
+                { id: 'b1', order: 1, type: 'heading', title: 'عنوان رئيسي', text: 'نص العنوان الرئيسي', level: 2 },
+                { id: 'b2', order: 2, type: 'paragraph', title: 'فقرة شرح', text: 'نص الفقرة الأكاديمية الشاملة' },
+                { id: 'b3', order: 3, type: 'definition', title: 'تعريف علمي', term: 'المفهوم', definition: 'شرح المفهوم' },
+                { id: 'b4', order: 4, type: 'example', title: 'مثال تطبيقي', example: 'تطبيق في الميدان' },
+                { id: 'b5', order: 5, type: 'key_point', title: 'نقطة جوهرية', point: 'فكرة أساسية' },
+                { id: 'b6', order: 6, type: 'list', title: 'قائمة', items: ['عنصر 1', 'عنصر 2'] },
+                {
+                  id: 'b7',
+                  order: 7,
+                  type: 'comparison',
+                  title: 'مقارنة علمية',
+                  headers: ['المفهوم التقليدي', 'المفهوم الحديث'],
+                  rows: [{ label: 'التركيز', col1: 'المعلومات فقط', col2: 'النمو الشامل للطالب' }],
+                },
+                {
+                  id: 'b8',
+                  order: 8,
+                  type: 'video',
+                  title: 'فيديو شرح تفاعلي',
+                  videoId: 'dQw4w9WgXcQ',
+                  provider: 'youtube',
+                  sourceType: 'notebooklm',
+                },
+                {
+                  id: 'b9',
+                  order: 9,
+                  type: 'quiz',
+                  title: 'اختبار تقييمي',
+                  questions: [
+                    {
+                      id: 'q1',
+                      order: 1,
+                      type: 'true_false',
+                      prompt: 'سؤال صواب وخطأ',
+                      correctAnswer: true,
+                    },
+                  ],
+                },
+                {
+                  id: 'b10',
+                  order: 10,
+                  type: 'academic_reference',
+                  title: 'مراجع الدرس',
+                  reference: {
+                    id: 'ref-1',
+                    order: 1,
+                    bookTitle: 'مناهج التربية الرياضية',
+                    authors: ['أ.د. هاني الدسوقي إبراهيم'],
+                    pageNumbers: 'ص 2 - 5',
+                  },
+                },
+              ],
+              references: [{ id: 'ref-1', order: 1, title: 'مرجع', source: 'المصدر' }],
+            },
+          ],
+        },
+      ],
+      academicResources: [{ id: 'res-1', title: 'مصدر', type: 'book_chapter', description: 'وصف' }],
+      glossary: [{ term: 'مصطلح', definition: 'تعريف' }],
+    },
+  ],
+  academicReferences: [{ id: 'cr-1', order: 1, title: 'مرجع مقرر', source: 'جامعي' }],
+};
+
+const comprehensiveValidation = validateAcademicContent([mockComprehensiveCourse as any]);
+if (!comprehensiveValidation.isValid) {
+  console.error('Validation errors:', comprehensiveValidation.errors);
+}
+assert(comprehensiveValidation.isValid === true, 'البنية الأكاديمية تدعم إدراج المقررات والفصول والموضوعات والدروس وكافة كتل المحتوى المعتمدة بنجاح 100%');
+assert(comprehensiveValidation.errors.length === 0, 'المقرر الشامل يمر دون أي أخطاء تحقق');
 
 console.log(`\n========================================`);
 console.log(`إجمالي الفحوصات الناجحة: ${passedTests}`);
