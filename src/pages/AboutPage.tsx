@@ -5,15 +5,13 @@ import {
   GraduationCap,
   BookOpen,
   ArrowLeft,
-  CheckCircle2,
-  Sparkles,
+  Users,
 } from 'lucide-react';
-import { RoadmapSection } from '../components/home/RoadmapSection';
 
 export const AboutPage: React.FC = () => {
   return (
-    <div className="py-12 sm:py-16 bg-[#F4FFF7] min-h-[85vh] transition-colors">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
+    <div className="py-12 sm:py-16 bg-[#F4FFF7] min-h-[85vh] transition-colors" dir="rtl">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-14">
         
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
@@ -65,55 +63,45 @@ export const AboutPage: React.FC = () => {
 
         </div>
 
-        {/* Technical Highlights & Architecture Specifications - Sport Energy Style */}
-        <div className="bg-white rounded-3xl p-8 sm:p-10 shadow-xs border border-[#D4E9DC] space-y-6">
-          <div className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-[#00C853]" />
-            <h2 className="text-xl sm:text-2xl font-black text-[#173D2B]">
-              المعايير التقنية والتنفيذية للمشروع
+        {/* Team Section (فريق العمل) */}
+        <section aria-label="فريق العمل" className="space-y-6 pt-2">
+          <div className="text-center max-w-2xl mx-auto space-y-2.5">
+            <div className="inline-flex items-center gap-2 text-xs font-bold px-3.5 py-1.5 rounded-full bg-[#E8F8EE] text-[#173D2B] border border-[#D4E9DC]">
+              <Users className="w-3.5 h-3.5 text-[#00C853]" />
+              <span>فريق العمل</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-[#173D2B] tracking-tight">
+              فريق العمل
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-[#486555]">
-            <div className="flex items-start gap-3 bg-[#F4FFF7] p-4.5 rounded-2xl border border-[#D4E9DC]">
-              <CheckCircle2 className="w-5 h-5 text-[#00C853] shrink-0 mt-0.5" />
-              <div>
-                <strong className="block text-[#173D2B] mb-1 font-black">تقنيات حديثة ومفتوحة المصدر</strong>
-                <span>بنيت المنصة بأحدث إصدارات React 19، TypeScript، Vite، و Tailwind CSS v4.</span>
+          <div className="flex justify-center">
+            <div className="w-full max-w-md bg-white rounded-3xl border border-[#D4E9DC] p-6 sm:p-8 shadow-xs flex flex-col items-center text-center space-y-4 hover:border-[#00C853]/40 transition-colors">
+              <div className="relative">
+                <div className="w-44 h-44 sm:w-52 sm:h-52 rounded-2xl overflow-hidden border-2 border-[#00C853]/30 shadow-md ring-4 ring-[#E8F8EE]">
+                  <img
+                    src="/assets/team/ashraf-ahmed.webp"
+                    alt="صورة أشرف عبدالموجود أحمد"
+                    width={800}
+                    height={800}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover object-center"
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="flex items-start gap-3 bg-[#F4FFF7] p-4.5 rounded-2xl border border-[#D4E9DC]">
-              <CheckCircle2 className="w-5 h-5 text-[#00C853] shrink-0 mt-0.5" />
-              <div>
-                <strong className="block text-[#173D2B] mb-1 font-black">لغة عربية كاملة وهوية SPORT ENERGY</strong>
-                <span>ضبط لغوي شامل بخط Cairo، ودعم تفضيلات الحركة (prefers-reduced-motion) وألوان مريحة وعالية التباين (WCAG AA).</span>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3 bg-[#F4FFF7] p-4.5 rounded-2xl border border-[#D4E9DC]">
-              <CheckCircle2 className="w-5 h-5 text-[#00C853] shrink-0 mt-0.5" />
-              <div>
-                <strong className="block text-[#173D2B] mb-1 font-black">بدون خوادم أو متطلبات تسجيل دخول</strong>
-                <span>منصة فورية الوصول للطلاب بدون تسجيل دخول أو تخزين بيانات في Supabase/Backend.</span>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3 bg-[#F4FFF7] p-4.5 rounded-2xl border border-[#D4E9DC]">
-              <CheckCircle2 className="w-5 h-5 text-[#00C853] shrink-0 mt-0.5" />
-              <div>
-                <strong className="block text-[#173D2B] mb-1 font-black">جاهزية كاملة لـ Cloudflare Pages</strong>
-                <span>تهيئة المسارات وإعدادات الـ Redirects لبناء ونشر سريع ومستقر عالمياً بدون أي تكاليف.</span>
+              <div className="space-y-1">
+                <h3 className="text-xl sm:text-2xl font-black text-[#173D2B] tracking-tight">
+                  أشرف عبدالموجود أحمد
+                </h3>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Development Roadmap Section */}
-        <RoadmapSection />
+        </section>
 
         {/* CTA */}
-        <div className="text-center pt-4">
+        <div className="text-center pt-2 sm:pt-4">
           <Link
             to="/courses"
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[#00C853] hover:bg-[#39E66D] active:bg-[#00A844] text-[#071C12] font-black text-sm sm:text-base shadow-md shadow-[#00C853]/20 transition-all active:scale-98"
