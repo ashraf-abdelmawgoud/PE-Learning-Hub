@@ -439,13 +439,8 @@ const BALLS_CONFIG: BallItem[] = [
    ========================================================================= */
 
 export const SportsAnimationPreviewPage: React.FC = () => {
-  // 1. Play / Pause State (Default: true, or false if user prefers reduced motion)
-  const [isPlaying, setIsPlaying] = useState<boolean>(() => {
-    if (typeof window !== 'undefined' && window.matchMedia) {
-      return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    }
-    return true;
-  });
+  // 1. Play / Pause State (Default: true so the preview is immediately active)
+  const [isPlaying, setIsPlaying] = useState<boolean>(true);
 
   // 2. Motion Speed Multiplier (Default: 'balanced' = 1.0x)
   // 'slow' = 1.6x duration (slower), 'balanced' = 1.0x, 'fast' = 0.65x duration (faster)
@@ -460,15 +455,21 @@ export const SportsAnimationPreviewPage: React.FC = () => {
   // 5. Tooltip / Inspect Info Tag Toggle
   const [showInfoBadges, setShowInfoBadges] = useState<boolean>(false);
 
+  // 6. Reduced Motion Detection Notice (Informative only, does not freeze controls)
+  const [hasReducedMotionPreference, setHasReducedMotionPreference] = useState<boolean>(() => {
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+    return false;
+  });
+
   // Motion preference change listener
   useEffect(() => {
     if (typeof window === 'undefined' || !window.matchMedia) return;
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     const handler = (e: MediaQueryListEvent) => {
-      if (e.matches) {
-        setIsPlaying(false);
-      }
+      setHasReducedMotionPreference(e.matches);
     };
 
     mediaQuery.addEventListener('change', handler);
@@ -575,28 +576,21 @@ export const SportsAnimationPreviewPage: React.FC = () => {
           }
         }
 
-        .anim-ball-path-1 { animation: ballTrajectory1 calc(18s * var(--speed-factor, 1)) ease-in-out infinite; will-change: transform; }
-        .anim-ball-path-2 { animation: ballTrajectory2 calc(20s * var(--speed-factor, 1)) ease-in-out infinite; will-change: transform; }
-        .anim-ball-path-3 { animation: ballTrajectory3 calc(16s * var(--speed-factor, 1)) ease-in-out infinite; will-change: transform; }
-        .anim-ball-path-4 { animation: ballTrajectory4 calc(15s * var(--speed-factor, 1)) ease-in-out infinite; will-change: transform; }
-        .anim-ball-path-5 { animation: ballTrajectory5 calc(21s * var(--speed-factor, 1)) ease-in-out infinite; will-change: transform; }
-        .anim-ball-path-6 { animation: ballTrajectory6 calc(9s * var(--speed-factor, 1)) ease-in-out infinite; will-change: transform; }
-        .anim-ball-path-7 { animation: ballTrajectory7 calc(10s * var(--speed-factor, 1)) ease-in-out infinite; will-change: transform; }
-        .anim-ball-path-8 { animation: ballTrajectory8 calc(8.5s * var(--speed-factor, 1)) ease-in-out infinite; will-change: transform; }
-        .anim-ball-path-9 { animation: ballTrajectory9 calc(7.5s * var(--speed-factor, 1)) ease-in-out infinite; will-change: transform; }
-        .anim-ball-path-10 { animation: ballTrajectory10 calc(11s * var(--speed-factor, 1)) ease-in-out infinite; will-change: transform; }
+        .anim-ball-path-1 { animation-name: ballTrajectory1; animation-timing-function: ease-in-out; animation-iteration-count: infinite; will-change: transform; }
+        .anim-ball-path-2 { animation-name: ballTrajectory2; animation-timing-function: ease-in-out; animation-iteration-count: infinite; will-change: transform; }
+        .anim-ball-path-3 { animation-name: ballTrajectory3; animation-timing-function: ease-in-out; animation-iteration-count: infinite; will-change: transform; }
+        .anim-ball-path-4 { animation-name: ballTrajectory4; animation-timing-function: ease-in-out; animation-iteration-count: infinite; will-change: transform; }
+        .anim-ball-path-5 { animation-name: ballTrajectory5; animation-timing-function: ease-in-out; animation-iteration-count: infinite; will-change: transform; }
+        .anim-ball-path-6 { animation-name: ballTrajectory6; animation-timing-function: ease-in-out; animation-iteration-count: infinite; will-change: transform; }
+        .anim-ball-path-7 { animation-name: ballTrajectory7; animation-timing-function: ease-in-out; animation-iteration-count: infinite; will-change: transform; }
+        .anim-ball-path-8 { animation-name: ballTrajectory8; animation-timing-function: ease-in-out; animation-iteration-count: infinite; will-change: transform; }
+        .anim-ball-path-9 { animation-name: ballTrajectory9; animation-timing-function: ease-in-out; animation-iteration-count: infinite; will-change: transform; }
+        .anim-ball-path-10 { animation-name: ballTrajectory10; animation-timing-function: ease-in-out; animation-iteration-count: infinite; will-change: transform; }
 
         .ball-glow-active {
           animation: ballHaloPulse 4s ease-in-out infinite;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .anim-ball-path-1, .anim-ball-path-2, .anim-ball-path-3, .anim-ball-path-4, .anim-ball-path-5,
-          .anim-ball-path-6, .anim-ball-path-7, .anim-ball-path-8, .anim-ball-path-9, .anim-ball-path-10,
-          .ball-glow-active {
-            animation: none !important;
-            transform: none !important;
-          }
+          display: inline-block;
+          will-change: filter;
         }
       `}</style>
 
@@ -686,6 +680,11 @@ export const SportsAnimationPreviewPage: React.FC = () => {
               <span className="text-xs px-2.5 py-1 rounded-lg bg-[#071C12] border border-[#00C853]/20 text-[#D4E9DC] font-mono hidden sm:inline">
                 {isPlaying ? 'الحركة: قيد التشغيل' : 'الحركة: متوقفة'}
               </span>
+              {hasReducedMotionPreference && (
+                <span className="text-xs px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 font-mono hidden md:inline">
+                  (تفضيل تقليل الحركة بالنظام: تم تجاوزه للمعاينة)
+                </span>
+              )}
             </div>
 
             {/* Control 2: Motion Speed Segmented Selector */}
@@ -890,16 +889,24 @@ export const SportsAnimationPreviewPage: React.FC = () => {
                     }}
                     aria-hidden="true"
                   >
-                    {/* Motion Trajectory Wrapper */}
+                    {/* 1. Motion Trajectory Wrapper (Only handles movement and rotation) */}
                     <div
-                      className={`${ball.animClass} ${isGlowEnabled ? 'ball-glow-active' : ''}`}
+                      className={ball.animClass}
                       style={{
                         animationDuration: `${dynamicDuration}s`,
                         animationPlayState: isPlaying ? 'running' : 'paused',
                       }}
                     >
-                      {/* Ball SVG */}
-                      <BallComponent size={viewportMode === 'mobile' ? Math.round(ball.size * 0.85) : ball.size} />
+                      {/* 2. Isolated Glow / Halo Layer */}
+                      <div
+                        className={isGlowEnabled ? 'ball-glow-active' : ''}
+                        style={{
+                          animationPlayState: isPlaying ? 'running' : 'paused',
+                        }}
+                      >
+                        {/* Ball SVG */}
+                        <BallComponent size={viewportMode === 'mobile' ? Math.round(ball.size * 0.85) : ball.size} />
+                      </div>
 
                       {/* Optional Info Badge for Inspection */}
                       {showInfoBadges && (
