@@ -11,6 +11,7 @@
 import React from 'react';
 import { BookOpen, Compass, ArrowLeft } from 'lucide-react';
 import { LowPolyAthletesGraphic } from './LowPolyAthletesGraphic';
+import { HeroAmbientDecorations } from './HeroAmbientDecorations';
 
 export const HeroSection: React.FC = () => {
   const scrollToHowItWorks = () => {
@@ -34,6 +35,9 @@ export const HeroSection: React.FC = () => {
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#00C853]/10 rounded-full blur-3xl pointer-events-none hidden sm:block" />
       <div className="absolute bottom-10 left-10 w-80 h-80 bg-[#39E66D]/10 rounded-full blur-3xl pointer-events-none hidden sm:block" />
 
+      {/* Ambient Sports Floating Decorations (Lightweight line symbols) */}
+      <HeroAmbientDecorations />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Main Hero Container: Flex Column on Mobile (with reordered children), 12-col Grid on Desktop */}
@@ -44,10 +48,9 @@ export const HeroSection: React.FC = () => {
               On Desktop: lg:flex lg:flex-col lg:col-span-7 creates the right-column layout in RTL */}
           <div className="contents lg:flex lg:flex-col lg:col-span-7 lg:space-y-6 text-center lg:text-right">
             
-            {/* 1. Main Headline (order-1 on mobile) - Single continuous semantic H1 with inline spans (Cairo Bold 700) */}
-            <h1 className="order-1 text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight sm:leading-tight animate-headline-entrance">
-              <span className="text-[#32D978]">علوم الرياضة</span>{' '}
-              <span className="text-[#FFFFFF]">بأسلوب مختلف</span>
+            {/* 1. Main Headline (order-1 on mobile) - Single semantic H1: "علوم الرياضة" (Cairo Bold 700) */}
+            <h1 className="order-1 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#32D978] leading-tight">
+              علوم الرياضة
             </h1>
 
             {/* 2. Short Supporting Description (order-2 on mobile) */}
@@ -79,8 +82,8 @@ export const HeroSection: React.FC = () => {
 
           </div>
 
-          {/* 3. Approved LowPolyAthletesGraphic (order-3 on mobile, between description and CTAs) */}
-          <div className="order-3 lg:order-none lg:col-span-5 flex justify-center w-full my-2 sm:my-3 lg:my-0 animate-illustration-float">
+          {/* 3. Approved LowPolyAthletesGraphic (order-3 on mobile, between description and CTAs, stationary) */}
+          <div className="order-3 lg:order-none lg:col-span-5 flex justify-center w-full my-2 sm:my-3 lg:my-0">
             <LowPolyAthletesGraphic />
           </div>
 
