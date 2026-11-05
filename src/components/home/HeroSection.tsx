@@ -11,7 +11,6 @@
 import React from 'react';
 import { BookOpen, Compass, ArrowLeft } from 'lucide-react';
 import { LowPolyAthletesGraphic } from './LowPolyAthletesGraphic';
-import { HeroAmbientDecorations } from './HeroAmbientDecorations';
 
 export const HeroSection: React.FC = () => {
   const scrollToHowItWorks = () => {
@@ -34,9 +33,6 @@ export const HeroSection: React.FC = () => {
       {/* Subtle Atmospheric Sport Glow */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#00C853]/10 rounded-full blur-3xl pointer-events-none hidden sm:block" />
       <div className="absolute bottom-10 left-10 w-80 h-80 bg-[#39E66D]/10 rounded-full blur-3xl pointer-events-none hidden sm:block" />
-
-      {/* Ambient Sports Floating Decorations (Lightweight line symbols) */}
-      <HeroAmbientDecorations />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
