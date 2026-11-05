@@ -188,56 +188,72 @@
   animation-delay: calc(var(--sibling-index, 0) * 0.06s);
 }
 
-/* Ambient Sports Floating Animations (Hero Section) */
-@keyframes ambientDriftA {
+/* Floating Sports Equipment Animations (Hero Section) */
+@keyframes sportsEquipFloatA {
   0%, 100% {
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0) rotate(0deg);
   }
   50% {
-    transform: translate3d(2px, -8px, 0);
+    transform: translate3d(2px, -9px, 0) rotate(2deg);
   }
 }
 
-@keyframes ambientDriftB {
+@keyframes sportsEquipFloatB {
   0%, 100% {
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0) rotate(0deg);
   }
   50% {
-    transform: translate3d(-3px, -11px, 0);
+    transform: translate3d(-3px, -11px, 0) rotate(-2deg);
   }
 }
 
-@keyframes ambientDriftC {
+@keyframes sportsEquipFloatC {
   0%, 100% {
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0) rotate(0deg);
   }
   50% {
-    transform: translate3d(3px, -7px, 0);
+    transform: translate3d(3px, -8px, 0) rotate(1.5deg);
   }
 }
 
-.animate-ambient-float-a {
-  animation: ambientDriftA 11s ease-in-out infinite;
+@keyframes sportsEquipFloatD {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(-2px, -10px, 0) rotate(-1.5deg);
+  }
+}
+
+.animate-sports-float-a {
+  animation: sportsEquipFloatA 11s ease-in-out infinite;
   will-change: transform;
 }
 
-.animate-ambient-float-b {
-  animation: ambientDriftB 14s ease-in-out infinite;
-  animation-delay: -4s;
+.animate-sports-float-b {
+  animation: sportsEquipFloatB 14s ease-in-out infinite;
+  animation-delay: -3.5s;
   will-change: transform;
 }
 
-.animate-ambient-float-c {
-  animation: ambientDriftC 16s ease-in-out infinite;
+.animate-sports-float-c {
+  animation: sportsEquipFloatC 16s ease-in-out infinite;
   animation-delay: -7s;
+  will-change: transform;
+}
+
+.animate-sports-float-d {
+  animation: sportsEquipFloatD 13s ease-in-out infinite;
+  animation-delay: -10s;
   will-change: transform;
 }
 
 /* Respect user's preference for reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .animate-ambient-float-a,
-  .animate-ambient-float-b,
-  .animate-ambient-float-c,
+  .animate-sports-float-a,
+  .animate-sports-float-b,
+  .animate-sports-float-c,
+  .animate-sports-float-d,
   .animate-card-reveal,
   .animate-athletic-pulse,
   .animate-kinetic-flow,
