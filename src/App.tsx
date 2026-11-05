@@ -12,11 +12,17 @@ import { LessonPage } from './pages/LessonPage';
 import { AboutPage } from './pages/AboutPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
-// In production build, import.meta.env.DEV is literal false, so dead-code elimination prunes LogoPreviewPage
+// In production build, import.meta.env.DEV is literal false, so dead-code elimination prunes development preview pages
 const isDev = Boolean(import.meta.env.DEV);
 const LogoPreviewPage = import.meta.env.DEV
   ? React.lazy(() =>
       import('./pages/LogoPreviewPage').then((m) => ({ default: m.LogoPreviewPage }))
+    )
+  : null;
+
+const TypographyPreviewPage = import.meta.env.DEV
+  ? React.lazy(() =>
+      import('./pages/TypographyPreviewPage').then((m) => ({ default: m.TypographyPreviewPage }))
     )
   : null;
 
@@ -62,6 +68,22 @@ export const App: React.FC = () => {
                   </React.Suspense>
                 }
               />
+            )}
+            {isDev && TypographyPreviewPage && (
+              <>
+                <Route
+                  path="/typography-preview"
+                  element={
+                    <React.Suspense fallback={<div className="min-h-screen bg-[#05140D]" />}>
+                      <TypographyPreviewPage />
+                    </React.Suspense>
+                  }
+                />
+                <Route
+                  path="/font-preview"
+                  element={<Navigate to="/typography-preview" replace />}
+                />
+              </>
             )}
             {isDev && (
               <>
