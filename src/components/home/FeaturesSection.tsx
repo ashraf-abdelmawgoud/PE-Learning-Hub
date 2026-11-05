@@ -60,11 +60,11 @@ export const FeaturesSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-16 sm:py-24 bg-white border-b border-[#D4E9DC] transition-colors" dir="rtl">
+    <section className="py-10 sm:py-14 lg:py-18 bg-white border-b border-[#D4E9DC] transition-colors" dir="rtl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-16 space-y-4">
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 space-y-3 sm:space-y-4">
           <div className="inline-flex items-center gap-2 text-xs font-black px-3.5 py-1.5 rounded-full bg-[#E8F8EE] text-[#173D2B] border border-[#D4E9DC]">
             <Sparkles className="w-3.5 h-3.5 text-[#00C853]" />
             <span>مميزات المنصة الأكاديمية (Core Value)</span>

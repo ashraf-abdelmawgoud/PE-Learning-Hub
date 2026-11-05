@@ -27,23 +27,23 @@ const OFFICIAL_SUBJECTS = [
 export const Footer: React.FC = () => {
   return (
     <footer className="bg-[#071C12] text-[#D4E9DC] border-t border-[#103D27] transition-colors" dir="rtl">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8">
           
           {/* Column 1: Brand & Mission (md:col-span-5) */}
-          <div className="md:col-span-5 space-y-3.5">
-            <PlatformLogo showSubtitle={false} symbolSize={38} />
-            <p className="text-sm text-[#A3C2B0] leading-relaxed max-w-md">
+          <div className="md:col-span-5 space-y-2.5">
+            <PlatformLogo showSubtitle={false} symbolSize={32} />
+            <p className="text-xs sm:text-sm text-[#A3C2B0] leading-relaxed max-w-sm">
               منصة تعليمية تفاعلية مجانية لتبسيط مقررات علوم الرياضة ومساعدة الطلاب على الفهم والمراجعة.
             </p>
           </div>
 
           {/* Column 2: Platform Navigation (md:col-span-3) */}
-          <div className="md:col-span-3 space-y-3">
-            <h4 className="text-sm font-bold text-[#F4FFF7]">
+          <div className="md:col-span-3 space-y-2">
+            <h4 className="text-xs sm:text-sm font-bold text-[#F4FFF7]">
               روابط المنصة
             </h4>
-            <ul className="space-y-2 text-sm">
+            <ul className="flex flex-wrap sm:flex-col gap-x-4 gap-y-1.5 text-xs sm:text-sm">
               <li>
                 <Link to="/" className="text-[#A3C2B0] hover:text-[#39E66D] transition-colors">
                   الرئيسية
@@ -63,23 +63,23 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Column 3: The 6 Official Subjects (md:col-span-4) */}
-          <div className="md:col-span-4 space-y-3">
-            <h4 className="text-sm font-bold text-[#F4FFF7]">
+          <div className="md:col-span-4 space-y-2">
+            <h4 className="text-xs sm:text-sm font-bold text-[#F4FFF7]">
               المواد الدراسية
             </h4>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-2 text-xs sm:text-sm">
+            <ul className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs">
               {OFFICIAL_SUBJECTS.map((subject) => (
                 <li key={subject.id}>
                   <Link
                     to={`/courses/${subject.id}`}
-                    className="text-[#A3C2B0] hover:text-[#39E66D] transition-colors flex items-center gap-1.5"
+                    className="text-[#A3C2B0] hover:text-[#39E66D] transition-colors flex items-center gap-1.5 py-0.5"
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-[#1B5E3A] shrink-0" />
-                    <span>{subject.title}</span>
+                    <span className="truncate">{subject.title}</span>
                   </Link>
                 </li>
               ))}
-              <li className="pt-1">
+              <li className="col-span-2 pt-0.5">
                 <Link
                   to="/courses"
                   className="text-xs text-[#39E66D] hover:underline font-bold inline-flex items-center gap-1"
@@ -93,8 +93,8 @@ export const Footer: React.FC = () => {
 
         </div>
 
-        {/* Bottom Bar: Simple Copyright */}
-        <div className="border-t border-[#103D27] mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#709280]">
+        {/* Bottom Bar: Simple Compact Copyright */}
+        <div className="border-t border-[#103D27] mt-5 pt-3.5 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-[#709280]">
           <p>
             © {currentYear} علوم الرياضة — جميع الحقوق محفوظة
           </p>

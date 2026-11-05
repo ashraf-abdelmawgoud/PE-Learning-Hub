@@ -7,7 +7,6 @@
  * 2. CoursesSection (Official 6 PE Subject Cards)
  * 3. HowItWorksSection (The 4-step student learning journey)
  * 4. FeaturesSection (Organized Content, Videos, Field Examples, Quizzes)
- * 5. FinalCtaSection (Closing Section with Direct Course Action)
  */
 
 import React from 'react';
@@ -15,7 +14,6 @@ import { HeroSection } from '../components/home/HeroSection';
 import { CoursesSection } from '../components/home/CoursesSection';
 import { HowItWorksSection } from '../components/home/HowItWorksSection';
 import { FeaturesSection } from '../components/home/FeaturesSection';
-import { FinalCtaSection } from '../components/home/FinalCtaSection';
 
 export const HomePage: React.FC = () => {
   return (
@@ -31,9 +29,6 @@ export const HomePage: React.FC = () => {
 
       {/* 4. Platform Features & Academic Value */}
       <FeaturesSection />
-
-      {/* 5. Final Closing CTA */}
-      <FinalCtaSection />
     </div>
   );
 };

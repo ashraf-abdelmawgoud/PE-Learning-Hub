@@ -21,13 +21,13 @@ export const CoursesSection: React.FC = () => {
   return (
     <section
       id="courses-section"
-      className="py-16 sm:py-20 bg-[#F4FFF7] border-b border-[#D4E9DC] scroll-mt-14 transition-colors"
+      className="py-10 sm:py-14 lg:py-18 bg-[#F4FFF7] border-b border-[#D4E9DC] scroll-mt-14 transition-colors"
       dir="rtl"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 sm:mb-8">
           <div className="space-y-2 max-w-2xl">
             <div className="inline-flex items-center gap-2 text-xs font-bold px-3 py-1 rounded-full bg-[#E8F8EE] text-[#173D2B] border border-[#D4E9DC]">
               <BookOpen className="w-3.5 h-3.5 text-[#00C853]" />
@@ -54,13 +54,14 @@ export const CoursesSection: React.FC = () => {
 
         {/* Six Compact Cards Grid: 3 per row on Desktop (2 rows), 2 on Tablet, 1 on Mobile */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-          {courses.map((course) => {
+          {courses.map((course, idx) => {
             const hasContent = course.chapters && course.chapters.length > 0;
 
             return (
               <div
                 key={course.id}
-                className="group relative bg-white rounded-2xl p-5 sm:p-6 border border-[#D4E9DC] hover:border-[#00C853] hover:shadow-lg hover:shadow-[#00C853]/10 transition-all duration-200 flex flex-col justify-between"
+                style={{ '--sibling-index': idx } as React.CSSProperties}
+                className="group relative bg-white rounded-2xl p-5 sm:p-6 border border-[#D4E9DC] hover:border-[#00C853] hover:shadow-lg hover:shadow-[#00C853]/10 transition-all duration-200 flex flex-col justify-between animate-card-reveal"
               >
                 {/* Card Top: Subject Icon + Single Availability Indicator */}
                 <div>
