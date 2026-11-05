@@ -26,12 +26,6 @@ const TypographyPreviewPage = import.meta.env.DEV
     )
   : null;
 
-const SportsAnimationPreviewPage = import.meta.env.DEV
-  ? React.lazy(() =>
-      import('./pages/SportsAnimationPreviewPage').then((m) => ({ default: m.SportsAnimationPreviewPage }))
-    )
-  : null;
-
 export const App: React.FC = () => {
   return (
     <BrowserRouter>
@@ -90,16 +84,6 @@ export const App: React.FC = () => {
                   element={<Navigate to="/typography-preview" replace />}
                 />
               </>
-            )}
-            {isDev && SportsAnimationPreviewPage && (
-              <Route
-                path="/sports-animation-preview"
-                element={
-                  <React.Suspense fallback={<div className="min-h-screen bg-[#071C12]" />}>
-                    <SportsAnimationPreviewPage />
-                  </React.Suspense>
-                }
-              />
             )}
             {isDev && (
               <>
