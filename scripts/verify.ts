@@ -34,6 +34,10 @@ import {
 } from '../src/utils/quizScoring.ts';
 import { isDevSandboxAllowed } from '../src/utils/devRouteGuard.ts';
 import type { QuizBlock } from '../src/types/academic.ts';
+import {
+  verifyChapter1NineTopicsStructure,
+  CHAPTER_1_NINE_TOPICS_METADATA,
+} from '../src/data/academic/curriculumNineTopicsConfig.ts';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -138,10 +142,10 @@ const report = validateAcademicContent();
 assert(report.isValid === true, 'تقرير فحص المحتوى الأكاديمي سليم بدون أخطاء بنيوية');
 assert(report.errors.length === 0, `عدد الأخطاء الهندسية يساوي 0 (الفعل: ${report.errors.length})`);
 assert(report.coursesCount === 8, `إجمالي المقررات (6 رسمية + 2 معمل تجريبي معزول) يساوي 8`);
-assert(report.chaptersCount === 3, 'عدد الفصول الإجمالي يساوي 3 (1 تجربة حقيقية + 2 معامل تقنية)');
-assert(report.topicsCount === 3, 'عدد الموضوعات الإجمالي يساوي 3');
-assert(report.lessonsCount === 3, 'عدد الدروس الإجمالي يساوي 3');
-assert(report.blocksCount === 29, `عدد كتل المحتوى الإجمالي يساوي 29 كتلة رصينة (الفعل: ${report.blocksCount})`);
+assert(report.chaptersCount === 9, 'عدد الفصول الإجمالي يساوي 9 (7 وحدات لمناهج التربية الرياضية + 2 معامل تقنية)');
+assert(report.topicsCount === 26, 'عدد الموضوعات الإجمالي يساوي 26 (24 لمناهج التربية الرياضية + 2 معامل تقنية)');
+assert(report.lessonsCount === 3, 'عدد الدروس الإجمالي يساوي 3 (2 معامل تقنية + 1 درس احتياطي معتمد)');
+assert(report.blocksCount === 19, `عدد كتل المحتوى الإجمالي يساوي 19 كتلة رصينة (الفعل: ${report.blocksCount})`);
 
 // 5.1 اختبار فشل البناء عند حقن محتوى معطوب (Corrupted Content Rejection)
 console.log('\n5.1 فحص صد واكتشاف المحتوى المعطوب (Strict Validation Enforcement):');
@@ -181,7 +185,7 @@ const studentCourses = getAllCourses(false);
 assert(studentCourses.length === 6, 'واجهة الطلاب تسترجع المواد الدراسية الست فقط');
 assert(studentCourses.every((c) => !c.isDevSandbox), 'لا يوجد أي مقرر تجريبي مسرب لواجهة الطلاب');
 assert(studentCourses.every((c) => c.status === 'pending_content'), 'جميع المواد الست للطلاب بحالة pending_content');
-assert(studentCourses.find((c) => c.id === 'course-1')?.chapters.length === 1, 'مادة مناهج التربية الرياضية PE-ACAD-01 تتضمن فصلاً واحداً كمعاينة أكاديمية تجريبية');
+assert(studentCourses.find((c) => c.id === 'course-1')?.chapters.length === 7, 'مادة مناهج التربية الرياضية PE-ACAD-01 تتضمن 7 وحدات دراسية معتمدة (5 فصول + موضوعان مستقلان)');
 assert(studentCourses.filter((c) => c.id !== 'course-1').every((c) => c.chapters.length === 0), 'بقية المواد الخمس خالية من الفصول بانتظار تزويد المنصة بكتبها');
 
 const devChapters = getChaptersByCourse('dev-sandbox');
@@ -321,67 +325,83 @@ assert(corruptedVisualReport.isValid === false, 'المحرك يكتشف وير�
 console.log('\n8. فحص التجربة التعليمية الحقيقية (كتاب مناهج التربية الرياضية - أ.د. هاني الدسوقي إبراهيم):');
 
 const course1 = getCourseById('course-1');
-assert(Boolean(course1 && course1.chapters.length === 1), 'المقرر الأول PE-ACAD-01 يتضمن الفصل الأول الحقيقي');
+assert(Boolean(course1 && course1.chapters.length === 7), 'المقرر الأول PE-ACAD-01 يتضمن الوحدات الدراسية السبع المعتمدة (5 فصول + موضوعان مستقلان)');
 assert(course1?.code === 'PE-ACAD-01', 'رمز المقرر الأول PE-ACAD-01 صحيح');
 
 const course1Chapters = getChaptersByCourse('course-1');
-assert(course1Chapters.length === 1 && course1Chapters[0].id === 'chap-curriculum-intro', 'استرجاع الفصل الأول: مقدمة وماهية المنهج');
+assert(course1Chapters.length === 7, 'استرجاع الوحدات الدراسية السبع لمادة مناهج التربية الرياضية بنجاح');
+assert(course1Chapters[0].id === 'chap-curriculum-intro', 'الوحدة الأولى: الفصل الأول: مقدمة وماهية المنهج');
+assert(course1Chapters[1].id === 'chap-curriculum-foundations', 'الوحدة الثانية: الفصل الثاني: اسس ومكونات بناء المنهج المدرسي');
+assert(course1Chapters[2].id === 'chap-curriculum-elements', 'الوحدة الثالثة: الفصل الثالث: عناصر المنهج');
+assert(course1Chapters[3].id === 'chap-curriculum-factors', 'الوحدة الرابعة: الفصل الرابع: العوامل المؤثرة في بناء المنهج');
+assert(course1Chapters[4].id === 'chap-curriculum-designs', 'الوحدة الخامسة: الفصل الخامس: تصميمات وتنظيمات المنهاج المدرسية');
+assert(course1Chapters[5].id === 'chap-curriculum-unit-design', 'الوحدة السادسة: الموضوع السادس: تصميم وحدة دراسية');
+assert(course1Chapters[6].id === 'chap-curriculum-planning', 'الوحدة السابعة: الموضوع السابع: تخطيط المنهج المدرسي');
+assert(Boolean(course1 && course1.academicReferences.length >= 7), 'قائمة مراجع المقرر تتضمن مراجع الكتاب المعتمدة');
 
 const course1Topics = getTopicsByChapter('chap-curriculum-intro');
-assert(course1Topics.length === 1 && course1Topics[0].id === 'top-curriculum-concept-evolution', 'استرجاع موضوع تطور مفهوم المنهج');
+assert(course1Topics.length === 9, 'استرجاع موضوعات الفصل الأول التسعة المعتمدة');
 
-const pilotLesson = getLessonById('les-curriculum-evolution');
-assert(Boolean(pilotLesson), 'استرجاع الدرس الأكاديمي الحقيقي بنجاح');
-assert(pilotLesson?.blocks.length === 11, `الدرس الحقيقي يتضمن 11 كتلة محتوى متكاملة رصينة (الفعل: ${pilotLesson?.blocks.length})`);
+// التحقق من الالتزام بالعناوين الرسمية التسعة وترتيبها وتصنيفاتها
+const EXPECTED_TITLES = [
+  'المنهج الدراسي ودور التربية الرياضية في التنمية الشاملة',
+  'التغيرات العلمية والتكنولوجية والتحول نحو التعلم الذاتي',
+  'الدور الحديث لمعلم التربية الرياضية والمتعلم',
+  'تخطيط مناهج التربية الرياضية والمناهج التكيفية',
+  'استخدام التكنولوجيا والحاسب الآلي في مناهج التربية الرياضية',
+  'أولًا: ماهية المنهج',
+  'تعريفات المناهج قديمًا وحديثًا',
+  'تعريفات المنهج',
+  'المنهج في اللغة',
+];
 
-// التحقق من خلو الدرس تماماً من أي كتل كرتونية قديمة
-const legacyAnimBlock = pilotLesson?.blocks.find((b) => (b.type as string) === 'curriculum_journey_animation');
-assert(legacyAnimBlock === undefined, 'الدرس خالي تماماً من كتل الأنيميشن الكرتوني التجريبية القديمة');
+const EXPECTED_IDS = [
+  'top-ch1-curriculum-comprehensive-dev',
+  'top-ch1-tech-change-self-learning',
+  'top-ch1-modern-role-teacher-learner',
+  'top-ch1-curriculum-planning-adaptive',
+  'top-ch1-tech-computers-in-curriculum',
+  'top-ch1-nature',
+  'top-ch1-trad-vs-mod',
+  'top-ch1-definitions',
+  'top-ch1-language',
+];
 
-// التحقق من تموضع المقارنة البصرية التفاعلية ككتلة رابعة رئيسية
-const comparisonBlock = pilotLesson?.blocks[3];
-assert(
-  Boolean(comparisonBlock && comparisonBlock.type === 'visual_comparison' && comparisonBlock.id === 'curric-blk-comp-trad-vs-mod'),
-  'المقارنة البصرية التفاعلية بين المفهوم التقليدي والحديث موضوعة بنجاح ككتلة رابعة رئيسية بعد التعريف'
-);
+course1Topics.forEach((topic, idx) => {
+  assert(topic.order === idx + 1, `الموضوع ${idx + 1}: الترتيب ${idx + 1} صحيح`);
+  assert(topic.id === EXPECTED_IDS[idx], `الموضوع ${idx + 1}: المعرف ${topic.id} صحيح`);
+  assert(topic.title === EXPECTED_TITLES[idx], `الموضوع ${idx + 1}: العنوان «${topic.title}» مطابق`);
+  assert(Boolean(topic.summary && topic.summary.trim().length > 0), `الموضوع ${idx + 1}: الملخص الأكاديمي المعتمد مدمج`);
+  if (idx < 5) {
+    assert(topic.headingClassification === 'educational_organizational', `الموضوع ${idx + 1}: تصنيف تنظيمي تربوي سليم`);
+  } else {
+    assert(topic.headingClassification === 'original_author', `الموضوع ${idx + 1}: تصنيف عنوان المؤلف الأصلي سليم`);
+  }
+});
 
-// فحص المرجع الأكاديمي الدقيق
-const ref = pilotLesson?.references[0];
-assert(ref?.bookTitle === 'مناهج التربية الرياضية', 'عنوان المرجع: مناهج التربية الرياضية مطابق للغلاف');
-assert(Boolean(ref?.author.includes('هاني الدسوقي إبراهيم')), 'المؤلف: أ.د. هاني الدسوقي إبراهيم مطابق لصفحة العنوان');
-assert(ref?.pageRange === 'ص 2 - 5', 'الصفحات المرجعية: ص 2 - 5 مطابقة للترقيم الأصلي');
+// فحص وجود محتويات دقيقة ومميزة في ملخصات الموضوعات التسعة المعتمدة
+assert(Boolean(course1Topics[0].summary?.includes('المتعلمون')), 'ملخص الموضوع 1 يتضمن مدخلات تقويم المنهج الأربعة');
+assert(Boolean(course1Topics[1].summary?.includes('الموجة الثالثة')), 'ملخص الموضوع 2 يتضمن مفهوم الموجة الثالثة');
+assert(Boolean(course1Topics[2].summary?.includes('الدور الحديث للمعلم')), 'ملخص الموضوع 3 يتضمن الدور الحديث للمعلم');
+assert(Boolean(course1Topics[3].summary?.includes('مركزية الأهداف ولا مركزية المحتوى')), 'ملخص الموضوع 4 يتضمن قاعدة مركزية الأهداف');
+assert(Boolean(course1Topics[4].summary?.includes('الحاسب الآلي كمدير للمنهج')), 'ملخص الموضوع 5 يتضمن المنظورات الأربعة للحاسب');
+assert(Boolean(course1Topics[5].summary?.includes('Curriculum')), 'ملخص الموضوع 6 يتضمن الاشتقاق اللاتيني');
+assert(Boolean(course1Topics[6].summary?.includes('مقارنة تنظيمية تعليمية بين المفهومين')), 'ملخص الموضوع 7 يتضمن جدول المقارنة التعليمية');
+assert(Boolean(course1Topics[7].summary?.includes('وردت أربعة تعريفات للمنهج')), 'ملخص الموضوع 8 يتضمن التعريفات الأربعة');
+assert(Boolean(course1Topics[8].summary?.includes('الطريق الواضح')), 'ملخص الموضوع 9 يتضمن الدلالة اللغوية');
 
-// فحص كتل المحرك البصري في الدرس الحقيقي
-const animBlock = pilotLesson?.blocks.find((b) => b.type === 'animated_explanation');
-assert(Boolean(animBlock && animBlock.type === 'animated_explanation' && animBlock.steps.length === 3), 'شرح متحرك من 3 مراحل: تقليدي -> خبرات وأنشطة -> منظومة شاملة');
-
-const diagBlock = pilotLesson?.blocks.find((b) => b.type === 'interactive_diagram');
-assert(Boolean(diagBlock && diagBlock.type === 'interactive_diagram' && diagBlock.nodes.length === 5), 'مخطط تفاعلي يتضمن 5 أركان مفاهيمية مع علاقاتها');
-
-const compBlock = pilotLesson?.blocks.find((b) => b.type === 'visual_comparison');
-assert(Boolean(compBlock && compBlock.type === 'visual_comparison' && compBlock.criteria.length === 6), 'مقارنة بصرية بين التصور التقليدي والحديث عبر 6 معايير');
-
-const stepsBlock = pilotLesson?.blocks.find((b) => b.type === 'animated_steps');
-assert(Boolean(stepsBlock && stepsBlock.type === 'animated_steps' && stepsBlock.steps.length === 4), 'تسلسل خطوات تعليمية ذكية يضم 4 مراحل لتخطيط المنهج (المرحلة 4.2)');
-
-const decisionBlock = pilotLesson?.blocks.find((b) => b.type === 'decision_scenario');
-assert(Boolean(decisionBlock && decisionBlock.type === 'decision_scenario' && decisionBlock.options.length === 3), 'موقف تعليمي تطبيقي لاتخاذ القرار يضم 3 بدائل وتفسيراً تربوياً (المرحلة 4.2)');
-
-const seqBlock = pilotLesson?.blocks.find((b) => b.type === 'visual_sequence');
-assert(Boolean(seqBlock && seqBlock.type === 'visual_sequence' && seqBlock.items.length === 4), 'نشاط ترتيب يضم مراحل تخطيط وتطوير المنهج الأربعة');
-
-const pilotBreadcrumbs = getAcademicBreadcrumbs({
+// فحص مسارات التنقل الأكاديمي (Breadcrumbs) للموضوعات
+const topic1Breadcrumbs = getAcademicBreadcrumbs({
   courseId: 'course-1',
   chapterId: 'chap-curriculum-intro',
-  topicId: 'top-curriculum-concept-evolution',
-  lessonId: 'les-curriculum-evolution',
+  topicId: 'top-ch1-curriculum-comprehensive-dev',
 });
-assert(pilotBreadcrumbs.length === 5, 'توليد مسار التنقل الأكاديمي للدرس الحقيقي (Breadcrumbs)');
+assert(topic1Breadcrumbs.length === 4, 'توليد مسار التنقل الأكاديمي لموضوعات الفصل الأول (Breadcrumbs)');
 
-// 9. فحص بنية الفصل الديناميكية وعزل الموارد الأكاديمية (Dynamic Chapter Architecture & Isolation - Phase 1)
-console.log('\n9. فحص بنية الفصل الديناميكية وعزل الموارد الأكاديمية (Dynamic Chapter Architecture):');
+// 9. فحص بنية الفصل الديناميكية واختبار الفصل الشامل (Dynamic Chapter Architecture & Comprehensive Quiz)
+console.log('\n9. فحص بنية الفصل الديناميكية واختبار الفصل الشامل (Dynamic Chapter Architecture):');
 
-// 9.1 فحص الفصل التجريبي لمناهج التربية الرياضية
+// 9.1 فحص الفصل الأول لمناهج التربية الرياضية
 const resolvedPilotChapter = getChapterById('course-1', 'chap-curriculum-intro');
 assert(Boolean(resolvedPilotChapter), 'استرجاع الفصل الأول لمناهج التربية الرياضية عبر getChapterById');
 assert(
@@ -389,20 +409,33 @@ assert(
   'الفصل الأول يتضمن المرجع الأكاديمي المعتمد من الكتاب (أ.د. هاني الدسوقي إبراهيم)'
 );
 assert(
-  Boolean(resolvedPilotChapter?.visualHub?.comparisonBlock && resolvedPilotChapter?.visualHub?.stepsBlock),
-  'الفصل الأول يتضمن كتل المحور البصري المخصصة (Visual Hub)'
+  Boolean(resolvedPilotChapter?.academicReference?.author.includes('هاني الدسوقي إبراهيم')),
+  'المؤلف: أ.د. هاني الدسوقي إبراهيم مطابق لصفحة العنوان'
 );
+assert(
+  resolvedPilotChapter?.academicReference?.pageRange === 'ص 2 - 6',
+  'النطاق المرجعي للفصل الأول: ص 2 - 6'
+);
+
+// فحص اختبار الفصل الشامل (15 سؤالاً)
+assert(Boolean(resolvedPilotChapter?.chapterQuiz), 'الفصل الأول يتضمن اختبار الفصل الشامل');
+assert(resolvedPilotChapter?.chapterQuiz?.questions.length === 15, 'اختبار الفصل الشامل يتضمن 15 سؤالاً معتمداً');
+const mcqCount = resolvedPilotChapter?.chapterQuiz?.questions.filter((q) => q.type === 'multiple_choice').length;
+const tfCount = resolvedPilotChapter?.chapterQuiz?.questions.filter((q) => q.type === 'true_false').length;
+assert(mcqCount === 10, `الاختبار الشامل يتضمن 10 أسئلة اختيار من متعدد (الفعل: ${mcqCount})`);
+assert(tfCount === 5, `الاختبار الشامل يتضمن 5 أسئلة صواب وخطأ (الفعل: ${tfCount})`);
+assert(
+  resolvedPilotChapter?.chapterQuiz?.questions.every((q) => Boolean(q.prompt && q.explanation && q.sourceReference)),
+  'جميع أسئلة الاختبار الشامل موثقة بالنص والتفسير والصفحة المرجعية للكتاب'
+);
+
 assert(
   Boolean(resolvedPilotChapter?.glossary && resolvedPilotChapter.glossary.length === 5),
   'الفصل الأول يتضمن قاموس مصطلحات المنهج (5 مصطلحات أكاديمية)'
 );
 assert(
-  Boolean(resolvedPilotChapter?.selfCheckQuestions && resolvedPilotChapter.selfCheckQuestions.length === 3),
-  'الفصل الأول يتضمن أسئلة التقويم الذاتي الثلاثة مع إجاباتها النموذجية'
-);
-assert(
-  Boolean(resolvedPilotChapter?.keyPoints && resolvedPilotChapter.keyPoints.length === 6),
-  'الفصل الأول يتضمن النقاط الجوهرية الست'
+  Boolean(resolvedPilotChapter?.keyPoints && resolvedPilotChapter.keyPoints.length === 5),
+  'الفصل الأول يتضمن النقاط الجوهرية الخمس'
 );
 
 // 9.2 فحص عزل الفصول الأخرى وعدم تسرب بيانات المنهج إليها
@@ -417,6 +450,61 @@ const missingChap = getChapterById('course-1', 'non-existent-chap');
 assert(missingChap === undefined, 'طلب فصل غير موجود يعيد undefined بأمان دون انهيار');
 const missingCourseChap = getChapterById('non-existent-course', 'chap-1');
 assert(missingCourseChap === undefined, 'طلب فصل لمقرر غير موجود يعيد undefined بأمان');
+
+// 9.4 فحص حالة واجهة الاختبار الشامل للفصول عبر جميع المقررات (Chapter Quiz UX & Status)
+console.log('\n9.4 فحص حالة واجهة الاختبار الشامل للفصول عبر جميع المقررات:');
+assert(Boolean(resolvedPilotChapter?.chapterQuiz?.questions.length === 15), 'الفصل الأول يحتوي على 15 سؤالاً معتمداً للاختبار الشامل');
+for (let cIdx = 1; cIdx < course1Chapters.length; cIdx++) {
+  const chap = course1Chapters[cIdx];
+  assert(
+    chap.chapterQuiz === undefined || chap.chapterQuiz.questions.length === 0,
+    `الفصل ${chap.order} (${chap.title}): خالٍ من الأسئلة غير المعتمدة ويعرض حالة الاختبار قيد الإعداد`
+  );
+}
+
+// 9.5 فحص الهيكل الفني التنظيمي المعتمد للفصل الأول (9 موضوعات وبياناتها الوصفية)
+console.log('\n9.5 فحص الهيكل الفني التنظيمي المعتمد للفصل الأول (9 موضوعات وبياناتها الوصفية):');
+const nineTopicsCheck = verifyChapter1NineTopicsStructure();
+assert(nineTopicsCheck.isValid === true, 'الهيكل الفني للموضوعات التسعة صالح ومتوافق مع المعايير الأكاديمية');
+assert(nineTopicsCheck.totalTopics === 9, 'عدد موضوعات الهيكل الفني للفصل الأول يساوي 9 موضوعات بالضبط');
+assert(
+  nineTopicsCheck.educationalOrganizationalCount === 5,
+  'الموضوعات من 1 إلى 5 مصنفة كعناوين تنظيمية تربوية (educational_organizational)'
+);
+assert(
+  nineTopicsCheck.originalAuthorCount === 4,
+  'الموضوعات من 6 إلى 9 مصنفة كعناوين المؤلف الأصلي (original_author)'
+);
+
+const EXPECTED_NINE_TITLES = [
+  'المنهج الدراسي ودور التربية الرياضية في التنمية الشاملة',
+  'التغيرات العلمية والتكنولوجية والتحول نحو التعلم الذاتي',
+  'الدور الحديث لمعلم التربية الرياضية والمتعلم',
+  'تخطيط مناهج التربية الرياضية والمناهج التكيفية',
+  'استخدام التكنولوجيا والحاسب الآلي في مناهج التربية الرياضية',
+  'أولًا: ماهية المنهج',
+  'تعريفات المناهج قديمًا وحديثًا',
+  'تعريفات المنهج',
+  'المنهج في اللغة',
+];
+
+CHAPTER_1_NINE_TOPICS_METADATA.forEach((t, idx) => {
+  assert(t.order === idx + 1, `الموضوع ${idx + 1}: الترتيب ${idx + 1} سليم`);
+  assert(t.title === EXPECTED_NINE_TITLES[idx], `الموضوع ${idx + 1}: العنوان «${t.title}» مطابق نصياً`);
+  assert(Boolean(t.id), `الموضوع ${idx + 1}: المعرف id موجود`);
+  assert(Boolean(t.description), `الموضوع ${idx + 1}: الوصف الهيكلي موجود`);
+  if (idx < 5) {
+    assert(
+      t.headingClassification === 'educational_organizational',
+      `الموضوع ${idx + 1}: تصنيف تربوي تنظيمي سليم`
+    );
+  } else {
+    assert(
+      t.headingClassification === 'original_author',
+      `الموضوع ${idx + 1}: تصنيف عنوان المؤلف الأصلي سليم`
+    );
+  }
+});
 
 // 10. فحص مشغل الفيديو التعليمي وتكامل كتل الفيديو (Phase 2: Educational Video Integration & Reusable Player)
 console.log('\n10. فحص مشغل الفيديو التعليمي وتكامل كتل الفيديو (Phase 2: Video Integration):');

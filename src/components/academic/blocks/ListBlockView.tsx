@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { ListBlock } from '../../../types';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, HelpCircle, ChevronDown, ChevronUp } from 'lucide-react';
 
 export const ListBlockView: React.FC<{ block: ListBlock }> = ({ block }) => {
-  const { style, title, items } = block;
+  const { style, title, items, explanationTitle, explanationText } = block;
+  const [showExplanation, setShowExplanation] = useState(false);
 
   return (
     <div className="my-5 bg-[#F4FFF7] rounded-2xl p-5 sm:p-6 border border-[#D4E9DC] transition-colors">
@@ -32,6 +33,29 @@ export const ListBlockView: React.FC<{ block: ListBlock }> = ({ block }) => {
             </li>
           ))}
         </ul>
+      )}
+
+      {explanationText && (
+        <div className="mt-4 pt-3 border-t border-[#D4E9DC]/70">
+          <button
+            type="button"
+            onClick={() => setShowExplanation(!showExplanation)}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#E8F8EE] hover:bg-[#D4E9DC] text-[#173D2B] transition-colors cursor-pointer border border-[#D4E9DC]"
+          >
+            <HelpCircle className="w-3.5 h-3.5 text-[#00C853]" />
+            <span>{showExplanation ? 'إخفاء التفسير' : (explanationTitle || 'افهم الفرق')}</span>
+            {showExplanation ? (
+              <ChevronUp className="w-3.5 h-3.5 text-[#6C8577]" />
+            ) : (
+              <ChevronDown className="w-3.5 h-3.5 text-[#6C8577]" />
+            )}
+          </button>
+          {showExplanation && (
+            <div className="mt-3 p-4 rounded-xl bg-white border border-[#D4E9DC] text-xs sm:text-sm text-[#486555] leading-relaxed">
+              <p>{explanationText}</p>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );

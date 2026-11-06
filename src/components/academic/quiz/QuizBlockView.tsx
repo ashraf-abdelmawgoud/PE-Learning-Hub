@@ -37,13 +37,34 @@ import {
   X,
   BookOpen,
   ListOrdered,
+  ChevronUp,
 } from 'lucide-react';
 
 export interface QuizBlockViewProps {
   block: QuizBlock;
+  onComplete?: (result: QuizResult) => void;
+  title?: string;
+  badgeLabel?: string;
+  retryButtonLabel?: string;
+  containerClassName?: string;
+  onClose?: () => void;
+  closeButtonLabel?: string;
+  successMessage?: string;
+  reviewMessage?: string;
 }
 
-export const QuizBlockView: React.FC<QuizBlockViewProps> = ({ block }) => {
+export const QuizBlockView: React.FC<QuizBlockViewProps> = ({
+  block,
+  onComplete,
+  title,
+  badgeLabel,
+  retryButtonLabel = 'إعادة الاختبار',
+  containerClassName,
+  onClose,
+  closeButtonLabel = 'طي الاختبار',
+  successMessage,
+  reviewMessage,
+}) => {
   const componentId = useId();
 
   // Initialize ordering state for any ordering questions
@@ -159,6 +180,9 @@ export const QuizBlockView: React.FC<QuizBlockViewProps> = ({ block }) => {
     const result = evaluateQuiz(block, answers);
     setQuizResult(result);
     setIsSubmitted(true);
+    if (onComplete) {
+      onComplete(result);
+    }
   };
 
   // Handle Reset / Retry
@@ -185,9 +209,22 @@ export const QuizBlockView: React.FC<QuizBlockViewProps> = ({ block }) => {
   // Arabic option letter prefixes
   const arabicLetters = ['أ', 'ب', 'ج', 'د', 'هـ', 'و'];
 
+  const questionCount = block.questions.length;
+  const questionCountText =
+    questionCount === 1
+      ? 'سؤال واحد'
+      : questionCount === 2
+      ? 'سؤالان'
+      : questionCount >= 3 && questionCount <= 10
+      ? `${questionCount} أسئلة`
+      : `${questionCount} سؤالاً`;
+
   return (
     <figure
-      className="my-8 rounded-3xl bg-white border border-[#D4E9DC] p-5 sm:p-8 shadow-xs overflow-hidden transition-all text-right"
+      className={
+        containerClassName ||
+        'my-8 rounded-3xl bg-white border border-[#D4E9DC] p-5 sm:p-8 shadow-xs overflow-hidden transition-all text-right'
+      }
       dir="rtl"
       aria-labelledby={`quiz-title-${componentId}`}
     >
@@ -200,27 +237,41 @@ export const QuizBlockView: React.FC<QuizBlockViewProps> = ({ block }) => {
           <div>
             <div className="flex items-center gap-2">
               <span className="text-[11px] font-bold text-[#00A844] bg-[#E8F8EE] px-2.5 py-0.5 rounded-full border border-[#D4E9DC]">
-                تقويم تكويني ذاتي &bull; Formative Assessment
+                {badgeLabel || 'تقويم تكويني ذاتي • Formative Assessment'}
               </span>
               <span className="text-[11px] font-bold text-[#6C8577]">
-                {block.questions.length} أسئلة تدريبية
+                {questionCountText}
               </span>
             </div>
             <h3
               id={`quiz-title-${componentId}`}
               className="text-lg sm:text-2xl font-black text-[#173D2B] mt-1"
             >
-              {block.title}
+              {title || block.title}
             </h3>
           </div>
         </div>
 
-        {block.sourceReference && (
-          <div className="self-start sm:self-auto inline-flex items-center gap-1.5 text-xs text-[#486555] bg-[#F4FFF7] px-3 py-1.5 rounded-xl border border-[#D4E9DC]">
-            <BookOpen className="w-3.5 h-3.5 text-[#00C853]" />
-            <span className="font-semibold">{block.sourceReference}</span>
-          </div>
-        )}
+        <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+          {block.sourceReference && (
+            <div className="inline-flex items-center gap-1.5 text-xs text-[#486555] bg-[#F4FFF7] px-3 py-1.5 rounded-xl border border-[#D4E9DC]">
+              <BookOpen className="w-3.5 h-3.5 text-[#00C853]" />
+              <span className="font-semibold">{block.sourceReference}</span>
+            </div>
+          )}
+
+          {onClose && (
+            <button
+              type="button"
+              onClick={onClose}
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#486555] hover:text-[#173D2B] bg-[#F4FFF7] hover:bg-[#E8F8EE] px-3.5 py-1.5 rounded-xl border border-[#D4E9DC] transition-colors cursor-pointer"
+              title="طي الاختبار"
+            >
+              <span>{closeButtonLabel}</span>
+              <ChevronUp className="w-4 h-4" />
+            </button>
+          )}
+        </div>
       </div>
 
       {block.description && (
@@ -255,8 +306,8 @@ export const QuizBlockView: React.FC<QuizBlockViewProps> = ({ block }) => {
                 </div>
                 <p className="text-xs sm:text-sm font-semibold leading-relaxed mt-2">
                   {quizResult.isPassed
-                    ? 'أداء متميز: استيعاب سليم وموثق للمفاهيم الأكاديمية المطروحة في هذا الدرس.'
-                    : 'فرصة للمراجعة: يوصى بإعادة قراءة الدرس ومراجعة المفاهيم غير المكتملة ثم المحاولة مرة أخرى.'}
+                    ? successMessage || 'أداء متميز: استيعاب سليم وموثق للمفاهيم الأكاديمية المطروحة في هذا الدرس.'
+                    : reviewMessage || 'فرصة للمراجعة: يوصى بإعادة قراءة الدرس ومراجعة المفاهيم غير المكتملة ثم المحاولة مرة أخرى.'}
                 </p>
               </div>
 
@@ -266,7 +317,7 @@ export const QuizBlockView: React.FC<QuizBlockViewProps> = ({ block }) => {
                 className="self-start sm:self-center inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#173D2B] text-white font-black text-xs sm:text-sm hover:bg-[#23583E] active:scale-95 transition-all shadow-md cursor-pointer focus:outline-hidden focus:ring-4 focus:ring-[#173D2B]/30"
               >
                 <RotateCcw className="w-4 h-4" />
-                <span>إعادة المحاولة (Restart)</span>
+                <span>{retryButtonLabel}</span>
               </button>
             </div>
           </div>

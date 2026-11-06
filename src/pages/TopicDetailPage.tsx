@@ -1,16 +1,47 @@
-import React from 'react';
-import { useParams, Link, Navigate } from 'react-router-dom';
+/**
+ * TopicDetailPage.tsx
+ * Dedicated Video-Centric Topic Learning Interface for OloomSport.
+ *
+ * Educational Structure:
+ * Course → Chapter → Topics → Video + Written Summary + Topic Quiz → Final Chapter Quiz.
+ *
+ * Core Features:
+ * - 3 Clear Tabs:
+ *   1. Video: responsive 16:9 player (supports multiple videos only if provided, else unavailable state).
+ *   2. Summary: clean RTL written content (renders approved textbook blocks, else unavailable state).
+ *   3. Questions: simple interactive quiz with immediate answer feedback (else unavailable state).
+ * - Real completion and quiz score persistence (localStorage, never fabricated).
+ * - Preserves author's exact titles and ordering.
+ * - Arabic RTL, Cairo typography, Sport Energy palette.
+ */
+
+import React, { useState, useEffect } from 'react';
+import { useParams, useSearchParams, Link, Navigate } from 'react-router-dom';
 import {
   getCourseById,
   getChapterById,
   getTopicById,
-  getLessonsByTopic,
+  getTopicsByChapter,
   getAcademicBreadcrumbs,
 } from '../data/academic/selectors';
 import { BreadcrumbNav } from '../components/academic/BreadcrumbNav';
-import { NotFoundPage } from './NotFoundPage';
+import { TopicVideoSection } from '../components/academic/TopicVideoSection';
+import { TopicSummarySection } from '../components/academic/TopicSummarySection';
+import { TopicQuizSection } from '../components/academic/TopicQuizSection';
+import { getTopicProgress, setTopicProgress } from '../utils/progressPersistence';
 import { isDevSandboxAllowed } from '../utils/devRouteGuard';
-import { BookOpen, Target, FileText, ArrowLeft, ChevronRight, Layers, Sparkles } from 'lucide-react';
+import {
+  Video,
+  FileText,
+  HelpCircle,
+  CheckCircle2,
+  ChevronRight,
+  ChevronLeft,
+  Sparkles,
+  AlertTriangle,
+} from 'lucide-react';
+
+type TopicTab = 'video' | 'summary' | 'quiz';
 
 export const TopicDetailPage: React.FC = () => {
   const { courseId, chapterId, topicId } = useParams<{
@@ -18,6 +49,19 @@ export const TopicDetailPage: React.FC = () => {
     chapterId: string;
     topicId: string;
   }>();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const rawTab = searchParams.get('tab') as TopicTab | null;
+  const activeTab: TopicTab = rawTab && ['video', 'summary', 'quiz'].includes(rawTab) ? rawTab : 'video';
+  const [_progressRefresh, setProgressRefresh] = useState<number>(0);
+
+  const setActiveTab = (tab: TopicTab) => {
+    setSearchParams({ tab }, { replace: true });
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [topicId]);
 
   if (!courseId || !chapterId || !topicId) {
     return <Navigate to="/courses" replace />;
@@ -27,11 +71,49 @@ export const TopicDetailPage: React.FC = () => {
   const chapter = getChapterById(courseId, chapterId);
   const topic = getTopicById(chapterId, topicId);
 
+  // If not found or unauthorized sandbox
   if (!course || !chapter || !topic || (course.isDevSandbox && !isDevSandboxAllowed())) {
-    return <NotFoundPage />;
+    return (
+      <div className="py-16 bg-[#F4FFF7] min-h-[75vh] flex items-center justify-center text-right" dir="rtl">
+        <div className="max-w-md mx-auto px-4 text-center space-y-5 bg-white p-8 rounded-3xl border border-[#D4E9DC] shadow-xs">
+          <div className="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto border border-amber-200">
+            <AlertTriangle className="w-7 h-7" />
+          </div>
+          <div className="space-y-1.5">
+            <h1 className="text-xl font-black text-[#173D2B]">الموضوع الدراسي غير موجود</h1>
+            <p className="text-xs sm:text-sm text-[#486555] leading-relaxed">
+              عذراً، لم يتم العثور على الموضوع المطلوب ضمن هذا الفصل.
+            </p>
+          </div>
+          <Link
+            to="/courses"
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#00C853] text-[#071C12] font-black text-xs hover:bg-[#39E66D] transition-colors"
+          >
+            <span>استعراض دليل المواد الدراسية</span>
+          </Link>
+        </div>
+      </div>
+    );
   }
 
-  const lessons = getLessonsByTopic(topic.id);
+  // Derive all topics in this chapter for sequential navigation
+  const allTopics = getTopicsByChapter(chapter.id).sort((a, b) => a.order - b.order);
+  const currentIndex = allTopics.findIndex((t) => t.id === topic.id);
+  const prevTopic = currentIndex > 0 ? allTopics[currentIndex - 1] : null;
+  const nextTopic = currentIndex < allTopics.length - 1 ? allTopics[currentIndex + 1] : null;
+
+  // Real progress state
+  const topicProgress = getTopicProgress(course.id, chapter.id, topic.id);
+  const isCompleted = topicProgress.isCompleted;
+
+  const handleToggleCompletion = () => {
+    setTopicProgress(course.id, chapter.id, topic.id, {
+      isCompleted: !isCompleted,
+      quizScore: topicProgress.quizScore,
+    });
+    setProgressRefresh((k) => k + 1);
+  };
+
   const breadcrumbs = getAcademicBreadcrumbs({
     courseId: course.id,
     chapterId: chapter.id,
@@ -39,13 +121,13 @@ export const TopicDetailPage: React.FC = () => {
   });
 
   return (
-    <div className="py-10 sm:py-14 bg-[#F4FFF7] min-h-[85vh] transition-colors">
+    <div className="py-10 sm:py-14 bg-[#F4FFF7] min-h-[85vh] transition-colors text-right" dir="rtl">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
-        {/* Breadcrumbs */}
+        {/* Breadcrumb Navigation */}
         <BreadcrumbNav items={breadcrumbs} />
 
-        {/* Development Sandbox Banner if Dev Sandbox */}
+        {/* Development Sandbox Banner if sandbox */}
         {course.isDevSandbox && (
           <div className="bg-amber-50 border-2 border-amber-300 rounded-3xl p-5 sm:p-6 shadow-xs flex items-start gap-4">
             <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
@@ -59,110 +141,169 @@ export const TopicDetailPage: React.FC = () => {
                 </span>
               </div>
               <p className="text-amber-800 leading-relaxed">
-                هذا الموضوع مخصص للمعاينة التقنية واختبار بنية الدروس في محرك المنصة، وليس مادة أكاديمية معتمدة لكلية علوم الرياضة.
+                هذا الموضوع مخصص للمعاينة التقنية واختبار تجربة التعلم القائمة على الفيديو والملخص والأسئلة.
               </p>
             </div>
           </div>
         )}
 
-        {/* Topic Header Banner */}
-        <div className="bg-white rounded-3xl border border-[#D4E9DC] p-6 sm:p-9 shadow-xs relative overflow-hidden">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="font-mono text-xs font-bold text-[#173D2B] bg-[#E8F8EE] px-3 py-1 rounded-lg border border-[#D4E9DC]">
-              موضوع {topic.order} &bull; {chapter.title}
-            </span>
-          </div>
-
-          <h1 className="text-2xl sm:text-4xl font-black text-[#173D2B] mb-3">
-            {topic.title}
-          </h1>
-
-          <p className="text-[#486555] text-sm sm:text-base leading-relaxed max-w-3xl">
-            {topic.description}
-          </p>
-        </div>
-
-        {/* Lessons List */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
+        {/* =========================================================================
+            TOPIC HEADER & COMPLETION STATUS
+           ========================================================================= */}
+        <header className="bg-white rounded-3xl border border-[#D4E9DC] p-6 sm:p-9 shadow-xs space-y-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2">
-              <Layers className="w-5 h-5 text-[#00C853]" />
-              <h2 className="text-xl sm:text-2xl font-black text-[#173D2B]">
-                دروس الموضوع ({lessons.length})
-              </h2>
+              <span className="font-mono text-xs font-bold text-[#173D2B] bg-[#E8F8EE] px-3 py-1 rounded-xl border border-[#D4E9DC]">
+                موضوع {topic.order} &bull; {chapter.title}
+              </span>
             </div>
-            <span className="text-xs font-bold text-[#6C8577]">
-              جاهزة للعرض عبر محرك LessonRenderer
-            </span>
+
+            {/* Completion Toggle Button */}
+            <button
+              type="button"
+              onClick={handleToggleCompletion}
+              className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                isCompleted
+                  ? 'bg-[#E8F8EE] text-[#059669] border border-[#00C853]'
+                  : 'bg-[#F4FFF7] text-[#486555] border border-[#D4E9DC] hover:text-[#173D2B]'
+              }`}
+            >
+              <CheckCircle2 className={`w-4 h-4 ${isCompleted ? 'text-[#00A844]' : 'text-gray-400'}`} />
+              <span>{isCompleted ? 'تم إكمال هذا الموضوع' : 'تحديد الموضوع كمكتمل'}</span>
+            </button>
           </div>
 
-          {lessons.length > 0 ? (
-            <div className="grid grid-cols-1 gap-4">
-              {lessons.map((lesson) => (
-                <div
-                  key={lesson.id}
-                  className="bg-white rounded-3xl border border-[#D4E9DC] p-6 shadow-xs hover:border-[#00C853] hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-5"
-                >
-                  <div className="space-y-2.5">
-                    <div className="flex items-center gap-2">
-                      <span className="w-7 h-7 rounded-lg bg-[#E8F8EE] text-[#173D2B] font-mono text-xs font-bold flex items-center justify-center border border-[#D4E9DC]">
-                        {lesson.order}
-                      </span>
-                      <h3 className="text-lg font-black text-[#173D2B]">
-                        {lesson.title}
-                      </h3>
-                    </div>
+          <div>
+            <h1 className="text-2xl sm:text-4xl font-black text-[#173D2B] mb-3 leading-tight">
+              {topic.title}
+            </h1>
+            {topic.description && (
+              <p className="text-[#486555] text-sm sm:text-base leading-relaxed max-w-3xl">
+                {topic.description}
+              </p>
+            )}
+          </div>
+        </header>
 
-                    <p className="text-xs sm:text-sm text-[#486555] leading-relaxed max-w-2xl">
-                      {lesson.description}
-                    </p>
+        {/* =========================================================================
+            THE 3 CLEAR TABS: VIDEO | SUMMARY | QUESTIONS
+           ========================================================================= */}
+        <div className="space-y-6">
+          <div
+            role="tablist"
+            aria-label="أقسام التعلم للموضوع"
+            className="flex flex-wrap items-center gap-2 bg-white p-2 rounded-2xl border border-[#D4E9DC] shadow-xs"
+          >
+            <button
+              role="tab"
+              aria-selected={activeTab === 'video'}
+              onClick={() => setActiveTab('video')}
+              className={`flex-1 min-w-[120px] inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                activeTab === 'video'
+                  ? 'bg-[#00C853] text-[#071C12] font-black shadow-xs'
+                  : 'text-[#486555] hover:text-[#173D2B] hover:bg-[#F4FFF7]'
+              }`}
+            >
+              <Video className="w-4 h-4" />
+              <span>الفيديو التعليمي</span>
+            </button>
 
-                    <div className="flex flex-wrap items-center gap-3 text-xs text-[#6C8577] pt-1">
-                      <span className="flex items-center gap-1 font-semibold text-[#173D2B] bg-[#E8F8EE] px-2.5 py-1 rounded-lg">
-                        <Target className="w-3.5 h-3.5 text-[#00C853]" />
-                        <span>أهداف التعلم: {lesson.learningObjectives?.length || 0} أهداف</span>
-                      </span>
+            <button
+              role="tab"
+              aria-selected={activeTab === 'summary'}
+              onClick={() => setActiveTab('summary')}
+              className={`flex-1 min-w-[120px] inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                activeTab === 'summary'
+                  ? 'bg-[#00C853] text-[#071C12] font-black shadow-xs'
+                  : 'text-[#486555] hover:text-[#173D2B] hover:bg-[#F4FFF7]'
+              }`}
+            >
+              <FileText className="w-4 h-4" />
+              <span>الملخص المكتوب</span>
+            </button>
 
-                      <span className="flex items-center gap-1 font-semibold text-[#173D2B] bg-[#E8F8EE] px-2.5 py-1 rounded-lg">
-                        <FileText className="w-3.5 h-3.5 text-[#00C853]" />
-                        <span>كتل المحتوى: {lesson.blocks.length} كتل</span>
-                      </span>
+            <button
+              role="tab"
+              aria-selected={activeTab === 'quiz'}
+              onClick={() => setActiveTab('quiz')}
+              className={`flex-1 min-w-[120px] inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                activeTab === 'quiz'
+                  ? 'bg-[#00C853] text-[#071C12] font-black shadow-xs'
+                  : 'text-[#486555] hover:text-[#173D2B] hover:bg-[#F4FFF7]'
+              }`}
+            >
+              <HelpCircle className="w-4 h-4" />
+              <span>الأسئلة والتقويم</span>
+            </button>
+          </div>
 
-                      {lesson.references && lesson.references.length > 0 && (
-                        <span className="flex items-center gap-1 font-semibold text-[#059669] bg-[#E8F8EE] px-2.5 py-1 rounded-lg">
-                          <BookOpen className="w-3.5 h-3.5 text-[#059669]" />
-                          <span>موثق أكاديمياً ({lesson.references.length})</span>
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  <Link
-                    to={`/courses/${course.id}/chapters/${chapter.id}/topics/${topic.id}/lessons/${lesson.id}`}
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#00C853] hover:bg-[#39E66D] active:bg-[#00A844] text-[#071C12] font-black text-xs sm:text-sm shrink-0 transition-colors shadow-sm shadow-[#00C853]/20 active:scale-98"
-                  >
-                    <span>بدء دراسة الدرس</span>
-                    <ArrowLeft className="w-4 h-4 text-[#071C12]" />
-                  </Link>
-                </div>
-              ))}
+          {/* Tab 1: Video */}
+          {activeTab === 'video' && (
+            <div role="tabpanel" aria-label="الفيديو التعليمي">
+              <TopicVideoSection
+                topicTitle={topic.title}
+                videos={topic.videos}
+                video={topic.video}
+              />
             </div>
-          ) : (
-            <div className="bg-white rounded-3xl border border-[#D4E9DC] p-8 text-center text-[#6C8577] text-sm">
-              لا توجد دروس منشورة في هذا الموضوع حالياً.
+          )}
+
+          {/* Tab 2: Summary */}
+          {activeTab === 'summary' && (
+            <div role="tabpanel" aria-label="الملخص المكتوب">
+              <TopicSummarySection topic={topic} />
+            </div>
+          )}
+
+          {/* Tab 3: Questions */}
+          {activeTab === 'quiz' && (
+            <div role="tabpanel" aria-label="الأسئلة والتقويم">
+              <TopicQuizSection
+                courseId={course.id}
+                chapterId={chapter.id}
+                topic={topic}
+                fallbackQuestions={chapter.selfCheckQuestions}
+                onComplete={() => setProgressRefresh((k) => k + 1)}
+              />
             </div>
           )}
         </div>
 
-        {/* Back Link */}
-        <div className="pt-4">
-          <Link
-            to={`/courses/${course.id}/chapters/${chapter.id}`}
-            className="inline-flex items-center gap-2 text-sm font-bold text-[#173D2B] hover:text-[#00A844] transition-colors"
-          >
-            <ChevronRight className="w-4 h-4" />
-            <span>العودة إلى موضوعات الفصل</span>
-          </Link>
+        {/* =========================================================================
+            SEQUENTIAL TOPIC NAVIGATION & BACK LINK
+           ========================================================================= */}
+        <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-[#D4E9DC]/80">
+          <div>
+            <Link
+              to={`/courses/${course.id}/chapters/${chapter.id}`}
+              className="inline-flex items-center gap-2 text-sm font-bold text-[#173D2B] hover:text-[#00A844] transition-colors"
+            >
+              <ChevronRight className="w-4 h-4" />
+              <span>العودة إلى موضوعات الفصل ({chapter.title})</span>
+            </Link>
+          </div>
+
+          <div className="flex items-center gap-3">
+            {prevTopic && (
+              <Link
+                to={`/courses/${course.id}/chapters/${chapter.id}/topics/${prevTopic.id}`}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white border border-[#D4E9DC] text-xs font-bold text-[#173D2B] hover:bg-[#F4FFF7] transition-colors"
+              >
+                <ChevronRight className="w-3.5 h-3.5" />
+                <span>الموضوع السابق</span>
+              </Link>
+            )}
+
+            {nextTopic && (
+              <Link
+                to={`/courses/${course.id}/chapters/${chapter.id}/topics/${nextTopic.id}`}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#00C853] text-[#071C12] text-xs font-black hover:bg-[#39E66D] transition-colors shadow-xs"
+              >
+                <span>الموضوع التالي</span>
+                <ChevronLeft className="w-3.5 h-3.5" />
+              </Link>
+            )}
+          </div>
         </div>
 
       </div>

@@ -42,7 +42,7 @@ export const CourseDetailPage: React.FC = () => {
         {/* Breadcrumb Navigation */}
         <BreadcrumbNav items={breadcrumbs} />
 
-        {/* Pilot Academic Preview Banner for Course 1 */}
+        {/* Academic Structure Banner for Course 1 */}
         {course.id === 'course-1' && (
           <div className="bg-[#E8F8EE] border-2 border-[#00C853]/40 rounded-3xl p-5 sm:p-6 shadow-xs flex items-start gap-4">
             <div className="w-10 h-10 rounded-2xl bg-[#D4E9DC] text-[#173D2B] flex items-center justify-center shrink-0">
@@ -51,14 +51,14 @@ export const CourseDetailPage: React.FC = () => {
             <div className="space-y-1 text-xs sm:text-sm text-[#173D2B]">
               <div className="flex items-center gap-2">
                 <span className="font-black text-[#173D2B] text-base">
-                  معاينة أكاديمية تجريبية حقيقية (الفصل الأول)
+                  الهيكل الأكاديمي المعتمد لمقرر مناهج التربية الرياضية
                 </span>
                 <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#D4E9DC] text-[#173D2B]">
-                  كتاب مناهج التربية الرياضية
+                  أ.د. هاني الدسوقي إبراهيم (2025/2026م)
                 </span>
               </div>
               <p className="text-[#486555] leading-relaxed">
-                يتضمن هذا المقرر فصلاً تجريبياً أولاً مستخلصاً مباشرة من كتاب مناهج التربية الرياضية (أ.د. هاني الدسوقي إبراهيم — الفرقة الرابعة)، مع الحفاظ على بقية فصول المقرر بحالة قيد الإعداد الأكاديمي.
+                تم اعتماد وتكامل الهيكل الأكاديمي لكتاب المقرر كاملاً (5 فصول دراسية رئيسية، وموضوعين مستقلين، وقائمة المراجع المعتمدة)، مع توفر تجربة الشرح التفاعلي والأدوات البصرية المتقدمة للفصل الأول.
               </p>
             </div>
           </div>
@@ -147,7 +147,7 @@ export const CourseDetailPage: React.FC = () => {
                   <div className="space-y-1.5">
                     <div className="flex items-center gap-2">
                       <span className="font-mono text-xs font-bold text-[#173D2B] bg-[#E8F8EE] px-2 py-0.5 rounded-md">
-                        فصل {chapter.order}
+                        {chapter.title.startsWith('الموضوع') ? `موضوع ${chapter.order}` : `فصل ${chapter.order}`}
                       </span>
                       <h3 className="text-lg font-black text-[#173D2B]">
                         {chapter.title}

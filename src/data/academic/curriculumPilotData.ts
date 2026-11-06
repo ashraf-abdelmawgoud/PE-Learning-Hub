@@ -3,840 +3,1114 @@ import type {
   Chapter,
   Topic,
   Lesson,
-  AnimatedExplanationBlock,
-  InteractiveDiagramBlock,
-  VisualComparisonBlock,
-  VisualSequenceBlock,
-  AnimatedStepsBlock,
-  DecisionScenarioBlock,
   HeadingBlock,
-  ParagraphBlock,
-  DefinitionBlock,
-  KeyPointBlock,
-  AcademicReferenceBlock,
   ChapterGlossaryItem,
   ChapterSelfCheckQuestion,
+  QuizBlock,
 } from '../../types';
 
 /**
- * المرجع الأكاديمي المعتمد المستخلص مباشرة من صفحات الكتاب المصورة (ص 2 - 5)
+ * =========================================================================
+ * المرجع الأكاديمي المعتمد للفصل الأول
+ * مستخلص مباشرة من كتاب:
+ * "مناهج التربية الرياضية" — إعداد أ.د/ هاني الدسوقي إبراهيم (2025/2026م)
+ * النطاق المصدري: الصفحات المطبوعة 2 - 6 (صفحات PDF رقم 3 - 7)
+ * =========================================================================
  */
 export const CURRICULUM_ACADEMIC_REFERENCE: AcademicReference = {
   id: 'ref-curriculum-desouki-ch1',
   bookTitle: 'مناهج التربية الرياضية',
   author: 'أ.د. هاني الدسوقي إبراهيم (أستاذ المناهج وطرق تدريس التربية الرياضية)',
-  edition: 'مقرر أكاديمي — العام الجامعي 2025/2026م',
+  edition: 'مقرر أكاديمي معتمد — العام الجامعي 2025/2026م (1447هـ)',
   chapter: 'الفصل الأول: مقدمة وماهية المنهج',
-  pageRange: 'ص 2 - 5',
-  notes: 'المقرر المعتمد لطلاب الفرقة الرابعة — قسم تدريس، كلية علوم الرياضة.',
+  pageRange: 'ص 2 - 6',
+  notes: 'المقرر المعتمد لطلاب الفرقة الرابعة — قسم تدريس، كلية علوم الرياضة، جامعة جنوب الوادي، قنا.',
 };
 
-// 1. كتلة العنوان الرئيسي
-const BLOCK_HEADING: HeadingBlock = {
-  id: 'curric-blk-head-1',
-  type: 'heading',
+// =========================================================================
+// اختبارات وتقويمات الموضوعات الخمسة المعتمدة للفصل الأول
+// =========================================================================
+
+export const QUIZ_TOPIC_1: QuizBlock = {
+  id: 'quiz-top1-intro',
+  type: 'quiz',
   order: 1,
-  level: 1,
-  text: 'تطور مفهوم المنهج: من النظرة التقليدية إلى النظرة الحديثة',
-  subtitle:
-    'نموذج تطبيقي حقيقي من كتاب مناهج التربية الرياضية — أ.د. هاني الدسوقي إبراهيم (الفصل الأول: ص 2 - 5)',
+  title: 'أسئلة تقويم الموضوع الأول: مقدمـة',
+  description: '6 أسئلة موضوعية تقيس مدى استيعاب مدخلات المنهج، وتطويره المستمر، والغاية من التربية الرياضية، ودور المعلم والمتعلم، والتكنولوجيا.',
+  passingScorePercentage: 60,
+  sourceReference: 'كتاب مناهج التربية الرياضية، ص 2–5',
+  questions: [
+    {
+      id: 'q-top1-1',
+      type: 'multiple_choice',
+      order: 1,
+      prompt: 'أي مجموعة تعبّر عن مدخلات تقويم المنهج التي يذكرها المؤلف؟',
+      options: [
+        { id: 'opt-a', text: 'المتعلمون، والإمكانات، ومستوى المعلمين، والسياسات التعليمية.' },
+        { id: 'opt-b', text: 'عدد المباريات، والملاعب، والجوائز، والفرق.' },
+        { id: 'opt-c', text: 'الكتب وحدها دون سائر المؤثرات.' },
+        { id: 'opt-d', text: 'مدة الحصة فقط.' },
+      ],
+      correctOptionId: 'opt-a',
+      explanation: 'التقويم يراعي هذه المدخلات الأربعة لارتباط المنهج بالمنظومة التعليمية.',
+      sourceReference: 'كتاب المقرر، ص 2',
+    },
+    {
+      id: 'q-top1-2',
+      type: 'true_false',
+      order: 2,
+      prompt: 'ينتهي تطوير المنهج بمجرد إقرار المقرر الدراسي دون تجريب أو تحسين.',
+      correctAnswer: false,
+      explanation: 'تطوير المناهج عملية مستمرة تتطلب التجريب والتقويم والتحسين.',
+      sourceReference: 'كتاب المقرر، ص 2',
+    },
+    {
+      id: 'q-top1-3',
+      type: 'multiple_choice',
+      order: 3,
+      prompt: 'أي جانب مما يلي يدخل ضمن التنمية المتكاملة التي تستهدفها التربية الرياضية؟',
+      options: [
+        { id: 'opt-a', text: 'البدني والصحي والمهاري والاجتماعي.' },
+        { id: 'opt-b', text: 'المهاري فقط.' },
+        { id: 'opt-c', text: 'الإداري فقط.' },
+        { id: 'opt-d', text: 'المعرفي المدرسي وحده.' },
+      ],
+      correctOptionId: 'opt-a',
+      explanation: 'يعرض المؤلف هذه الجوانب بوصفها جزءًا من المهمة الكبرى لمناهج التربية الرياضية.',
+      sourceReference: 'كتاب المقرر، ص 2',
+    },
+    {
+      id: 'q-top1-4',
+      type: 'true_false',
+      order: 4,
+      prompt: 'يدعو المؤلف إلى انتقال دور المعلم من مجرد ناقل للمعرفة إلى موجه ومرشد ومتابع.',
+      correctAnswer: true,
+      explanation: 'يرتبط هذا التحول بالاهتمام بالتعلم الذاتي وإيجابية المتعلم.',
+      sourceReference: 'كتاب المقرر، ص 3–4',
+    },
+    {
+      id: 'q-top1-5',
+      type: 'multiple_choice',
+      order: 5,
+      prompt: 'ما القاعدة التي يؤكدها المؤلف في تخطيط مناهج التربية الرياضية؟',
+      options: [
+        { id: 'opt-a', text: 'لا مركزية الأهداف ومركزية المحتوى.' },
+        { id: 'opt-b', text: 'مركزية الأهداف ولا مركزية المحتوى.' },
+        { id: 'opt-c', text: 'إلغاء الأهداف.' },
+        { id: 'opt-d', text: 'ثبات المحتوى بصرف النظر عن الإمكانات.' },
+      ],
+      correctOptionId: 'opt-b',
+      explanation: 'تتيح مرونة المحتوى مراعاة إمكانات المؤسسات وحاجات المتعلمين مع الحفاظ على الأهداف.',
+      sourceReference: 'كتاب المقرر، ص 4',
+    },
+    {
+      id: 'q-top1-6',
+      type: 'multiple_choice',
+      order: 6,
+      prompt: 'أي عبارة تمثل أحد الأدوار الأربعة للحاسب في المنهج بحسب الكتاب؟',
+      options: [
+        { id: 'opt-a', text: 'أداة متكاملة داخل المنهج.' },
+        { id: 'opt-b', text: 'بديل عن جميع الأنشطة البدنية.' },
+        { id: 'opt-c', text: 'وسيلة لإلغاء دور المتعلم.' },
+        { id: 'opt-d', text: 'أداة لإلغاء التقويم.' },
+      ],
+      correctOptionId: 'opt-a',
+      explanation: 'هذا أحد الأوجه الأربعة التي يعددها المؤلف.',
+      sourceReference: 'كتاب المقرر، ص 4',
+    },
+  ],
 };
 
-// 2. كتلة الفقرة التمهيدية التأسيسية
-const BLOCK_PARAGRAPH_INTRO: ParagraphBlock = {
-  id: 'curric-blk-para-intro',
-  type: 'paragraph',
+export const QUIZ_TOPIC_2: QuizBlock = {
+  id: 'quiz-top2-nature',
+  type: 'quiz',
   order: 2,
-  lead: true,
-  text: 'تعد المناهج الدراسية نتاج عمل تعاوني تشارك فيه لجان تضم خبراء متخصصين وتربويين، ليرسموا المسارات التي يتعلم من خلالها الطالب. والمنهج هو الأداة الأساسية للمنظومة التعليمية وسلسلة من الخبرات الموجهة لتحقيق الأهداف التربوية المنشودة. وقد شهد مفهوم المنهج في التربية الرياضية تحولاً جوهرياً عبر مسيرته التاريخية من النظرة التقليدية الضيقة التي تحصره في مجرد مواد ومقررات ومعارف نظرية، إلى النظرة الحديثة الواسعة التي تعتبره منظومة متكاملة من الخبرات والأنشطة الموجهة التي ترعى النمو الشامل لشخصية المتعلم.',
+  title: 'أسئلة تقويم الموضوع الثاني: أولًا: ماهية المنهج',
+  description: '5 أسئلة موضوعية تتناول المعنى التربوي للمنهج ودوره الأساسي وصلته بالأهداف والتقويم والواقع الاجتماعي.',
+  passingScorePercentage: 60,
+  sourceReference: 'كتاب مناهج التربية الرياضية، ص 5',
+  questions: [
+    {
+      id: 'q-top2-1',
+      type: 'multiple_choice',
+      order: 1,
+      prompt: 'ما الدور الأساسي للمنهج في العملية التربوية كما يقدمه المؤلف؟',
+      options: [
+        { id: 'opt-a', text: 'تحقيق أهداف التربية.' },
+        { id: 'opt-b', text: 'تنظيم الملاعب فقط.' },
+        { id: 'opt-c', text: 'استبدال المعلم.' },
+        { id: 'opt-d', text: 'منع الأنشطة.' },
+      ],
+      correctOptionId: 'opt-a',
+      explanation: 'يعده المؤلف أداة أساسية لتحقيق الأهداف التربوية.',
+      sourceReference: 'كتاب المقرر، ص 5',
+    },
+    {
+      id: 'q-top2-2',
+      type: 'true_false',
+      order: 2,
+      prompt: 'يرتبط المعنى التربوي للمنهج بالأنشطة والمعارف والخبرات الموجهة لتنمية قدرات الفرد.',
+      correctAnswer: true,
+      explanation: 'هذه هي العناصر التي يذكرها المؤلف في بيان معنى المنهج تربويًا.',
+      sourceReference: 'كتاب المقرر، ص 5',
+    },
+    {
+      id: 'q-top2-3',
+      type: 'multiple_choice',
+      order: 3,
+      prompt: 'لكي يكون الهدف التربوي قابلًا للتحقيق علميًا، ينبغي أن يكون:',
+      options: [
+        { id: 'opt-a', text: 'منفصلًا عن المجتمع.' },
+        { id: 'opt-b', text: 'مرتبطًا بظروف المتعلم الاجتماعية وحياته الحاضرة.' },
+        { id: 'opt-c', text: 'عشوائيًا.' },
+        { id: 'opt-d', text: 'ثابتًا دون اعتبار للسياق.' },
+      ],
+      correctOptionId: 'opt-b',
+      explanation: 'يشدد الكتاب على ارتباط الأهداف بالواقع الاجتماعي والثقافي.',
+      sourceReference: 'كتاب المقرر، ص 5',
+    },
+    {
+      id: 'q-top2-4',
+      type: 'true_false',
+      order: 4,
+      prompt: 'يربط المؤلف المنهج والهدف بالتقويم وتوجيه عمل المعلم والمتعلم.',
+      correctAnswer: true,
+      explanation: 'يعرضهما في إطار تقويم العمل التربوي وتوجيهه.',
+      sourceReference: 'كتاب المقرر، ص 5',
+    },
+    {
+      id: 'q-top2-5',
+      type: 'multiple_choice',
+      order: 5,
+      prompt: 'أي مما يلي يذكره الكتاب ضمن حياة المجتمع التي ينبغي مراعاتها؟',
+      options: [
+        { id: 'opt-a', text: 'القوانين والنظم والعناصر الثقافية.' },
+        { id: 'opt-b', text: 'لون الزي فقط.' },
+        { id: 'opt-c', text: 'ترتيب المقاعد وحده.' },
+        { id: 'opt-d', text: 'أسعار المعدات فقط.' },
+      ],
+      correctOptionId: 'opt-a',
+      explanation: 'هذه عناصر الواقع الاجتماعي التي يربط بها المؤلف الأهداف التربوية.',
+      sourceReference: 'كتاب المقرر، ص 5',
+    },
+  ],
 };
 
-// 3. كتلة تعريف أصل كلمة المنهج
-const BLOCK_DEFINITION: DefinitionBlock = {
-  id: 'curric-blk-def-curriculum',
-  type: 'definition',
+export const QUIZ_TOPIC_3: QuizBlock = {
+  id: 'quiz-top3-trad-vs-mod',
+  type: 'quiz',
   order: 3,
-  term: 'ماهية المنهج في الاصطلاح واللغة',
-  scientificTermEn: 'Curriculum (Latin: Racecourse / Series of Actions)',
-  definition:
-    'كلمة Curriculum ذات أصل لاتيني تعني "سلسلة أفعال" أو مسار ومضمار الجري، وفي اللغة تعني "النهج أو الطريق الواضح". أما في التربية فتعني: (مجموعة أنشطة ومعارف وخبرات موجهة نحو تنمية قدرات الفرد وفي محيط التربية). والمنهج هو الأداة الأساسية التي تستخدمها التربية لتحقيق أهدافها في أية عملية تربوية.',
-  academicContext: 'كتاب مناهج التربية الرياضية — أ.د. هاني الدسوقي إبراهيم (ص 5)',
+  title: 'أسئلة تقويم الموضوع الثالث: تعريفات المناهج قديما وحديثا',
+  description: '5 أسئلة موضوعية تقارن بين تصور المنهج كمواد دراسية وتصوره كنتيجة للبحث المنظم والخبرات الموجهة تحت إشراف المدرسة.',
+  passingScorePercentage: 60,
+  sourceReference: 'كتاب مناهج التربية الرياضية، ص 5',
+  questions: [
+    {
+      id: 'q-top3-1',
+      type: 'multiple_choice',
+      order: 1,
+      prompt: 'ما الذي يضعه التصور القائم على المنهج بوصفه مجموعة مواد دراسية في بؤرة الاهتمام؟',
+      options: [
+        { id: 'opt-a', text: 'المعرفة.' },
+        { id: 'opt-b', text: 'النقل المدرسي.' },
+        { id: 'opt-c', text: 'المصروفات.' },
+        { id: 'opt-d', text: 'أوقات الراحة.' },
+      ],
+      correctOptionId: 'opt-a',
+      explanation: 'يعرض الكتاب هذا التصور على أنه يركز على المعرفة بوصفها تراثًا ثقافيًا واجتماعيًا.',
+      sourceReference: 'كتاب المقرر، ص 5',
+    },
+    {
+      id: 'q-top3-2',
+      type: 'true_false',
+      order: 2,
+      prompt: 'يرد في الكتاب تصور يعتبر المعرفة نتاج عملية البحث المنظم.',
+      correctAnswer: true,
+      explanation: 'هذه صيغة يوردها المؤلف مقابل تصور ثبات المعرفة.',
+      sourceReference: 'كتاب المقرر، ص 5',
+    },
+    {
+      id: 'q-top3-3',
+      type: 'multiple_choice',
+      order: 3,
+      prompt: 'أي عنصر يرد إلى جانب محتوى المقرر وطريقة تنظيمه؟',
+      options: [
+        { id: 'opt-a', text: 'أساليب تفاعل التلاميذ مع المحتوى.' },
+        { id: 'opt-b', text: 'لون المبنى.' },
+        { id: 'opt-c', text: 'عدد النوافذ.' },
+        { id: 'opt-d', text: 'قيمة الكتب.' },
+      ],
+      correctOptionId: 'opt-a',
+      explanation: 'التعريف يضم المحتوى والتنظيم وأساليب التفاعل معه.',
+      sourceReference: 'كتاب المقرر، ص 5',
+    },
+    {
+      id: 'q-top3-4',
+      type: 'true_false',
+      order: 4,
+      prompt: 'تقتصر كل تعريفات المناهج الواردة في هذا الجزء على الكتب المقررة فقط.',
+      correctAnswer: false,
+      explanation: 'يرد تعريف يشمل الخبرات التي يكتسبها المتعلم تحت توجيه المدرسة.',
+      sourceReference: 'كتاب المقرر، ص 5',
+    },
+    {
+      id: 'q-top3-5',
+      type: 'multiple_choice',
+      order: 5,
+      prompt: 'أي صياغة أقرب إلى أوسع تعريف للمنهج الوارد في هذا الموضع؟',
+      options: [
+        { id: 'opt-a', text: 'جميع الخبرات التي يكتسبها المتعلم تحت توجيه المدرسة.' },
+        { id: 'opt-b', text: 'أسماء المواد فقط.' },
+        { id: 'opt-c', text: 'جدول الامتحان فقط.' },
+        { id: 'opt-d', text: 'قائمة المعلمين فقط.' },
+      ],
+      correctOptionId: 'opt-a',
+      explanation: 'تتناول هذه الصياغة الخبرات المكتسبة لا مجرد أسماء المواد.',
+      sourceReference: 'كتاب المقرر، ص 5',
+    },
+  ],
 };
 
-// 4. مكون المقارنة البصرية التفاعلية (VisualComparisonView) - النظرة التقليدية في مقابل النظرة الحديثة
-export const BLOCK_VISUAL_COMPARISON: VisualComparisonBlock = {
-  id: 'curric-blk-comp-trad-vs-mod',
-  type: 'visual_comparison',
+export const QUIZ_TOPIC_4: QuizBlock = {
+  id: 'quiz-top4-definitions',
+  type: 'quiz',
   order: 4,
-  title: 'مقارنة بصرية تحليلية: المفهوم التقليدي في مقابل المفهوم الحديث للمنهج',
-  description:
-    'مقارنة علمية دقيقة مستخلصة من نصوص الصفحات 2 إلى 5 توضح التحول الجوهري في فلسفة وأهداف وتطبيقات مناهج التربية الرياضية.',
-  defaultItemAId: 'concept-traditional',
-  defaultItemBId: 'concept-modern',
-  criteria: [
-    { key: 'focus_core', label: 'مفهوم المنهج وبؤرة الاهتمام', category: 'الفلسفة' },
-    { key: 'teacher_role', label: 'دور معلم التربية الرياضية', category: 'التدريس' },
-    { key: 'learner_role', label: 'دور الطالب / المتعلم', category: 'التعلم' },
-    { key: 'activity_scope', label: 'نطاق ومجال الأنشطة والخبرات', category: 'التطبيق' },
-    { key: 'final_goal', label: 'الغاية والهدف التربوي الأسمى', category: 'المخرجات' },
-    { key: 'planning_style', label: 'طبيعة التخطيط وتطوير المنهج', category: 'الإدارة' },
-  ],
-  items: [
+  title: 'أسئلة تقويم الموضوع الرابع: تعريفات المنهج',
+  description: '5 أسئلة موضوعية حول الصيغ الأربع لتعريف المنهج وزاوية التركيز في كل صيغة منها.',
+  passingScorePercentage: 60,
+  sourceReference: 'كتاب مناهج التربية الرياضية، ص 5',
+  questions: [
     {
-      id: 'concept-traditional',
-      name: 'التصور التقليدي (المنهج كمقررات ومواد)',
-      badge: 'نظرة معرفية ضيقة',
-      summary:
-        'يرى المنهج مجموعة من المواد والمقررات الدراسية والمفاهيم والنظريات المحددة لفرقة معينة، ويضع المعرفة وحفظها في بؤرة الاهتمام بوصفها غاية في ذاتها (ص 5، 6).',
-      characteristics: {
-        focus_core: 'المعرفة والمواد الدراسية في بؤرة الاهتمام بوصفها حصيلة التراث الثقافي الثابت (ص 5)',
-        teacher_role: 'ناقل وملقن للمعلومات، ومصدر وحيد للسلطة التعليمية وإصدار الأوامر (ص 3)',
-        learner_role: 'متلقٍ سلبي، مطلوب منه حفظ واسترجاع المحتوى النظري دون فاعلية أو إبداع (ص 3)',
-        activity_scope: 'محدود داخل حدود المدرسة والفصل، وإهمال للأنشطة والخبرات الحركية خارج المدرسة (ص 2)',
-        final_goal: 'تزويد ذهن المتعلم بالمعلومات واجتياز الاختبارات النظرية والامتحانات (ص 5)',
-        planning_style: 'مركزية صارمة تفرض مقررات موحدة دون مراعاة لتباين الإمكانات أو حاجات الطلاب (ص 4)',
-      },
+      id: 'q-top4-1',
+      type: 'multiple_choice',
+      order: 1,
+      prompt: 'أي تعريف يربط المنهج بالتخرج أو الحصول على شهادة؟',
+      options: [
+        { id: 'opt-a', text: 'مجموعة مرتبة من المقررات أو الموضوعات.' },
+        { id: 'opt-b', text: 'نشاط رياضي عشوائي.' },
+        { id: 'opt-c', text: 'سجلات الغياب.' },
+        { id: 'opt-d', text: 'شبكة الإنترنت.' },
+      ],
+      correctOptionId: 'opt-a',
+      explanation: 'يربط التعريف الأول تتابع المقررات بمتطلبات التخرج أو الشهادة.',
+      sourceReference: 'كتاب المقرر، ص 5',
     },
     {
-      id: 'concept-modern',
-      name: 'التصور الحديث (منظومة الخبرات المتكاملة)',
-      badge: 'نظرة تربوية شاملة',
-      summary:
-        'منظومة متكاملة من الأنشطة والخبرات الموجهة التي تخططها المدرسة وتشرف عليها داخلها وخارجها لتحقيق أقصى تنمية شاملة ومتكاملة لشخصية المتعلم (ص 2، 5).',
-      characteristics: {
-        focus_core: 'المتعلم ونموه الشامل في بؤرة الاهتمام من خلال سلسلة خبرات وأنشطة موجهة (ص 2، 5)',
-        teacher_role: 'موجه ومرشد ومراقب لبيئة التعلم الذاتي ومحفز للتفكير والابتكار (ص 3)',
-        learner_role: 'مشارك إيجابي نشط، يمارس التعلم الذاتي ويبدع في حل المشكلات الحركية (ص 3)',
-        activity_scope: 'شامل ومرن؛ يضم الفعاليات الرياضية التي تقع داخل المدرسة وخارجها في المجتمع (ص 2، 5)',
-        final_goal: 'التنمية الشاملة المتكاملة (بدنياً، ومهارياً، ونفسياً، واجتماعياً) وتحسين نوعية الحياة (ص 2)',
-        planning_style: 'مركزية الأهداف التربوية العامة مع لا مركزية ومرونة المحتوى وفق الإمكانات الميدانية (ص 4)',
-      },
+      id: 'q-top4-2',
+      type: 'true_false',
+      order: 2,
+      prompt: 'يمكن أن يشمل تعريف المنهج التعلم الفردي خارج المدرسة إذا كانت المدرسة تخططه أو تشرف عليه.',
+      correctAnswer: true,
+      explanation: 'ينص التعريف الثاني على الفردي والجماعي، داخل المدرسة وخارجها.',
+      sourceReference: 'كتاب المقرر، ص 5',
+    },
+    {
+      id: 'q-top4-3',
+      type: 'multiple_choice',
+      order: 3,
+      prompt: 'ما القيد الذي يستخدمه المؤلف عند الحديث عن بلوغ الطلاب أهدافهم وغاياتهم من برنامج النشاطات؟',
+      options: [
+        { id: 'opt-a', text: 'بقدر الإمكان.' },
+        { id: 'opt-b', text: 'دون تخطيط.' },
+        { id: 'opt-c', text: 'بصورة مستحيلة.' },
+        { id: 'opt-d', text: 'في كل حالة بالضرورة.' },
+      ],
+      correctOptionId: 'opt-a',
+      explanation: 'ترد عبارة «بقدر الإمكان» في الصياغة الثالثة.',
+      sourceReference: 'كتاب المقرر، ص 5',
+    },
+    {
+      id: 'q-top4-4',
+      type: 'true_false',
+      order: 4,
+      prompt: 'يذكر المؤلف «محتوى تعليمي مقدم» ضمن تعريفات المنهج.',
+      correctAnswer: true,
+      explanation: 'هذه الصيغة الرابعة المختصرة.',
+      sourceReference: 'كتاب المقرر، ص 5',
+    },
+    {
+      id: 'q-top4-5',
+      type: 'multiple_choice',
+      order: 5,
+      prompt: 'أي وصف يعبر عن التعريف الذي يركز على المدرسة بصفتها جهة التخطيط أو الإشراف؟',
+      options: [
+        { id: 'opt-a', text: 'كل تعلم تخططه المدرسة أو تشرف عليه.' },
+        { id: 'opt-b', text: 'أي نشاط غير مخطط.' },
+        { id: 'opt-c', text: 'المقرر المكتوب وحده.' },
+        { id: 'opt-d', text: 'الحضور المدرسي فقط.' },
+      ],
+      correctOptionId: 'opt-a',
+      explanation: 'ينص التعريف الثاني على التعلم المرتبط بالتخطيط أو الإشراف.',
+      sourceReference: 'كتاب المقرر، ص 5',
     },
   ],
-  sharedSimilarities: [
-    'كلا المفهومين يعتبران المنهج الأداة الأساسية للمنظومة التعليمية لتحقيق الأهداف التربوية (ص 2، 5).',
-    'كلاهما يتضمنان قدراً من المعرفة والمفاهيم العلمية الضرورية لبناء الأساس المعرفي للمتعلم (ص 6).',
-    'كلاهما يمثلان فكراً تربوياً يهدف إلى خدمة المجتمع وتخريج أجيال قادرة على ممارسة الحياة (ص 2).',
-  ],
-  contrastingDifferencesSummary:
-    'نقلت النظرة الحديثة بؤرة الاهتمام من مجرد حفظ المقررات والمعلومات بصورة سلبية إلى تفعيل الخبرات والأنشطة والمواقف الحركية والاجتماعية التي تبني شخصية رياضية متكاملة بدنياً ومهارياً ونفسياً واجتماعياً.',
 };
 
-// 5. محرك الشرح المتحرك ثلاثي المراحل (AnimatedExplanationView)
-const BLOCK_ANIMATED_EXPLANATION: AnimatedExplanationBlock = {
-  id: 'curric-blk-anim-evolution',
-  type: 'animated_explanation',
+export const QUIZ_TOPIC_5: QuizBlock = {
+  id: 'quiz-top5-language',
+  type: 'quiz',
   order: 5,
-  title: 'شرح متحرك ثلاثي المراحل: مسار التحول من المنهج التقليدي إلى المنهج الحديث',
-  description:
-    'محاكاة بصرية من 3 مراحل توضح اتساع بؤرة التركيز التربوي من حفظ المواد الدراسية إلى شمولية الخبرات والأنشطة وتحقيق التنمية المتكاملة لشخصية المتعلم (وفق صفحات الكتاب 2–5).',
-  viewBoxWidth: 720,
-  viewBoxHeight: 300,
-  defaultDurationPerStepMs: 3500,
-  baseElements: [
+  title: 'أسئلة تقويم الموضوع الخامس: المنهج في اللغة',
+  description: '5 أسئلة موضوعية حول الدلالة اللغوية للمنهج واستعماله للدلالة على مقرر واحد أو أكثر من مقرر لمرحلة كاملة.',
+  passingScorePercentage: 60,
+  sourceReference: 'كتاب مناهج التربية الرياضية، ص 6',
+  questions: [
     {
-      id: 'knowledge-core',
-      label: 'المقررات والمعارف',
-      initialX: 70,
-      initialY: 120,
-      shape: 'rect',
-      color: '#2563EB',
-      width: 140,
-      height: 48,
-    },
-    {
-      id: 'teacher-role',
-      label: 'المعلم (ناقل وملقن)',
-      initialX: 70,
-      initialY: 45,
-      shape: 'rect',
-      color: '#0891B2',
-      width: 140,
-      height: 44,
-    },
-    {
-      id: 'learner-role',
-      label: 'المتعلم (متلقي سلبي)',
-      initialX: 70,
-      initialY: 200,
-      shape: 'rect',
-      color: '#64748B',
-      width: 140,
-      height: 44,
-    },
-    {
-      id: 'activities-pool',
-      label: 'منظومة الأنشطة والخبرات',
-      initialX: 280,
-      initialY: 120,
-      shape: 'rect',
-      color: '#0D9488',
-      width: 160,
-      height: 52,
-    },
-    {
-      id: 'holistic-growth',
-      label: 'التنمية الشاملة للمتعلم',
-      initialX: 510,
-      initialY: 115,
-      shape: 'circle',
-      color: '#10B981',
-      width: 60,
-      height: 60,
-    },
-  ],
-  steps: [
-    {
-      stepNumber: 1,
-      title: 'المرحلة الأولى: التصور التقليدي (المنهج كمقررات ومحتوى معرفي)',
-      explanation:
-        'في النظرة التقليدية، يُعرف المنهج بأنه "مجموعة من المواد والمقررات الدراسية لفرقة أو سنة معينة". تضع هذه النظرة المعرفة وحدها في بؤرة الاهتمام بوصفها حصيلة التراث الثقافي للإنسان. يقف المعلم فيها كناقل وملقن للمعلومات، بينما يقف الطالب كمتلقٍ سلبي يُطالب بالحفظ وتُهمل فيه الأنشطة الرياضية والخبرات الحياتية.',
-      pedagogicalTip:
-        'التقويم في المنهج التقليدي يقتصر على قياس ما تم حفظه واسترجاعه من مفاهيم ونظريات فقط دون قياس التغير السلوكي (ص 5).',
-      transformations: [
-        {
-          elementId: 'knowledge-core',
-          x: 80,
-          y: 120,
-          scale: 1.15,
-          highlight: true,
-          color: '#2563EB',
-        },
-        {
-          elementId: 'teacher-role',
-          x: 80,
-          y: 45,
-          scale: 1,
-          highlight: true,
-          customLabel: 'المعلم (ناقل للمعرفة)',
-        },
-        {
-          elementId: 'learner-role',
-          x: 80,
-          y: 200,
-          scale: 0.95,
-          opacity: 0.75,
-          customLabel: 'المتعلم (متلقٍ سلبي)',
-        },
-        { elementId: 'activities-pool', x: 280, y: 120, opacity: 0.15 },
-        { elementId: 'holistic-growth', x: 510, y: 115, opacity: 0.1 },
+      id: 'q-top5-1',
+      type: 'multiple_choice',
+      order: 1,
+      prompt: 'ما الدلالة اللغوية للمنهج أو المنهاج في الكتاب؟',
+      options: [
+        { id: 'opt-a', text: 'الطريق الواضح.' },
+        { id: 'opt-b', text: 'الطريق المجهول.' },
+        { id: 'opt-c', text: 'امتحان نهاية العام.' },
+        { id: 'opt-d', text: 'النشاط البدني فقط.' },
       ],
-      spotlightZone: {
-        x: 40,
-        y: 25,
-        width: 210,
-        height: 245,
-        label: 'بؤرة التركيز: حفظ المقررات والمعارف',
-      },
+      correctOptionId: 'opt-a',
+      explanation: 'يذكر المؤلف معنى الطريق الواضح.',
+      sourceReference: 'كتاب المقرر، ص 6',
     },
     {
-      stepNumber: 2,
-      title: 'المرحلة الثانية: التحول نحو الخبرات والأنشطة والمواقف التعليمية',
-      explanation:
-        'يتسع مفهوم المنهج ليشمل "جميع الخبرات التي يكتسبها المتعلم والأنشطة التي تخططها المدرسة وتشرف عليها سواء داخلها أو خارجها". وهنا تتغير الأدوار جذرياً: يتحول المعلم من ناقل للمعلومات إلى "موجه ومرشد ومراقب لبيئة التعلم"، ويتحول دور الطالب من السلبية إلى الإيجابية والتعلم الذاتي من خلال المشاركة الحية في الأنشطة الرياضية والمواقف التعليمية المتنوعة.',
-      pedagogicalTip:
-        'الخبرة التعليمية هي تفاعل حي ومتبادل بين الطالب والبيئة المدرسية، وليست مجرد نصوص مكتوبة في مذكرات أو كتب (ص 3، 5).',
-      transformations: [
-        {
-          elementId: 'knowledge-core',
-          x: 100,
-          y: 60,
-          scale: 0.85,
-          opacity: 0.7,
-          highlight: false,
-        },
-        {
-          elementId: 'activities-pool',
-          x: 280,
-          y: 115,
-          scale: 1.2,
-          opacity: 1,
-          highlight: true,
-          color: '#0D9488',
-        },
-        {
-          elementId: 'teacher-role',
-          x: 280,
-          y: 35,
-          scale: 1.05,
-          customLabel: 'المعلم (مرشد وموجه)',
-          color: '#0891B2',
-          highlight: true,
-        },
-        {
-          elementId: 'learner-role',
-          x: 280,
-          y: 205,
-          scale: 1.05,
-          customLabel: 'المتعلم (مشارك نشط وإيجابي)',
-          color: '#2563EB',
-          highlight: true,
-        },
-        { elementId: 'holistic-growth', x: 510, y: 115, opacity: 0.35 },
+      id: 'q-top5-2',
+      type: 'true_false',
+      order: 2,
+      prompt: 'قد يدل المنهج على مقرر دراسي مخصص لفرقة أو سنة دراسية معينة.',
+      correctAnswer: true,
+      explanation: 'يبين المؤلف استعمال المصطلح بهذا المعنى.',
+      sourceReference: 'كتاب المقرر، ص 6',
+    },
+    {
+      id: 'q-top5-3',
+      type: 'multiple_choice',
+      order: 3,
+      prompt: 'ما الذي يدخل في المنهج عند استخدامه بمعنى مقرر دراسي؟',
+      options: [
+        { id: 'opt-a', text: 'مفاهيم ومعارف وحقائق وأساسيات ونظريات.' },
+        { id: 'opt-b', text: 'نتائج المباريات فقط.' },
+        { id: 'opt-c', text: 'المعدات فقط.' },
+        { id: 'opt-d', text: 'قوائم الحضور وحدها.' },
       ],
-      spotlightZone: {
-        x: 230,
-        y: 15,
-        width: 255,
-        height: 260,
-        label: 'بؤرة التركيز: الخبرات والأنشطة والمواقف الحية',
-      },
+      correctOptionId: 'opt-a',
+      explanation: 'يسرد النص هذه العناصر في شرح معنى المقرر.',
+      sourceReference: 'كتاب المقرر، ص 6',
     },
     {
-      stepNumber: 3,
-      title: 'المرحلة الثالثة: المنظومة الحديثة الشاملة (ارتباط المنهج بالأهداف وتنمية المتعلم)',
-      explanation:
-        'يصل المفهوم إلى كماله بوصفه "منظومة تربوية متكاملة الأركان": تسعى لتحقيق أقصى قدر من التطوير والتنمية الشاملة والمتكاملة لطاقات المتعلم في مختلف الأبعاد (البدنية، والمهارية، والصحية، والنفسية، والاجتماعية). ويقوم التخطيط على مبدأ "مركزية الأهداف ولا مركزية المحتوى"، بما يتيح تفريد التعليم واستيعاب المناهج التكيفية للطلاب الموهوبين وذوي الإعاقة ومواكبة الثورة التكنولوجية.',
-      pedagogicalTip:
-        'مهمة المنهج الكبرى في مجتمعنا هي بناء الشخصية المتكاملة للفرد للنهوض بالمجتمع ومواكبة العصر الرقمي والتطوير المستمر (ص 2، 4).',
-      transformations: [
-        {
-          elementId: 'knowledge-core',
-          x: 100,
-          y: 55,
-          scale: 0.75,
-          opacity: 0.6,
-        },
-        {
-          elementId: 'activities-pool',
-          x: 280,
-          y: 55,
-          scale: 0.85,
-          opacity: 0.75,
-          highlight: false,
-        },
-        {
-          elementId: 'holistic-growth',
-          x: 520,
-          y: 105,
-          scale: 1.35,
-          opacity: 1,
-          highlight: true,
-          color: '#10B981',
-        },
-        {
-          elementId: 'learner-role',
-          x: 520,
-          y: 215,
-          scale: 1.1,
-          customLabel: 'المتعلم (الشخصية المتكاملة)',
-          color: '#1E40AF',
-          highlight: true,
-        },
-        {
-          elementId: 'teacher-role',
-          x: 320,
-          y: 215,
-          scale: 1,
-          customLabel: 'المعلم (مهندس الموقف التعليمي)',
-          color: '#0891B2',
-        },
+      id: 'q-top5-4',
+      type: 'true_false',
+      order: 4,
+      prompt: 'لا يمكن أن يدل لفظ المنهج على أكثر من مقرر دراسي.',
+      correctAnswer: false,
+      explanation: 'ينص الكتاب على إمكانية اشتماله على أكثر من مقرر.',
+      sourceReference: 'كتاب المقرر، ص 6',
+    },
+    {
+      id: 'q-top5-5',
+      type: 'multiple_choice',
+      order: 5,
+      prompt: 'أي مثال يذكره المؤلف للمنهج الذي يشمل أكثر من مقرر؟',
+      options: [
+        { id: 'opt-a', text: 'المنهج الدراسي للمرحلة الابتدائية.' },
+        { id: 'opt-b', text: 'حصة سباحة واحدة.' },
+        { id: 'opt-c', text: 'مباراة مدرسية.' },
+        { id: 'opt-d', text: 'تدريب فردي واحد.' },
       ],
-      spotlightZone: {
-        x: 450,
-        y: 35,
-        width: 250,
-        height: 245,
-        label: 'الغاية الكبرى: التنمية الشاملة لشخصية المتعلم',
-      },
+      correctOptionId: 'opt-a',
+      explanation: 'هذا المثال مذكور في نهاية فقرة «المنهج في اللغة».',
+      sourceReference: 'كتاب المقرر، ص 6',
     },
   ],
 };
 
-// 6. محرك المخططات المتجهية التفاعلية (InteractiveDiagramView)
-export const BLOCK_INTERACTIVE_DIAGRAM: InteractiveDiagramBlock = {
-  id: 'curric-blk-diag-system',
-  type: 'interactive_diagram',
-  order: 6,
-  title: 'المخطط المفاهيمي لمنظومة المنهج الحديث في التربية الرياضية',
-  caption:
-    'انقر على أي ركن مفاهيمي لاستعراض تأصيله العلمي في كتاب مناهج التربية الرياضية وتطبيقه الميداني للفرقة الرابعة.',
-  viewBoxWidth: 760,
-  viewBoxHeight: 370,
-  initialSelectedNodeId: 'node-curric-goals',
-  nodes: [
+// =========================================================================
+// الاختبار الشامل للفصل الأول (15 سؤالًا موضوعيًا معتمدًا — 3 لكل موضوع)
+// =========================================================================
+
+export const CHAPTER_1_COMPREHENSIVE_QUIZ: QuizBlock = {
+  id: 'quiz-ch1-comprehensive',
+  type: 'quiz',
+  order: 1,
+  title: 'الاختبار الشامل للفصل الأول: مقدمة وماهية المنهج',
+  description: '15 سؤالًا موضوعيًا تغطي كافة محاور الفصل الأول بصورة متوازنة (3 أسئلة لكل موضوع من موضوعات الفصل الخمسة).',
+  instructions: 'أجب عن جميع الأسئلة ثم اضغط على زر اعتماد الإجابات لمعرفة نتيجتك ومراجعة التفسيرات المعتمدة من كتاب المقرر.',
+  passingScorePercentage: 60,
+  sourceReference: 'كتاب مناهج التربية الرياضية — أ.د/ هاني الدسوقي إبراهيم (ص 2 - 6)',
+  questions: [
+    // أسئلة الموضوع الأول: مقدمـة (3 أسئلة)
     {
-      id: 'node-curric-goals',
-      label: 'مركزية الأهداف التربوية',
-      sublabel: 'Central Educational Goals',
-      description:
-        'الأهداف هي الأداة الموجهة للمعلم والمتعلم والمرجع الأساسي لتقويم المنهج. وتشتق الأهداف من فلسفة المجتمع وقيمه وحاجات المتعلمين لتوجيه السلوك نحو الغايات المنشودة (ص 2، 4).',
-      category: 'الأسس والغايات',
-      x: 50,
-      y: 40,
-      width: 195,
-      height: 75,
-      details: {
-        academicTerm: 'Centrality of Educational Objectives',
-        functionRole: 'توجيه العملية التعليمية وتحديد معايير تقويم المنهج',
-        keyPoints: [
-          'يجب أن يكون الهدف وثيق الصلة بالظروف الاجتماعية والحياة الحاضرة للمتعلم (ص 5).',
-          'التخطيط لبرامج التربية الرياضية يفرض مركزية الأهداف مع مراعاة فلسفة المجتمع (ص 4).',
-        ],
-      },
+      id: 'q-comp-1',
+      type: 'multiple_choice',
+      order: 1,
+      prompt: 'أي إجراء ينسجم مع رؤية المؤلف لتطوير المناهج؟',
+      options: [
+        { id: 'opt-a', text: 'الاكتفاء بإصدار المقرر دون اختباره.' },
+        { id: 'opt-b', text: 'تجربة المقررات وتقويمها وتحسينها بصورة مستمرة.' },
+        { id: 'opt-c', text: 'تجاهل المتعلمين.' },
+        { id: 'opt-d', text: 'إلغاء التخطيط.' },
+      ],
+      correctOptionId: 'opt-b',
+      explanation: 'التطوير في الكتاب عملية مستمرة مقرونة بالتجريب والتحسين.',
+      sourceReference: 'كتاب المقرر، ص 2',
     },
     {
-      id: 'node-curric-experiences',
-      label: 'منظومة الخبرات والأنشطة',
-      sublabel: 'Curricular Experiences & Activities',
-      description:
-        'سلسلة من الأنشطة والمواقف التعليمية الموجهة التي يكتسبها الطالب تحت إشراف وتوجيه المدرسة، سواء تمت داخل المدرسة أو خارجها في الملاعب والمجتمع (ص 2، 5).',
-      category: 'المحتوى والعمليات',
-      x: 285,
-      y: 40,
-      width: 195,
-      height: 75,
-      details: {
-        academicTerm: 'Educational Experiences Network',
-        functionRole: 'توفير التفاعل الحي والممارسة الحركية والاجتماعية',
-        keyPoints: [
-          'تشمل جميع الأنشطة الرياضية التي تخططها المدرسة أو تشرف عليها داخلها وخارجها (ص 5).',
-          'تتحدى إمكانات المتعلمين وتستثير دوافعهم وحماسهم وتلبي ميولهم ورغباتهم (ص 4).',
-        ],
-      },
+      id: 'q-comp-2',
+      type: 'multiple_choice',
+      order: 2,
+      prompt: 'لماذا يؤكد المؤلف مرونة محتوى برامج التربية الرياضية؟',
+      options: [
+        { id: 'opt-a', text: 'لتجاهل الأهداف.' },
+        { id: 'opt-b', text: 'لملاءمة الإمكانات وحاجات المتعلمين مع الحفاظ على الأهداف العامة.' },
+        { id: 'opt-c', text: 'لإلغاء دور المعلم.' },
+        { id: 'opt-d', text: 'لمنع الابتكار.' },
+      ],
+      correctOptionId: 'opt-b',
+      explanation: 'هذا هو المقصود بقاعدة مركزية الأهداف ولا مركزية المحتوى.',
+      sourceReference: 'كتاب المقرر، ص 4',
     },
     {
-      id: 'node-curric-holistic',
-      label: 'التنمية الشاملة للشخصية',
-      sublabel: 'Holistic Development (4 Dimensions)',
-      description:
-        'المهمة الكبرى لمناهج التربية الرياضية المدرسية في مجتمعنا: تحقيق النمو المتكامل للطاقات الكامنة في المتعلم في مختلف الجوانب: البدنية، والمهارية، والصحية، والنفسية، والاجتماعية (ص 2).',
-      category: 'المخرجات والغاية',
-      x: 520,
-      y: 145,
-      width: 195,
-      height: 85,
-      details: {
-        academicTerm: 'Comprehensive Individual Growth',
-        functionRole: 'بناء الشخصية المتوازنة وتحسين نوعية الحياة والصحة النفسية',
-        keyPoints: [
-          'الجانب البدني والمهاري: النهوض بالمستوى الرياضي والكفاءة الحركية للفرد (ص 2).',
-          'الجانب النفسي والاجتماعي: الوصول للصحة النفسية والتوافق الإيجابي مع الآخرين (ص 2).',
-        ],
-      },
+      id: 'q-comp-3',
+      type: 'true_false',
+      order: 3,
+      prompt: 'يشير المؤلف إلى توظيف الحاسب والإنترنت والوسائط المتعددة في تطوير تعلم المهارات الرياضية والتعلم الذاتي.',
+      correctAnswer: true,
+      explanation: 'يناقش هذه التطبيقات صراحة ضمن تطوير المناهج.',
+      sourceReference: 'كتاب المقرر، ص 4–5',
+    },
+
+    // أسئلة الموضوع الثاني: أولًا: ماهية المنهج (3 أسئلة)
+    {
+      id: 'q-comp-4',
+      type: 'multiple_choice',
+      order: 4,
+      prompt: 'أي وصف يجسد معنى المنهج تربويًا وفق النص؟',
+      options: [
+        { id: 'opt-a', text: 'أنشطة ومعارف وخبرات موجهة لتنمية قدرات الفرد.' },
+        { id: 'opt-b', text: 'كشف درجات فقط.' },
+        { id: 'opt-c', text: 'جدول حصص فقط.' },
+        { id: 'opt-d', text: 'قائمة وسائل فقط.' },
+      ],
+      correctOptionId: 'opt-a',
+      explanation: 'يربط المؤلف المعنى التربوي للمنهج بتنمية الفرد من خلال الخبرات والأنشطة والمعرفة.',
+      sourceReference: 'كتاب المقرر، ص 5',
     },
     {
-      id: 'node-curric-teacher',
-      label: 'المعلم: موجه ومرشد للتعلم',
-      sublabel: 'Teacher as Facilitator & Guide',
-      description:
-        'تعديل دور معلم التربية الرياضية من ناقل للمعرفة إلى موجه ومرشد ومراقب لبيئة التعلم الذاتي، ومصمم للمواقف التعليمية التفاعلية بالوسائط المتعددة (ص 3).',
-      category: 'الأدوار التعليمية',
-      x: 50,
-      y: 245,
-      width: 195,
-      height: 75,
-      details: {
-        academicTerm: 'Facilitator & Learning Guide',
-        functionRole: 'إدارة وتوجيه بيئة التعلم الذاتي والتفكير الابتكاري',
-        keyPoints: [
-          'تغيير دور المتعلمين في التربية الرياضية من السلبية إلى الإيجابية التفاعلية (ص 3).',
-          'الاستفادة من تكنولوجيا العصر والإنترنت والوسائط المتعددة في التدريس (ص 3، 4).',
-        ],
-      },
+      id: 'q-comp-5',
+      type: 'true_false',
+      order: 5,
+      prompt: 'يمكن صياغة هدف تربوي علمي بمعزل عن الحياة الاجتماعية الحاضرة للمتعلم.',
+      correctAnswer: false,
+      explanation: 'يشترط المؤلف صلة الهدف بظروف المجتمع وحياة المتعلم.',
+      sourceReference: 'كتاب المقرر، ص 5',
     },
     {
-      id: 'node-curric-decentralized',
-      label: 'لا مركزية المحتوى الميداني',
-      sublabel: 'Decentralized Content & Facilities',
-      description:
-        'مرونة تنظيم الأنشطة والمحتوى بما يتلاءم مع الإمكانات الفعلية المتوفرة بالمؤسسة التعليمية ويلبي حاجات المتعلمين، مع الالتزام بوحدة الأهداف (ص 4).',
-      category: 'التنظيم والتطبيق',
-      x: 285,
-      y: 245,
-      width: 195,
-      height: 75,
-      details: {
-        academicTerm: 'Content Decentralization',
-        functionRole: 'مراعاة الواقع الميداني وتنوع البيئات التعليمية',
-        keyPoints: [
-          'إدخال المناهج التكيفية (الخاصة) للفئات الخاصة من المتعلمين: الموهوبين والمعاقين (ص 4).',
-          'التخطيط التعاوني بمشاركة الأكاديميين والموجهين والمعلمين والطلاب (ص 4).',
-        ],
-      },
+      id: 'q-comp-6',
+      type: 'multiple_choice',
+      order: 6,
+      prompt: 'أي جانب يربطه المؤلف بالمنهج والهدف؟',
+      options: [
+        { id: 'opt-a', text: 'تقويم العمل التربوي وتوجيه المعلم والمتعلم.' },
+        { id: 'opt-b', text: 'تقليل الأنشطة دون مبرر.' },
+        { id: 'opt-c', text: 'استبعاد الثقافة.' },
+        { id: 'opt-d', text: 'إلغاء التخطيط.' },
+      ],
+      correctOptionId: 'opt-a',
+      explanation: 'يصف المنهج والهدف في سياق التقويم والتوجيه.',
+      sourceReference: 'كتاب المقرر، ص 5',
     },
-  ],
-  connections: [
+
+    // أسئلة الموضوع الثالث: تعريفات المناهج قديما وحديثا (3 أسئلة)
     {
-      id: 'c-goals-exp',
-      from: 'node-curric-goals',
-      to: 'node-curric-experiences',
-      label: 'توجه وتشرف',
-      style: 'solid',
-      arrow: true,
-    },
-    {
-      id: 'c-exp-holistic',
-      from: 'node-curric-experiences',
-      to: 'node-curric-holistic',
-      label: 'تثمر التنمية',
-      style: 'solid',
-      arrow: true,
+      id: 'q-comp-7',
+      type: 'multiple_choice',
+      order: 7,
+      prompt: 'ما مركز الاهتمام عند تصوير المنهج بوصفه مجموعة مواد دراسية؟',
+      options: [
+        { id: 'opt-a', text: 'المعرفة.' },
+        { id: 'opt-b', text: 'المباني فقط.' },
+        { id: 'opt-c', text: 'الملابس الرياضية.' },
+        { id: 'opt-d', text: 'السجلات المالية.' },
+      ],
+      correctOptionId: 'opt-a',
+      explanation: 'هذا التصور يركز على المعرفة بوصفها حصيلة التراث الثقافي والاجتماعي.',
+      sourceReference: 'كتاب المقرر، ص 5',
     },
     {
-      id: 'c-teacher-exp',
-      from: 'node-curric-teacher',
-      to: 'node-curric-experiences',
-      label: 'يدير ويوجه',
-      style: 'solid',
-      arrow: true,
+      id: 'q-comp-8',
+      type: 'true_false',
+      order: 8,
+      prompt: 'يعرض الكتاب تصورًا يرى المعرفة نتاجًا للبحث المنظم بدل اعتبارها ثابتة ودائمة.',
+      correctAnswer: true,
+      explanation: 'ترد هذه المقابلة ضمن التعريفات.',
+      sourceReference: 'كتاب المقرر، ص 5',
     },
     {
-      id: 'c-decent-exp',
-      from: 'node-curric-decentralized',
-      to: 'node-curric-experiences',
-      label: 'يكيف المحتوى',
-      style: 'solid',
-      arrow: true,
+      id: 'q-comp-9',
+      type: 'multiple_choice',
+      order: 9,
+      prompt: 'أي العناصر التالية يكمّل تعريف المنهج الذي يتناول محتوى المقرر وتنظيمه؟',
+      options: [
+        { id: 'opt-a', text: 'أساليب تفاعل التلاميذ مع المحتوى.' },
+        { id: 'opt-b', text: 'أعداد السيارات.' },
+        { id: 'opt-c', text: 'التكلفة المالية وحدها.' },
+        { id: 'opt-d', text: 'المبنى وحده.' },
+      ],
+      correctOptionId: 'opt-a',
+      explanation: 'ترد أساليب التفاعل ضمن صيغة هذا التعريف.',
+      sourceReference: 'كتاب المقرر، ص 5',
+    },
+
+    // أسئلة الموضوع الرابع: تعريفات المنهج (3 أسئلة)
+    {
+      id: 'q-comp-10',
+      type: 'multiple_choice',
+      order: 10,
+      prompt: 'أي حالة تدخل ضمن التعلم الذي تخططه المدرسة أو تشرف عليه؟',
+      options: [
+        { id: 'opt-a', text: 'التعلم الفردي خارج المدرسة تحت إشرافها.' },
+        { id: 'opt-b', text: 'أي نشاط عشوائي بلا صلة بالمدرسة.' },
+        { id: 'opt-c', text: 'النشاط التجاري وحده.' },
+        { id: 'opt-d', text: 'التعلم الجماعي داخل الصف فقط.' },
+      ],
+      correctOptionId: 'opt-a',
+      explanation: 'يشمل التعريف التعلم الفردي والجماعي داخل المدرسة وخارجها عند وجود تخطيط أو إشراف.',
+      sourceReference: 'كتاب المقرر، ص 5',
     },
     {
-      id: 'c-holistic-goals',
-      from: 'node-curric-holistic',
-      to: 'node-curric-goals',
-      label: 'تقويم مستمر',
-      style: 'dashed',
-      arrow: true,
+      id: 'q-comp-11',
+      type: 'true_false',
+      order: 11,
+      prompt: 'يقدم الكتاب تعريفًا يربط المنهج بمجموعة مرتبة من المقررات اللازمة للتخرج أو الحصول على شهادة.',
+      correctAnswer: true,
+      explanation: 'هذه إحدى الصيغ الأربع المذكورة.',
+      sourceReference: 'كتاب المقرر، ص 5',
     },
-  ],
-  annotations: [
     {
-      id: 'ann-curric-ch1',
-      text: 'منظومة المنهج الحديث — ص 2-5',
-      x: 290,
-      y: 175,
+      id: 'q-comp-12',
+      type: 'multiple_choice',
+      order: 12,
+      prompt: 'أي صيغة هي الأقصر بين تعريفات المنهج الأربعة في الكتاب؟',
+      options: [
+        { id: 'opt-a', text: 'محتوى تعليمي مقدم.' },
+        { id: 'opt-b', text: 'منظومة بناء المدارس.' },
+        { id: 'opt-c', text: 'خطة مالية للمؤسسة.' },
+        { id: 'opt-d', text: 'برنامج مسابقات عالمي.' },
+      ],
+      correctOptionId: 'opt-a',
+      explanation: 'ترد بوصفها الصيغة الرابعة المختصرة.',
+      sourceReference: 'كتاب المقرر، ص 5',
+    },
+
+    // أسئلة الموضوع الخامس: المنهج في اللغة (3 أسئلة)
+    {
+      id: 'q-comp-13',
+      type: 'multiple_choice',
+      order: 13,
+      prompt: 'ما المعنى اللغوي الأساسي للمنهج؟',
+      options: [
+        { id: 'opt-a', text: 'الطريق الواضح.' },
+        { id: 'opt-b', text: 'الطريق المغلق.' },
+        { id: 'opt-c', text: 'درجة الطالب.' },
+        { id: 'opt-d', text: 'دفتر الأنشطة.' },
+      ],
+      correctOptionId: 'opt-a',
+      explanation: 'هذا هو معنى اللفظ الذي يورده المؤلف.',
+      sourceReference: 'كتاب المقرر، ص 6',
+    },
+    {
+      id: 'q-comp-14',
+      type: 'true_false',
+      order: 14,
+      prompt: 'يقتصر استعمال كلمة المنهج في هذا الجزء على مقرر واحد ولا يمتد إلى مرحلة تعليمية كاملة.',
+      correctAnswer: false,
+      explanation: 'قد يشير إلى أكثر من مقرر على مستوى مرحلة تعليمية.',
+      sourceReference: 'كتاب المقرر، ص 6',
+    },
+    {
+      id: 'q-comp-15',
+      type: 'multiple_choice',
+      order: 15,
+      prompt: 'أي مثال يستخدمه المؤلف للتعبير عن المنهج باعتباره مجموعة مقررات؟',
+      options: [
+        { id: 'opt-a', text: 'المنهج الدراسي للمرحلة الابتدائية.' },
+        { id: 'opt-b', text: 'حصة ألعاب واحدة.' },
+        { id: 'opt-c', text: 'اختبار قصير واحد.' },
+        { id: 'opt-d', text: 'نشاط فردي غير مرتبط بمقرر.' },
+      ],
+      correctOptionId: 'opt-a',
+      explanation: 'يورده الكتاب مثالًا صريحًا على نطاق المنهج الأوسع.',
+      sourceReference: 'كتاب المقرر، ص 6',
     },
   ],
 };
 
-// 7. مكون تسلسل الخطوات والمراحل التعليمية (AnimatedStepsView)
-export const BLOCK_ANIMATED_STEPS: AnimatedStepsBlock = {
-  id: 'curric-blk-steps-dev',
-  type: 'animated_steps',
-  order: 7,
-  title: 'تسلسل مراحل تخطيط وتطوير المنهج الرياضي الحديث',
-  description:
-    'تسلسل المراحل العلمية الأربعة المعتمدة في بناء وتطوير منهج التربية الرياضية استناداً لصفحات الكتاب (ص 2، 4):',
-  academicCitation: 'كتاب مناهج التربية الرياضية — أ.د. هاني الدسوقي إبراهيم (ص 2، 4)',
-  steps: [
-    {
-      id: 'step-1-needs',
-      stepNumber: 1,
-      title: 'دراسة الواقع وتحديد الحاجات',
-      shortSummary: 'تحليل فلسفة المجتمع واحتياجات وميول واستعدادات الطلاب وقدراتهم البدنية والمهارية.',
-      detailedExplanation:
-        'ينطلق التخطيط العلمي للمنهج من دراسة متأنية لفلسفة المجتمع وثقافته، وتحديد المشكلات الصحية والبدنية، والتعرف على خصائص نمو المرحلة السنية للطلاب وميولهم الحركية لضمان واقعية المنهج وملامسته لبيئة المدرسة.',
-      keyPedagogicalPoint:
-        'المنهج لا يُبنى بمعزل عن المجتمع؛ بل هو استجابة لاحتياجات أفراده وطموحاتهم التنموية (ص 2).',
-      practicalExample:
-        'إجراء استبيان للياقة البدنية واستطلاع ميول الطلاب بين ألعاب القوى والألعاب الجماعية في بداية العام الدراسي.',
-      pageCitation: 'ص 2، 4',
-      icon: '🔍',
-    },
-    {
-      id: 'step-2-goals',
-      stepNumber: 2,
-      title: 'صياغة الأهداف التربوية المركزية',
-      shortSummary: 'تحديد الغايات والأهداف المنشودة في كافة الأبعاد: البدنية، والمهارية، والصحية، والنفسية، والاجتماعية.',
-      detailedExplanation:
-        'يقوم التخطيط الناجح على مبدأ "مركزية الأهداف"؛ أي أن الدولة تضع أهدافاً عامة موحدة تكفل تنمية الشخصية المتكاملة للطلاب، وتحدد معايير الكفاءة البدنية والصحية والروح الرياضية المراد الوصول إليها.',
-      keyPedagogicalPoint:
-        'الأهداف المركزية هي البوصلة؛ فبدونها تصبح الأنشطة الحركية مجرد لعب غير هادف (ص 4).',
-      practicalExample:
-        'تحديد هدف إكساب 90% من طلاب الصف مهارة التمرير الدقيق في كرة اليد وقواعد التعاون الجماعي.',
-      pageCitation: 'ص 4',
-      icon: '🎯',
-    },
-    {
-      id: 'step-3-design',
-      stepNumber: 3,
-      title: 'اختيار الخبرات والأنشطة وتكييفها',
-      shortSummary: 'انتقاء المواقف الحركية والخبرات التعليمية وفق مبدأ "لا مركزية المحتوى" ومرونة الإمكانات.',
-      detailedExplanation:
-        'تُترجم الأهداف النظرية إلى مواقف وخبرات حركية واقعية في الملعب؛ مع منح معلم المدرسة حرية تكييف المحتوى والألعاب حسب إمكانات الملعب والأدوات المتاحة وحالة الطقس، بما يحقق الأهداف المركزية بمرونة.',
-      keyPedagogicalPoint:
-        'لا مركزية المحتوى تعني أن المدرسة تختار النشاط الأنسب لإمكاناتها بشرط تحقيق نفس الهدف التربوي المركزي (ص 4).',
-      practicalExample:
-        'استخدام كرات بديلة أو ملاعب مصغرة في حال عدم توفر ملاعب قانونية كاملة لتدريب الرشاقة.',
-      pageCitation: 'ص 2، 4',
-      icon: '⚙️',
-    },
-    {
-      id: 'step-4-eval',
-      stepNumber: 4,
-      title: 'التقويم المستمر والتطوير الدائم',
-      shortSummary: 'قياس أثر الخبرات وتجريب المقررات في الميدان لتحديث المنهج في عملية مستمرة لا نهاية لها.',
-      detailedExplanation:
-        'المنهج ليس وثيقة جامدة بل كائن متطور؛ ولذا يتطلب التخطيط تجريب الوحدات التعليمية وملاحظة تفاعل الطلاب وتقويم مخرجات اللياقة والسلوك، ثم تعديل الخبرات بما يستجد من معارف ومستحدثات تكنولوجية.',
-      keyPedagogicalPoint:
-        'تطوير المنهج عملية مستمرة وليس لها نهاية، وتتطلب تجريب المقررات والاستفادة من منجزات العصر (ص 2، 3).',
-      practicalExample:
-        'إجراء اختبارات قبلية وبعدية للكفاءة الحركية وتدوين ملاحظات المعلم على صعوبة بعض التدريبات لتعديلها.',
-      pageCitation: 'ص 2، 3',
-      icon: '📊',
-    },
-  ],
-};
+// =========================================================================
+// الحفظ الاحتياطي لكتل المحتوى السابقة للمراجعة الأكاديمية
+// =========================================================================
 
-// 8. مكون المواقف القائمة على اتخاذ القرار (DecisionScenarioView)
-export const BLOCK_DECISION_SCENARIO: DecisionScenarioBlock = {
-  id: 'curric-blk-decision-school-facility',
-  type: 'decision_scenario',
-  order: 8,
-  title: 'موقف تطبيقي: اتخاذ القرار في اختيار نشاط المنهج وفق إمكانات المدرسة',
-  targetRole: 'معلم تربية رياضية يخطط للدرس الميداني في مدرسة حكومية متوسطة',
-  academicFoundation: 'مبدأ مركزية الأهداف ولا مركزية المحتوى ومراعاة الإمكانات الميدانية والفروق الفردية (ص 2، 4، 5)',
-  contextSituation:
-    'تسلمت عملك كمعلم تربية رياضية في مدرسة تضم 35 طالباً في الفصل، ولديك ملعب أسمنتي واحد وكرتان فقط وبعض الأقماع، والهدف المركزي للدرس هو "تنمية الرشاقة والتوافق العضلي العصبي والتعاون الجماعي". كيف تتخذ قرارك في تنظيم نشاط المنهج؟',
-  academicCitation: 'كتاب مناهج التربية الرياضية — ص 2، 4، 5',
-  isVirtualSimulation: true,
-  options: [
-    {
-      id: 'opt-traditional-comp',
-      text: 'الخيار (أ): تقسيم الطلاب إلى فريقين وإجراء مباراة كرة قدم كاملة بين 11 لاعباً وترك باقي الطلاب (24 طالباً) يشاهدون من الخارج.',
-      isOptimal: false,
-      consequenceBadge: 'قرار تقليدي ضيق',
-      feedbackTitle: 'قرار غير سليم — يعكس النظرة التقليدية الضيقة للمنهج',
-      feedbackText:
-        'هذا القرار يقصر الاستفادة على قلة من الطلاب ويحول الأغلبية (24 طالباً) إلى متفرجين سلبيين، مما يتعارض تماماً مع مبدأ شمولية المنهج لجميع المتعلمين ومراعاة الفروق الفردية.',
-      pedagogicalJustification:
-        'المنهج الحديث يهدف إلى تنمية شخصية كل متعلم وإشراك الجميع إيجابياً في الموقف الحركي؛ وحرمان الأغلبية يهدر وقت التعلم ويفقد النشاط قيمته التربوية (ص 2، 3).',
-      fieldExample: 'يؤدي هذا إلى ملل الطلاب غير المشاركين وفقدانهم لدافعية ممارسة الرياضة.',
-    },
-    {
-      id: 'opt-lecture-only',
-      text: 'الخيار (ب): إلغاء الممارسة الميدانية واقتياد الطلاب للفصل لشرح قوانين كرة اليد نظرياً على السبورة تجنباً للزحام وضعف الأدوات.',
-      isOptimal: false,
-      consequenceBadge: 'تركيز نظري مفرط',
-      feedbackTitle: 'قرار غير مناسب — يفرغ التربية الرياضية من طبيعتها الحركية',
-      feedbackText:
-        'هذا الاختيار يرتد بالمنهج إلى النظرة التقليدية البحتة التي تعامل المنهج كمقررات ومعارف تحفظ في الذهن، ويلغي الخبرة الحركية والبدنية التي هي جوهر التربية الرياضية.',
-      pedagogicalJustification:
-        'المنهج الرياضي وسيلته الحركة والنشاط الميداني؛ والاقتصار على التلقين النظري لا ينمي كفاءة بدنية ولا توافقاً عضلياً عصبياً (ص 5).',
-      fieldExample: 'التربية الرياضية ليست مادة مكتبية تحفظ، بل خبرة حركية واجتماعية تعاش في الملعب.',
-    },
-    {
-      id: 'opt-modern-adaptive',
-      text: 'الخيار (ج): تقسيم الطلاب إلى 4 محطات تدريبية دائرية (أقماع للرشاقة، تمرير بالكرة، حركات توافق بدني، ومحطة ملاحظة وتقويم) لتدوير جميع الطلاب بالتساوي.',
-      isOptimal: true,
-      consequenceBadge: 'قرار حديث متوازن (الأمثل)',
-      feedbackTitle: 'قرار تربوي مثالي — يجسد روح المفهوم الحديث للمنهج',
-      feedbackText:
-        'هذا القرار يطبق بدقة مبدأ "لا مركزية المحتوى وتكييف الخبرات وفق الإمكانات المتاحة"؛ حيث تم استثمار الأدوات البسيطة لإشراك جميع الـ 35 طالباً بنشاط وحيوية متزامنة، مع تحقيق الهدف المركزي وهو تنمية الرشاقة والتوافق والتعاون.',
-      pedagogicalJustification:
-        'المنهج الحديث منظومة متكاملة من الخبرات الموجهة التي ترعى النمو الشامل لجميع المتعلمين؛ واستخدام أسلوب المحطات يتيح تفريد التعليم ومراعاة الفروق الفردية وتحقيق أقصى فاعلية تعليمية (ص 2، 4).',
-      fieldExample: 'بهذه الطريقة يتحول الملعب إلى بيئة حيوية يمارس فيها كل طالب دوراً نشطاً تحت إشراف وتوجيه المعلم.',
-    },
-  ],
-};
-
-// 9. نشاط ترتيب الخطوات البصري التطبيقي (VisualSequenceView)
-export const BLOCK_VISUAL_SEQUENCE: VisualSequenceBlock = {
-  id: 'curric-blk-seq-planning-steps',
-  type: 'visual_sequence',
-  order: 9,
-  title: 'نشاط تطبيقي: ترتيب خطوات تخطيط وتطوير المنهج المدرسي الحديث',
-  instructions:
-    'رتب المراحل الأربعة التالية لتخطيط وتطوير منهج التربية الرياضية الحديث بالتسلسل العلمي المنطقي الوارد في الكتاب (ص 2، 4):',
-  correctOrder: [
-    'step-curric-needs',
-    'step-curric-goals',
-    'step-curric-experiences',
-    'step-curric-evaluation',
-  ],
-  items: [
-    {
-      id: 'step-curric-experiences',
-      text: 'اختيار وتنظيم الخبرات والأنشطة الرياضية وتكييف المحتوى حسب إمكانات المؤسسة',
-      categoryBadge: 'المرحلة 3',
-    },
-    {
-      id: 'step-curric-needs',
-      text: 'دراسة فلسفة المجتمع وحاجات وميول واستعدادات المتعلمين وقدراتهم الفردية',
-      categoryBadge: 'المرحلة 1',
-    },
-    {
-      id: 'step-curric-evaluation',
-      text: 'التقويم المستمر وتجريب المقررات الميدانية لإتاحة فرص التحسين الدائم',
-      categoryBadge: 'المرحلة 4',
-    },
-    {
-      id: 'step-curric-goals',
-      text: 'صياغة الأهداف التربوية المركزية بدقة لتوجيه سلوك المتعلمين ومواكبة متطلبات العصر',
-      categoryBadge: 'المرحلة 2',
-    },
-  ],
-  explanation:
-    'التخطيط العلمي للمنهج الحديث (ص 2، 4) يبدأ بدراسة فلسفة المجتمع وحاجات وقدرات المتعلمين (1)، ثم تحديد الأهداف التربوية المركزية بدقة (2)، يليها اختيار وتنظيم الخبرات والأنشطة الرياضية بما يتلاءم مع الإمكانات (3)، وأخيراً التقويم المستمر والتجريب الميداني لتطوير المنهج في عملية دائمة لا نهاية لها (4).',
-};
-
-// 10. كتلة النقاط الجوهرية والكبسولة الأكاديمية
-export const BLOCK_KEY_POINTS: KeyPointBlock = {
-  id: 'curric-blk-kp-summary',
-  type: 'key_point',
-  order: 10,
-  title: 'أبرز الأسس المستفادة من الفصل الأول (كتاب مناهج التربية الرياضية ص 2 - 5)',
-  points: [
-    'المنهج ليس مجرد مقرر دراسي جامد، بل هو سلسلة موجهة من الخبرات والأنشطة التربوية الهادفة (ص 2، 5).',
-    'المهمة الكبرى لمناهج التربية الرياضية في مصر هي تنمية الشخصية المتكاملة في الأبعاد: البدنية، والمهارية، والصحية، والنفسية، والاجتماعية (ص 2).',
-    'التخطيط الناجح للمناهج يقوم على مبدأ "مركزية الأهداف ولا مركزية المحتوى" لمراعاة إمكانات المدارس (ص 4).',
-    'المعلم في التربية الرياضية الحديثة موجه ومرشد للتعلم الذاتي وليس ناقلاً للمعلومة فقط، مع تحويل دور الطالب من السلبية إلى الإيجابية (ص 3).',
-    'تطوير المناهج عملية مستمرة وليس لها نهاية، وتتطلب تجريب المقررات والاستفادة من منجزات العصر التكنولوجية (ص 2، 3).',
-    'ضرورة إدخال المناهج التكيفية (الخاصة) لتوجيه خبرات تعليمية تلائم الفئات الخاصة كالموهوبين وذوي الإعاقة (ص 4).',
-  ],
-  importance: 'essential',
-};
-
-// 11. كتلة التوثيق الأكاديمي والاستشهاد
-const BLOCK_ACADEMIC_REFERENCE: AcademicReferenceBlock = {
-  id: 'curric-blk-ref-ch1',
-  type: 'academic_reference',
-  order: 11,
-  referenceId: CURRICULUM_ACADEMIC_REFERENCE.id,
-  reference: CURRICULUM_ACADEMIC_REFERENCE,
-  citationText:
-    'تم بناء وتأصيل هذا الدرس التفاعلي بالكامل استناداً إلى نصوص وتحليلات كتاب مناهج التربية الرياضية، إعداد أ.د. هاني الدسوقي إبراهيم، أستاذ المناهج وطرق تدريس التربية الرياضية، الفصل الأول: مقدمة وماهية المنهج، الصفحات 2 - 5، طبعة 2025/2026م، الفرقة الرابعة — قسم تدريس.',
+export const PREVIOUS_MIGRATION_BLOCKS_BACKUP = {
+  headingMain: {
+    id: 'curric-blk-head-main',
+    type: 'heading',
+    order: 1,
+    level: 1,
+    text: 'الفصل الأول: مقدمة وماهية المنهج',
+    subtitle: 'المقرر الأكاديمي المعتمد: مناهج التربية الرياضية — أ.د/ هاني الدسوقي إبراهيم (ص 2 - 6)',
+  } as HeadingBlock,
 };
 
 /**
- * الدرس الأكاديمي الحقيقي المكتمل
+ * الدرس الاحتياطي (محفوظ كنسخة مراجعة غير معروضة في واجهة التعلم الجديدة)
  */
 export const CURRICULUM_PILOT_LESSON: Lesson = {
   id: 'les-curriculum-evolution',
-  topicId: 'top-curriculum-concept-evolution',
-  title: 'تطور مفهوم المنهج: من النظرة التقليدية إلى النظرة الحديثة',
-  description:
-    'درس تفاعلي تطبيقي يستعرض الفوارق الجوهرية بين النظرة للمنهج كمقررات ومعارف، والنظرة إليه كمنظومة خبرات وأنشطة موجهة لتنمية شخصية المتعلم.',
+  topicId: 'top-ch1-curriculum-comprehensive-dev',
+  title: 'الفصل الأول: مقدمة وماهية المنهج',
+  description: 'درس محفوظ احتياطياً لأغراض التوافق الداخلي.',
   order: 1,
-  learningObjectives: [
-    'المقارنة بين المفهوم التقليدي للمنهج (كمقررات ومعارف) والمفهوم الحديث (كمنظومة خبرات وأنشطة).',
-    'تتبع التطور التربوي لدور المعلم من ملقن وناقل إلى موجه ومرشد للتعلم الذاتي.',
-    'تحليل دور مناهج التربية الرياضية في تحقيق التنمية الشاملة (بدنياً، ومهارياً، ونفسياً، واجتماعياً).',
-    'فهم وتطبيق مبدأ مركزية الأهداف ولا مركزية المحتوى في تخطيط المناهج المدرسية.',
-    'إدراك أهمية المناهج التكيفية والوسائط التكنولوجية الحديثة في تطوير التربية الرياضية.',
-  ],
-  estimatedDuration: 20,
-  blocks: [
-    BLOCK_HEADING,
-    BLOCK_PARAGRAPH_INTRO,
-    BLOCK_DEFINITION,
-    BLOCK_VISUAL_COMPARISON,
-    BLOCK_ANIMATED_EXPLANATION,
-    BLOCK_INTERACTIVE_DIAGRAM,
-    BLOCK_ANIMATED_STEPS,
-    BLOCK_DECISION_SCENARIO,
-    BLOCK_VISUAL_SEQUENCE,
-    BLOCK_KEY_POINTS,
-    BLOCK_ACADEMIC_REFERENCE,
-  ],
+  learningObjectives: ['استيعاب كيفية بناء المنهج بوصفه عملاً تعاونياً.'],
+  estimatedDuration: 25,
+  blocks: [PREVIOUS_MIGRATION_BLOCKS_BACKUP.headingMain],
   references: [CURRICULUM_ACADEMIC_REFERENCE],
   status: 'published',
 };
 
+// =========================================================================
+// ملخصات وموضوعات الفصل الأول التسعة المعتمدة رسمياً
+// وفق الملف الأكاديمي المعتمد: OloomSport_Chapter1_Approved_Summaries.md
+// كتاب مناهج التربية الرياضية — أ.د. هاني الدسوقي إبراهيم (2025/2026م)
+// =========================================================================
+
 /**
- * الموضوع الدراسي الخاص بالتجربة
+ * الموضوع 1: المنهج الدراسي ودور التربية الرياضية في التنمية الشاملة
+ * تصنيف العنوان: تنظيمي تعليمي من المقدمة (educational_organizational)
  */
-export const CURRICULUM_PILOT_TOPIC: Topic = {
-  id: 'top-curriculum-concept-evolution',
+export const TOPIC_1_CURRICULUM_COMPREHENSIVE_DEV: Topic = {
+  id: 'top-ch1-curriculum-comprehensive-dev',
   chapterId: 'chap-curriculum-intro',
-  title: 'مفهوم المنهج وتطوره التربوي في التربية الرياضية',
-  description:
-    'دراسة تأصيلية لماهية المنهج وتطور مفاهيمه وأسسه ودور المعلم والمتعلم في الموقف التعليمي الحديث.',
   order: 1,
-  lessons: [CURRICULUM_PILOT_LESSON],
+  title: 'المنهج الدراسي ودور التربية الرياضية في التنمية الشاملة',
+  headingClassification: 'educational_organizational',
+  description: 'طبيعة المناهج الدراسية وأهميتها، والعوامل الأربعة الواجب مراعاتها عند تقويم المنهج، وتطوير المناهج المستمر، ودور التربية الرياضية في التنمية المتكاملة والمهمة الأساسية في المجتمع المصري.',
   status: 'published',
+  summary: `### طبيعة المناهج الدراسية وأهميتها
+تعد المناهج الدراسية نتاج عمل تعاوني تشارك فيه لجان من الخبراء المتخصصين والتربويين لتحديد المسارات التي يتعلم من خلالها المتعلم، بحيث يكون العمل مخططًا وموحدًا ومتتابعًا، وتتولى تنفيذه قيادات تربوية مؤهلة.
+
+ويعد المنهج الأداة الأساسية للمنظومة التعليمية والتربوية؛ إذ يمثل سلسلة من الخبرات الموجهة لتحقيق أهداف معينة، كما يشكل مادة العملية التعليمية ومحتواها.
+
+### العوامل الواجب مراعاتها عند تقويم المنهج
+يتأثر المنهج بعدة منظومات، ولذلك يجب مراعاة مدخلاتها عند تقويمه، وأهمها:
+1. المتعلمون.
+2. الإمكانات المتاحة.
+3. مستوى المعلمين.
+4. السياسات التعليمية.
+
+كما يجب فهم الأسس والمعايير التي تبنى عليها المناهج والمشكلات المرتبطة بها.
+
+### تطوير المناهج الدراسية
+يتطلب تطوير المناهج اتباع الأسلوب العلمي في التخطيط والتحديث بما يتفق مع متطلبات العصر، بهدف تحسين العملية التربوية ورفع مستواها وتعديل سلوك المتعلمين وتوجيهه نحو الأهداف المنشودة.
+
+وتطوير المناهج عملية مستمرة لا تتوقف، وتتطلب تجريب المقررات الدراسية وإتاحة فرص متواصلة للتقويم والتحسين.
+
+### دور مناهج التربية الرياضية
+تمثل التربية الرياضية بأنشطتها المختلفة جانبًا مهمًا من العملية التربوية المدرسية، وتعمل على تحقيق التنمية الشاملة والمتزنة والمتكاملة لقدرات المتعلم وفقًا لاستعداداته وقدراته واهتماماته وحاجاته وميوله ودوافعه وقيمه.
+
+وتسهم في تحسين نوعية الحياة وتحقيق الصحة النفسية والتوافق مع الآخرين.
+
+### المهمة الأساسية لمناهج التربية الرياضية في المجتمع المصري
+تتمثل في تنمية الشخصية المتكاملة والنهوض بالمستوى الرياضي للفرد، باعتباره مطلبًا أساسيًا لتحقيق التنمية في الجوانب:
+- البدنية.
+- الصحية.
+- المهارية.
+- الاجتماعية.
+
+ويسهم ذلك في تحقيق أهداف المجتمع.`,
+  lessons: [CURRICULUM_PILOT_LESSON],
 };
 
 /**
- * قاموس المصطلحات الأساسية المعتمدة للفصل الأول
+ * الموضوع 2: التغيرات العلمية والتكنولوجية والتحول نحو التعلم الذاتي
+ * تصنيف العنوان: تنظيمي تعليمي من المقدمة (educational_organizational)
+ */
+export const TOPIC_2_TECH_CHANGE_SELF_LEARNING: Topic = {
+  id: 'top-ch1-tech-change-self-learning',
+  chapterId: 'chap-curriculum-intro',
+  order: 2,
+  title: 'التغيرات العلمية والتكنولوجية والتحول نحو التعلم الذاتي',
+  headingClassification: 'educational_organizational',
+  description: 'طبيعة العصر الحديث والتقدم العلمي والتكنولوجي السريع، ومفهوم «الموجة الثالثة»، ومسؤولية نظام التربية الرياضية، والتحول من التعليم التقليدي إلى التعلم الذاتي.',
+  status: 'published',
+  summary: `### طبيعة العصر الحديث
+يتسم العالم بالتغير المستمر والتقدم العلمي والتكنولوجي السريع في مختلف المجالات، ومنها المجال الرياضي. وأصبحت التكنولوجيا الحديثة عنصرًا مهمًا في تحقيق التقدم.
+
+ويتطلب ذلك تحديد موقعنا الرياضي على المستويين المحلي والعالمي، بدءًا من المدرسة وصولًا إلى المنافسات الرياضية العالمية، مع المحافظة على الخصائص المميزة للمجتمع المصري والعمل على امتلاك مقومات التميز الرياضي.
+
+### الموجة الثالثة
+شهدت نهاية القرن العشرين تطورات علمية وتكنولوجية متلاحقة، وأطلق على هذا العصر وصف «الموجة الثالثة»، التي تتسم بتسريع الزمن وتجاوز المسافات والحدود بصورة غير مسبوقة.
+
+### مسؤولية التربية الرياضية تجاه التغيرات المعاصرة
+يقع على نظام التربية الرياضية في المؤسسات التعليمية دور أساسي في إعداد الأفراد رياضيًا وتمكينهم من التفاعل مع التغيرات العلمية والتكنولوجية المتسارعة.
+
+ويتطلب ذلك الإفادة من حركة تطوير التعليم وتحديثه، ومن الإمكانات والتكنولوجيا الحديثة التي يجري إدخالها في المؤسسات التعليمية.
+
+### التحول من التعليم التقليدي إلى التعلم الذاتي
+شهدت العملية التعليمية تحولًا من الاعتماد الكامل على المعلم وفرض التعليم على المتعلم إلى الاهتمام بالتعلم الذاتي، باستخدام منجزات العصر التكنولوجية.
+
+وساعدت ثورة المعلومات وشبكات الإنترنت على تغيير مفهوم التعليم، فأصبح من الضروري تدعيم التعلم الذاتي والابتعاد عن الاقتصار على الشكل التقليدي للتدريس.`,
+  lessons: [],
+};
+
+/**
+ * الموضوع 3: الدور الحديث لمعلم التربية الرياضية والمتعلم
+ * تصنيف العنوان: تنظيمي تعليمي من المقدمة (educational_organizational)
+ */
+export const TOPIC_3_MODERN_ROLE_TEACHER_LEARNER: Topic = {
+  id: 'top-ch1-modern-role-teacher-learner',
+  chapterId: 'chap-curriculum-intro',
+  order: 3,
+  title: 'الدور الحديث لمعلم التربية الرياضية والمتعلم',
+  headingClassification: 'educational_organizational',
+  description: 'الأدوار المتعددة لمعلم التربية الرياضية الحديث كمرشد وموجه، والدور الإيجابي الفعال للمتعلم في إثراء عقله، وتطوير مفاهيم إعداد المعلم بكليات التربية الرياضية.',
+  status: 'published',
+  summary: `### الدور الحديث للمعلم
+لم يعد دور المعلم مقتصرًا على نقل المعرفة، بل أصبح يؤدي أدوارًا متعددة تشمل:
+- التوجيه والإرشاد للمتعلمين.
+- مراقبة العملية التعليمية والإشراف عليها.
+- الاستفادة من التطورات العلمية والتكنولوجية في مجال التربية الرياضية.
+- مساعدة المتعلمين على ممارسة التعلم الذاتي.
+
+### الدور الحديث للمتعلم
+يتطلب تطوير التعليم الانتقال بالمتعلم من الدور السلبي إلى الدور الإيجابي الفعال في العملية التعليمية، بما يسهم في:
+- إثراء عقله وتنمية قدراته.
+- تنمية الإبداع والابتكار.
+- اكتساب الصحة البدنية والنفسية والعقلية.
+- المساهمة في إعداد جيل من الموهوبين رياضيًا.
+
+### تطوير إعداد معلم التربية الرياضية
+تحتاج مناهج التربية الرياضية إلى مراجعة شاملة وتغييرات جوهرية تستفيد من ثورة المعلومات.
+
+ويتطلب ذلك تطوير مفاهيم إعداد المعلم بكليات التربية الرياضية، بحيث يكون ملمًا بمتطلبات الثورة العلمية والتكنولوجية، ومدركًا لحقائق العصر، وقادرًا على أداء دوره الحديث في تحقيق الأهداف التعليمية.`,
+  lessons: [],
+};
+
+/**
+ * الموضوع 4: تخطيط مناهج التربية الرياضية والمناهج التكيفية
+ * تصنيف العنوان: تنظيمي تعليمي من المقدمة (educational_organizational)
+ */
+export const TOPIC_4_CURRICULUM_PLANNING_ADAPTIVE: Topic = {
+  id: 'top-ch1-curriculum-planning-adaptive',
+  chapterId: 'chap-curriculum-intro',
+  order: 4,
+  title: 'تخطيط مناهج التربية الرياضية والمناهج التكيفية',
+  headingClassification: 'educational_organizational',
+  description: 'أسس تطوير أهداف التربية الرياضية، والتخطيط التعاوني للأطراف الخمسة، وقاعدة مركزية الأهداف ولا مركزية المحتوى، والإطار المعرفي والقيمي، والمناهج التكيفية الخاصة.',
+  status: 'published',
+  summary: `### أسس تطوير أهداف التربية الرياضية
+يجب تطوير أهداف مناهج التربية الرياضية في مختلف المراحل التعليمية بما يتناسب مع:
+- التغيرات التي تحدث في المجتمع.
+- الواقع الفعلي للمجتمع.
+- العادات والتقاليد.
+- فلسفة المجتمع.
+- متطلبات العصر.
+
+### التخطيط التعاوني للمناهج
+يجب أن يكون تخطيط برامج التربية الرياضية المدرسية تعاونيًا، تشترك فيه الأطراف الآتية:
+1. الخبراء الأكاديميون بكليات التربية الرياضية.
+2. مراكز البحوث التربوية.
+3. الموجهون.
+4. المعلمون.
+5. المتعلمون.
+
+### مركزية الأهداف ولا مركزية المحتوى
+يقوم التخطيط على مركزية الأهداف ولا مركزية المحتوى؛ بحيث تتحدد الأهداف المراد تحقيقها، مع مراعاة الإمكانات المتاحة بالمؤسسات التعليمية عند اختيار المحتوى.
+
+وينبغي أن يلبي المنهج حاجات معظم المتعلمين ورغباتهم وميولهم، ويثير دوافعهم وحماسهم، ويتحدى إمكاناتهم، ويساعد المعلم والمتعلم على التفكير والابتكار وإظهار القدرات الإبداعية.
+
+### الإطار المعرفي والقيمي للمناهج
+ينبغي أن يصاحب المناهج إطار معرفي يساعد المتعلمين على اكتساب:
+- القيم الخلقية.
+- القيم الاجتماعية.
+- القيم الصحية.
+- المفاهيم البيئية.
+
+### المناهج التكيفية (الخاصة)
+يقصد بالمناهج التكيفية الخبرات التعليمية التي توجه إلى فئات خاصة من المتعلمين، ومنها:
+- الموهوبون.
+- المتعلمون ذوو الإعاقة.
+
+وتختلف الخبرات التعليمية المقدمة لهذه الفئات عن الخبرات المقدمة لمن هم في مثل أعمارهم، بما يراعي طبيعة كل فئة واحتياجاتها.`,
+  lessons: [],
+};
+
+/**
+ * الموضوع 5: استخدام التكنولوجيا والحاسب الآلي في مناهج التربية الرياضية
+ * تصنيف العنوان: تنظيمي تعليمي من المقدمة (educational_organizational)
+ */
+export const TOPIC_5_TECH_COMPUTERS_IN_CURRICULUM: Topic = {
+  id: 'top-ch1-tech-computers-in-curriculum',
+  chapterId: 'chap-curriculum-intro',
+  order: 5,
+  title: 'استخدام التكنولوجيا والحاسب الآلي في مناهج التربية الرياضية',
+  headingClassification: 'educational_organizational',
+  description: 'أهمية الحاسب الآلي، والمنظورات الأربعة لتأثيره في منهج التربية الرياضية، ومجالات استخدامه الرياضية، وشبكة الإنترنت، وشبكة الألياف الضوئية، والوسائط المتعددة والفيديو التفاعلي.',
+  status: 'published',
+  summary: `### أهمية استخدام الحاسب الآلي
+يعد الحاسب الآلي من الأساليب التكنولوجية الحديثة التي تسهم في تطوير مناهج التربية الرياضية ومواكبة تطورات العصر.
+
+وتشير الدراسات المذكورة في المقرر إلى تفوق المتعلمين الذين تلقوا تعليمًا باستخدام الحاسب الآلي مقارنة بالطريقة التقليدية، كما يسهم استخدامه في توفير الوقت وتكوين اتجاهات إيجابية لدى المتعلمين.
+
+### المنظورات الأربعة لتأثير الحاسب الآلي في منهج التربية الرياضية
+1. الحاسب الآلي كمدير للمنهج.
+2. الحاسب الآلي كمقدم للمنهج (معلم).
+3. الحاسب الآلي كأداة متكاملة داخل المنهج.
+4. الحاسب الآلي كمنهج للمادة.
+
+### استخدامات الحاسب الآلي في التربية الرياضية
+يمكن توظيف الحاسب الآلي في المجالات الآتية:
+- تقديم موسوعات ومعلومات عن الأنشطة الرياضية وقوانينها لتنمية الثقافة الرياضية.
+- تقديم برامج تعليمية وتدريبية لتنمية الصفات البدنية والمهارية.
+- تحليل الحركات الرياضية.
+- ترسيخ بعض المفاهيم البيئية الرياضية.
+- تقديم البرامج الصحية التي تهتم بصحة المتعلمين وإكسابهم القوام الجيد.
+
+### استخدام شبكة الإنترنت
+تسهم شبكة الإنترنت في تشجيع المعلمين والمتعلمين على البحث عن مصادر العلم والمعرفة في مجال التربية الرياضية، وتنمية التعلم الذاتي واكتشاف المعلومات.
+
+### الاستفادة من شبكة الألياف الضوئية
+يمكن الاستفادة من شبكة الألياف الضوئية بوزارة التربية والتعليم في تطوير برامج تدريب معلمي التربية الرياضية وموجهيها، من خلال ربط التدريب بالتطبيق العملي وتبادل الخبرات والمعلومات بصورة مباشرة، بما يساعد على رفع مستوى القائمين على العملية التعليمية والتغلب على بعض المشكلات.
+
+### استخدام الوسائط المتعددة والفيديو التفاعلي
+يمكن الاستفادة من الوسائط المتعددة عبر الحاسب الآلي، ومنها الهيبرميديا والفيديو التفاعلي، في تعليم المهارات الرياضية للمتعلمين بالمؤسسات التعليمية المختلفة.
+
+ويساعد ذلك التربية الرياضية على مواكبة المواد الدراسية الأخرى في استخدام أساليب التعلم الحديثة.`,
+  lessons: [],
+};
+
+/**
+ * الموضوع 6: أولًا: ماهية المنهج
+ * تصنيف العنوان: عنوان المؤلف الأصلي (original_author)
+ */
+export const TOPIC_6_NATURE: Topic = {
+  id: 'top-ch1-nature',
+  chapterId: 'chap-curriculum-intro',
+  order: 6,
+  title: 'أولًا: ماهية المنهج',
+  headingClassification: 'original_author',
+  description: 'المنهج أداة التربية لتحقيق أهدافها، أصله اللاتيني Curriculum، ومعناه التربوي وعلاقته بالهدف والتقويم والحياة الحاضرة للمتعلم.',
+  status: 'published',
+  summary: `### مفهوم المنهج وأصله
+يعد المنهج الأداة الأساسية التي تستخدمها التربية لتحقيق أهدافها في العملية التربوية.
+
+وكلمة Curriculum ذات أصل لاتيني، وقد ورد معناها في المقرر بأنها «سلسلة أفعال».
+
+ويعني المنهج في التربية: مجموعة من الأنشطة والمعارف والخبرات الموجهة نحو تنمية قدرات الفرد في محيط التربية.
+
+### العلاقة بين المنهج والأهداف التربوية
+للأهداف التربوية أهمية أساسية في المنهج، حيث تمثل:
+- مرجعًا لعملية التقويم.
+- حافزًا لإيجاد العمل التربوي.
+- أداة لتوجيه المعلم والمتعلم.
+
+### شروط الهدف التربوي القابل للتحقيق
+لكي يكون الهدف التربوي علميًا وقابلًا للتحقيق، يجب أن يكون وثيق الصلة بالظروف الاجتماعية والحياة الحاضرة للمتعلم.
+
+ويرتبط ذلك بأن حياة المجتمع تتضمن قوانين وعناصر ثقافية ونظمًا مختلفة ينبغي مراعاتها عند تحديد الأهداف التربوية.`,
+  quiz: QUIZ_TOPIC_2,
+  lessons: [],
+};
+
+/**
+ * الموضوع 7: تعريفات المناهج قديمًا وحديثًا
+ * تصنيف العنوان: عنوان المؤلف الأصلي (original_author)
+ */
+export const TOPIC_7_TRAD_VS_MOD: Topic = {
+  id: 'top-ch1-trad-vs-mod',
+  chapterId: 'chap-curriculum-intro',
+  order: 7,
+  title: 'تعريفات المناهج قديمًا وحديثًا',
+  headingClassification: 'original_author',
+  description: 'مفهوم المنهج بين النظرة التقليدية (مجموعة مواد دراسية ومعرفة ثابتة) والنظرة الحديثة (البحث المنظم والخبرات الموجهة تحت إشراف المدرسة).',
+  status: 'published',
+  summary: `### المنهج كمجموعة من المواد الدراسية
+تنظر هذه الرؤية إلى المنهج باعتباره مجموعة من المواد الدراسية، وتضع المعرفة في مركز الاهتمام؛ إذ تمثل المعرفة حصيلة التراث الثقافي والاجتماعي للإنسان.
+
+### طبيعة المعرفة
+لا تعد المعرفة ثابتة أو دائمة؛ بل ترتبط بعملية البحث المنظم، وما ينتج عنها من معارف.
+
+### المنهج باعتباره محتوى وطريقة تنظيم
+يمكن النظر إلى المنهج من خلال:
+- محتوى المقرر الدراسي.
+- أسلوب تنظيم المحتوى.
+- أساليب تفاعل التلاميذ مع هذا المحتوى.
+
+### المنهج باعتباره خبرات تعليمية
+يشمل المنهج جميع الخبرات التي يكتسبها المتعلم تحت توجيه المدرسة.
+
+### مقارنة تنظيمية تعليمية بين المفهومين
+| وجه المقارنة | النظرة التقليدية | النظرة الحديثة |
+|---|---|---|
+| نطاق المنهج | المواد الدراسية | الخبرات التعليمية |
+| محور الاهتمام | المعرفة والمحتوى | المتعلم وخبراته وتفاعله |
+| تنظيم التعلم | التركيز على المادة الدراسية | تنظيم المحتوى وتفاعل المتعلم معه |
+| دور المدرسة | تقديم المادة الدراسية | توجيه الخبرات التعليمية |
+
+**تنبيه:** المقارنة مستخلصة من التعريفات الواردة بالمقرر لتسهيل المذاكرة، وليست جدولًا أصليًا في المصدر.`,
+  quiz: QUIZ_TOPIC_3,
+  lessons: [],
+};
+
+/**
+ * الموضوع 8: تعريفات المنهج
+ * تصنيف العنوان: عنوان المؤلف الأصلي (original_author)
+ */
+export const TOPIC_8_DEFINITIONS: Topic = {
+  id: 'top-ch1-definitions',
+  chapterId: 'chap-curriculum-intro',
+  order: 8,
+  title: 'تعريفات المنهج',
+  headingClassification: 'original_author',
+  description: 'الصيغ الأربع لتعريف المنهج في الكتاب: المقررات المرتبة، التعلم المخطط، برنامج النشاطات، والمحتوى التعليمي.',
+  status: 'published',
+  summary: `وردت أربعة تعريفات للمنهج:
+
+### التعريف الأول: المنهج كمقررات دراسية مرتبة
+هو مجموعة مرتبة من المقررات الدراسية أو موضوعات متتابعة، تكون مطلوبة للتخرج أو للحصول على شهادة في فرع أساسي للدراسة.
+
+### التعريف الثاني: المنهج بوصفه تعلمًا تخططه المدرسة
+هو كل تعلم تخططه المدرسة أو تشرف عليه، سواء تم:
+- في مجموعات أو بصورة فردية.
+- داخل المدرسة أو خارجها.
+
+### التعريف الثالث: المنهج كبرنامج نشاطات
+هو برنامج من النشاطات يصمم لكي يبلغ الطلاب، بقدر الإمكان، أهدافهم وغاياتهم.
+
+### التعريف الرابع: المنهج كمحتوى تعليمي
+هو محتوى تعليمي مقدم.
+
+وتوضح هذه التعريفات أن مفهوم المنهج قد يتناول المقررات الدراسية، أو التعلم الذي تخططه المدرسة وتشرف عليه، أو برامج النشاطات، أو المحتوى التعليمي.`,
+  quiz: QUIZ_TOPIC_4,
+  lessons: [],
+};
+
+/**
+ * الموضوع 9: المنهج في اللغة
+ * تصنيف العنوان: عنوان المؤلف الأصلي (original_author)
+ */
+export const TOPIC_9_LANGUAGE: Topic = {
+  id: 'top-ch1-language',
+  chapterId: 'chap-curriculum-intro',
+  order: 9,
+  title: 'المنهج في اللغة',
+  headingClassification: 'original_author',
+  description: 'الدلالة اللغوية للمنهج (الطريق الواضح)، واستعماله بمعنى مقرر دراسي أو مجموعة مقررات لمرحلة كاملة.',
+  status: 'published',
+  summary: `### المعنى اللغوي للمنهج
+تعني كلمة المنهج أو النهج في اللغة «الطريق الواضح».
+
+وفي مجال التعليم والتعلم يشير المنهج إلى الطريق الواضح الذي تسير وفقه العملية التعليمية.
+
+### المنهج كمقرر دراسي
+يقصد بالمنهج في هذه الحالة مجموعة من:
+- المفاهيم.
+- المعارف.
+- الحقائق.
+- الأساسيات.
+- النظريات.
+
+وتكون هذه العناصر في صورة مقرر دراسي لفرقة معينة أو سنة دراسية محددة.
+
+### المنهج الذي يتضمن أكثر من مقرر دراسي
+قد يتضمن المنهج أكثر من مقرر دراسي، مثل المنهج الدراسي للمرحلة الابتدائية.
+
+وهذا يوضح أن استخدام مصطلح المنهج قد يشير إلى مقرر دراسي واحد، وقد يشمل أكثر من مقرر في مرحلة تعليمية معينة.`,
+  quiz: QUIZ_TOPIC_5,
+  lessons: [],
+};
+
+// =========================================================================
+// قائمة الموضوعات التسعة المعتمدة للفصل الأول
+// =========================================================================
+export const CHAPTER_1_ALL_TOPICS: Topic[] = [
+  TOPIC_1_CURRICULUM_COMPREHENSIVE_DEV,
+  TOPIC_2_TECH_CHANGE_SELF_LEARNING,
+  TOPIC_3_MODERN_ROLE_TEACHER_LEARNER,
+  TOPIC_4_CURRICULUM_PLANNING_ADAPTIVE,
+  TOPIC_5_TECH_COMPUTERS_IN_CURRICULUM,
+  TOPIC_6_NATURE,
+  TOPIC_7_TRAD_VS_MOD,
+  TOPIC_8_DEFINITIONS,
+  TOPIC_9_LANGUAGE,
+];
+
+// =========================================================================
+// التوافق الخلفي والمراجع الإضافية
+// =========================================================================
+
+/**
+ * التوافق الخلفي: مراجع الموضوعات القديمة
+ */
+export const TOPIC_1_INTRO: Topic = TOPIC_1_CURRICULUM_COMPREHENSIVE_DEV;
+export const TOPIC_2_NATURE: Topic = TOPIC_6_NATURE;
+export const TOPIC_3_TRAD_VS_MOD: Topic = TOPIC_7_TRAD_VS_MOD;
+export const TOPIC_4_DEFINITIONS: Topic = TOPIC_8_DEFINITIONS;
+export const TOPIC_5_LANGUAGE: Topic = TOPIC_9_LANGUAGE;
+export const CURRICULUM_PILOT_TOPIC: Topic = TOPIC_1_CURRICULUM_COMPREHENSIVE_DEV;
+
+/**
+ * قاموس المصطلحات الأساسية المعتمدة للفصل الأول (محفوظ كمرجع)
  */
 export const CURRICULUM_CHAPTER_GLOSSARY: ChapterGlossaryItem[] = [
-  {
-    term: 'المنهج لغةً',
-    definition: 'النهج أو الطريق والمسار الواضح للتعليم والتعلم (ص 6).',
-    citation: 'ص 6',
-  },
-  {
-    term: 'المنهج اصطلاحاً',
-    definition:
-      'مشتق من اللاتينية Curriculum بمعنى سلسلة أفعال أو مضمار الجري الهادف؛ وهو مجموعة الأنشطة والخبرات الموجهة لتنمية قدرات الفرد (ص 5).',
-    citation: 'ص 5',
-  },
-  {
-    term: 'المفهوم التقليدي للمنهج',
-    definition:
-      'مجموعة من المواد والمقررات الدراسية والمعارف والحقائق التي يضعها المختصون لتزويد ذهن المتعلم بها بوصفها حصيلة التراث الثقافي (ص 5).',
-    citation: 'ص 5',
-  },
-  {
-    term: 'المفهوم الحديث للمنهج',
-    definition:
-      'منظومة متكاملة من الخبرات والأنشطة الموجهة التي تخططها المدرسة وتشرف عليها داخلها وخارجها لتحقيق أقصى تنمية شاملة لشخصية المتعلم (ص 2).',
-    citation: 'ص 2',
-  },
-  {
-    term: 'مركزية الأهداف ولا مركزية المحتوى',
-    definition:
-      'توحيد الأهداف العامة المنشودة على مستوى الدولة مع منح المعلم والمدرسة المرونة في اختيار وتكييف الأنشطة والألعاب وفق إمكانات البيئة الميدانية (ص 4).',
-    citation: 'ص 4',
-  },
+  { term: 'المنهج لغةً', definition: 'النهج أو الطريق والمسار الواضح للتعليم والتعلم.', citation: 'المرجع الأكاديمي المعتمد' },
+  { term: 'المنهج اصطلاحاً', definition: 'مشتق من اللاتينية Curriculum؛ وهو أداة التربية لتحقيق أهدافها.', citation: 'المرجع الأكاديمي المعتمد' },
+  { term: 'المفهوم التقليدي للمنهج', definition: 'مجموعة من المواد والمقررات الدراسية والمعارف والحقائق.', citation: 'المرجع الأكاديمي المعتمد' },
+  { term: 'المفهوم الحديث للمنهج', definition: 'الخبرات التي يكتسبها المتعلم تحت توجيه المدرسة وإشرافها.', citation: 'المرجع الأكاديمي المعتمد' },
+  { term: 'مركزية الأهداف ولا مركزية المحتوى', definition: 'توحيد الأهداف مع مرونة تكييف الأنشطة وفق الإمكانات المتاحة.', citation: 'المرجع الأكاديمي المعتمد' },
 ];
 
 /**
- * أسئلة الفهم والتقويم الذاتي للفصل الأول
+ * أسئلة الفهم الذاتي السابقة (محفوظة كمرجع)
  */
 export const CURRICULUM_CHAPTER_SELF_CHECK_QUESTIONS: ChapterSelfCheckQuestion[] = [
   {
     id: 'q1',
     question: 'ما الفارق الجوهري بين تركيز المفهوم التقليدي وتركيز المفهوم الحديث للمنهج؟',
-    answer:
-      'المفهوم التقليدي يضع المادة الدراسية والمعرفة المجردة في المركز والغاية النهائية، بينما المفهوم الحديث ينقل بؤرة الاهتمام إلى المتعلم ونموه الشامل في كافة الأبعاد (البدنية، المهارية، النفسية، والاجتماعية) من خلال سلسلة من الخبرات والأنشطة الموجهة تحت إشراف وتوجيه المدرسة (ص 2، 5).',
-    citation: 'ص 2، 5',
-  },
-  {
-    id: 'q2',
-    question: 'كيف يطبق معلم التربية الرياضية مبدأ "لا مركزية المحتوى" في مدرسة تفتقر لملاعب قانونية؟',
-    answer:
-      'تلتزم المدرسة بالأهداف التربوية المركزية العامة (تنمية الرشاقة، التوافق، والتعاون)، لكن يمتلك المعلم مرونة تكييف المحتوى الحركي والألعاب واستخدام أدوات بديلة وملاعب مصغرة أو أسلوب المحطات الدائرية بما يتلاءم تماماً مع إمكانات المدرسة المتاحة دون إخلال بالأهداف المركزية (ص 4).',
-    citation: 'ص 4',
-  },
-  {
-    id: 'q3',
-    question: 'لماذا يعتبر تطوير منهج التربية الرياضية عملية مستمرة ليس لها نهاية؟',
-    answer:
-      'لأن احتياجات المجتمع وفلسفته تتغير باستمرار، وتتجدد منجزات التكنولوجيا والعلوم الرياضية، مما يستوجب التقويم الدائم للمناهج وتجريب المقررات في الميدان لتعديلها وإتاحة فرص التحسين المستمر ومواكبة متطلبات العصر (ص 2، 3).',
-    citation: 'ص 2، 3',
+    answer: 'المفهوم التقليدي يركز على المواد الدراسية، بينما المفهوم الحديث ينقل بؤرة الاهتمام إلى الخبرات الموجهة.',
+    citation: 'المرجع الأكاديمي المعتمد',
   },
 ];
 
 /**
- * الفصل الأكاديمي الأول (معاينة أكاديمية تجريبية حقيقية)
+ * النقاط الجوهرية للفصل الأول (محفوظة كمرجع)
+ */
+export const CURRICULUM_CHAPTER_KEY_POINTS: string[] = [
+  'المنهج لغةً: الطريق والنهج الواضح، واصطلاحاً أداة التربية الأساسية وسلسلة من الخبرات الموجهة لتنمية شخصية المتعلم.',
+  'التحول الجوهري: انتقال بؤرة الاهتمام من نقل المعرفة والمواد الدراسية إلى تنظيم الخبرات والتفاعل مع المتعلم.',
+  'أبعاد التنمية الشاملة: تنمية متكاملة تشمل الأبعاد البدنية، الصحية، المهارية، والاجتماعية.',
+  'مركزية الأهداف ولا مركزية المحتوى: توحيد الأهداف العامة مع مرونة تكييف المحتوى والأنشطة وفق الإمكانات.',
+  'دور المعلم والمتعلم: تحول دور المعلم من ملقن إلى مرشد وموجه، وتحول المتعلم إلى مشارك إيجابي.',
+];
+
+/**
+ * الفصل الأكاديمي الأول المكتمل بموضوعاته التسعة المعتمدة رسمياً
  */
 export const CURRICULUM_PILOT_CHAPTER: Chapter = {
   id: 'chap-curriculum-intro',
   courseId: 'course-1',
   title: 'الفصل الأول: مقدمة وماهية المنهج',
   description:
-    'يتناول هذا الفصل ماهية المنهج في اللغة والاصطلاح، وتطور مفهوم المنهج من النظرة التقليدية إلى النظرة الحديثة، وأسس ومكونات بناء المنهج المدرسي، ومراحل تخطيطه وتطويره.',
+    'يتناول هذا الفصل مدخلات المنهج ودور التربية الرياضية في التنمية الشاملة، والتغيرات التكنولوجية نحو التعلم الذاتي، والدور الحديث للمعلم والمتعلم، والتخطيط التعاوني والمناهج التكيفية، وتطبيقات الحاسب الآلي، ثم ماهية المنهج وأصله، وتطور مفهومه قديماً وحديثاً، وصيغ تعريفاته الأربعة ومعناه في اللغة.',
   order: 1,
   learningObjectives: [
-    'استيعاب ماهية المنهج لغةً واصطلاحاً وأصله اللاتيني (سلسلة أفعال ومسار الجري الهادف).',
-    'المقارنة الجوهرية بين المفهوم التقليدي (مركزية المقررات) والمفهوم الحديث (منظومة الخبرات الميدانية).',
-    'تتبع التحول التربوي لدور المعلم من ملقن وناقل إلى موجه ومرشد للتعلم الذاتي.',
-    'إدراك أبعاد التنمية الشاملة لشخصية المتعلم في التربية الرياضية (بدنياً، ومهارياً، ونفسياً، واجتماعياً).',
-    'تطبيق مبدأ "مركزية الأهداف ولا مركزية المحتوى" ومراعاة إمكانات المدارس الميدانية والفروق الفردية.',
+    'استيعاب المنهج كأداة للمنظومة التعليمية، ومدخلات تقويمه الأربعة (المتعلمون، الإمكانات، مستوى المعلمين، السياسات التعليمية).',
+    'إدراك دور مناهج التربية الرياضية في تحقيق التنمية الشاملة والمتكاملة (بدنياً وصحياً ومهارياً واجتماعياً).',
+    'استيعاب التحول نحو التعلم الذاتي ومفهوم «الموجة الثالثة» ودور المعلم كمرشد وموجه والمتعلم كمشارك إيجابي.',
+    'تطبيق مبدأ «مركزية الأهداف ولا مركزية المحتوى» وفهم المناهج التكيفية للفئات الخاصة والموهوبين.',
+    'تحليل الأدوار الأربعة للحاسب الآلي والوسائط المتعددة وشبكات الاتصال في مناهج التربية الرياضية.',
+    'استيعاب ماهية المنهج وأصله اللاتيني Curriculum، والمقارنة بين المفهوم التقليدي والمفهوم الحديث، وصيغ تعريفاته الأربعة ومعناه في اللغة.',
   ],
-  topics: [CURRICULUM_PILOT_TOPIC],
+  topics: CHAPTER_1_ALL_TOPICS,
   status: 'published',
   academicReference: CURRICULUM_ACADEMIC_REFERENCE,
+  chapterQuiz: CHAPTER_1_COMPREHENSIVE_QUIZ,
   glossary: CURRICULUM_CHAPTER_GLOSSARY,
-  keyPoints: BLOCK_KEY_POINTS.points,
+  keyPoints: CURRICULUM_CHAPTER_KEY_POINTS,
   selfCheckQuestions: CURRICULUM_CHAPTER_SELF_CHECK_QUESTIONS,
-  visualHub: {
-    comparisonBlock: BLOCK_VISUAL_COMPARISON,
-    stepsBlock: BLOCK_ANIMATED_STEPS,
-    diagramBlock: BLOCK_INTERACTIVE_DIAGRAM,
-    decisionBlock: BLOCK_DECISION_SCENARIO,
-    sequenceBlock: BLOCK_VISUAL_SEQUENCE,
-  },
 };
-

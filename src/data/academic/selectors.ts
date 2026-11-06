@@ -2,9 +2,9 @@ import { COURSES_PLACEHOLDER_DATA } from '../coursesData.ts';
 import { DEV_SANDBOX_COURSE } from './devSandboxCourse.ts';
 import { VISUAL_SANDBOX_COURSE } from './visualSandboxData.ts';
 import {
-  CURRICULUM_PILOT_CHAPTER,
-  CURRICULUM_ACADEMIC_REFERENCE,
-} from './curriculumPilotData.ts';
+  CURRICULUM_OFFICIAL_CHAPTERS,
+  CURRICULUM_COURSE_REFERENCES,
+} from './curriculumChaptersData.ts';
 import type {
   AcademicCourse,
   Chapter,
@@ -16,7 +16,7 @@ import type {
 /**
  * تحويل بيانات المواد الدراسية الست الرسمية إلى النموذج الأكاديمي الشامل
  * مع الحفاظ على حالتها الدقيقة:
- * - مادة مناهج التربية الرياضية (course-1) تتضمن الفصل الأول كمعاينة أكاديمية موثقة (ص 2-5).
+ * - مادة مناهج التربية الرياضية (course-1) تتضمن الهيكل الأكاديمي المعتمد كاملاً (5 فصول + موضوعان مستقلان + المراجع).
  * - بقية المواد الخمس خالية من الفصول بانتظار تزويد المنصة بكتبها الرسمية.
  */
 const OFFICIAL_ACADEMIC_COURSES: AcademicCourse[] = COURSES_PLACEHOLDER_DATA.map((c) => {
@@ -24,13 +24,13 @@ const OFFICIAL_ACADEMIC_COURSES: AcademicCourse[] = COURSES_PLACEHOLDER_DATA.map
     return {
       ...c,
       title: 'مناهج التربية الرياضية',
-      targetBookReference: 'كتاب مناهج التربية الرياضية — أ.د. هاني الدسوقي إبراهيم (ص 2 - 5)',
+      targetBookReference: 'كتاب مناهج التربية الرياضية — أ.د. هاني الدسوقي إبراهيم (2025/2026م)',
       status: 'pending_content',
       statusLabel: 'متاح للمراجعة',
       description:
-        'مقرر مناهج التربية الرياضية لطلاب الفرقة الرابعة (قسم تدريس). يتضمن حالياً معاينة أكاديمية تجريبية للفصل الأول (مقدمة وماهية المنهج)، بينما بقية وحدات وفصول المقرر قيد التجهيز.',
-      chapters: [CURRICULUM_PILOT_CHAPTER],
-      academicReferences: [CURRICULUM_ACADEMIC_REFERENCE],
+        'مقرر مناهج التربية الرياضية لطلاب الفرقة الرابعة (أ.د. هاني الدسوقي إبراهيم — 2025/2026م). يغطي الهيكل الأكاديمي المعتمد للكتاب كاملاً (5 فصول دراسية، وموضوعين مستقلين، وقائمة المراجع المعتمدة)، مع معاينة تفاعلية كاملة للفصل الأول.',
+      chapters: CURRICULUM_OFFICIAL_CHAPTERS,
+      academicReferences: CURRICULUM_COURSE_REFERENCES,
       isDevSandbox: false,
     };
   }
@@ -120,7 +120,13 @@ export function getTopicsByChapter(chapterId: string): Topic[] {
  */
 export function getTopicById(chapterId: string, topicId: string): Topic | undefined {
   const topics = getTopicsByChapter(chapterId);
-  return topics.find((top) => top.id === topicId);
+  const found = topics.find((top) => top.id === topicId);
+  if (found) return found;
+  // Backward compatibility alias for Chapter 1 introduction topic
+  if (chapterId === 'chap-curriculum-intro' && topicId === 'top-curriculum-concept-evolution') {
+    return topics.find((top) => top.id === 'top-ch1-curriculum-comprehensive-dev');
+  }
+  return undefined;
 }
 
 /**

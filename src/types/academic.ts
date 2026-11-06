@@ -47,6 +47,8 @@ export interface ListBlock extends BaseBlock {
   style: 'bullet' | 'ordered';
   title?: string;
   items: string[];
+  explanationTitle?: string;
+  explanationText?: string;
 }
 
 export interface DefinitionBlock extends BaseBlock {
@@ -430,15 +432,25 @@ export interface Lesson {
   status: ContentStatus;
 }
 
+export type TopicHeadingClassification =
+  | 'educational_organizational' // عنوان تنظيمي تربوي (الموضوعات 1–5)
+  | 'original_author';           // عنوان المؤلف الأصلي (الموضوعات 6–9)
+
 export interface Topic {
   id: string;
   chapterId: string;
   title: string;
   description: string;
   order: number;
+  headingClassification?: TopicHeadingClassification;
   lessons: Lesson[];
   relatedTopics?: string[]; // IDs of related topics
   status: ContentStatus;
+  videos?: VideoBlock[]; // Supporting multiple videos when provided
+  video?: VideoBlock; // Primary or single video block
+  summary?: string; // Text summary if provided
+  summaryBlocks?: ContentBlock[]; // Blocks summary if provided
+  quiz?: QuizBlock; // Topic quiz
 }
 
 export interface ChapterGlossaryItem {
@@ -476,6 +488,7 @@ export interface Chapter {
   keyPoints?: string[];
   selfCheckQuestions?: ChapterSelfCheckQuestion[];
   visualHub?: ChapterVisualHub;
+  chapterQuiz?: QuizBlock;
 }
 
 export interface AcademicCourse extends CoursePlaceholder {
