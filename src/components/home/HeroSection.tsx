@@ -36,26 +36,24 @@ export const HeroSection: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
+        {/* Semantic Accessible Heading for Screen Readers (Visually Hidden) */}
+        <h1 className="sr-only">علوم الرياضة — منصة التعليم التفاعلي</h1>
+
         {/* Main Hero Container: Flex Column on Mobile (with reordered children), 12-col Grid on Desktop */}
         <div className="flex flex-col lg:grid lg:grid-cols-12 gap-5 sm:gap-6 lg:gap-14 items-center">
           
           {/* Typography & CTAs Container:
-              On Mobile: display: contents makes Headline, Description, and CTAs direct flex items
+              On Mobile: display: contents makes Description and CTAs direct flex items
               On Desktop: lg:flex lg:flex-col lg:col-span-7 creates the right-column layout in RTL */}
           <div className="contents lg:flex lg:flex-col lg:col-span-7 lg:space-y-6 text-center lg:text-right">
             
-            {/* 1. Main Headline (order-1 on mobile) - Refined Framed H1 (Cairo Bold 700, White) */}
-            <h1 className="order-1 self-center lg:self-start w-fit max-w-full inline-block px-4 py-2.5 sm:px-6 sm:py-3 lg:px-7 lg:py-3.5 rounded-2xl bg-[#0B271A]/70 border border-[#28714D]/60 text-[28px] sm:text-[36px] lg:text-[44px] font-bold tracking-tight text-white leading-snug sm:leading-tight">
-              المعرفة الرياضية تبدأ هنا
-            </h1>
-
-            {/* 2. Short Supporting Description (order-2 on mobile) */}
-            <p className="order-2 text-base sm:text-lg text-[#D4E9DC]/90 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-normal">
+            {/* Supporting Description (order-1 on mobile) */}
+            <p className="order-1 text-base sm:text-lg text-[#D4E9DC]/90 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-normal">
               دروس مبسطة، فيديوهات تعليمية، واختبارات تفاعلية تساعدك على الفهم والمراجعة.
             </p>
 
-            {/* 4 & 5. Action Buttons (order-4 on mobile: 4. Primary CTA, 5. Secondary CTA) */}
-            <div className="order-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-3.5 pt-1 sm:pt-2 w-full sm:w-auto">
+            {/* Action Buttons (order-3 on mobile: Primary CTA, Secondary CTA) */}
+            <div className="order-3 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-3.5 pt-1 sm:pt-2 w-full sm:w-auto">
               <button
                 type="button"
                 onClick={scrollToCourses}
@@ -78,8 +76,8 @@ export const HeroSection: React.FC = () => {
 
           </div>
 
-          {/* 3. Approved LowPolyAthletesGraphic (order-3 on mobile, between description and CTAs, stationary) */}
-          <div className="order-3 lg:order-none lg:col-span-5 flex justify-center w-full my-2 sm:my-3 lg:my-0">
+          {/* Approved LowPolyAthletesGraphic (order-2 on mobile, between description and CTAs, stationary) */}
+          <div className="order-2 lg:order-none lg:col-span-5 flex justify-center w-full my-2 sm:my-3 lg:my-0">
             <LowPolyAthletesGraphic />
           </div>
 
