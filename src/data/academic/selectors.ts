@@ -126,6 +126,18 @@ export function getTopicById(chapterId: string, topicId: string): Topic | undefi
   if (chapterId === 'chap-curriculum-intro' && topicId === 'top-curriculum-concept-evolution') {
     return topics.find((top) => top.id === 'top-ch1-curriculum-comprehensive-dev');
   }
+  // Backward compatibility aliases for Chapter 2 foundations topics
+  if (chapterId === 'chap-curriculum-foundations') {
+    if (topicId === 'top-ch2-psychological') {
+      return topics.find((top) => top.id === 'top-ch2-psychological-foundation');
+    }
+    if (topicId === 'top-ch2-philosophical') {
+      return topics.find((top) => top.id === 'top-ch2-philosophical-foundation');
+    }
+    if (topicId === 'top-ch2-knowledge') {
+      return topics.find((top) => top.id === 'top-ch2-knowledge-foundation');
+    }
+  }
   return undefined;
 }
 

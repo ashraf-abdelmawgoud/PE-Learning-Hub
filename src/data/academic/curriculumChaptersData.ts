@@ -1,5 +1,6 @@
 import type { Chapter, AcademicReference } from '../../types';
 import { CURRICULUM_PILOT_CHAPTER, CURRICULUM_ACADEMIC_REFERENCE } from './curriculumPilotData.ts';
+import { CHAPTER_2_FOUNDATIONS_TOPICS } from './curriculumChapter2Data.ts';
 
 /**
  * =========================================================================
@@ -89,38 +90,7 @@ export const CHAPTER_2_FOUNDATIONS: Chapter = {
     'استيعاب الأساس المعرفي: طبيعة ومصادر المعرفة (الوحي، الحواس، العقل، الحدس، والتراث الثقافي).',
     'تنظيم بنية المعرفة وفق درجات التجريد: الحقائق، المفاهيم، والتعميمات، والتوجهات العالمية المعاصرة.',
   ],
-  topics: [
-    {
-      id: 'top-ch2-psychological-foundation',
-      chapterId: 'chap-curriculum-foundations',
-      title: 'الأساس النفسي لبناء المنهج',
-      description:
-        'طبيعة المتعلم وخصائص نموه، والغرائز والحاجات النفسية، وشروط حدوث التعلم (النضج، الدافعية، الممارسة)، وطبيعة التعليم وأطرافه وعلاقته بمنهج التربية الرياضية.',
-      order: 1,
-      lessons: [],
-      status: 'pending_content',
-    },
-    {
-      id: 'top-ch2-philosophical-foundation',
-      chapterId: 'chap-curriculum-foundations',
-      title: 'الأساس الفلسفي للمنهج',
-      description:
-        'مفهوم الفلسفة والأسس الفلسفية للمنهج، وعلاقة الفلسفة بالتربية، واتجاهات الفلسفات التربوية (التقليدية كالمثالية والتقدمية والنظرة الإسلامية)، ودور المنهج في مواجهة مشكلات المجتمع العربي.',
-      order: 2,
-      lessons: [],
-      status: 'pending_content',
-    },
-    {
-      id: 'top-ch2-knowledge-foundation',
-      chapterId: 'chap-curriculum-foundations',
-      title: 'الأساس المعرفي للمنهج',
-      description:
-        'مفهوم المعرفة وطبيعتها وعلاقتها بالمنهج، ومصادر المعرفة (الوحي، الحواس، العقل، الحدس والإلهام، والتراث الثقافي)، وتنظيم بنية المعرفة (الحقائق، المفاهيم، التعميمات)، والتوجهات العالمية المعاصرة.',
-      order: 3,
-      lessons: [],
-      status: 'pending_content',
-    },
-  ],
+  topics: CHAPTER_2_FOUNDATIONS_TOPICS,
 };
 
 /**

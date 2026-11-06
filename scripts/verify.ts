@@ -7,6 +7,7 @@ import {
   getChaptersByCourse,
   getChapterById,
   getTopicsByChapter,
+  getTopicById,
   getLessonById,
   getPreviousAndNextLesson,
   getAcademicBreadcrumbs,
@@ -38,6 +39,11 @@ import {
   verifyChapter1NineTopicsStructure,
   CHAPTER_1_NINE_TOPICS_METADATA,
 } from '../src/data/academic/curriculumNineTopicsConfig.ts';
+import {
+  verifyChapter2NineTopicsStructure,
+  CHAPTER_2_NINE_TOPICS_METADATA,
+} from '../src/data/academic/curriculumChapter2TopicsConfig.ts';
+import { CHAPTER_2_FOUNDATIONS_TOPICS } from '../src/data/academic/curriculumChapter2Data.ts';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -143,7 +149,7 @@ assert(report.isValid === true, 'تقرير فحص المحتوى الأكادي
 assert(report.errors.length === 0, `عدد الأخطاء الهندسية يساوي 0 (الفعل: ${report.errors.length})`);
 assert(report.coursesCount === 8, `إجمالي المقررات (6 رسمية + 2 معمل تجريبي معزول) يساوي 8`);
 assert(report.chaptersCount === 9, 'عدد الفصول الإجمالي يساوي 9 (7 وحدات لمناهج التربية الرياضية + 2 معامل تقنية)');
-assert(report.topicsCount === 26, 'عدد الموضوعات الإجمالي يساوي 26 (24 لمناهج التربية الرياضية + 2 معامل تقنية)');
+assert(report.topicsCount === 32, 'عدد الموضوعات الإجمالي يساوي 32 (30 لمناهج التربية الرياضية + 2 معامل تقنية)');
 assert(report.lessonsCount === 3, 'عدد الدروس الإجمالي يساوي 3 (2 معامل تقنية + 1 درس احتياطي معتمد)');
 assert(report.blocksCount === 19, `عدد كتل المحتوى الإجمالي يساوي 19 كتلة رصينة (الفعل: ${report.blocksCount})`);
 
@@ -505,6 +511,66 @@ CHAPTER_1_NINE_TOPICS_METADATA.forEach((t, idx) => {
     );
   }
 });
+
+// 9.6 فحص الهيكل الفني التنظيمي والملخصات الأكاديمية الكاملة للفصل الثاني (9 موضوعات معتمدة)
+console.log('\n9.6 فحص الهيكل الفني والملخصات الأكاديمية للفصل الثاني (9 موضوعات معتمدة):');
+const nineTopicsCheckCh2 = verifyChapter2NineTopicsStructure();
+assert(nineTopicsCheckCh2.isValid === true, 'الهيكل الفني للموضوعات التسعة للفصل الثاني صالح ومتوافق');
+assert(nineTopicsCheckCh2.totalTopics === 9, 'عدد موضوعات الهيكل الفني للفصل الثاني يساوي 9 موضوعات بالضبط');
+assert(
+  nineTopicsCheckCh2.educationalOrganizationalCount === 7,
+  'الموضوعات 1-6 و 8 مصنفة كعناوين تنظيمية تربوية (educational_organizational)'
+);
+assert(
+  nineTopicsCheckCh2.originalAuthorCount === 2,
+  'الموضوعان 7 و 9 مصنفان كعناوين المؤلف الأصلي (original_author)'
+);
+
+const EXPECTED_CH2_NINE_TITLES = [
+  'مدخل إلى أسس بناء المنهج والتنظيمات الرئيسية للمناهج',
+  'الأساس النفسي للمنهج وطبيعة المتعلم',
+  'نمو الإنسان ومشكلاته وعلاقته بالمنهج',
+  'حاجات المتعلمين والتعلم والتعليم وعلاقتها بالمنهج',
+  'الأساس الفلسفي للمنهج والفلسفة والتربية',
+  'الفلسفات ذات الصبغة التقليدية: الفلسفة المثالية',
+  'المنهج ومشكلات المجتمع العربي',
+  'الأسس المعرفية للمنهج ومصادر المعرفة',
+  'تنظيم بنية المعرفة والمنهج',
+];
+
+CHAPTER_2_NINE_TOPICS_METADATA.forEach((t, idx) => {
+  assert(t.order === idx + 1, `فصل 2 - الموضوع ${idx + 1}: الترتيب ${idx + 1} سليم`);
+  assert(t.title === EXPECTED_CH2_NINE_TITLES[idx], `فصل 2 - الموضوع ${idx + 1}: العنوان «${t.title}» مطابق نصياً`);
+  assert(Boolean(t.id), `فصل 2 - الموضوع ${idx + 1}: المعرف id موجود`);
+  assert(Boolean(t.description), `فصل 2 - الموضوع ${idx + 1}: الوصف الهيكلي موجود`);
+});
+
+// فحص الحفاظ الصارم على المعرفات الأصلية الثلاثة
+assert(CHAPTER_2_NINE_TOPICS_METADATA[1].id === 'top-ch2-psychological-foundation', 'حفظ المعرف الأصلي للموضوع الثاني (top-ch2-psychological-foundation)');
+assert(CHAPTER_2_NINE_TOPICS_METADATA[4].id === 'top-ch2-philosophical-foundation', 'حفظ المعرف الأصلي للموضوع الخامس (top-ch2-philosophical-foundation)');
+assert(CHAPTER_2_NINE_TOPICS_METADATA[7].id === 'top-ch2-knowledge-foundation', 'حفظ المعرف الأصلي للموضوع الثامن (top-ch2-knowledge-foundation)');
+
+// فحص استرجاع موضوعات الفصل الثاني عبر دوال الاختيار الرسمية
+const course1Ch2Topics = getTopicsByChapter('chap-curriculum-foundations');
+assert(course1Ch2Topics.length === 9, 'استرجاع موضوعات الفصل الثاني التسعة المعتمدة بنجاح عبر getTopicsByChapter');
+
+// فحص وجود الملخصات الأكاديمية الكاملة وخلوها من أرقام الصفحات ومن أي أسئلة أو فيديوهات غير معتمدة
+CHAPTER_2_FOUNDATIONS_TOPICS.forEach((t, idx) => {
+  assert(Boolean(t.summary && t.summary.trim().length > 200), `فصل 2 - الموضوع ${idx + 1}: الملخص الأكاديمي الكامل موجود ومفصل (${t.summary?.length} حرفاً)`);
+  assert(t.lessons.length === 0, `فصل 2 - الموضوع ${idx + 1}: قائمة الدروس فارغة (خالٍ من الدروس غير المعتمدة)`);
+  assert(t.quiz === undefined, `فصل 2 - الموضوع ${idx + 1}: تبويب الاختبار غير مفعل (قيد الإعداد)`);
+  assert(t.video === undefined && t.videos === undefined, `فصل 2 - الموضوع ${idx + 1}: تبويب الفيديو في حالة قيد الإعداد`);
+  assert(!/(?:^|\s)(?:ص|صفحة)\s*\.?\s*\d+/.test(t.summary || ''), `فصل 2 - الموضوع ${idx + 1}: خلو الملخص من أرقام الصفحات المطبوعة`);
+});
+
+// فحص عمل مسارات التوافق البديلة للموضوعات الأصلية في selectors
+assert(Boolean(getTopicById('chap-curriculum-foundations', 'top-ch2-psychological')), 'مسار التوافق القديم top-ch2-psychological يستجيب بنجاح');
+assert(Boolean(getTopicById('chap-curriculum-foundations', 'top-ch2-philosophical')), 'مسار التوافق القديم top-ch2-philosophical يستجيب بنجاح');
+assert(Boolean(getTopicById('chap-curriculum-foundations', 'top-ch2-knowledge')), 'مسار التوافق القديم top-ch2-knowledge يستجيب بنجاح');
+
+// التأكد الصارم من بقاء موضوعات الفصل الأول التسعة دون أي مساس
+const course1Ch1Topics = getTopicsByChapter('chap-curriculum-intro');
+assert(course1Ch1Topics.length === 9, 'الفصل الأول لا يزال يحتوي على موضوعاته التسعة المعتمدة كاملة دون أي مساس');
 
 // 10. فحص مشغل الفيديو التعليمي وتكامل كتل الفيديو (Phase 2: Educational Video Integration & Reusable Player)
 console.log('\n10. فحص مشغل الفيديو التعليمي وتكامل كتل الفيديو (Phase 2: Video Integration):');
