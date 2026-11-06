@@ -44,8 +44,8 @@ export const HeroSection: React.FC = () => {
               On Desktop: lg:flex lg:flex-col lg:col-span-7 creates the right-column layout in RTL */}
           <div className="contents lg:flex lg:flex-col lg:col-span-7 lg:space-y-6 text-center lg:text-right">
             
-            {/* 1. Main Headline (order-1 on mobile) - Single semantic H1: "المعرفة الرياضية تبدأ هنا" (Cairo Bold 700, White) */}
-            <h1 className="order-1 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
+            {/* 1. Main Headline (order-1 on mobile) - Refined Framed H1 (Cairo Bold 700, White) */}
+            <h1 className="order-1 self-center lg:self-start w-fit max-w-full inline-block px-4 py-2.5 sm:px-6 sm:py-3 lg:px-7 lg:py-3.5 rounded-2xl bg-[#0B271A]/70 border border-[#28714D]/60 text-[28px] sm:text-[36px] lg:text-[44px] font-bold tracking-tight text-white leading-snug sm:leading-tight">
               المعرفة الرياضية تبدأ هنا
             </h1>
 
