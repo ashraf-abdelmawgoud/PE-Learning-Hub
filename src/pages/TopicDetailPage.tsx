@@ -3,14 +3,14 @@
  * Dedicated Video-Centric Topic Learning Interface for OloomSport.
  *
  * Educational Structure:
- * Course → Chapter → Topics → Video + Written Summary + Topic Quiz → Final Chapter Quiz.
+ * Course → Chapter → Topics → Video + Written Summary → Comprehensive Chapter Quiz.
  *
  * Core Features:
- * - 3 Clear Tabs:
+ * - 2 Clear Tabs:
  *   1. Video: responsive 16:9 player (supports multiple videos only if provided, else unavailable state).
  *   2. Summary: clean RTL written content (renders approved textbook blocks, else unavailable state).
- *   3. Questions: simple interactive quiz with immediate answer feedback (else unavailable state).
- * - Real completion and quiz score persistence (localStorage, never fabricated).
+ * - Centralized Chapter Assessment: evaluation is exclusively comprehensive at the chapter level.
+ * - Real completion and progress persistence (localStorage, never fabricated).
  * - Preserves author's exact titles and ordering.
  * - Arabic RTL, Cairo typography, Sport Energy palette.
  */
@@ -27,13 +27,11 @@ import {
 import { BreadcrumbNav } from '../components/academic/BreadcrumbNav';
 import { TopicVideoSection } from '../components/academic/TopicVideoSection';
 import { TopicSummarySection } from '../components/academic/TopicSummarySection';
-import { TopicQuizSection } from '../components/academic/TopicQuizSection';
 import { getTopicProgress, setTopicProgress } from '../utils/progressPersistence';
 import { isDevSandboxAllowed } from '../utils/devRouteGuard';
 import {
   Video,
   FileText,
-  HelpCircle,
   CheckCircle2,
   ChevronRight,
   ChevronLeft,
@@ -41,7 +39,7 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 
-type TopicTab = 'video' | 'summary' | 'quiz';
+type TopicTab = 'video' | 'summary';
 
 export const TopicDetailPage: React.FC = () => {
   const { courseId, chapterId, topicId } = useParams<{
@@ -52,7 +50,7 @@ export const TopicDetailPage: React.FC = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const rawTab = searchParams.get('tab') as TopicTab | null;
-  const activeTab: TopicTab = rawTab && ['video', 'summary', 'quiz'].includes(rawTab) ? rawTab : 'video';
+  const activeTab: TopicTab = rawTab && ['video', 'summary'].includes(rawTab) ? rawTab : 'video';
   const [_progressRefresh, setProgressRefresh] = useState<number>(0);
 
   const setActiveTab = (tab: TopicTab) => {
@@ -177,7 +175,7 @@ export const TopicDetailPage: React.FC = () => {
                 </span>
               </div>
               <p className="text-amber-800 leading-relaxed">
-                هذا الموضوع مخصص للمعاينة التقنية واختبار تجربة التعلم القائمة على الفيديو والملخص والأسئلة.
+                هذا الموضوع مخصص للمعاينة التقنية واختبار تجربة التعلم القائمة على الفيديو والملخص المكتوب.
               </p>
             </div>
           </div>
@@ -222,7 +220,7 @@ export const TopicDetailPage: React.FC = () => {
         </header>
 
         {/* =========================================================================
-            THE 3 CLEAR TABS: VIDEO | SUMMARY | QUESTIONS
+            THE 2 CLEAR TABS: VIDEO | SUMMARY
            ========================================================================= */}
         <div className="space-y-6">
           <div
@@ -257,20 +255,6 @@ export const TopicDetailPage: React.FC = () => {
               <FileText className="w-4 h-4" />
               <span>الملخص المكتوب</span>
             </button>
-
-            <button
-              role="tab"
-              aria-selected={activeTab === 'quiz'}
-              onClick={() => setActiveTab('quiz')}
-              className={`flex-1 min-w-[120px] inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-                activeTab === 'quiz'
-                  ? 'bg-[#00C853] text-[#071C12] font-black shadow-xs'
-                  : 'text-[#486555] hover:text-[#173D2B] hover:bg-[#F4FFF7]'
-              }`}
-            >
-              <HelpCircle className="w-4 h-4" />
-              <span>الأسئلة والتقويم</span>
-            </button>
           </div>
 
           {/* Tab 1: Video */}
@@ -288,19 +272,6 @@ export const TopicDetailPage: React.FC = () => {
           {activeTab === 'summary' && (
             <div role="tabpanel" aria-label="الملخص المكتوب">
               <TopicSummarySection topic={topic} />
-            </div>
-          )}
-
-          {/* Tab 3: Questions */}
-          {activeTab === 'quiz' && (
-            <div role="tabpanel" aria-label="الأسئلة والتقويم">
-              <TopicQuizSection
-                courseId={course.id}
-                chapterId={chapter.id}
-                topic={topic}
-                fallbackQuestions={chapter.selfCheckQuestions}
-                onComplete={() => setProgressRefresh((k) => k + 1)}
-              />
             </div>
           )}
         </div>

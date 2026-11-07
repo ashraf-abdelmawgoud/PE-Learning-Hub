@@ -67,12 +67,12 @@ export const ChapterQuizSection: React.FC<ChapterQuizSectionProps> = ({
               <p className="text-xs sm:text-sm text-[#6C8577]">
                 {hasApprovedQuestions
                   ? `تقويم تراكمي شامل لقياس مدى استيعاب موضوعات الفصل كاملة (${formatQuestionCount(questionCount)})`
-                  : 'تقويم شامل وتراكمي لقياس مدى استيعاب موضوعات الفصل'}
+                  : 'الاختبار الشامل لهذا الفصل قيد الإعداد والاعتماد الأكاديمي، وسيتاح فور اعتماده.'}
               </p>
             </div>
           </div>
 
-          {/* Action Button: "ابدأ الاختبار" if questions available, or "الاختبار قيد الإعداد" if pending */}
+          {/* Action Button: "ابدأ الاختبار" if questions available, or "الاختبار الشامل لهذا الفصل قيد الإعداد" if pending */}
           {hasApprovedQuestions ? (
             <button
               type="button"
@@ -85,7 +85,7 @@ export const ChapterQuizSection: React.FC<ChapterQuizSectionProps> = ({
           ) : (
             <span className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl bg-[#F4FFF7] text-[#6C8577] border border-[#D4E9DC] font-bold text-xs sm:text-sm shrink-0 select-none">
               <Clock className="w-4 h-4 text-[#6C8577]" />
-              <span>الاختبار قيد الإعداد</span>
+              <span>الاختبار الشامل لهذا الفصل قيد الإعداد</span>
             </span>
           )}
         </div>

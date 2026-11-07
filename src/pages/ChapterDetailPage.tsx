@@ -3,7 +3,7 @@
  * Modern, Minimal, Video-Centric Chapter Learning Interface for OloomSport.
  *
  * Educational Structure:
- * Course → Chapter → Topics → Video + Written Summary + Topic Quiz → Final Chapter Quiz.
+ * Course → Chapter → Topics → Video + Written Summary → Comprehensive Chapter Quiz.
  *
  * Design Principles:
  * - Displays the chapter's original textbook title.
@@ -263,7 +263,7 @@ export const ChapterDetailPage: React.FC = () => {
                       <div className="flex items-center gap-2 text-xs font-semibold text-[#6C8577] pt-1">
                         <span className="inline-flex items-center gap-1">
                           <Layers className="w-3.5 h-3.5 text-[#00C853]" />
-                          <span>مسار التعلم: فيديو &bull; ملخص مكتوب &bull; أسئلة</span>
+                          <span>مسار التعلم: فيديو &bull; ملخص مكتوب</span>
                         </span>
                       </div>
                     </div>

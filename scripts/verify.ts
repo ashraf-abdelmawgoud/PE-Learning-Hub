@@ -82,7 +82,9 @@ import {
 import { CHAPTER_7_PLANNING_TOPICS } from '../src/data/academic/curriculumChapter7Data.ts';
 import {
   getTopicProgress,
+  setTopicProgress,
   getChapterProgressStats,
+  setChapterQuizProgress,
 } from '../src/utils/progressPersistence.ts';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -1914,6 +1916,71 @@ assert(draftImportsCheck.leakedImports.length === 0, '17. مجلد مسودات 
 const pkgJson = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json'), 'utf8'));
 const hasNoBackendScripts = !pkgJson.dependencies['express'] && !pkgJson.dependencies['@cloudflare/workers-types'];
 assert(hasNoBackendScripts && pkgJson.scripts.build.includes('vite build'), '18. بنية البناء والنشر ثابتة كلياً ومتوافقة 100% مع Cloudflare Pages بدون أي خوادم أو تبعات غير ثابتة');
+
+// 14. فحص توحيد التقويم الشامل على مستوى الفصول وإلغاء واجهات أسئلة الموضوعات (Chapter-Only Comprehensive Quizzes Architecture)
+console.log('\n14. فحص توحيد التقويم الشامل على مستوى الفصول وإلغاء واجهات أسئلة الموضوعات (Chapter-Only Quizzes):');
+
+// 14.1 - 14.3 فحص صفحة تفاصيل الموضوع TopicDetailPage
+const topicDetailPageContent = fs.readFileSync(path.join(process.cwd(), 'src/pages/TopicDetailPage.tsx'), 'utf8');
+assert(!topicDetailPageContent.includes("type TopicTab = 'video' | 'summary' | 'quiz'"), '14.1 إلغاء تبويب الأسئلة (quiz) من خيارات التبويبات في TopicDetailPage');
+assert(!topicDetailPageContent.includes("<span>الأسئلة والتقويم</span>"), '14.2 إزالة زر تبويب الأسئلة والتقويم من واجهة دراسة الموضوع');
+assert(!topicDetailPageContent.includes("<TopicQuizSection"), '14.3 عدم استدعاء أو تضمين TopicQuizSection في صفحة دراسة الموضوع');
+
+// 14.4 - 14.6 فحص تأمين مكون TopicQuizSection
+const topicQuizSectionContent = fs.readFileSync(path.join(process.cwd(), 'src/components/academic/TopicQuizSection.tsx'), 'utf8');
+assert(!topicQuizSectionContent.includes("<QuizBlockView"), '14.4 تعطيل استدعاء محرك الأسئلة QuizBlockView داخل TopicQuizSection');
+assert(!topicQuizSectionContent.includes("<InteractiveComprehensionAssessment"), '14.5 إيقاف توليد أسئلة الفهم الاحتياطية من selfCheckQuestions');
+assert(topicQuizSectionContent.includes("التقويم موحد على مستوى الفصل الدراسي"), '14.6 إشعار توحيد التقويم معتمد في TopicQuizSection في حال استدعائه احتياطياً');
+
+// 14.7 - 14.8 فحص صفحة الفصل ChapterDetailPage
+const chapterDetailPageContent = fs.readFileSync(path.join(process.cwd(), 'src/pages/ChapterDetailPage.tsx'), 'utf8');
+assert(!chapterDetailPageContent.includes("مسار التعلم: فيديو &bull; ملخص مكتوب &bull; أسئلة"), '14.7 تحديث مسار التعلم في بطاقات الموضوعات ليعكس (فيديو • ملخص مكتوب) دون أسئلة فرعية');
+assert(chapterDetailPageContent.includes("<ChapterQuizSection"), '14.8 استمرار دعم وحضور الاختبار الشامل للفصل ChapterQuizSection في صفحة الفصل');
+
+// 14.9 - 14.10 فحص عمل الاختبار الشامل للفصل ومحرك التقييم
+const ch1Chapter = getChapterById('course-1', 'chap-curriculum-intro');
+assert(Boolean(ch1Chapter?.chapterQuiz && ch1Chapter.chapterQuiz.questions.length === 15), '14.9 الاختبار الشامل للفصل الأول (15 سؤالاً) متاح وسليم بنسبة 100%');
+const evalResult = evaluateQuiz(ch1Chapter!.chapterQuiz!, { 'q-comp-1': 'opt-a' });
+assert(evalResult.totalQuestions === 15 && typeof evalResult.score === 'number', '14.10 محرك التقييم المحلي للاختبار الشامل للفصل يعمل بكفاءة');
+
+// 14.11 - 14.12 فحص حالة الفصول التي لا تحتوي على اختبار بعد
+const chaptersWithoutQuiz = [
+  'chap-curriculum-foundations',
+  'chap-curriculum-elements',
+  'chap-curriculum-factors',
+  'chap-curriculum-designs',
+  'chap-curriculum-unit-design',
+  'chap-curriculum-planning',
+];
+const allPendingQuizzesValid = chaptersWithoutQuiz.every(
+  (id) => getChapterById('course-1', id)?.chapterQuiz === undefined
+);
+assert(allPendingQuizzesValid, '14.11 الفصول الدراسية من الثاني حتى السابع خالية من أي اختبارات غير معتمدة');
+const chapterQuizSectionContent = fs.readFileSync(path.join(process.cwd(), 'src/components/academic/ChapterQuizSection.tsx'), 'utf8');
+assert(chapterQuizSectionContent.includes("الاختبار الشامل لهذا الفصل قيد الإعداد"), '14.12 عرض رسالة (الاختبار الشامل لهذا الفصل قيد الإعداد) عند عدم توفر اختبار معتمد');
+
+// 14.13 - 14.14 فحص سلامة سجلات تقدم الطلاب
+setTopicProgress('course-test', 'chap-test', 'top-test', { isCompleted: true, quizScore: 85 });
+const prog = getTopicProgress('course-test', 'chap-test', 'top-test');
+assert(prog.isCompleted === true && prog.quizScore === 85, '14.13 حفظ واسترجاع تقدم الموضوعات والدرجات السابقة في التخزين المحلي مستمر دون مساس');
+setChapterQuizProgress('course-test', 'chap-test', true, 90);
+const chapStats = getChapterProgressStats('course-test', 'chap-test', ['top-test']);
+assert(chapStats.isChapterQuizCompleted === true && chapStats.chapterQuizScore === 90 && chapStats.completedTopicsCount === 1, '14.14 إحصاءات تقدم الفصل واجتياز الاختبار الشامل محفوظة وموثوقة');
+
+// 14.15 - 14.16 فحص بقاء موضوعات المقرر الـ 50 كاملة
+const c1Course = getCourseById('course-1');
+const topicsList = c1Course!.chapters.flatMap((ch) => ch.topics);
+assert(topicsList.length === 50, '14.15 إجمالي موضوعات المقرر 50 موضوعاً معتمداً دون حذف أو تعديل في المعرفات');
+const chapterDist = c1Course!.chapters.map((ch) => ch.topics.length);
+assert(JSON.stringify(chapterDist) === JSON.stringify([9, 9, 7, 5, 7, 6, 7]), '14.16 التوزيع الأكاديمي للموضوعات عبر الفصول السبعة ثابت: [9, 9, 7, 5, 7, 6, 7]');
+
+// 14.17 الحفاظ على أسئلة الموضوعات التاريخية كأصل مصدري
+const pilotDataContent = fs.readFileSync(path.join(process.cwd(), 'src/data/academic/curriculumPilotData.ts'), 'utf8');
+assert(pilotDataContent.includes('QUIZ_TOPIC_1') && pilotDataContent.includes('QUIZ_TOPIC_5'), '14.17 الحفاظ على بيانات أسئلة الموضوعات التاريخية كأصل مرجعي دون حذف تخريبي');
+
+// 14.18 التحقق من البنية الثابتة كلياً
+assert(hasNoBackendScripts, '14.18 بنية المنصة خالية تماماً من أي خوادم أو دوال سحابية أو واجهات مدفوعة');
+
 
 
 console.log(`\n========================================`);
