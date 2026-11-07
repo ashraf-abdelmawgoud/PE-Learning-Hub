@@ -49,6 +49,7 @@ import type { GovernedQuestionBank } from '../src/types/quizGovernance.ts';
 import { validateChapter1DraftBank } from './validate-draft-bank.ts';
 import { validateChapter2DraftBank } from './validate-chapter2-draft-bank.ts';
 import { validateChapter3DraftBank } from './validate-chapter3-draft-bank.ts';
+import { validateChapter4DraftBank } from './validate-chapter4-draft-bank.ts';
 import {
   verifyChapter1NineTopicsStructure,
   CHAPTER_1_NINE_TOPICS_METADATA,
@@ -2042,6 +2043,25 @@ assert(activeCh3Quiz === undefined, '17.7 بقاء الفصل الثالث خا�
 assert(
   !QUIZ_PUBLICATION_MANIFEST.some((b) => b.bankId === 'bank-ch3-elements-draft-50q'),
   '17.8 التأكيد الصارم على أن مسودة الـ 50 سؤالاً للفصل الثالث غير منشورة في بيان النشر الرسمي'
+);
+
+// 18. فحص مسودة بنك أسئلة الفصل الرابع الشامل (Chapter 4 Comprehensive Draft Bank 50Q)
+console.log('\n18. فحص مسودة بنك أسئلة الفصل الرابع الشامل (Chapter 4 Draft Bank 50Q):');
+
+const draft4Result = validateChapter4DraftBank();
+assert(draft4Result.isValid === true, '18.1 مسودة بنك أسئلة الفصل الرابع سليمة وتجتاز كافة معايير التحقق الصارمة');
+assert(draft4Result.totalQuestions === 50, '18.2 إجمالي أسئلة مسودة الفصل الرابع يساوي 50 سؤالاً بالضبط');
+assert(draft4Result.mcqCount === 25, '18.3 أسئلة الاختيار من متعدد في مسودة الفصل الرابع تساوي 25 سؤالاً بالضبط');
+assert(draft4Result.tfCount === 25, '18.4 أسئلة الصواب والخطأ في مسودة الفصل الرابع تساوي 25 سؤالاً بالضبط');
+assert(draft4Result.topicsCoveredCount === 5, '18.5 مسودة الفصل الرابع تغطي جميع موضوعات الفصل الخمسة بالتفصيل');
+assert(draft4Result.errors.length === 0, '18.6 خلو مسودة الفصل الرابع من أي أخطاء في الصياغة أو خيارات الإجابة أو المعرفات');
+
+// فحص عدم نشر المسودة وبقاء الفصل الرابع بدون اختبار منشور
+const activeCh4Quiz = getChapterById('course-1', 'chap-curriculum-factors')?.chapterQuiz;
+assert(activeCh4Quiz === undefined, '18.7 بقاء الفصل الرابع خالياً من أي اختبار منشور (الاختبار قيد الإعداد)');
+assert(
+  !QUIZ_PUBLICATION_MANIFEST.some((b) => b.bankId === 'bank-ch4-factors-draft-50q'),
+  '18.8 التأكيد الصارم على أن مسودة الـ 50 سؤالاً للفصل الرابع غير منشورة في بيان النشر الرسمي'
 );
 
 
