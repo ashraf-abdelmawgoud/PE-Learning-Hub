@@ -64,6 +64,28 @@ export const CourseDetailPage: React.FC = () => {
           </div>
         )}
 
+        {/* Academic Structure Banner for Course 7 (التحليل الحركي) */}
+        {course.id === 'course-7' && (
+          <div className="bg-[#E8F8EE] border-2 border-[#00C853]/40 rounded-3xl p-5 sm:p-6 shadow-xs flex items-start gap-4">
+            <div className="w-10 h-10 rounded-2xl bg-[#D4E9DC] text-[#173D2B] flex items-center justify-center shrink-0">
+              <BookOpen className="w-5 h-5 text-[#00C853]" />
+            </div>
+            <div className="space-y-1 text-xs sm:text-sm text-[#173D2B]">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="font-black text-[#173D2B] text-base">
+                  الهيكل الأكاديمي المعتمد لمقرر التحليل الحركي
+                </span>
+                <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#D4E9DC] text-[#173D2B]">
+                  د. رحاب عبدالمنعم الرشيدي (2020م)
+                </span>
+              </div>
+              <p className="text-[#486555] leading-relaxed">
+                تم تجهيز وتكامل البنية الهندسية للفصول الستة المعتمدة للمقرر وفق فهرس كتاب «مبادئ التحليل الحركي (نظري – تطبيقي)». يجري تدقيق الموضوعات وبنوك التقييم وفق الحوكمة الأكاديمية الصارمة تمهيداً لنشرها تباعاً فور الاعتماد.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Development Sandbox Banner if Dev Sandbox */}
         {course.isDevSandbox && (
           <div className="bg-amber-50 border-2 border-amber-300 rounded-3xl p-5 sm:p-6 shadow-xs flex items-start gap-4">
@@ -139,7 +161,7 @@ export const CourseDetailPage: React.FC = () => {
                 </h2>
               </div>
               <span className="text-xs font-bold text-[#173D2B] bg-[#E8F8EE] px-3 py-1 rounded-full border border-[#D4E9DC]">
-                محتوى منشور
+                {course.id === 'course-7' ? 'هيكل معتمد (قيد إعداد المحتوى)' : 'محتوى منشور'}
               </span>
             </div>
 
@@ -162,7 +184,9 @@ export const CourseDetailPage: React.FC = () => {
                       {chapter.description}
                     </p>
                     <div className="text-xs font-semibold text-[#6C8577] pt-1">
-                      عدد الموضوعات: {chapter.topics.length} موضوع دراسي
+                      {chapter.topics.length > 0
+                        ? `عدد الموضوعات: ${chapter.topics.length} موضوع دراسي`
+                        : 'موضوعات الفصل قيد إعداد المحتوى الأكاديمي'}
                     </div>
                   </div>
 

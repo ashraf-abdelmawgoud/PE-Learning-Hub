@@ -5,6 +5,10 @@ import {
   CURRICULUM_OFFICIAL_CHAPTERS,
   CURRICULUM_COURSE_REFERENCES,
 } from './curriculumChaptersData.ts';
+import {
+  KINEMATIC_OFFICIAL_CHAPTERS,
+  KINEMATIC_COURSE_REFERENCES,
+} from './kinematicAnalysisChaptersData.ts';
 import type {
   AcademicCourse,
   Chapter,
@@ -31,6 +35,22 @@ const OFFICIAL_ACADEMIC_COURSES: AcademicCourse[] = COURSES_PLACEHOLDER_DATA.map
         'مقرر مناهج التربية الرياضية لطلاب الفرقة الرابعة (أ.د. هاني الدسوقي إبراهيم — 2025/2026م). يغطي الهيكل الأكاديمي المعتمد للكتاب كاملاً (5 فصول دراسية، وموضوعين مستقلين، وقائمة المراجع المعتمدة)، مع معاينة تفاعلية كاملة للفصل الأول.',
       chapters: CURRICULUM_OFFICIAL_CHAPTERS,
       academicReferences: CURRICULUM_COURSE_REFERENCES,
+      isDevSandbox: false,
+    };
+  }
+
+  if (c.id === 'course-7') {
+    return {
+      ...c,
+      title: 'التحليل الحركي',
+      targetBookReference:
+        'كتاب مبادئ التحليل الحركي (نظري – تطبيقي) — د. رحاب عبدالمنعم الرشيدي (2020م)',
+      status: 'pending_content',
+      statusLabel: 'قيد إعداد المحتوى الأكاديمي',
+      description:
+        'مقرر التحليل الحركي لطلاب الفرقة الرابعة بكلية علوم الرياضة والتربية البدنية، استناداً إلى كتاب «مبادئ التحليل الحركي (نظري – تطبيقي)» للدكتورة رحاب عبدالمنعم الرشيدي (2020م). يتضمن الهيكل الأكاديمي المعتمد 6 فصول دراسية رئيسية تغطي المفاهيم والمستويات والتحليل الكيفي والكمي والتحليل الميداني والمعملي.',
+      chapters: KINEMATIC_OFFICIAL_CHAPTERS,
+      academicReferences: KINEMATIC_COURSE_REFERENCES,
       isDevSandbox: false,
     };
   }

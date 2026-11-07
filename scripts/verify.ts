@@ -89,6 +89,12 @@ import {
   CHAPTER_7_SEVEN_TOPICS_METADATA,
 } from '../src/data/academic/curriculumChapter7TopicsConfig.ts';
 import { CHAPTER_7_PLANNING_TOPICS } from '../src/data/academic/curriculumChapter7Data.ts';
+import { KINEMATIC_OFFICIAL_CHAPTERS } from '../src/data/academic/kinematicAnalysisChaptersData.ts';
+import {
+  KINEMATIC_PROVISIONAL_PRODUCTION_PLAN,
+  TOTAL_KINEMATIC_PROVISIONAL_TOPICS,
+  CHAPTER_3_PROVISIONAL_PARENT_SECTIONS,
+} from '../src/data/academic/kinematicTopicsConfig.ts';
 import {
   getTopicProgress,
   setTopicProgress,
@@ -203,7 +209,7 @@ const report = validateAcademicContent();
 assert(report.isValid === true, 'تقرير فحص المحتوى الأكاديمي سليم بدون أخطاء بنيوية');
 assert(report.errors.length === 0, `عدد الأخطاء الهندسية يساوي 0 (الفعل: ${report.errors.length})`);
 assert(report.coursesCount === 9, `إجمالي المقررات (7 رسمية + 2 معمل تجريبي معزول) يساوي 9`);
-assert(report.chaptersCount === 9, 'عدد الفصول الإجمالي يساوي 9 (7 وحدات لمناهج التربية الرياضية + 2 معامل تقنية)');
+assert(report.chaptersCount === 15, 'عدد الفصول الإجمالي يساوي 15 (7 وحدات لمناهج التربية الرياضية + 6 فصول لمقرر التحليل الحركي + 2 معامل تقنية)');
 assert(report.topicsCount === 52, 'عدد الموضوعات الإجمالي يساوي 52 (50 لمناهج التربية الرياضية + 2 معامل تقنية)');
 assert(report.lessonsCount === 3, 'عدد الدروس الإجمالي يساوي 3 (2 معامل تقنية + 1 درس احتياطي معتمد)');
 assert(report.blocksCount === 19, `عدد كتل المحتوى الإجمالي يساوي 19 كتلة رصينة (الفعل: ${report.blocksCount})`);
@@ -247,7 +253,8 @@ assert(studentCourses.length === 7, 'واجهة الطلاب تسترجع الم
 assert(studentCourses.every((c) => !c.isDevSandbox), 'لا يوجد أي مقرر تجريبي مسرب لواجهة الطلاب');
 assert(studentCourses.every((c) => c.status === 'pending_content'), 'جميع المواد السبع للطلاب بحالة pending_content');
 assert(studentCourses.find((c) => c.id === 'course-1')?.chapters.length === 7, 'مادة مناهج التربية الرياضية PE-ACAD-01 تتضمن 7 وحدات دراسية معتمدة (5 فصول + موضوعان مستقلان)');
-assert(studentCourses.filter((c) => c.id !== 'course-1').every((c) => c.chapters.length === 0), 'بقية المواد الست خالية من الفصول بانتظار تزويد المنصة بكتبها');
+assert(studentCourses.find((c) => c.id === 'course-7')?.chapters.length === 6, 'مقرر التحليل الحركي PE-ACAD-07 يتضمن الفصول الستة المعتمدة');
+assert(studentCourses.filter((c) => c.id !== 'course-1' && c.id !== 'course-7').every((c) => c.chapters.length === 0), 'بقية المواد الخمس خالية من الفصول بانتظار تزويد المنصة بكتبها');
 
 const devChapters = getChaptersByCourse('dev-sandbox');
 assert(devChapters.length === 1 && devChapters[0].id === 'dev-chap-1', 'استرجاع فصول المقرر التجريبي بترتيب سليم');
@@ -2186,8 +2193,8 @@ assert(
   '22.3 فرادة جميع معرفات الأسئلة المنشورة الـ 365 وعدم وجود أي تصادم أو تكرار معرفات'
 );
 
-// 23. فحص تسجيل وتكامل مقرر التحليل الحركي (Movement Analysis - PE-ACAD-07) للفرقة الرابعة
-console.log('\n23. فحص تسجيل وتكامل مقرر التحليل الحركي (PE-ACAD-07) للفرقة الرابعة:');
+// 23. فحص تسجيل وتكامل البنية التحتية لمقرر التحليل الحركي (Movement Analysis - PE-ACAD-07)
+console.log('\n23. فحص تسجيل وتكامل البنية التحتية لمقرر التحليل الحركي (PE-ACAD-07):');
 const movementCoursePlaceholder = COURSES_PLACEHOLDER_DATA.find((c) => c.id === 'course-7');
 assert(Boolean(movementCoursePlaceholder), '23.1 تسجيل مقرر التحليل الحركي في قاعدة بيانات المقررات بالمعرف course-7');
 assert(
@@ -2200,28 +2207,95 @@ assert(movementCoursePlaceholder?.orderNumber === 7, '23.5 الترتيب الأ
 assert(movementCoursePlaceholder?.academicYear === 'الفرقة الرابعة', '23.6 التصنيف الأكاديمي للفرقة الرابعة');
 assert(movementCoursePlaceholder?.status === 'pending_content', '23.7 حالة المقرر البرمجية pending_content');
 assert(movementCoursePlaceholder?.statusLabel === 'قيد إعداد المحتوى الأكاديمي', '23.8 شارة الحالة قيد إعداد المحتوى الأكاديمي');
-assert(Boolean(movementCoursePlaceholder?.targetBookReference), '23.9 مرجع الكتاب المعتمد محدد بنص محايد دقيق');
+assert(
+  Boolean(movementCoursePlaceholder?.targetBookReference?.includes('رحاب عبدالمنعم الرشيدي')),
+  '23.9 مرجع الكتاب المعتمد يوثق اسم المؤلفة (د. رحاب عبدالمنعم الرشيدي)'
+);
+assert(
+  Boolean(movementCoursePlaceholder?.targetBookReference?.includes('مبادئ التحليل الحركي')),
+  '23.10 مرجع الكتاب يوثق عنوان الكتاب (مبادئ التحليل الحركي نظري – تطبيقي)'
+);
+assert(
+  Boolean(movementCoursePlaceholder?.targetBookReference?.includes('2020')),
+  '23.11 مرجع الكتاب يوثق سنة النشر 2020م'
+);
+assert(movementCoursePlaceholder?.futureUnitsCount === 6, '23.12 عدد الوحدات المستقبلية المخططة 6 فصول دراسية');
 
 const resolvedMovementCourse = getCourseById('course-7');
-assert(Boolean(resolvedMovementCourse), '23.10 دالة الاستعلام getCourseById تسترجع مقرر التحليل الحركي بنجاح');
-assert(resolvedMovementCourse?.title === 'التحليل الحركي', '23.11 مطابقة عنوان المقرر المسترجع للمسمى الرسمي');
-assert(resolvedMovementCourse?.chapters.length === 0, '23.12 خلو المقرر تماماً من أي فصول دراسية وهمية (0 فصول)');
-assert(resolvedMovementCourse?.academicReferences.length === 0, '23.13 خلو المقرر من أي مراجع أكاديمية غير معتمدة (0 مراجع)');
-assert(resolvedMovementCourse?.futureUnitsCount === 0, '23.14 عدد الوحدات المستقبلية 0 لعدم استلام الكتاب');
-assert(resolvedMovementCourse?.futureLessonsCount === 0, '23.15 عدد الدروس المستقبلية 0 لعدم استلام الكتاب');
+assert(Boolean(resolvedMovementCourse), '23.13 دالة الاستعلام getCourseById تسترجع مقرر التحليل الحركي بنجاح');
+assert(resolvedMovementCourse?.title === 'التحليل الحركي', '23.14 مطابقة عنوان المقرر المسترجع للمسمى الرسمي');
+assert(resolvedMovementCourse?.chapters.length === 6, '23.15 المقرر يتضمن الفصول الدراسية الستة المعتمدة');
+assert(KINEMATIC_OFFICIAL_CHAPTERS.length === 6, '23.16 تصدير الفصول الستة المعتمدة في KINEMATIC_OFFICIAL_CHAPTERS');
+assert(resolvedMovementCourse?.academicReferences.length >= 1, '23.17 توثيق المرجع الأكاديمي المعتمد في بنية المقرر');
+
+const EXPECTED_KINEMATIC_CHAPTERS = [
+  { id: 'chap-kin-concept', order: 1, title: 'الفصل الأول: مفهوم التحليل الحركي' },
+  { id: 'chap-kin-types-levels', order: 2, title: 'الفصل الثاني: انواع ومستويات التحليل الحركي' },
+  { id: 'chap-kin-qual-quant-tasks', order: 3, title: 'الفصل الثالث: مهام التحليل الكيفي والكمي' },
+  { id: 'chap-kin-match-analysis-models', order: 4, title: 'الفصل الرابع: نماذج تعليميه لتحليل المباريات الرياضية' },
+  { id: 'chap-kin-skill-analysis-models', order: 5, title: 'الفصل الخامس: بعض نماذج التحليل للمهارات الحركية' },
+  { id: 'chap-kin-lab-studies', order: 6, title: 'الفصل السادس: دراسات معملية للتدريب على نماذج تحليل المهارات لأجزائها التعليمية' },
+];
+
+resolvedMovementCourse?.chapters.forEach((chap, idx) => {
+  const exp = EXPECTED_KINEMATIC_CHAPTERS[idx];
+  assert(chap.id === exp.id, `23.17.${idx + 1} معرف الفصل ${idx + 1} سليم (${exp.id})`);
+  assert(chap.order === exp.order, `23.17.${idx + 1} ترتيب الفصل ${idx + 1} سليم (${exp.order})`);
+  assert(chap.title === exp.title, `23.17.${idx + 1} عنوان الفصل ${idx + 1} مطابق للأصل (${exp.title})`);
+  assert(chap.courseId === 'course-7', `23.17.${idx + 1} انتساب الفصل ${idx + 1} لمقرر course-7`);
+  assert(chap.status === 'pending_content', `23.17.${idx + 1} حالة الفصل ${idx + 1} البرمجية pending_content`);
+  assert(chap.topics.length === 0, `23.17.${idx + 1} خلو الفصل ${idx + 1} من الموضوعات الوهمية (0 موضوعات)`);
+  assert(chap.chapterQuiz === undefined, `23.17.${idx + 1} خلو الفصل ${idx + 1} من الاختبارات الوهمية`);
+  assert(chap.academicReference?.author === 'د. رحاب عبدالمنعم الرشيدي', `23.17.${idx + 1} مؤلفة الفصل د. رحاب عبدالمنعم الرشيدي`);
+  assert(chap.academicReference?.bookTitle === 'مبادئ التحليل الحركي (نظري – تطبيقي)', `23.17.${idx + 1} كتاب الفصل مبادئ التحليل الحركي`);
+});
 
 const movementChapters = getChaptersByCourse('course-7');
-assert(movementChapters.length === 0, '23.16 دالة getChaptersByCourse تعيد مصفوفة فارغة للمقرر قيد الإعداد');
+assert(movementChapters.length === 6, '23.18 دالة getChaptersByCourse تسترجع الفصول الستة لمقرر التحليل الحركي');
 
-const movementBreadcrumbs = getAcademicBreadcrumbs({ courseId: 'course-7' });
-assert(movementBreadcrumbs.length === 2, '23.17 مسار التنقل الأكاديمي لمقرر التحليل الحركي يتكون من مستويين');
-assert(movementBreadcrumbs[0].path === '/courses', '23.18 مسار المستوى الأول: دليل المقررات (/courses)');
-assert(movementBreadcrumbs[1].label === 'التحليل الحركي', '23.19 تسمية المستوى الثاني: التحليل الحركي');
-assert(movementBreadcrumbs[1].path === '/courses/course-7', '23.20 مسار المستوى الثاني: /courses/course-7');
+// فحص مسارات التنقل الأكاديمي لمقرر وفصول التحليل الحركي
+const courseBreadcrumbs = getAcademicBreadcrumbs({ courseId: 'course-7' });
+assert(courseBreadcrumbs.length === 2, '23.19 مسار التنقل الأكاديمي لمقرر التحليل الحركي يتكون من مستويين');
+assert(courseBreadcrumbs[0].path === '/courses', '23.20 مسار المستوى الأول: دليل المقررات (/courses)');
+assert(courseBreadcrumbs[1].label === 'التحليل الحركي', '23.21 تسمية المستوى الثاني: التحليل الحركي');
 
-// التحقق الصارم من عدم تأثر المقررات السابقة والأسئلة الـ 365
-assert(COURSES_PLACEHOLDER_DATA.length === 7, '23.21 إجمالي المقررات الرسمية 7 مقررات معتمدة');
-assert(totalCourseQuestions === 365, '23.22 بقاء جميع الأسئلة الـ 365 لمقرر مناهج التربية الرياضية كاملة دون أي نقص');
+const chapterBreadcrumbs = getAcademicBreadcrumbs({ courseId: 'course-7', chapterId: 'chap-kin-concept' });
+assert(chapterBreadcrumbs.length === 3, '23.22 مسار التنقل الأكاديمي لفصل التحليل الحركي يتكون من 3 مستويات');
+assert(chapterBreadcrumbs[2].label === 'الفصل الأول: مفهوم التحليل الحركي', '23.23 تسمية المستوى الثالث مطابقة لعنوان الفصل الأول');
+assert(chapterBreadcrumbs[2].path === '/courses/course-7/chapters/chap-kin-concept', '23.24 مسار المستوى الثالث سليم');
+
+// فحص خطة الإنتاج المبدئية للموضوعات (64 موضوعاً تخطيطياً)
+assert(TOTAL_KINEMATIC_PROVISIONAL_TOPICS === 64, '23.25 إجمالي الموضوعات المبدئية التخطيطية 64 موضوعاً');
+assert(KINEMATIC_PROVISIONAL_PRODUCTION_PLAN.length === 6, '23.26 خطة الإنتاج تغطي الفصول الستة');
+assert(KINEMATIC_PROVISIONAL_PRODUCTION_PLAN[0].provisionalTopicsCount === 12, '23.27 الفصل 1 يتضمن 12 موضوعاً تخطيطياً');
+assert(KINEMATIC_PROVISIONAL_PRODUCTION_PLAN[1].provisionalTopicsCount === 5, '23.28 الفصل 2 يتضمن 5 موضوعات تخطيطية');
+assert(KINEMATIC_PROVISIONAL_PRODUCTION_PLAN[2].provisionalTopicsCount === 31, '23.29 الفصل 3 يتضمن 31 موضوعاً تخطيطياً');
+assert(KINEMATIC_PROVISIONAL_PRODUCTION_PLAN[3].provisionalTopicsCount === 6, '23.30 الفصل 4 يتضمن 6 موضوعات تخطيطية');
+assert(KINEMATIC_PROVISIONAL_PRODUCTION_PLAN[4].provisionalTopicsCount === 5, '23.31 الفصل 5 يتضمن 5 موضوعات تخطيطية');
+assert(KINEMATIC_PROVISIONAL_PRODUCTION_PLAN[5].provisionalTopicsCount === 5, '23.32 الفصل 6 يتضمن 5 موضوعات تخطيطية');
+assert(
+  KINEMATIC_PROVISIONAL_PRODUCTION_PLAN.every((p) => p.isAcademicallyVerified === false),
+  '23.33 تأكيد علمي صارم بأن خطة الموضوعات تخطيطية مبدئية ولم تُنشر كأعداد نهائية'
+);
+
+// فحص دعم الأقسام الرئيسية والموضوعات المتشعبة في الفصل الثالث
+assert(
+  KINEMATIC_PROVISIONAL_PRODUCTION_PLAN[2].hasParentSectionsSupport === true,
+  '23.34 خطة الفصل الثالث تدعم الأقسام الرئيسية والموضوعات الفرعية'
+);
+assert(
+  CHAPTER_3_PROVISIONAL_PARENT_SECTIONS.length === 2,
+  '23.35 الفصل الثالث يشتمل على قسمين رئيسيين (الكيفي والكمي)'
+);
+const ch3TotalSubtopics = CHAPTER_3_PROVISIONAL_PARENT_SECTIONS.reduce(
+  (sum, s) => sum + (s.provisionalSubtopicsCount || 0),
+  0
+);
+assert(ch3TotalSubtopics === 31, '23.36 مجموع الموضوعات الفرعية في أقسام الفصل الثالث يساوي 31 موضوعاً');
+
+// التحقق الصارم من بقاء المقررات السابقة والأسئلة الـ 365
+assert(COURSES_PLACEHOLDER_DATA.length === 7, '23.37 إجمالي المقررات الرسمية 7 مقررات معتمدة');
+assert(totalCourseQuestions === 365, '23.38 بقاء جميع الأسئلة الـ 365 لمقرر مناهج التربية الرياضية كاملة دون أي نقص');
 
 
 

@@ -326,6 +326,8 @@ export interface VideoBlock extends BaseBlock {
   description?: string;
   provider: VideoProvider;
   videoId: string;
+  duration?: number;
+  publicationStatus?: 'published' | 'draft' | 'pending';
   sourceReference?: string;
   captionLanguage?: string;
 }
@@ -451,6 +453,12 @@ export interface Topic {
   summary?: string; // Text summary if provided
   summaryBlocks?: ContentBlock[]; // Blocks summary if provided
   quiz?: QuizBlock; // Topic quiz
+  parentSectionId?: string;
+  parentSectionTitle?: string;
+  subtopicIndex?: number;
+  academicReference?: AcademicReference;
+  reviewStatus?: 'pending_review' | 'under_review' | 'academically_approved';
+  pageReference?: string;
 }
 
 export interface ChapterGlossaryItem {
