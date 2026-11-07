@@ -6,6 +6,13 @@ import { CHAPTER_4_FACTORS_TOPICS } from './curriculumChapter4Data.ts';
 import { CHAPTER_5_DESIGNS_TOPICS } from './curriculumChapter5Data.ts';
 import { CHAPTER_6_UNIT_DESIGN_TOPICS } from './curriculumChapter6Data.ts';
 import { CHAPTER_7_PLANNING_TOPICS } from './curriculumChapter7Data.ts';
+import {
+  MERGED_CHAPTER_2_QUIZ,
+  MERGED_CHAPTER_3_QUIZ,
+  MERGED_CHAPTER_4_QUIZ,
+  MERGED_CHAPTER_5_QUIZ,
+  MERGED_CHAPTER_7_QUIZ,
+} from './quizzes/mergedChapterQuizzes.ts';
 
 /**
  * =========================================================================
@@ -96,6 +103,7 @@ export const CHAPTER_2_FOUNDATIONS: Chapter = {
     'تنظيم بنية المعرفة وفق درجات التجريد: الحقائق، المفاهيم، والتعميمات، والتوجهات العالمية المعاصرة.',
   ],
   topics: CHAPTER_2_FOUNDATIONS_TOPICS,
+  chapterQuiz: MERGED_CHAPTER_2_QUIZ,
 };
 
 /**
@@ -126,6 +134,7 @@ export const CHAPTER_3_ELEMENTS: Chapter = {
     'تحليل عوامل البيئة المدرسية المؤثرة في تنفيذ المنهاج ودور أولياء الأمور والعاملين بالمدرسة.',
   ],
   topics: CHAPTER_3_ELEMENTS_TOPICS,
+  chapterQuiz: MERGED_CHAPTER_3_QUIZ,
 };
 
 /**
@@ -156,6 +165,7 @@ export const CHAPTER_4_FACTORS: Chapter = {
     'ترسيخ المفاهيم والمصطلحات العلمية ودعم نظرة الإنسان للكون والحياة ومراكز تخطيط وتقويم البرامج.',
   ],
   topics: CHAPTER_4_FACTORS_TOPICS,
+  chapterQuiz: MERGED_CHAPTER_4_QUIZ,
 };
 
 /**
@@ -186,6 +196,7 @@ export const CHAPTER_5_DESIGNS: Chapter = {
     'إتقان الخصائص والمعايير الثمانية الواجب توافرها في مناهج التربية الرياضية المدرسية الجيدة.',
   ],
   topics: CHAPTER_5_DESIGNS_TOPICS,
+  chapterQuiz: MERGED_CHAPTER_5_QUIZ,
 };
 
 /**
@@ -248,6 +259,7 @@ export const TOPIC_7_CURRICULUM_PLANNING: Chapter = {
     'تقييم معايير تخطيط المنهج الستة، وتحليل أنواع التخطيط (المنهجي، المرحلي، والمناسب)، وتحديد أدوار التلاميذ والمعلمين والمواطنين ومدخل العمليات العقلية.',
   ],
   topics: CHAPTER_7_PLANNING_TOPICS,
+  chapterQuiz: MERGED_CHAPTER_7_QUIZ,
 };
 
 /**

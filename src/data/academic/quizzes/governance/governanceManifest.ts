@@ -16,6 +16,7 @@ import type {
 } from '../../../../types/quizGovernance.ts';
 import type { QuizBlock } from '../../../../types/academic.ts';
 import { computeQuestionBankHash } from '../../../../utils/contentHash.ts';
+import { ALL_APPROVED_QUESTION_BANKS } from '../approved/index.ts';
 
 /**
  * توثيق الاستثناء التقني لأسئلة الفصل الأول التجريبية
@@ -31,11 +32,18 @@ export const CHAPTER_1_LEGACY_EXCEPTION = {
 
 /**
  * سجل بيان النشر المعتمد (Publication Manifest)
- * في المرحلة الأولى: السجل خالٍ تماماً من أي بنوك جديدة، حيث لم يتم تحكيم واعتماد أي أسئلة رسمياً بعد.
+ * يسجل بنوك الأسئلة الأكاديمية الستة المعتمدة بعد اجتياز التحكيم الأكاديمي والتحقق البرمجي.
  */
 export const QUIZ_PUBLICATION_MANIFEST: QuizPublicationManifestEntry[] = [
-  // لا توجد بنوك أسئلة جديدة معتمدة للنشر في هذه المرحلة.
-  // يتم تسجيل البنوك المعتمدة فقط بعد اجتياز دورة التحكيم الأكاديمي الكاملة.
+  ...ALL_APPROVED_QUESTION_BANKS.map((bank) => ({
+    bankId: bank.bankId,
+    courseId: bank.courseId,
+    chapterId: bank.chapterId,
+    targetType: bank.targetType,
+    approvedVersion: bank.version,
+    approvedContentHash: bank.contentHash,
+    publishedAt: bank.reviewMetadata.approvalDate,
+  })),
 ];
 
 /**

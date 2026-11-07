@@ -7,7 +7,9 @@ import type {
   ChapterGlossaryItem,
   ChapterSelfCheckQuestion,
   QuizBlock,
+  QuizQuestion,
 } from '../../types';
+import { createMergedChapter1Quiz } from './quizzes/mergedChapterQuizzes.ts';
 
 /**
  * =========================================================================
@@ -422,22 +424,13 @@ export const QUIZ_TOPIC_5: QuizBlock = {
 };
 
 // =========================================================================
-// الاختبار الشامل للفصل الأول (15 سؤالًا موضوعيًا معتمدًا — 3 لكل موضوع)
+// الأسئلة التأسيسية التاريخية للفصل الأول (15 سؤالًا موضوعيًا محفوظاً بالكامل)
 // =========================================================================
 
-export const CHAPTER_1_COMPREHENSIVE_QUIZ: QuizBlock = {
-  id: 'quiz-ch1-comprehensive',
-  type: 'quiz',
-  order: 1,
-  title: 'الاختبار الشامل للفصل الأول: مقدمة وماهية المنهج',
-  description: '15 سؤالًا موضوعيًا تغطي كافة محاور الفصل الأول بصورة متوازنة (3 أسئلة لكل موضوع من موضوعات الفصل الخمسة).',
-  instructions: 'أجب عن جميع الأسئلة ثم اضغط على زر اعتماد الإجابات لمعرفة نتيجتك ومراجعة التفسيرات المعتمدة من كتاب المقرر.',
-  passingScorePercentage: 60,
-  sourceReference: 'كتاب مناهج التربية الرياضية — أ.د/ هاني الدسوقي إبراهيم (ص 2 - 6)',
-  questions: [
-    // أسئلة الموضوع الأول: مقدمـة (3 أسئلة)
-    {
-      id: 'q-comp-1',
+export const CHAPTER_1_HISTORICAL_15_QUESTIONS: QuizQuestion[] = [
+  // أسئلة الموضوع الأول: مقدمـة (3 أسئلة)
+  {
+    id: 'q-comp-1',
       type: 'multiple_choice',
       order: 1,
       prompt: 'أي إجراء ينسجم مع رؤية المؤلف لتطوير المناهج؟',
@@ -639,8 +632,14 @@ export const CHAPTER_1_COMPREHENSIVE_QUIZ: QuizBlock = {
       explanation: 'يورده الكتاب مثالًا صريحًا على نطاق المنهج الأوسع.',
       sourceReference: 'كتاب المقرر، ص 6',
     },
-  ],
-};
+];
+
+/**
+ * الاختبار الشامل المدمج للفصل الأول (65 سؤالاً: 15 سؤالاً تأسيسياً + 50 سؤالاً تحكيمياً معتمداً)
+ */
+export const CHAPTER_1_COMPREHENSIVE_QUIZ: QuizBlock = createMergedChapter1Quiz(
+  CHAPTER_1_HISTORICAL_15_QUESTIONS
+);
 
 // =========================================================================
 // الحفظ الاحتياطي لكتل المحتوى السابقة للمراجعة الأكاديمية

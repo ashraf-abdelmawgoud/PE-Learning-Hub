@@ -26,6 +26,7 @@ import {
   QUIZ_PUBLICATION_MANIFEST,
   CHAPTER_1_LEGACY_EXCEPTION,
 } from '../src/data/academic/quizzes/governance/governanceManifest.ts';
+import { ALL_APPROVED_QUESTION_BANKS } from '../src/data/academic/quizzes/approved/index.ts';
 import { computeQuestionBankHash } from '../src/utils/contentHash.ts';
 import { getAllCourses } from '../src/data/academic/selectors.ts';
 
@@ -276,7 +277,7 @@ export function validateQuizGovernance(options?: {
   skipImportCheck?: boolean;
 }): QuizGovernanceValidationResult {
   const manifest = options?.manifest ?? QUIZ_PUBLICATION_MANIFEST;
-  const customBanks = options?.customBanks ?? [];
+  const customBanks = options?.customBanks ?? ALL_APPROVED_QUESTION_BANKS;
   const projectRoot = options?.projectRoot ?? PROJECT_ROOT;
   const skipImportCheck = options?.skipImportCheck ?? false;
 

@@ -472,13 +472,13 @@ assert(
   'النطاق المرجعي للفصل الأول: ص 2 - 6'
 );
 
-// فحص اختبار الفصل الشامل (15 سؤالاً)
+// فحص اختبار الفصل الشامل (65 سؤالاً مدمجاً: 15 تاريخي + 50 معتمد)
 assert(Boolean(resolvedPilotChapter?.chapterQuiz), 'الفصل الأول يتضمن اختبار الفصل الشامل');
-assert(resolvedPilotChapter?.chapterQuiz?.questions.length === 15, 'اختبار الفصل الشامل يتضمن 15 سؤالاً معتمداً');
+assert(resolvedPilotChapter?.chapterQuiz?.questions.length === 65, 'اختبار الفصل الشامل المدمج للفصل الأول يتضمن 65 سؤالاً معتمداً');
 const mcqCount = resolvedPilotChapter?.chapterQuiz?.questions.filter((q) => q.type === 'multiple_choice').length;
 const tfCount = resolvedPilotChapter?.chapterQuiz?.questions.filter((q) => q.type === 'true_false').length;
-assert(mcqCount === 10, `الاختبار الشامل يتضمن 10 أسئلة اختيار من متعدد (الفعل: ${mcqCount})`);
-assert(tfCount === 5, `الاختبار الشامل يتضمن 5 أسئلة صواب وخطأ (الفعل: ${tfCount})`);
+assert(mcqCount === 35, `الاختبار الشامل يتضمن 35 سؤالاً اختيار من متعدد (الفعل: ${mcqCount})`);
+assert(tfCount === 30, `الاختبار الشامل يتضمن 30 سؤالاً صواب وخطأ (الفعل: ${tfCount})`);
 assert(
   resolvedPilotChapter?.chapterQuiz?.questions.every((q) => Boolean(q.prompt && q.explanation && q.sourceReference)),
   'جميع أسئلة الاختبار الشامل موثقة بالنص والتفسير والصفحة المرجعية للكتاب'
@@ -508,13 +508,20 @@ assert(missingCourseChap === undefined, 'طلب فصل لمقرر غير موج�
 
 // 9.4 فحص حالة واجهة الاختبار الشامل للفصول عبر جميع المقررات (Chapter Quiz UX & Status)
 console.log('\n9.4 فحص حالة واجهة الاختبار الشامل للفصول عبر جميع المقررات:');
-assert(Boolean(resolvedPilotChapter?.chapterQuiz?.questions.length === 15), 'الفصل الأول يحتوي على 15 سؤالاً معتمداً للاختبار الشامل');
+assert(Boolean(resolvedPilotChapter?.chapterQuiz?.questions.length === 65), 'الفصل الأول يحتوي على 65 سؤالاً معتمداً للاختبار الشامل (15 تاريخي + 50 معتمد)');
 for (let cIdx = 1; cIdx < course1Chapters.length; cIdx++) {
   const chap = course1Chapters[cIdx];
-  assert(
-    chap.chapterQuiz === undefined || chap.chapterQuiz.questions.length === 0,
-    `الفصل ${chap.order} (${chap.title}): خالٍ من الأسئلة غير المعتمدة ويعرض حالة الاختبار قيد الإعداد`
-  );
+  if (chap.id === 'chap-curriculum-unit-design') {
+    assert(
+      chap.chapterQuiz === undefined || chap.chapterQuiz.questions.length === 0,
+      `الفصل ${chap.order} (${chap.title}): خالٍ من الأسئلة غير المعتمدة ويعرض حالة الاختبار قيد الإعداد`
+    );
+  } else {
+    assert(
+      chap.chapterQuiz !== undefined && chap.chapterQuiz.questions.length === 50,
+      `الفصل ${chap.order} (${chap.title}): يحتوي على الاختبار الشامل المعتمد (50 سؤالاً)`
+    );
+  }
 }
 
 // 9.5 فحص الهيكل الفني التنظيمي المعتمد للفصل الأول (9 موضوعات وبياناتها الوصفية)
@@ -1894,12 +1901,13 @@ assert(test12Res.errors.some((e) => e.includes('تجزئة المحتوى') || e
 assert(CHAPTER_1_LEGACY_EXCEPTION.isLegacyPilotException === true, '13.1 استثناء أسئلة الفصل الأول التجريبية موثق كاستثناء تقني رسمي');
 const ch1Course = getCourseById('course-1');
 const ch1Foundations = ch1Course?.chapters.find((ch) => ch.id === 'chap-curriculum-intro');
-assert(Boolean(ch1Foundations?.chapterQuiz && ch1Foundations.chapterQuiz.questions.length === 15), '13.2 اختبار الفصل الأول التجريبي (15 سؤالاً) سليم وفعال دون مساس');
+assert(Boolean(ch1Foundations?.chapterQuiz && ch1Foundations.chapterQuiz.questions.length === 65), '13.2 اختبار الفصل الأول الشامل المدمج (65 سؤالاً) سليم وفعال دون مساس');
+assert(ch1Foundations?.chapterQuiz?.questions.slice(0, 15).every((q, i) => q.id === `q-comp-${i + 1}`), '13.3 الأسئلة التاريخية الـ 15 محفوظة بالكامل في مقدمة اختبار الفصل الأول');
 
 // 14. Existing student scores remain compatible
 const sampleLegacyQuiz = ch1Foundations!.chapterQuiz!;
 const scoreResult = evaluateQuiz(sampleLegacyQuiz, { 'q-comp-1': 'opt-a' });
-assert(scoreResult.totalQuestions === 15 && typeof scoreResult.score === 'number' && scoreResult.percentage >= 0, '14. محرك حساب الدرجات والتقييم المحلي متوافق تماماً (Local quiz scoring remains compatible)');
+assert(scoreResult.totalQuestions === 65 && typeof scoreResult.score === 'number' && scoreResult.percentage >= 0, '14. محرك حساب الدرجات والتقييم المحلي متوافق تماماً (Local quiz scoring remains compatible)');
 
 // 15. All 50 academic topics remain unchanged
 const allCourseTopics = ch1Course!.chapters.flatMap((ch) => ch.topics);
@@ -1910,10 +1918,10 @@ assert(
   '15.2 توزيع الموضوعات عبر الفصول السبعة سليم تماماً: [9, 9, 7, 5, 7, 6, 7]'
 );
 
-// 16. No new questions are published
-assert(QUIZ_PUBLICATION_MANIFEST.length === 0, '16.1 بيان النشر (QUIZ_PUBLICATION_MANIFEST) خالٍ تماماً من أي بنوك جديدة غير معتمدة');
+// 16. Approved banks publication manifest validation
+assert(QUIZ_PUBLICATION_MANIFEST.length === 6, '16.1 بيان النشر (QUIZ_PUBLICATION_MANIFEST) يتضمن البنوك المعتمدة الستة بالضبط');
 const governanceValidation = validateQuizGovernance();
-assert(governanceValidation.isValid === true && governanceValidation.publishedBanksCount === 0, '16.2 التحقق من الحوكمة يؤكد عدم نشر أي أسئلة جديدة في هذه المرحلة');
+assert(governanceValidation.isValid === true && governanceValidation.publishedBanksCount === 6, '16.2 التحقق من الحوكمة يؤكد اعتماد 6 بنوك ونشر 300 سؤال معتمد');
 
 // 17. Draft/unapproved question content is absent from production assets
 const draftImportsCheck = verifyNoDraftImports();
@@ -1946,23 +1954,13 @@ assert(chapterDetailPageContent.includes("<ChapterQuizSection"), '14.8 استم�
 
 // 14.9 - 14.10 فحص عمل الاختبار الشامل للفصل ومحرك التقييم
 const ch1Chapter = getChapterById('course-1', 'chap-curriculum-intro');
-assert(Boolean(ch1Chapter?.chapterQuiz && ch1Chapter.chapterQuiz.questions.length === 15), '14.9 الاختبار الشامل للفصل الأول (15 سؤالاً) متاح وسليم بنسبة 100%');
+assert(Boolean(ch1Chapter?.chapterQuiz && ch1Chapter.chapterQuiz.questions.length === 65), '14.9 الاختبار الشامل للفصل الأول (65 سؤالاً) متاح وسليم بنسبة 100%');
 const evalResult = evaluateQuiz(ch1Chapter!.chapterQuiz!, { 'q-comp-1': 'opt-a' });
-assert(evalResult.totalQuestions === 15 && typeof evalResult.score === 'number', '14.10 محرك التقييم المحلي للاختبار الشامل للفصل يعمل بكفاءة');
+assert(evalResult.totalQuestions === 65 && typeof evalResult.score === 'number', '14.10 محرك التقييم المحلي للاختبار الشامل للفصل يعمل بكفاءة');
 
-// 14.11 - 14.12 فحص حالة الفصول التي لا تحتوي على اختبار بعد
-const chaptersWithoutQuiz = [
-  'chap-curriculum-foundations',
-  'chap-curriculum-elements',
-  'chap-curriculum-factors',
-  'chap-curriculum-designs',
-  'chap-curriculum-unit-design',
-  'chap-curriculum-planning',
-];
-const allPendingQuizzesValid = chaptersWithoutQuiz.every(
-  (id) => getChapterById('course-1', id)?.chapterQuiz === undefined
-);
-assert(allPendingQuizzesValid, '14.11 الفصول الدراسية من الثاني حتى السابع خالية من أي اختبارات غير معتمدة');
+// 14.11 - 14.12 فحص حالة الفصل السادس الذي لا يحتوي على اختبار بعد (بانتظار بنك أسئلة معتمد)
+const ch6PendingChapter = getChapterById('course-1', 'chap-curriculum-unit-design');
+assert(ch6PendingChapter?.chapterQuiz === undefined, '14.11 الفصل الدراسي السادس خالٍ من أي اختبارات غير معتمدة ويعرض حالة الاختبار قيد الإعداد');
 const chapterQuizSectionContent = fs.readFileSync(path.join(process.cwd(), 'src/components/academic/ChapterQuizSection.tsx'), 'utf8');
 assert(chapterQuizSectionContent.includes("الاختبار الشامل لهذا الفصل قيد الإعداد"), '14.12 عرض رسالة (الاختبار الشامل لهذا الفصل قيد الإعداد) عند عدم توفر اختبار معتمد');
 
@@ -1999,15 +1997,23 @@ assert(draftResult.tfCount === 25, '15.4 أسئلة الصواب والخطأ ف
 assert(draftResult.topicsCoveredCount === 9, '15.5 المسودة تغطي جميع موضوعات الفصل الأول التسعة بالتفصيل');
 assert(draftResult.errors.length === 0, '15.6 خلو المسودة من أي أخطاء في الصياغة أو خيارات الإجابة أو المعرفات');
 
-// فحص عدم المساس بالاختبار الفعلي للفصل الأول
+// فحص دمج ونشر الاختبار الفعلي للفصل الأول (65 سؤالاً)
 const activeCh1Quiz = getChapterById('course-1', 'chap-curriculum-intro')?.chapterQuiz;
-assert(Boolean(activeCh1Quiz && activeCh1Quiz.questions.length === 15), '15.7 بقاء الاختبار الشامل الحالي للفصل الأول (15 سؤالاً) متاحاً ويعمل كالمعتاد للطلاب');
-assert(activeCh1Quiz?.id === 'quiz-ch1-comprehensive', '15.8 عدم استبدال أو كتابة فوق الاختبار الشامل الحالي للفصل الأول');
+assert(Boolean(activeCh1Quiz && activeCh1Quiz.questions.length === 65), '15.7 دمج الاختبار الشامل للفصل الأول واحتوائه على 65 سؤالاً (15 تأسيسياً + 50 تحكيمياً معتمداً)');
+assert(activeCh1Quiz?.id === 'quiz-ch1-comprehensive', '15.8 الحفاظ التام على هوية الاختبار الشامل الحالي للفصل الأول (quiz-ch1-comprehensive)');
+assert(
+  activeCh1Quiz?.questions[0].id === 'q-comp-1' && activeCh1Quiz?.questions[14].id === 'q-comp-15',
+  '15.9 الحفاظ الصارم على ترتيب وهوية الأسئلة التأسيسية الـ 15 التاريخية في مقدمة الاختبار'
+);
+assert(
+  activeCh1Quiz?.questions[15].id === 'ch1-draft-q01' && activeCh1Quiz?.questions[64].id === 'ch1-draft-q50',
+  '15.10 إلحاق الأسئلة الأكاديمية الـ 50 المعتمدة بنجاح بعد الأسئلة التاريخية من الترتيب 16 إلى 65'
+);
 
-// فحص عدم نشر المسودة
+// فحص عدم نشر مسودة بنك الفصل الأول كمسودة في بيان النشر الرسمي
 assert(
   !QUIZ_PUBLICATION_MANIFEST.some((b) => b.bankId === 'bank-ch1-comprehensive-draft-50q'),
-  '15.9 التأكيد الصارم على أن مسودة الـ 50 سؤالاً غير منشورة في بيان النشر الرسمي'
+  '15.11 التأكيد الصارم على أن مسودة الـ 50 سؤالاً غير منشورة بهوية مسودة'
 );
 
 // 16. فحص مسودة بنك أسئلة الفصل الثاني الشامل (Chapter 2 Comprehensive Draft Bank 50Q)
@@ -2021,12 +2027,13 @@ assert(draft2Result.tfCount === 25, '16.4 أسئلة الصواب والخطأ �
 assert(draft2Result.topicsCoveredCount === 9, '16.5 مسودة الفصل الثاني تغطي جميع موضوعات الفصل التسعة بالتفصيل');
 assert(draft2Result.errors.length === 0, '16.6 خلو مسودة الفصل الثاني من أي أخطاء في الصياغة أو خيارات الإجابة أو المعرفات');
 
-// فحص عدم نشر المسودة وبقاء الفصل الثاني بدون اختبار منشور
+// فحص دمج ونشر الاختبار الشامل للفصل الثاني
 const activeCh2Quiz = getChapterById('course-1', 'chap-curriculum-foundations')?.chapterQuiz;
-assert(activeCh2Quiz === undefined, '16.7 بقاء الفصل الثاني خالياً من أي اختبار منشور (الاختبار قيد الإعداد)');
+assert(Boolean(activeCh2Quiz && activeCh2Quiz.questions.length === 50), '16.7 دمج ونشر الاختبار الشامل للفصل الثاني بعدد 50 سؤالاً معتمداً');
+assert(activeCh2Quiz?.id === 'quiz-ch2-comprehensive', '16.8 اعتماد معرف الاختبار الشامل للفصل الثاني (quiz-ch2-comprehensive)');
 assert(
   !QUIZ_PUBLICATION_MANIFEST.some((b) => b.bankId === 'bank-ch2-foundations-draft-50q'),
-  '16.8 التأكيد الصارم على أن مسودة الـ 50 سؤالاً للفصل الثاني غير منشورة في بيان النشر الرسمي'
+  '16.9 التأكيد الصارم على أن مسودة الـ 50 سؤالاً للفصل الثاني غير منشورة بهوية مسودة'
 );
 
 // 17. فحص مسودة بنك أسئلة الفصل الثالث الشامل (Chapter 3 Comprehensive Draft Bank 50Q)
@@ -2040,12 +2047,13 @@ assert(draft3Result.tfCount === 25, '17.4 أسئلة الصواب والخطأ �
 assert(draft3Result.topicsCoveredCount === 7, '17.5 مسودة الفصل الثالث تغطي جميع موضوعات الفصل السبعة بالتفصيل');
 assert(draft3Result.errors.length === 0, '17.6 خلو مسودة الفصل الثالث من أي أخطاء في الصياغة أو خيارات الإجابة أو المعرفات');
 
-// فحص عدم نشر المسودة وبقاء الفصل الثالث بدون اختبار منشور
+// فحص دمج ونشر الاختبار الشامل للفصل الثالث
 const activeCh3Quiz = getChapterById('course-1', 'chap-curriculum-elements')?.chapterQuiz;
-assert(activeCh3Quiz === undefined, '17.7 بقاء الفصل الثالث خالياً من أي اختبار منشور (الاختبار قيد الإعداد)');
+assert(Boolean(activeCh3Quiz && activeCh3Quiz.questions.length === 50), '17.7 دمج ونشر الاختبار الشامل للفصل الثالث بعدد 50 سؤالاً معتمداً');
+assert(activeCh3Quiz?.id === 'quiz-ch3-comprehensive', '17.8 اعتماد معرف الاختبار الشامل للفصل الثالث (quiz-ch3-comprehensive)');
 assert(
   !QUIZ_PUBLICATION_MANIFEST.some((b) => b.bankId === 'bank-ch3-elements-draft-50q'),
-  '17.8 التأكيد الصارم على أن مسودة الـ 50 سؤالاً للفصل الثالث غير منشورة في بيان النشر الرسمي'
+  '17.9 التأكيد الصارم على أن مسودة الـ 50 سؤالاً للفصل الثالث غير منشورة بهوية مسودة'
 );
 
 // 18. فحص مسودة بنك أسئلة الفصل الرابع الشامل (Chapter 4 Comprehensive Draft Bank 50Q)
@@ -2059,12 +2067,13 @@ assert(draft4Result.tfCount === 25, '18.4 أسئلة الصواب والخطأ �
 assert(draft4Result.topicsCoveredCount === 5, '18.5 مسودة الفصل الرابع تغطي جميع موضوعات الفصل الخمسة بالتفصيل');
 assert(draft4Result.errors.length === 0, '18.6 خلو مسودة الفصل الرابع من أي أخطاء في الصياغة أو خيارات الإجابة أو المعرفات');
 
-// فحص عدم نشر المسودة وبقاء الفصل الرابع بدون اختبار منشور
+// فحص دمج ونشر الاختبار الشامل للفصل الرابع
 const activeCh4Quiz = getChapterById('course-1', 'chap-curriculum-factors')?.chapterQuiz;
-assert(activeCh4Quiz === undefined, '18.7 بقاء الفصل الرابع خالياً من أي اختبار منشور (الاختبار قيد الإعداد)');
+assert(Boolean(activeCh4Quiz && activeCh4Quiz.questions.length === 50), '18.7 دمج ونشر الاختبار الشامل للفصل الرابع بعدد 50 سؤالاً معتمداً');
+assert(activeCh4Quiz?.id === 'quiz-ch4-comprehensive', '18.8 اعتماد معرف الاختبار الشامل للفصل الرابع (quiz-ch4-comprehensive)');
 assert(
   !QUIZ_PUBLICATION_MANIFEST.some((b) => b.bankId === 'bank-ch4-factors-draft-50q'),
-  '18.8 التأكيد الصارم على أن مسودة الـ 50 سؤالاً للفصل الرابع غير منشورة في بيان النشر الرسمي'
+  '18.9 التأكيد الصارم على أن مسودة الـ 50 سؤالاً للفصل الرابع غير منشورة بهوية مسودة'
 );
 
 // 19. فحص مسودة بنك أسئلة الفصل الخامس الشامل (Chapter 5 Comprehensive Draft Bank 50Q)
@@ -2078,12 +2087,13 @@ assert(draft5Result.tfCount === 25, '19.4 أسئلة الصواب والخطأ �
 assert(draft5Result.topicsCoveredCount === 7, '19.5 مسودة الفصل الخامس تغطي جميع موضوعات الفصل السبعة بالتفصيل');
 assert(draft5Result.errors.length === 0, '19.6 خلو مسودة الفصل الخامس من أي أخطاء في الصياغة أو خيارات الإجابة أو المعرفات');
 
-// فحص عدم نشر المسودة وبقاء الفصل الخامس بدون اختبار منشور
+// فحص دمج ونشر الاختبار الشامل للفصل الخامس
 const activeCh5Quiz = getChapterById('course-1', 'chap-curriculum-designs')?.chapterQuiz;
-assert(activeCh5Quiz === undefined, '19.7 بقاء الفصل الخامس خالياً من أي اختبار منشور (الاختبار قيد الإعداد)');
+assert(Boolean(activeCh5Quiz && activeCh5Quiz.questions.length === 50), '19.7 دمج ونشر الاختبار الشامل للفصل الخامس بعدد 50 سؤالاً معتمداً');
+assert(activeCh5Quiz?.id === 'quiz-ch5-comprehensive', '19.8 اعتماد معرف الاختبار الشامل للفصل الخامس (quiz-ch5-comprehensive)');
 assert(
   !QUIZ_PUBLICATION_MANIFEST.some((b) => b.bankId === 'bank-ch5-designs-draft-50q'),
-  '19.8 التأكيد الصارم على أن مسودة الـ 50 سؤالاً للفصل الخامس غير منشورة في بيان النشر الرسمي'
+  '19.9 التأكيد الصارم على أن مسودة الـ 50 سؤالاً للفصل الخامس غير منشورة بهوية مسودة'
 );
 
 // 20. فحص مسودة بنك أسئلة الفصل السابع الشامل (Chapter 7 Comprehensive Draft Bank 50Q)
@@ -2097,20 +2107,64 @@ assert(draft7Result.tfCount === 25, '20.4 أسئلة الصواب والخطأ �
 assert(draft7Result.topicsCoveredCount === 7, '20.5 مسودة الفصل السابع تغطي جميع موضوعات الفصل السبعة بالتفصيل');
 assert(draft7Result.errors.length === 0, '20.6 خلو مسودة الفصل السابع من أي أخطاء في الصياغة أو خيارات الإجابة أو المعرفات');
 
-// فحص عدم نشر المسودة وبقاء الفصل السابع بدون اختبار منشور
+// فحص دمج ونشر الاختبار الشامل للفصل السابع
 const activeCh7Quiz = getChapterById('course-1', 'chap-curriculum-planning')?.chapterQuiz;
-assert(activeCh7Quiz === undefined, '20.7 بقاء الفصل السابع خالياً من أي اختبار منشور (الاختبار قيد الإعداد)');
+assert(Boolean(activeCh7Quiz && activeCh7Quiz.questions.length === 50), '20.7 دمج ونشر الاختبار الشامل للموضوع السابع بعدد 50 سؤالاً معتمداً');
+assert(activeCh7Quiz?.id === 'quiz-ch7-comprehensive', '20.8 اعتماد معرف الاختبار الشامل للموضوع السابع (quiz-ch7-comprehensive)');
 assert(
   !QUIZ_PUBLICATION_MANIFEST.some((b) => b.bankId === 'bank-ch7-planning-draft-50q'),
-  '20.8 التأكيد الصارم على أن مسودة الـ 50 سؤالاً للفصل السابع غير منشورة في بيان النشر الرسمي'
+  '20.9 التأكيد الصارم على أن مسودة الـ 50 سؤالاً للفصل السابع غير منشورة بهوية مسودة'
 );
 assert(
   CHAPTER_7_COMPREHENSIVE_DRAFT_BANK.questions[40].topicId === 'top-ch7-curriculum-construction-steps-three-structural-levels',
-  '20.9 التأكيد الأكاديمي على ارتباط السؤال 41 بموضوع خطوات بناء المنهج ومستوياته الهيكلية (ص 74)'
+  '20.10 التأكيد الأكاديمي على ارتباط السؤال 41 بموضوع خطوات بناء المنهج ومستوياته الهيكلية (ص 74)'
 );
 assert(
   CHAPTER_7_COMPREHENSIVE_DRAFT_BANK.contentHash === 'bc4f3ce14e52272c2be34dc6a53758a5e48dd2087fb34229f76a954c863f5d29',
-  '20.10 التحقق القطعي من سلامة وثبات الهاش المشفر لمسودة الفصل السابع (Content Hash)'
+  '20.11 التحقق القطعي من سلامة وثبات الهاش المشفر لمسودة الفصل السابع (Content Hash)'
+);
+
+// 21. فحص منظومة الاختبارات الشاملة المدمجة لمقرر مناهج التربية الرياضية (Course-1 Merged Comprehensive Architecture)
+console.log('\n21. فحص منظومة الاختبارات الشاملة المدمجة لمقرر مناهج التربية الرياضية (315 سؤالاً منشورة):');
+
+// أ. التحقق من بقاء الموضوع السادس قيد الإعداد لعدم توفر بنك معتمد
+const activeCh6Quiz = getChapterById('course-1', 'chap-curriculum-unit-design')?.chapterQuiz;
+assert(activeCh6Quiz === undefined, '21.1 بقاء الموضوع السادس قيد الإعداد وعدم اختلاق أسئلة له لعدم توفر بنك معتمد');
+
+// ب. التحقق من إجمالي عدد الأسئلة المنشورة عبر فصول المقرر (65 + 50 + 50 + 50 + 50 + 0 + 50 = 315 سؤالاً)
+const allChapters = [
+  'chap-curriculum-intro',
+  'chap-curriculum-foundations',
+  'chap-curriculum-elements',
+  'chap-curriculum-factors',
+  'chap-curriculum-designs',
+  'chap-curriculum-unit-design',
+  'chap-curriculum-planning',
+];
+
+let totalCourseQuestions = 0;
+const globalSeenQuestionIds = new Set<string>();
+
+for (const chId of allChapters) {
+  const chQuiz = getChapterById('course-1', chId)?.chapterQuiz;
+  if (chQuiz) {
+    totalCourseQuestions += chQuiz.questions.length;
+    for (const q of chQuiz.questions) {
+      assert(!globalSeenQuestionIds.has(q.id), `21.2.x عدم تكرار معرف السؤال: ${q.id}`);
+      globalSeenQuestionIds.add(q.id);
+      assert(Boolean(q.prompt && q.prompt.trim() !== ''), `21.2.y نص السؤال غير فارغ: ${q.id}`);
+      assert(Boolean(q.explanation && q.explanation.trim() !== ''), `21.2.z التفسير العلمي غير فارغ: ${q.id}`);
+    }
+  }
+}
+
+assert(
+  totalCourseQuestions === 315,
+  '21.2 إجمالي عدد الأسئلة المنشورة في الاختبارات الشاملة للمقرر يساوي 315 سؤالاً بالضبط (65+50+50+50+50+50)'
+);
+assert(
+  globalSeenQuestionIds.size === 315,
+  '21.3 فرادة جميع معرفات الأسئلة المنشورة الـ 315 وعدم وجود أي تصادم أو تكرار معرفات'
 );
 
 
