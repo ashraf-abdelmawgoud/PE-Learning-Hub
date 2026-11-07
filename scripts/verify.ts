@@ -51,6 +51,7 @@ import { validateChapter2DraftBank } from './validate-chapter2-draft-bank.ts';
 import { validateChapter3DraftBank } from './validate-chapter3-draft-bank.ts';
 import { validateChapter4DraftBank } from './validate-chapter4-draft-bank.ts';
 import { validateChapter5DraftBank } from './validate-chapter5-draft-bank.ts';
+import { validateChapter7DraftBank } from './validate-chapter7-draft-bank.ts';
 import {
   verifyChapter1NineTopicsStructure,
   CHAPTER_1_NINE_TOPICS_METADATA,
@@ -2082,6 +2083,25 @@ assert(activeCh5Quiz === undefined, '19.7 بقاء الفصل الخامس خا�
 assert(
   !QUIZ_PUBLICATION_MANIFEST.some((b) => b.bankId === 'bank-ch5-designs-draft-50q'),
   '19.8 التأكيد الصارم على أن مسودة الـ 50 سؤالاً للفصل الخامس غير منشورة في بيان النشر الرسمي'
+);
+
+// 20. فحص مسودة بنك أسئلة الفصل السابع الشامل (Chapter 7 Comprehensive Draft Bank 50Q)
+console.log('\n20. فحص مسودة بنك أسئلة الفصل السابع الشامل (Chapter 7 Draft Bank 50Q):');
+
+const draft7Result = validateChapter7DraftBank();
+assert(draft7Result.isValid === true, '20.1 مسودة بنك أسئلة الفصل السابع سليمة وتجتاز كافة معايير التحقق الصارمة');
+assert(draft7Result.totalQuestions === 50, '20.2 إجمالي أسئلة مسودة الفصل السابع يساوي 50 سؤالاً بالضبط');
+assert(draft7Result.mcqCount === 25, '20.3 أسئلة الاختيار من متعدد في مسودة الفصل السابع تساوي 25 سؤالاً بالضبط');
+assert(draft7Result.tfCount === 25, '20.4 أسئلة الصواب والخطأ في مسودة الفصل السابع تساوي 25 سؤالاً بالضبط');
+assert(draft7Result.topicsCoveredCount === 7, '20.5 مسودة الفصل السابع تغطي جميع موضوعات الفصل السبعة بالتفصيل');
+assert(draft7Result.errors.length === 0, '20.6 خلو مسودة الفصل السابع من أي أخطاء في الصياغة أو خيارات الإجابة أو المعرفات');
+
+// فحص عدم نشر المسودة وبقاء الفصل السابع بدون اختبار منشور
+const activeCh7Quiz = getChapterById('course-1', 'chap-curriculum-planning')?.chapterQuiz;
+assert(activeCh7Quiz === undefined, '20.7 بقاء الفصل السابع خالياً من أي اختبار منشور (الاختبار قيد الإعداد)');
+assert(
+  !QUIZ_PUBLICATION_MANIFEST.some((b) => b.bankId === 'bank-ch7-planning-draft-50q'),
+  '20.8 التأكيد الصارم على أن مسودة الـ 50 سؤالاً للفصل السابع غير منشورة في بيان النشر الرسمي'
 );
 
 
