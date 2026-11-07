@@ -1,18 +1,18 @@
 /**
  * validate-chapter5-draft-bank.ts
  *
- * أداة التدقيق الصارم لبنك أسئلة مسودة الفصل الخامس (50 سؤالاً)
- * Build-Time Chapter 5 Draft Question Bank Validation Script
+ * أداة التدقيق الصارم لبنك أسئلة مسودة الفصل الخامس (50 سؤالاً) بعد المعالجة الأكاديمية والتقنية
+ * Build-Time Chapter 5 Draft Question Bank Validation Script (Remediated)
  *
  * يتحقق بدقة من:
  * 1. اكتمال الأسئلة الـ 50 بالضبط (25 اختيار من متعدد و25 صواب وخطأ).
  * 2. تغطية موضوعات الفصل الخامس السبعة كاملة وتطابق نسب التوزيع المحددة.
  * 3. فرادة المعرفات وعدم تكرار أرقام الأسئلة أو خيارات الإجابة.
- * 4. صحة الخيارات الأربعة لكل سؤال MCQ وتطابق معرف الإجابة الصحيحة بالضبط.
+ * 4. صحة الخيارات الأربعة لكل سؤال MCQ وتطابق معرف الإجابة الصحيحة مع الخيار الفعلي.
  * 5. صحة إجابات الصواب والخطأ وتطابق توزيع الإجابات (13 صواب و12 خطأ).
  * 6. وجود تفسير علمي وتربوي ومرجع أكاديمي غير فارغين لكل سؤال من الأسئلة الخمسين.
- * 7. توثيق النمط الدوري التكراري لمفاتيح الاختيار من متعدد (ب، د، أ، ج) والتوصية بالخلط الآمن للعرض.
- * 8. التحقق من توثيق مراجعة السؤال 48 وحفظ التنبيه المصدري لاختلاف عنوان ص 47 في المتن.
+ * 7. التحقق من كسر النمط الدوري التكراري واكتشاف أي دورية مصطنعة في مفاتيح الاختيار من متعدد.
+ * 8. التحقق من معالجة السؤال 48 وفق المسار (ب) بعد الفحص العياني للكتاب واستبداله بسؤال قطعي حول أنواع المنهج التكنولوجي (ص 47).
  * 9. عزل المسودة تماماً وعدم إدراجها في بيان النشر (QUIZ_PUBLICATION_MANIFEST).
  * 10. عدم استيراد المسودة في أي ملف من ملفات الإنتاج الموجهة للطلاب.
  * 11. سلامة التجزئة التوافقية القطعية (Content Hash) لبنك المسودة.
@@ -77,6 +77,15 @@ const EXPECTED_CH5_TOPIC_DISTRIBUTION: Record<string, { name: string; mcq: numbe
     total: 3,
   },
 };
+
+// مفاتيح الإجابات المعالجة والمنقحة لأسئلة الاختيار من متعدد (25 سؤالاً)
+export const EXPECTED_REMEDIATED_MCQ_KEYS = [
+  'opt-a', 'opt-b', 'opt-d', 'opt-a', 'opt-c', // Q01 - Q05
+  'opt-c', 'opt-d', 'opt-b', 'opt-d', 'opt-c', // Q06 - Q10
+  'opt-b', 'opt-b', 'opt-d', 'opt-c', 'opt-b', // Q11 - Q15
+  'opt-a', 'opt-c', 'opt-a', 'opt-b', 'opt-d', // Q16 - Q20
+  'opt-a', 'opt-a', 'opt-b', 'opt-d', 'opt-c', // Q21 - Q25
+];
 
 export function validateChapter5DraftBank(): DraftBankValidationResult {
   const bank = CHAPTER_5_COMPREHENSIVE_DRAFT_BANK;
@@ -237,8 +246,8 @@ export function validateChapter5DraftBank(): DraftBankValidationResult {
     }
   }
 
-  // 6. التحقق من تطابق توزيع الإجابات الصحيحة في الوثيقة
-  // متوقع في الاختيار من متعدد: أ=6, ب=7, ج=6, د=6
+  // 6. التحقق من تطابق توزيع الإجابات الصحيحة في البنك المعالج
+  // توزيع الاختيار من متعدد: أ=6, ب=7, ج=6, د=6
   if (
     mcqOptionCounts['opt-a'] !== 6 ||
     mcqOptionCounts['opt-b'] !== 7 ||
@@ -246,40 +255,74 @@ export function validateChapter5DraftBank(): DraftBankValidationResult {
     mcqOptionCounts['opt-d'] !== 6
   ) {
     errors.push(
-      `توزيع إجابات الاختيار من متعدد غير مطابق للوثيقة الأصلية: أ=${mcqOptionCounts['opt-a']} (متوقع 6)، ب=${mcqOptionCounts['opt-b']} (متوقع 7)، ج=${mcqOptionCounts['opt-c']} (متوقع 6)، د=${mcqOptionCounts['opt-d']} (متوقع 6)`
+      `توزيع إجابات الاختيار من متعدد غير متوازن: أ=${mcqOptionCounts['opt-a']} (متوقع 6)، ب=${mcqOptionCounts['opt-b']} (متوقع 7)، ج=${mcqOptionCounts['opt-c']} (متوقع 6)، د=${mcqOptionCounts['opt-d']} (متوقع 6)`
     );
   }
 
-  // متوقع في الصواب والخطأ: صواب=13, خطأ=12
+  // توزيع الصواب والخطأ: صواب=13, خطأ=12
   if (trueCount !== 13 || falseCount !== 12) {
     errors.push(
       `توزيع إجابات الصواب والخطأ غير مطابق للوثيقة: صواب=${trueCount} (متوقع 13)، خطأ=${falseCount} (متوقع 12)`
     );
   }
 
-  // 7. التحقق من النمط الدوري لمفاتيح الاختيار من متعدد (ب، د، أ، ج)
-  const expectedMcqCycle = ['opt-b', 'opt-d', 'opt-a', 'opt-c'];
-  for (let i = 0; i < 24; i++) {
-    const expectedOpt = expectedMcqCycle[i % 4];
-    const actualOpt = (questions[i].question as { correctOptionId?: string }).correctOptionId;
-    if (actualOpt !== expectedOpt) {
-      errors.push(`السؤال ${i + 1}: مفتاح الإجابة غير مطابق للنمط الدوري المتوقع (${expectedOpt})، القيمة الفعلية: (${actualOpt})`);
+  // 7. التدقيق الصارم لكسر النمط الدوري التكراري في أسئلة الاختيار من متعدد
+  const actualMcqKeys = questions.slice(0, 25).map((gq) => (gq.question as { correctOptionId: string }).correctOptionId);
+
+  // أ. كشف الأنماط الدورية المتكررة الثابتة (Periods 2 to 6)
+  for (let period = 2; period <= 6; period++) {
+    let periodicMatches = 0;
+    for (let i = 0; i < 25; i++) {
+      if (actualMcqKeys[i] === actualMcqKeys[i % period]) {
+        periodicMatches++;
+      }
+    }
+    // إذا تطابق أكثر من 80% مع نمط دوري ثابت (كما كان في النمط السابق 25/25)، يُرفض البنك
+    if (periodicMatches >= 20) {
+      errors.push(
+        `تم اكتشاف نمط دوري متكرر رتيب لمفاتيح الاختيار من متعدد بفاصل دوري ${period} (نسبة التطابق: ${periodicMatches}/25)! يجب كسر النمط وإعادة التوزيع عشوائياً.`
+      );
     }
   }
-  const q25ActualOpt = (questions[24].question as { correctOptionId?: string }).correctOptionId;
-  if (q25ActualOpt !== 'opt-b') {
-    errors.push(`السؤال 25: مفتاح الإجابة متوقع أن يكون opt-b، القيمة الفعلية: (${q25ActualOpt})`);
+
+  // ب. منع التكرار المتتالي الزائد (لا يسمح بثلاث إجابات متطابقة على التوالي)
+  for (let i = 0; i < 23; i++) {
+    if (actualMcqKeys[i] === actualMcqKeys[i + 1] && actualMcqKeys[i] === actualMcqKeys[i + 2]) {
+      errors.push(`تكرار متتالٍ ثلاثي غير مرغوب للإجابة (${actualMcqKeys[i]}) في الأسئلة ${i + 1} و ${i + 2} و ${i + 3}.`);
+    }
   }
 
-  // 8. التحقق من توثيق التنبيه المصدري للسؤال 48 (صفحة 47)
+  // ج. التحقق من تطابق المفاتيح المعالجة المحسوبة
+  for (let i = 0; i < 25; i++) {
+    if (actualMcqKeys[i] !== EXPECTED_REMEDIATED_MCQ_KEYS[i]) {
+      errors.push(
+        `السؤال ${i + 1}: مفتاح الإجابة الفعلي (${actualMcqKeys[i]}) لا يطابق المفتاح المعالج المستهدف (${EXPECTED_REMEDIATED_MCQ_KEYS[i]}).`
+      );
+    }
+  }
+
+  // 8. التحقق من المعالجة الأكاديمية والتوثيق المصدري للسؤال 48 (صفحة 47) بموجب المسار ب
   const q48 = questions.find((q) => q.question.id === 'ch5-draft-q48');
   if (!q48) {
     errors.push(`السؤال 48 (ch5-draft-q48) مفقود من البنك.`);
   } else {
+    const q48Q = q48.question;
+    if (q48Q.type !== 'true_false') {
+      errors.push(`نوع السؤال 48 يجب أن يكون true_false.`);
+    }
+    if (q48Q.correctAnswer !== true) {
+      errors.push(`الإجابة الصحيحة للسؤال 48 المستبدل يجب أن تكون true.`);
+    }
+    if (!q48Q.prompt.includes('المنهج المبرمج الخطي') || !q48Q.prompt.includes('المنهج المبرمج المتفرع')) {
+      errors.push(`نص السؤال 48 المستبدل يجب أن يتناول أنواع المنهج التكنولوجي (المنهج المبرمج الخطي والمتفرع).`);
+    }
+    if (!q48Q.sourceReference.includes('أنواع المنهج التكنولوجي') || !q48Q.sourceReference.includes('47')) {
+      errors.push(`مرجع السؤال 48 يجب أن يوثق «أنواع المنهج التكنولوجي — الصفحة المطبوعة 47».`);
+    }
     if (!q48.reviewMetadata || !q48.reviewMetadata.reviewNotes) {
       errors.push(`السؤال 48 يفتقر إلى بيانات المراجعة الأكاديمية والملاحظات المصدرية الموثقة (reviewMetadata.reviewNotes).`);
-    } else if (!q48.reviewMetadata.reviewNotes.includes('47')) {
-      errors.push(`ملاحظات مراجعة السؤال 48 يجب أن توثق صراحة التنبيه المصدري لاختلاف العنوان في الصفحة المطبوعة 47.`);
+    } else if (!q48.reviewMetadata.reviewNotes.includes('Case B') && !q48.reviewMetadata.reviewNotes.includes('المسار ب')) {
+      errors.push(`ملاحظات مراجعة السؤال 48 يجب أن توثق صراحة المعالجة وفق المسار ب (Case B) بعد الفحص العياني المباشر لكتاب المقرر.`);
     }
   }
 
@@ -314,7 +357,7 @@ const isDirectExecution =
   (process.argv[1].endsWith('validate-chapter5-draft-bank.ts') || process.argv[1].includes('validate-chapter5-draft-bank'));
 
 if (isDirectExecution) {
-  console.log('--- بدء التدقيق الصارم لبنك أسئلة مسودة الفصل الخامس (50 سؤالاً) ---');
+  console.log('--- بدء التدقيق الصارم لبنك أسئلة مسودة الفصل الخامس بعد المعالجة (50 سؤالاً) ---');
   const result = validateChapter5DraftBank();
 
   if (!result.isValid || result.errors.length > 0) {
@@ -329,8 +372,8 @@ if (isDirectExecution) {
   console.log(`   - إجمالي الأسئلة: ${result.totalQuestions} (25 MCQ + 25 True/False)`);
   console.log(`   - الموضوعات المغطاة: ${result.topicsCoveredCount} من أصل 7 موضوعات للفصل الخامس`);
   console.log('   - تطابق تام لخيارات الإجابة والتفسيرات الأكاديمية والمراجع العلمية.');
-  console.log('   - توثيق دقيق للنمط التكراري لمفاتيح الإجابات (ب، د، أ، ج) والتوصية بالخلط الآمن للعرض مستقبلاً.');
-  console.log('   - توثيق كامل للتنبيه المصدري للسؤال 48 حول الصفحة المطبوعة 47 دون تغيير في نص السؤال.');
+  console.log('   - كسر تام للنمط الدوري التكراري القديم (ب، د، أ، ج) وتوزيع عشوائي متزن للخيارات.');
+  console.log('   - معالجة قطعية موثقة عيانياً للسؤال 48 وفق المسار (ب) استناداً للصفحة المطبوعة 47 بالكتاب.');
   console.log('   - المسودة معزولة تماماً وغير منشورة في بيان النشر الرسمي.');
   console.log('   - لا توجد أي تسريبات للمسودة في كود الإنتاج أو واجهات الطلاب.');
   console.log('--- اكتمال التدقيق بنجاح ---\n');
