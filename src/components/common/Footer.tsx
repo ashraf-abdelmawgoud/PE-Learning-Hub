@@ -22,6 +22,7 @@ const OFFICIAL_SUBJECTS = [
   { id: 'course-1', title: 'مناهج التربية الرياضية' },
   { id: 'course-5', title: 'مادة المضرب' },
   { id: 'course-6', title: 'مادة المضمار' },
+  { id: 'course-7', title: 'التحليل الحركي' },
 ];
 
 export const Footer: React.FC = () => {

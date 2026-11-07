@@ -62,6 +62,9 @@ export const SubjectIcon: React.FC<SubjectIconProps> = ({ title, className = 'w-
   if (norm.includes('التعليم الحركي')) {
     return <Activity className={className} aria-hidden="true" />;
   }
+  if (norm.includes('التحليل الحركي')) {
+    return <Activity className={className} aria-hidden="true" />;
+  }
   if (norm.includes('البحث العلمي')) {
     return <Search className={className} aria-hidden="true" />;
   }

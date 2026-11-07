@@ -36,7 +36,7 @@ export const CoursesPage: React.FC = () => {
         <div className="space-y-4 mb-10">
           <div className="inline-flex items-center gap-2 text-xs font-bold px-3.5 py-1.5 rounded-full bg-[#E8F8EE] text-[#173D2B] border border-[#D4E9DC]">
             <BookOpen className="w-3.5 h-3.5 text-[#00C853]" />
-            <span>المواد المعتمدة (6)</span>
+            <span>المواد المعتمدة ({COURSES_PLACEHOLDER_DATA.length})</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-black text-[#173D2B] tracking-tight">
@@ -44,7 +44,7 @@ export const CoursesPage: React.FC = () => {
           </h1>
 
           <p className="text-[#486555] text-sm sm:text-base max-w-3xl leading-relaxed">
-            يحتوي هذا الدليل على المواد الدراسية الست المعتمدة لطلاب كلية علوم الرياضة والتربية البدنية.
+            يحتوي هذا الدليل على المواد الدراسية المعتمدة لطلاب كلية علوم الرياضة والتربية البدنية — الفرقة الرابعة.
             تم ربط مادة مناهج التربية الرياضية بنموذج دراسي تطبيقي حقيقي معتمد، وباقي المواد قيد التجهيز الأكاديمي.
           </p>
         </div>
@@ -58,11 +58,11 @@ export const CoursesPage: React.FC = () => {
             <div className="font-bold text-[#173D2B] flex items-center gap-2">
               <span>تنبيه ضبط البيانات الأكاديمية:</span>
               <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#E8F8EE] text-[#173D2B] font-bold border border-[#D4E9DC]">
-                المواد الأكاديمية الست
+                المواد الأكاديمية المعتمدة
               </span>
             </div>
             <p className="text-[#486555] text-xs sm:text-sm leading-relaxed">
-              جميع المواد معروضة بمسمياتها الأكاديمية الرسمية المعتمدة. مادة «مناهج التربية الرياضية» تتضمن نموذجاً دراسياً حقيقياً معتمداً من كتاب الأستاذ الدكتور هاني الدسوقي إبراهيم، بينما بقية المواد قيد إعداد المحتوى.
+              جميع المواد معروضة بمسمياتها الأكاديمية الرسمية المعتمدة لطلاب الفرقة الرابعة. مادة «مناهج التربية الرياضية» تتضمن نموذجاً دراسياً حقيقياً معتمداً من كتاب الأستاذ الدكتور هاني الدسوقي إبراهيم، بينما بقية المواد قيد إعداد المحتوى.
             </p>
           </div>
         </div>
@@ -114,7 +114,7 @@ export const CoursesPage: React.FC = () => {
                 لا توجد مقررات مطابقة لعبارة البحث
               </p>
               <p className="text-xs text-[#6C8577]">
-                يرجى التحقق من الكلمة المدخلة أو مسح البحث لعرض المواد الست.
+                يرجى التحقق من الكلمة المدخلة أو مسح البحث لعرض المواد المعتمدة.
               </p>
             </div>
             <button

@@ -28,7 +28,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
             </span>
           ) : (
             <span className="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full bg-[#F1F5F9] text-[#64748B] border border-[#CBD5E1]">
-              <span>قيد التجهيز</span>
+              <span>{course.statusLabel || 'قيد التجهيز'}</span>
             </span>
           )}
         </div>

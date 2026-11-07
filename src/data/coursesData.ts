@@ -1,8 +1,8 @@
 import type { CoursePlaceholder } from '../types';
 
 /**
- * بيانات المواد الدراسية الست الرسمية لكلية علوم الرياضة والتربية البدنية
- * تم اعتماد المسميات الرسمية الست بالضبط مع الحفاظ على المعرفات الثابتة.
+ * بيانات المواد الدراسية السبع الرسمية لكلية علوم الرياضة والتربية البدنية — الفرقة الرابعة
+ * تم اعتماد المسميات الرسمية بدقة مع الحفاظ على المعرفات الثابتة.
  */
 export const COURSES_PLACEHOLDER_DATA: CoursePlaceholder[] = [
   {
@@ -10,6 +10,7 @@ export const COURSES_PLACEHOLDER_DATA: CoursePlaceholder[] = [
     orderNumber: 1,
     code: 'PE-ACAD-02',
     title: 'التعليم الحركي',
+    academicYear: 'الفرقة الرابعة',
     targetBookReference: 'كتاب التعليم الحركي المعتمد',
     status: 'pending_content',
     statusLabel: 'قيد التجهيز',
@@ -29,6 +30,7 @@ export const COURSES_PLACEHOLDER_DATA: CoursePlaceholder[] = [
     orderNumber: 2,
     code: 'PE-ACAD-03',
     title: 'البحث العلمي',
+    academicYear: 'الفرقة الرابعة',
     targetBookReference: 'كتاب مناهج البحث العلمي في علوم الرياضة',
     status: 'pending_content',
     statusLabel: 'قيد التجهيز',
@@ -48,6 +50,7 @@ export const COURSES_PLACEHOLDER_DATA: CoursePlaceholder[] = [
     orderNumber: 3,
     code: 'PE-ACAD-04',
     title: 'التربية المقارنة ونظم التعليم',
+    academicYear: 'الفرقة الرابعة',
     targetBookReference: 'كتاب التربية المقارنة ونظم التعليم المعتمد',
     status: 'pending_content',
     statusLabel: 'قيد التجهيز',
@@ -67,6 +70,7 @@ export const COURSES_PLACEHOLDER_DATA: CoursePlaceholder[] = [
     orderNumber: 4,
     code: 'PE-ACAD-01',
     title: 'مناهج التربية الرياضية',
+    academicYear: 'الفرقة الرابعة',
     targetBookReference: 'كتاب مناهج التربية الرياضية — أ.د. هاني الدسوقي إبراهيم (2025/2026م)',
     status: 'pending_content',
     statusLabel: 'متاح للمراجعة',
@@ -86,6 +90,7 @@ export const COURSES_PLACEHOLDER_DATA: CoursePlaceholder[] = [
     orderNumber: 5,
     code: 'PE-ACAD-05',
     title: 'مادة المضرب',
+    academicYear: 'الفرقة الرابعة',
     targetBookReference: 'كتاب رياضات المضرب وتطبيقاتها المعتمد',
     status: 'pending_content',
     statusLabel: 'قيد التجهيز',
@@ -105,11 +110,32 @@ export const COURSES_PLACEHOLDER_DATA: CoursePlaceholder[] = [
     orderNumber: 6,
     code: 'PE-ACAD-06',
     title: 'مادة المضمار',
+    academicYear: 'الفرقة الرابعة',
     targetBookReference: 'كتاب مسابقات المضمار وتدريبها المعتمد',
     status: 'pending_content',
     statusLabel: 'قيد التجهيز',
     categoryPlaceholder: 'ألعاب القوى والمضمار',
     description: 'مقرر مادة المضمار لطلاب علوم الرياضة. يتناول التحليل الحركي والتدريب والتحكيم لمسابقات العدو والجري والحواجز.',
+    architecture: {
+      lessonsPlanned: true,
+      quizzesPlanned: true,
+      simulationsPlanned: true,
+      interactiveDiagramsPlanned: true,
+    },
+    futureUnitsCount: 0,
+    futureLessonsCount: 0,
+  },
+  {
+    id: 'course-7',
+    orderNumber: 7,
+    code: 'PE-ACAD-07',
+    title: 'التحليل الحركي',
+    academicYear: 'الفرقة الرابعة',
+    targetBookReference: 'كتاب المقرر المعتمد (قيد التجهيز الأكاديمي)',
+    status: 'pending_content',
+    statusLabel: 'قيد إعداد المحتوى الأكاديمي',
+    categoryPlaceholder: 'العلوم الحركية والتحليل الرياضي',
+    description: 'مقرر التحليل الحركي لطلاب الفرقة الرابعة بكلية علوم الرياضة والتربية البدنية. يُعنى بدراسة وتحليل الأداء والمهارات الحركية والتطبيقات التخصصية في المجال الرياضي.',
     architecture: {
       lessonsPlanned: true,
       quizzesPlanned: true,

@@ -16,6 +16,7 @@ export interface CoursePlaceholder {
   orderNumber: number;
   code: string;
   title: string;
+  academicYear?: string;
   targetBookReference: string;
   status: CourseStatus;
   statusLabel: string;

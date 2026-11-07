@@ -94,10 +94,15 @@ export const CourseDetailPage: React.FC = () => {
                 {course.orderNumber > 0 ? `0${course.orderNumber}` : 'DEV'}
               </span>
               <div>
-                <span className="font-mono text-xs font-bold text-[#173D2B] bg-[#F4FFF7] border border-[#D4E9DC] px-2.5 py-1 rounded-lg">
-                  {course.code}
-                </span>
-                <span className="text-xs text-[#6C8577] mr-2">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-xs font-bold text-[#173D2B] bg-[#F4FFF7] border border-[#D4E9DC] px-2.5 py-1 rounded-lg">
+                    {course.code}
+                  </span>
+                  <span className="text-xs font-bold text-[#059669] bg-[#E8F8EE] border border-[#00C853]/30 px-2.5 py-1 rounded-lg">
+                    {course.academicYear || 'الفرقة الرابعة'}
+                  </span>
+                </div>
+                <span className="text-xs text-[#6C8577] mr-1 block mt-1">
                   المعرف الأكاديمي
                 </span>
               </div>
@@ -178,17 +183,21 @@ export const CourseDetailPage: React.FC = () => {
             <div className="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 border border-amber-200 flex items-center justify-center mx-auto">
               <AlertTriangle className="w-7 h-7" />
             </div>
-            <div className="space-y-1.5 max-w-lg mx-auto">
+            <div className="space-y-2 max-w-lg mx-auto">
               <h3 className="text-lg font-black text-[#173D2B]">
                 فصول هذا المقرر قيد التجهيز الأكاديمي
               </h3>
               <p className="text-xs sm:text-sm text-[#486555] leading-relaxed">
-                لم يتم إدراج فصول هذا المقرر حتى الآن التزاماً بعدم اختراع أي بيانات أكاديمية وهمية.
-                سيتم إدراج الفصول والموضوعات والدروس وفق المنهج المعتمد فور تزويد المنصة بالكتاب المقابل.
+                سيتم إضافة موضوعات المقرر وملخصاته واختباراته بعد مراجعة الكتاب المعتمد.
               </p>
             </div>
-            <div className="pt-2 text-xs font-bold text-[#173D2B] bg-[#E8F8EE] inline-block px-4 py-2 rounded-xl border border-[#D4E9DC]">
-              عدد الفصول المنشورة حالياً: 0 فصل
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-2">
+              <span className="text-xs font-bold text-[#173D2B] bg-[#E8F8EE] px-4 py-2 rounded-xl border border-[#D4E9DC]">
+                حالة المحتوى: {course.statusLabel}
+              </span>
+              <span className="text-xs font-bold text-[#059669] bg-[#E8F8EE] px-4 py-2 rounded-xl border border-[#00C853]/30">
+                المرحلة الأكاديمية: {course.academicYear || 'الفرقة الرابعة'}
+              </span>
             </div>
           </div>
         )}

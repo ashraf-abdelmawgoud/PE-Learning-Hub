@@ -31,7 +31,7 @@ export const CoursesSection: React.FC = () => {
           <div className="space-y-2 max-w-2xl">
             <div className="inline-flex items-center gap-2 text-xs font-bold px-3 py-1 rounded-full bg-[#E8F8EE] text-[#173D2B] border border-[#D4E9DC]">
               <BookOpen className="w-3.5 h-3.5 text-[#00C853]" />
-              <span>المواد الدراسية (6 مواد تخصصية)</span>
+              <span>المواد الدراسية ({courses.length} مواد تخصصية)</span>
             </div>
 
             <h2 className="text-2xl sm:text-3xl font-black text-[#173D2B] tracking-tight">
@@ -39,7 +39,7 @@ export const CoursesSection: React.FC = () => {
             </h2>
 
             <p className="text-[#486555] text-sm leading-relaxed">
-              ست مواد أكاديمية مستقلة لطلاب كلية علوم الرياضة والتربية البدنية.
+              مواد أكاديمية مستقلة لطلاب كلية علوم الرياضة والتربية البدنية — الفرقة الرابعة.
             </p>
           </div>
 
@@ -77,7 +77,7 @@ export const CoursesSection: React.FC = () => {
                       </span>
                     ) : (
                       <span className="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full bg-[#F1F5F9] text-[#64748B] border border-[#CBD5E1]">
-                        <span>قيد التجهيز</span>
+                        <span>{course.statusLabel || 'قيد التجهيز'}</span>
                       </span>
                     )}
                   </div>

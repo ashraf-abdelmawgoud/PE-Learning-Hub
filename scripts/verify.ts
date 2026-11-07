@@ -113,9 +113,9 @@ function assert(condition: boolean, testName: string) {
 
 console.log('--- بدء فحص واختبار سلامة بيانات المنصة ووظائفها ---');
 
-// 1. فحص بيانات المواد الدراسية الست الرسمية
-console.log('\n1. فحص سلامة المواد الدراسية الأكاديمية الست:');
-assert(COURSES_PLACEHOLDER_DATA.length === 6, 'عدد المواد الدراسية يساوي 6 بالضبط');
+// 1. فحص بيانات المواد الدراسية السبع الرسمية
+console.log('\n1. فحص سلامة المواد الدراسية الأكاديمية السبع:');
+assert(COURSES_PLACEHOLDER_DATA.length === 7, 'عدد المواد الدراسية يساوي 7 بالضبط');
 
 const OFFICIAL_NAMES = [
   'التعليم الحركي',
@@ -124,6 +124,7 @@ const OFFICIAL_NAMES = [
   'مناهج التربية الرياضية',
   'مادة المضرب',
   'مادة المضمار',
+  'التحليل الحركي',
 ];
 
 COURSES_PLACEHOLDER_DATA.forEach((course, idx) => {
@@ -134,6 +135,7 @@ COURSES_PLACEHOLDER_DATA.forEach((course, idx) => {
   assert(course.status === 'pending_content', `المادة ${expectedNum}: الحالة pending_content`);
   assert(course.title === OFFICIAL_NAMES[idx], `المادة ${expectedNum}: المسمى الرسمي معتمد (${course.title})`);
   assert(Boolean(course.targetBookReference), `المادة ${expectedNum}: مرجع الكتاب موجود`);
+  assert(course.academicYear === 'الفرقة الرابعة', `المادة ${expectedNum}: تصنيف الفرقة الرابعة معتمد`);
   assert(course.architecture.lessonsPlanned === true, `المادة ${expectedNum}: بنية الدروس مخططة`);
   assert(course.architecture.quizzesPlanned === true, `المادة ${expectedNum}: بنية الاختبارات مخططة`);
   assert(course.architecture.simulationsPlanned === true, `المادة ${expectedNum}: بنية المحاكاة مخططة`);
@@ -164,14 +166,16 @@ function searchCourses(query: string) {
   });
 }
 
-assert(searchCourses('').length === 6, 'البحث الفارغ يعيد جميع المواد الست');
+assert(searchCourses('').length === 7, 'البحث الفارغ يعيد جميع المواد السبع');
 assert(searchCourses('مناهج التربية الرياضية').length >= 1 && searchCourses('مناهج التربية الرياضية')[0].id === 'course-1', 'البحث بعبارة مناهج التربية الرياضية يجد مادة مناهج التربية الرياضية');
 assert(searchCourses('حركي').length >= 1 && searchCourses('حركي')[0].id === 'course-2', 'البحث بكلمة حركي يجد مادة التعليم الحركي');
 assert(searchCourses('البحث العلمي').length >= 1 && searchCourses('البحث العلمي')[0].id === 'course-3', 'البحث بكلمة البحث العلمي يجد مادة البحث العلمي');
 assert(searchCourses('مقارنة').length >= 1 && searchCourses('مقارنة')[0].id === 'course-4', 'البحث بكلمة مقارنة يجد مادة التربية المقارنة');
 assert(searchCourses('مضرب').length >= 1 && searchCourses('مضرب')[0].id === 'course-5', 'البحث بكلمة مضرب يجد مادة المضرب');
 assert(searchCourses('مضمار').length >= 1 && searchCourses('مضمار')[0].id === 'course-6', 'البحث بكلمة مضمار يجد مادة المضمار');
+assert(searchCourses('التحليل الحركي').length >= 1 && searchCourses('التحليل الحركي').some((c) => c.id === 'course-7'), 'البحث بعبارة التحليل الحركي يجد مادة التحليل الحركي');
 assert(searchCourses('PE-ACAD-01').length === 1 && searchCourses('PE-ACAD-01')[0].id === 'course-1', 'البحث بالرمز PE-ACAD-01 يجد مادة مناهج التربية الرياضية');
+assert(searchCourses('PE-ACAD-07').length === 1 && searchCourses('PE-ACAD-07')[0].id === 'course-7', 'البحث بالرمز PE-ACAD-07 يجد مادة التحليل الحركي');
 assert(searchCourses('كلمة_غير_موجودة_نهائيا').length === 0, 'البحث بكلمة مجهولة يعيد 0 نتائج دون أخطاء');
 
 // 4. فحص مخرجات الإنتاج الجاهزة لـ Cloudflare Pages
@@ -198,7 +202,7 @@ console.log('\n5. فحص نظام التحقق من جودة المحتوى ال
 const report = validateAcademicContent();
 assert(report.isValid === true, 'تقرير فحص المحتوى الأكاديمي سليم بدون أخطاء بنيوية');
 assert(report.errors.length === 0, `عدد الأخطاء الهندسية يساوي 0 (الفعل: ${report.errors.length})`);
-assert(report.coursesCount === 8, `إجمالي المقررات (6 رسمية + 2 معمل تجريبي معزول) يساوي 8`);
+assert(report.coursesCount === 9, `إجمالي المقررات (7 رسمية + 2 معمل تجريبي معزول) يساوي 9`);
 assert(report.chaptersCount === 9, 'عدد الفصول الإجمالي يساوي 9 (7 وحدات لمناهج التربية الرياضية + 2 معامل تقنية)');
 assert(report.topicsCount === 52, 'عدد الموضوعات الإجمالي يساوي 52 (50 لمناهج التربية الرياضية + 2 معامل تقنية)');
 assert(report.lessonsCount === 3, 'عدد الدروس الإجمالي يساوي 3 (2 معامل تقنية + 1 درس احتياطي معتمد)');
@@ -239,11 +243,11 @@ assert(Boolean(devCourse && devCourse.isDevSandbox), 'استرجاع المقر�
 
 // 6.1 عزل المقرر التجريبي عن واجهة الطلاب
 const studentCourses = getAllCourses(false);
-assert(studentCourses.length === 6, 'واجهة الطلاب تسترجع المواد الدراسية الست فقط');
+assert(studentCourses.length === 7, 'واجهة الطلاب تسترجع المواد الدراسية السبع فقط');
 assert(studentCourses.every((c) => !c.isDevSandbox), 'لا يوجد أي مقرر تجريبي مسرب لواجهة الطلاب');
-assert(studentCourses.every((c) => c.status === 'pending_content'), 'جميع المواد الست للطلاب بحالة pending_content');
+assert(studentCourses.every((c) => c.status === 'pending_content'), 'جميع المواد السبع للطلاب بحالة pending_content');
 assert(studentCourses.find((c) => c.id === 'course-1')?.chapters.length === 7, 'مادة مناهج التربية الرياضية PE-ACAD-01 تتضمن 7 وحدات دراسية معتمدة (5 فصول + موضوعان مستقلان)');
-assert(studentCourses.filter((c) => c.id !== 'course-1').every((c) => c.chapters.length === 0), 'بقية المواد الخمس خالية من الفصول بانتظار تزويد المنصة بكتبها');
+assert(studentCourses.filter((c) => c.id !== 'course-1').every((c) => c.chapters.length === 0), 'بقية المواد الست خالية من الفصول بانتظار تزويد المنصة بكتبها');
 
 const devChapters = getChaptersByCourse('dev-sandbox');
 assert(devChapters.length === 1 && devChapters[0].id === 'dev-chap-1', 'استرجاع فصول المقرر التجريبي بترتيب سليم');
@@ -2181,6 +2185,43 @@ assert(
   globalSeenQuestionIds.size === 365,
   '22.3 فرادة جميع معرفات الأسئلة المنشورة الـ 365 وعدم وجود أي تصادم أو تكرار معرفات'
 );
+
+// 23. فحص تسجيل وتكامل مقرر التحليل الحركي (Movement Analysis - PE-ACAD-07) للفرقة الرابعة
+console.log('\n23. فحص تسجيل وتكامل مقرر التحليل الحركي (PE-ACAD-07) للفرقة الرابعة:');
+const movementCoursePlaceholder = COURSES_PLACEHOLDER_DATA.find((c) => c.id === 'course-7');
+assert(Boolean(movementCoursePlaceholder), '23.1 تسجيل مقرر التحليل الحركي في قاعدة بيانات المقررات بالمعرف course-7');
+assert(
+  COURSES_PLACEHOLDER_DATA.filter((c) => c.id === 'course-7').length === 1,
+  '23.2 تسجيل مقرر التحليل الحركي مرة واحدة فقط دون أي تكرار'
+);
+assert(movementCoursePlaceholder?.title === 'التحليل الحركي', '23.3 المسمى الرسمي الدقيق «التحليل الحركي» دون أي استبدال');
+assert(movementCoursePlaceholder?.code === 'PE-ACAD-07', '23.4 الرمز الأكاديمي المعتمد PE-ACAD-07');
+assert(movementCoursePlaceholder?.orderNumber === 7, '23.5 الترتيب الأكاديمي للمقرر (الرقم 7)');
+assert(movementCoursePlaceholder?.academicYear === 'الفرقة الرابعة', '23.6 التصنيف الأكاديمي للفرقة الرابعة');
+assert(movementCoursePlaceholder?.status === 'pending_content', '23.7 حالة المقرر البرمجية pending_content');
+assert(movementCoursePlaceholder?.statusLabel === 'قيد إعداد المحتوى الأكاديمي', '23.8 شارة الحالة قيد إعداد المحتوى الأكاديمي');
+assert(Boolean(movementCoursePlaceholder?.targetBookReference), '23.9 مرجع الكتاب المعتمد محدد بنص محايد دقيق');
+
+const resolvedMovementCourse = getCourseById('course-7');
+assert(Boolean(resolvedMovementCourse), '23.10 دالة الاستعلام getCourseById تسترجع مقرر التحليل الحركي بنجاح');
+assert(resolvedMovementCourse?.title === 'التحليل الحركي', '23.11 مطابقة عنوان المقرر المسترجع للمسمى الرسمي');
+assert(resolvedMovementCourse?.chapters.length === 0, '23.12 خلو المقرر تماماً من أي فصول دراسية وهمية (0 فصول)');
+assert(resolvedMovementCourse?.academicReferences.length === 0, '23.13 خلو المقرر من أي مراجع أكاديمية غير معتمدة (0 مراجع)');
+assert(resolvedMovementCourse?.futureUnitsCount === 0, '23.14 عدد الوحدات المستقبلية 0 لعدم استلام الكتاب');
+assert(resolvedMovementCourse?.futureLessonsCount === 0, '23.15 عدد الدروس المستقبلية 0 لعدم استلام الكتاب');
+
+const movementChapters = getChaptersByCourse('course-7');
+assert(movementChapters.length === 0, '23.16 دالة getChaptersByCourse تعيد مصفوفة فارغة للمقرر قيد الإعداد');
+
+const movementBreadcrumbs = getAcademicBreadcrumbs({ courseId: 'course-7' });
+assert(movementBreadcrumbs.length === 2, '23.17 مسار التنقل الأكاديمي لمقرر التحليل الحركي يتكون من مستويين');
+assert(movementBreadcrumbs[0].path === '/courses', '23.18 مسار المستوى الأول: دليل المقررات (/courses)');
+assert(movementBreadcrumbs[1].label === 'التحليل الحركي', '23.19 تسمية المستوى الثاني: التحليل الحركي');
+assert(movementBreadcrumbs[1].path === '/courses/course-7', '23.20 مسار المستوى الثاني: /courses/course-7');
+
+// التحقق الصارم من عدم تأثر المقررات السابقة والأسئلة الـ 365
+assert(COURSES_PLACEHOLDER_DATA.length === 7, '23.21 إجمالي المقررات الرسمية 7 مقررات معتمدة');
+assert(totalCourseQuestions === 365, '23.22 بقاء جميع الأسئلة الـ 365 لمقرر مناهج التربية الرياضية كاملة دون أي نقص');
 
 
 

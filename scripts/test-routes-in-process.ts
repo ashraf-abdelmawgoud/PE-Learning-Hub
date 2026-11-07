@@ -108,6 +108,7 @@ server.listen(4173, '127.0.0.1', async () => {
     { name: 'تفاصيل مادة التربية المقارنة', path: '/courses/course-4' },
     { name: 'تفاصيل مادة المضرب', path: '/courses/course-5' },
     { name: 'تفاصيل مادة المضمار', path: '/courses/course-6' },
+    { name: 'تفاصيل مادة التحليل الحركي', path: '/courses/course-7' },
     { name: 'المقرر التجريبي التقني', path: '/courses/dev-sandbox' },
     { name: 'فصل في المقرر التجريبي', path: '/courses/dev-sandbox/chapters/dev-chap-1' },
     { name: 'موضوع في الفصل التجريبي', path: '/courses/dev-sandbox/chapters/dev-chap-1/topics/dev-top-1' },
