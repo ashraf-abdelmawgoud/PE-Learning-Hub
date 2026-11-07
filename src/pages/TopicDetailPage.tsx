@@ -67,6 +67,11 @@ export const TopicDetailPage: React.FC = () => {
     return <Navigate to="/courses" replace />;
   }
 
+  // Transparent redirect for Chapter 3 legacy broad topic to the chapter topics listing
+  if (chapterId === 'chap-curriculum-elements' && topicId === 'top-ch3-implementation-elements') {
+    return <Navigate to={`/courses/${courseId}/chapters/${chapterId}`} replace />;
+  }
+
   const course = getCourseById(courseId);
   const chapter = getChapterById(courseId, chapterId);
   const topic = getTopicById(chapterId, topicId);

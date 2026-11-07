@@ -1,6 +1,7 @@
 import type { Chapter, AcademicReference } from '../../types';
 import { CURRICULUM_PILOT_CHAPTER, CURRICULUM_ACADEMIC_REFERENCE } from './curriculumPilotData.ts';
 import { CHAPTER_2_FOUNDATIONS_TOPICS } from './curriculumChapter2Data.ts';
+import { CHAPTER_3_ELEMENTS_TOPICS } from './curriculumChapter3Data.ts';
 
 /**
  * =========================================================================
@@ -120,28 +121,7 @@ export const CHAPTER_3_ELEMENTS: Chapter = {
     'تحديد الأدوار والمسؤوليات المهنية لمعلم التربية الرياضية وموجه المادة والإدارة المدرسية في إنجاح المنهج.',
     'تحليل عوامل البيئة المدرسية المؤثرة في تنفيذ المنهاج ودور أولياء الأمور والعاملين بالمدرسة.',
   ],
-  topics: [
-    {
-      id: 'top-ch3-curriculum-core-elements',
-      chapterId: 'chap-curriculum-elements',
-      title: 'عناصر المنهج الأساسية',
-      description:
-        'العناصر الأربعة الرئيسية المتكاملة عضوياً للمنهج: الأهداف التعليمية للمنهج، محتوى المنهج، طرق وأساليب التدريس، وتقويم المنهج وتطويره.',
-      order: 1,
-      lessons: [],
-      status: 'pending_content',
-    },
-    {
-      id: 'top-ch3-implementation-elements',
-      chapterId: 'chap-curriculum-elements',
-      title: 'عناصر تنفيذ المنهاج في التربية الرياضية',
-      description:
-        'العناصر المسؤولة عن تنفيذ المنهاج ميدانياً: دليل المعلم ومحتوياته، الكتاب المدرسي وضوابط إعداده (18 ضابطاً)، معلم التربية الرياضية، المتعلم، طرق التدريس والوسائل، موجه المادة، الإدارة المدرسية، البيئة المدرسية، وأولياء الأمور.',
-      order: 2,
-      lessons: [],
-      status: 'pending_content',
-    },
-  ],
+  topics: CHAPTER_3_ELEMENTS_TOPICS,
 };
 
 /**

@@ -44,6 +44,15 @@ import {
   CHAPTER_2_NINE_TOPICS_METADATA,
 } from '../src/data/academic/curriculumChapter2TopicsConfig.ts';
 import { CHAPTER_2_FOUNDATIONS_TOPICS } from '../src/data/academic/curriculumChapter2Data.ts';
+import {
+  verifyChapter3SevenTopicsStructure,
+  CHAPTER_3_SEVEN_TOPICS_METADATA,
+} from '../src/data/academic/curriculumChapter3TopicsConfig.ts';
+import { CHAPTER_3_ELEMENTS_TOPICS } from '../src/data/academic/curriculumChapter3Data.ts';
+import {
+  getTopicProgress,
+  getChapterProgressStats,
+} from '../src/utils/progressPersistence.ts';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -149,7 +158,7 @@ assert(report.isValid === true, 'تقرير فحص المحتوى الأكادي
 assert(report.errors.length === 0, `عدد الأخطاء الهندسية يساوي 0 (الفعل: ${report.errors.length})`);
 assert(report.coursesCount === 8, `إجمالي المقررات (6 رسمية + 2 معمل تجريبي معزول) يساوي 8`);
 assert(report.chaptersCount === 9, 'عدد الفصول الإجمالي يساوي 9 (7 وحدات لمناهج التربية الرياضية + 2 معامل تقنية)');
-assert(report.topicsCount === 32, 'عدد الموضوعات الإجمالي يساوي 32 (30 لمناهج التربية الرياضية + 2 معامل تقنية)');
+assert(report.topicsCount === 37, 'عدد الموضوعات الإجمالي يساوي 37 (35 لمناهج التربية الرياضية + 2 معامل تقنية)');
 assert(report.lessonsCount === 3, 'عدد الدروس الإجمالي يساوي 3 (2 معامل تقنية + 1 درس احتياطي معتمد)');
 assert(report.blocksCount === 19, `عدد كتل المحتوى الإجمالي يساوي 19 كتلة رصينة (الفعل: ${report.blocksCount})`);
 
@@ -571,6 +580,89 @@ assert(Boolean(getTopicById('chap-curriculum-foundations', 'top-ch2-knowledge'))
 // التأكد الصارم من بقاء موضوعات الفصل الأول التسعة دون أي مساس
 const course1Ch1Topics = getTopicsByChapter('chap-curriculum-intro');
 assert(course1Ch1Topics.length === 9, 'الفصل الأول لا يزال يحتوي على موضوعاته التسعة المعتمدة كاملة دون أي مساس');
+
+// 9.7 فحص الهيكل الفني التنظيمي والملخصات الأكاديمية الكاملة للفصل الثالث (7 موضوعات معتمدة)
+console.log('\n9.7 فحص الهيكل الفني والملخصات الأكاديمية للفصل الثالث (7 موضوعات معتمدة):');
+const sevenTopicsCheckCh3 = verifyChapter3SevenTopicsStructure();
+assert(sevenTopicsCheckCh3.isValid === true, 'الهيكل الفني للموضوعات السبعة للفصل الثالث صالح ومتوافق');
+assert(sevenTopicsCheckCh3.totalTopics === 7, 'عدد موضوعات الهيكل الفني للفصل الثالث يساوي 7 موضوعات بالضبط');
+assert(
+  sevenTopicsCheckCh3.educationalOrganizationalCount === 7,
+  'جميع الموضوعات السبعة مصنفة كعناوين تنظيمية تعليمية (educational_organizational)'
+);
+assert(
+  sevenTopicsCheckCh3.originalAuthorCount === 0,
+  'لا توجد عناوين مصنفة كعناوين مؤلف أصلي غير مهيكلة'
+);
+
+const EXPECTED_CH3_SEVEN_TITLES = [
+  'البناء الهيكلي لعناصر المنهج الأربعة ومدخل عناصر التنفيذ الميداني',
+  'دليل معلم التربية الرياضية: المفهوم، الأهمية، والمحتويات الثمانية للدليل',
+  'الكتاب المدرسي في التربية الرياضية: الأهمية والفوائد الـ 12 والضوابط الـ 18 لتأليفه',
+  'الركنان الأساسيان للتنفيذ: معلم التربية الرياضية ومتطلبات إعداده والمتعلم كغاية ومحور',
+  'المنظومة الإجرائية للتنفيذ: طرق التدريس المناسبة والوسائل التعليمية',
+  'القيادات التربوية والإدارية المباشرة: المدير العام، مدير بحوث المناهج، موجه التربية الرياضية، والإدارة المدرسية',
+  'المحيط البيئي والمجتمعي الداعم: البيئة المدرسية، أولياء الأمور، والعاملون بالمدرسة',
+];
+
+CHAPTER_3_SEVEN_TOPICS_METADATA.forEach((t, idx) => {
+  assert(t.order === idx + 1, `فصل 3 - الموضوع ${idx + 1}: الترتيب ${idx + 1} سليم`);
+  assert(t.title === EXPECTED_CH3_SEVEN_TITLES[idx], `فصل 3 - الموضوع ${idx + 1}: العنوان «${t.title}» مطابق نصياً`);
+  assert(Boolean(t.id), `فصل 3 - الموضوع ${idx + 1}: المعرف id موجود`);
+  assert(Boolean(t.description), `فصل 3 - الموضوع ${idx + 1}: الوصف الهيكلي موجود`);
+  assert(t.headingClassification === 'educational_organizational', `فصل 3 - الموضوع ${idx + 1}: تصنيف تنظيمي تعليمي سليم`);
+});
+
+// فحص الحفاظ الصارم على المعرف الأصلي للموضوع الأول
+assert(CHAPTER_3_SEVEN_TOPICS_METADATA[0].id === 'top-ch3-curriculum-core-elements', 'حفظ المعرف الأصلي للموضوع الأول (top-ch3-curriculum-core-elements)');
+
+// فحص المعرفات الستة المستحدثة
+assert(CHAPTER_3_SEVEN_TOPICS_METADATA[1].id === 'top-ch3-teacher-guide', 'معرف الموضوع 2 سليم (top-ch3-teacher-guide)');
+assert(CHAPTER_3_SEVEN_TOPICS_METADATA[2].id === 'top-ch3-textbook-physical-education', 'معرف الموضوع 3 سليم (top-ch3-textbook-physical-education)');
+assert(CHAPTER_3_SEVEN_TOPICS_METADATA[3].id === 'top-ch3-pe-teacher-learner', 'معرف الموضوع 4 سليم (top-ch3-pe-teacher-learner)');
+assert(CHAPTER_3_SEVEN_TOPICS_METADATA[4].id === 'top-ch3-teaching-methods-media', 'معرف الموضوع 5 سليم (top-ch3-teaching-methods-media)');
+assert(CHAPTER_3_SEVEN_TOPICS_METADATA[5].id === 'top-ch3-educational-admin-leadership', 'معرف الموضوع 6 سليم (top-ch3-educational-admin-leadership)');
+assert(CHAPTER_3_SEVEN_TOPICS_METADATA[6].id === 'top-ch3-school-environment-community', 'معرف الموضوع 7 سليم (top-ch3-school-environment-community)');
+
+// فحص استرجاع موضوعات الفصل الثالث عبر دوال الاختيار الرسمية
+const course1Ch3Topics = getTopicsByChapter('chap-curriculum-elements');
+assert(course1Ch3Topics.length === 7, 'استرجاع موضوعات الفصل الثالث السبعة المعتمدة بنجاح عبر getTopicsByChapter');
+
+// فحص وجود الملخصات الأكاديمية الكاملة وخلوها من أرقام الصفحات ومن أي أسئلة أو فيديوهات غير معتمدة
+CHAPTER_3_ELEMENTS_TOPICS.forEach((t, idx) => {
+  assert(Boolean(t.summary && t.summary.trim().length > 200), `فصل 3 - الموضوع ${idx + 1}: الملخص الأكاديمي الكامل موجود ومفصل (${t.summary?.length} حرفاً)`);
+  assert(t.lessons.length === 0, `فصل 3 - الموضوع ${idx + 1}: قائمة الدروس فارغة (خالٍ من الدروس غير المعتمدة)`);
+  assert(t.quiz === undefined, `فصل 3 - الموضوع ${idx + 1}: تبويب الاختبار غير مفعل (قيد الإعداد)`);
+  assert(t.video === undefined && t.videos === undefined, `فصل 3 - الموضوع ${idx + 1}: تبويب الفيديو في حالة قيد الإعداد`);
+  assert(!/(?:^|\s)(?:ص|صفحة)\s*\.?\s*\d+/.test(t.summary || ''), `فصل 3 - الموضوع ${idx + 1}: خلو الملخص من أرقام الصفحات المطبوعة`);
+});
+
+// فحص مصادقة النصوص الأكاديمية وتضمين النقاط المحورية للفصل الثالث
+assert(CHAPTER_3_ELEMENTS_TOPICS[0].summary?.includes('أربعة عناصر رئيسية') === true, 'الموضوع 1 يتضمن نص العناصر الأربعة الرئيسية وتوثيق الخلل الترقيمي بالمصدر');
+assert(CHAPTER_3_ELEMENTS_TOPICS[0].summary?.includes('13 عنصراً') === true, 'الموضوع 1 يتضمن تعداد عناصر تنفيذ المنهاج الـ 13');
+assert(CHAPTER_3_ELEMENTS_TOPICS[1].summary?.includes('المحتويات التفصيلية الثمانية') === true, 'الموضوع 2 يتضمن المحتويات التفصيلية الثمانية لدليل المعلم');
+assert(CHAPTER_3_ELEMENTS_TOPICS[2].summary?.includes('12 فائدة جوهرية') === true, 'الموضوع 3 يتضمن الفوائد الـ 12 للكتاب المدرسي');
+assert(CHAPTER_3_ELEMENTS_TOPICS[2].summary?.includes('18 ضابطة واجبة المراعاة') === true, 'الموضوع 3 يتضمن الضوابط الـ 18 لتأليف الكتاب');
+assert(CHAPTER_3_ELEMENTS_TOPICS[3].summary?.includes('إعداد أكاديمي') === true, 'الموضوع 4 يتضمن متطلبات الإعداد الأكاديمي والمهني للمعلم');
+assert(CHAPTER_3_ELEMENTS_TOPICS[4].summary?.includes('العوامل المؤثرة في اختيار طريقة التدريس') === true, 'الموضوع 5 يتضمن العوامل المؤثرة في اختيار طريقة التدريس');
+assert(CHAPTER_3_ELEMENTS_TOPICS[5].summary?.includes('المدير العام لمديرية التربية والتعليم') === true, 'الموضوع 6 يتضمن تفصيل أدوار القيادات التربوية والإدارية');
+assert(CHAPTER_3_ELEMENTS_TOPICS[6].summary?.includes('سبعة جوانب') === true, 'الموضوع 7 يتضمن العوامل السبعة لصلاحية البيئة المدرسية');
+
+// فحص أمان وعدم تضخم تقدم الطلاب الحسابي (Student Progress Safety & Anti-Inflation)
+const ch3TopicIds = CHAPTER_3_ELEMENTS_TOPICS.map((t) => t.id);
+const zeroProgress = getChapterProgressStats('course-1', 'chap-curriculum-elements', ch3TopicIds);
+assert(zeroProgress.totalTopics === 7, 'مقام حساب نسبة تقدم الفصل الثالث يساوي 7 موضوعات بدقة');
+assert(zeroProgress.completedTopicsCount === 0, 'حساب التقدم يبدأ بصفر للموضوعات غير المكتملة دون تضخم تلقائي');
+
+// فحص نزاهة عدم وراثة الإنجاز للموضوع المظلي القديم
+const uncompletedTeacherGuide = getTopicProgress('course-1', 'chap-curriculum-elements', 'top-ch3-teacher-guide');
+assert(uncompletedTeacherGuide.isCompleted === false, 'الموضوع الثاني الجديد لا يرث حالة الإنجاز تلقائياً من الموضوع القديم');
+
+// التأكد الصارم من بقاء موضوعات الفصل الأول التسعة والفصل الثاني التسعة دون أي مساس (Regression Safety)
+const regressionCh1Topics = getTopicsByChapter('chap-curriculum-intro');
+assert(regressionCh1Topics.length === 9, 'الفصل الأول لا يزال يحتوي على موضوعاته التسعة المعتمدة كاملة دون أي مساس');
+const regressionCh2Topics = getTopicsByChapter('chap-curriculum-foundations');
+assert(regressionCh2Topics.length === 9, 'الفصل الثاني لا يزال يحتوي على موضوعاته التسعة المعتمدة كاملة دون أي مساس');
 
 // 10. فحص مشغل الفيديو التعليمي وتكامل كتل الفيديو (Phase 2: Educational Video Integration & Reusable Player)
 console.log('\n10. فحص مشغل الفيديو التعليمي وتكامل كتل الفيديو (Phase 2: Video Integration):');
