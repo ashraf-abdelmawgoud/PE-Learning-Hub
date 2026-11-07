@@ -47,6 +47,7 @@ import {
 import { computeQuestionBankHash } from '../src/utils/contentHash.ts';
 import type { GovernedQuestionBank } from '../src/types/quizGovernance.ts';
 import { validateChapter1DraftBank } from './validate-draft-bank.ts';
+import { validateChapter2DraftBank } from './validate-chapter2-draft-bank.ts';
 import {
   verifyChapter1NineTopicsStructure,
   CHAPTER_1_NINE_TOPICS_METADATA,
@@ -2002,6 +2003,25 @@ assert(activeCh1Quiz?.id === 'quiz-ch1-comprehensive', '15.8 عدم استبدا
 assert(
   !QUIZ_PUBLICATION_MANIFEST.some((b) => b.bankId === 'bank-ch1-comprehensive-draft-50q'),
   '15.9 التأكيد الصارم على أن مسودة الـ 50 سؤالاً غير منشورة في بيان النشر الرسمي'
+);
+
+// 16. فحص مسودة بنك أسئلة الفصل الثاني الشامل (Chapter 2 Comprehensive Draft Bank 50Q)
+console.log('\n16. فحص مسودة بنك أسئلة الفصل الثاني الشامل (Chapter 2 Draft Bank 50Q):');
+
+const draft2Result = validateChapter2DraftBank();
+assert(draft2Result.isValid === true, '16.1 مسودة بنك أسئلة الفصل الثاني سليمة وتجتاز كافة معايير التحقق الصارمة');
+assert(draft2Result.totalQuestions === 50, '16.2 إجمالي أسئلة مسودة الفصل الثاني يساوي 50 سؤالاً بالضبط');
+assert(draft2Result.mcqCount === 25, '16.3 أسئلة الاختيار من متعدد في مسودة الفصل الثاني تساوي 25 سؤالاً بالضبط');
+assert(draft2Result.tfCount === 25, '16.4 أسئلة الصواب والخطأ في مسودة الفصل الثاني تساوي 25 سؤالاً بالضبط');
+assert(draft2Result.topicsCoveredCount === 9, '16.5 مسودة الفصل الثاني تغطي جميع موضوعات الفصل التسعة بالتفصيل');
+assert(draft2Result.errors.length === 0, '16.6 خلو مسودة الفصل الثاني من أي أخطاء في الصياغة أو خيارات الإجابة أو المعرفات');
+
+// فحص عدم نشر المسودة وبقاء الفصل الثاني بدون اختبار منشور
+const activeCh2Quiz = getChapterById('course-1', 'chap-curriculum-foundations')?.chapterQuiz;
+assert(activeCh2Quiz === undefined, '16.7 بقاء الفصل الثاني خالياً من أي اختبار منشور (الاختبار قيد الإعداد)');
+assert(
+  !QUIZ_PUBLICATION_MANIFEST.some((b) => b.bankId === 'bank-ch2-foundations-draft-50q'),
+  '16.8 التأكيد الصارم على أن مسودة الـ 50 سؤالاً للفصل الثاني غير منشورة في بيان النشر الرسمي'
 );
 
 
