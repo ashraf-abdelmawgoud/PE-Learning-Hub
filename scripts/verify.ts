@@ -48,6 +48,7 @@ import { computeQuestionBankHash } from '../src/utils/contentHash.ts';
 import type { GovernedQuestionBank } from '../src/types/quizGovernance.ts';
 import { validateChapter1DraftBank } from './validate-draft-bank.ts';
 import { validateChapter2DraftBank } from './validate-chapter2-draft-bank.ts';
+import { validateChapter3DraftBank } from './validate-chapter3-draft-bank.ts';
 import {
   verifyChapter1NineTopicsStructure,
   CHAPTER_1_NINE_TOPICS_METADATA,
@@ -2022,6 +2023,25 @@ assert(activeCh2Quiz === undefined, '16.7 بقاء الفصل الثاني خا�
 assert(
   !QUIZ_PUBLICATION_MANIFEST.some((b) => b.bankId === 'bank-ch2-foundations-draft-50q'),
   '16.8 التأكيد الصارم على أن مسودة الـ 50 سؤالاً للفصل الثاني غير منشورة في بيان النشر الرسمي'
+);
+
+// 17. فحص مسودة بنك أسئلة الفصل الثالث الشامل (Chapter 3 Comprehensive Draft Bank 50Q)
+console.log('\n17. فحص مسودة بنك أسئلة الفصل الثالث الشامل (Chapter 3 Draft Bank 50Q):');
+
+const draft3Result = validateChapter3DraftBank();
+assert(draft3Result.isValid === true, '17.1 مسودة بنك أسئلة الفصل الثالث سليمة وتجتاز كافة معايير التحقق الصارمة');
+assert(draft3Result.totalQuestions === 50, '17.2 إجمالي أسئلة مسودة الفصل الثالث يساوي 50 سؤالاً بالضبط');
+assert(draft3Result.mcqCount === 25, '17.3 أسئلة الاختيار من متعدد في مسودة الفصل الثالث تساوي 25 سؤالاً بالضبط');
+assert(draft3Result.tfCount === 25, '17.4 أسئلة الصواب والخطأ في مسودة الفصل الثالث تساوي 25 سؤالاً بالضبط');
+assert(draft3Result.topicsCoveredCount === 7, '17.5 مسودة الفصل الثالث تغطي جميع موضوعات الفصل السبعة بالتفصيل');
+assert(draft3Result.errors.length === 0, '17.6 خلو مسودة الفصل الثالث من أي أخطاء في الصياغة أو خيارات الإجابة أو المعرفات');
+
+// فحص عدم نشر المسودة وبقاء الفصل الثالث بدون اختبار منشور
+const activeCh3Quiz = getChapterById('course-1', 'chap-curriculum-elements')?.chapterQuiz;
+assert(activeCh3Quiz === undefined, '17.7 بقاء الفصل الثالث خالياً من أي اختبار منشور (الاختبار قيد الإعداد)');
+assert(
+  !QUIZ_PUBLICATION_MANIFEST.some((b) => b.bankId === 'bank-ch3-elements-draft-50q'),
+  '17.8 التأكيد الصارم على أن مسودة الـ 50 سؤالاً للفصل الثالث غير منشورة في بيان النشر الرسمي'
 );
 
 
