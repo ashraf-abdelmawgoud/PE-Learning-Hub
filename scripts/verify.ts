@@ -50,6 +50,11 @@ import {
 } from '../src/data/academic/curriculumChapter3TopicsConfig.ts';
 import { CHAPTER_3_ELEMENTS_TOPICS } from '../src/data/academic/curriculumChapter3Data.ts';
 import {
+  verifyChapter4FiveTopicsStructure,
+  CHAPTER_4_FIVE_TOPICS_METADATA,
+} from '../src/data/academic/curriculumChapter4TopicsConfig.ts';
+import { CHAPTER_4_FACTORS_TOPICS } from '../src/data/academic/curriculumChapter4Data.ts';
+import {
   getTopicProgress,
   getChapterProgressStats,
 } from '../src/utils/progressPersistence.ts';
@@ -158,7 +163,7 @@ assert(report.isValid === true, 'تقرير فحص المحتوى الأكادي
 assert(report.errors.length === 0, `عدد الأخطاء الهندسية يساوي 0 (الفعل: ${report.errors.length})`);
 assert(report.coursesCount === 8, `إجمالي المقررات (6 رسمية + 2 معمل تجريبي معزول) يساوي 8`);
 assert(report.chaptersCount === 9, 'عدد الفصول الإجمالي يساوي 9 (7 وحدات لمناهج التربية الرياضية + 2 معامل تقنية)');
-assert(report.topicsCount === 37, 'عدد الموضوعات الإجمالي يساوي 37 (35 لمناهج التربية الرياضية + 2 معامل تقنية)');
+assert(report.topicsCount === 40, 'عدد الموضوعات الإجمالي يساوي 40 (38 لمناهج التربية الرياضية + 2 معامل تقنية)');
 assert(report.lessonsCount === 3, 'عدد الدروس الإجمالي يساوي 3 (2 معامل تقنية + 1 درس احتياطي معتمد)');
 assert(report.blocksCount === 19, `عدد كتل المحتوى الإجمالي يساوي 19 كتلة رصينة (الفعل: ${report.blocksCount})`);
 
@@ -663,6 +668,100 @@ const regressionCh1Topics = getTopicsByChapter('chap-curriculum-intro');
 assert(regressionCh1Topics.length === 9, 'الفصل الأول لا يزال يحتوي على موضوعاته التسعة المعتمدة كاملة دون أي مساس');
 const regressionCh2Topics = getTopicsByChapter('chap-curriculum-foundations');
 assert(regressionCh2Topics.length === 9, 'الفصل الثاني لا يزال يحتوي على موضوعاته التسعة المعتمدة كاملة دون أي مساس');
+
+// 9.8 فحص الهيكل الفني التنظيمي والملخصات الأكاديمية الكاملة للفصل الرابع (5 موضوعات معتمدة)
+console.log('\n9.8 فحص الهيكل الفني والملخصات الأكاديمية للفصل الرابع (5 موضوعات معتمدة):');
+const fiveTopicsCheckCh4 = verifyChapter4FiveTopicsStructure();
+assert(fiveTopicsCheckCh4.isValid === true, 'الهيكل الفني للموضوعات الخمسة للفصل الرابع صالح ومتوافق');
+assert(fiveTopicsCheckCh4.totalTopics === 5, 'عدد موضوعات الهيكل الفني للفصل الرابع يساوي 5 موضوعات بالضبط');
+assert(
+  fiveTopicsCheckCh4.educationalOrganizationalCount === 5,
+  'جميع الموضوعات الخمسة مصنفة كعناوين تنظيمية تعليمية (educational_organizational)'
+);
+assert(
+  fiveTopicsCheckCh4.originalAuthorCount === 0,
+  'لا توجد عناوين مصنفة كعناوين مؤلف أصلي غير مهيكلة في الفصل الرابع'
+);
+
+const EXPECTED_CH4_FIVE_TITLES = [
+  'التمهيد ومفهوم المنهج بين الرؤية التقليدية والرسالة المعاصرة للمدرسة',
+  'العوامل الخمسة الرئيسية المؤثرة في بناء المنهج وتحديات المستقبل',
+  'المكونات الخمسة الأولى للصيغة المطلوبة لمناهج المستقبل',
+  'منظومة المهارات والقيم الأساسية في المنهج ورعاية اللغات',
+  'المحاور التنظيمية والإيمانية والبحثية المكملة لصيغة مناهج المستقبل',
+];
+
+CHAPTER_4_FIVE_TOPICS_METADATA.forEach((t, idx) => {
+  assert(t.order === idx + 1, `فصل 4 - الموضوع ${idx + 1}: الترتيب ${idx + 1} سليم`);
+  assert(t.title === EXPECTED_CH4_FIVE_TITLES[idx], `فصل 4 - الموضوع ${idx + 1}: العنوان «${t.title}» مطابق نصياً`);
+  assert(Boolean(t.id), `فصل 4 - الموضوع ${idx + 1}: المعرف id موجود`);
+  assert(Boolean(t.description), `فصل 4 - الموضوع ${idx + 1}: الوصف الهيكلي موجود`);
+  assert(t.headingClassification === 'educational_organizational', `فصل 4 - الموضوع ${idx + 1}: تصنيف تنظيمي تعليمي سليم`);
+});
+
+// فحص الحفاظ الصارم على المعرف الأصلي للموضوع الثاني
+assert(CHAPTER_4_FIVE_TOPICS_METADATA[1].id === 'top-ch4-influencing-factors', 'حفظ المعرف الأصلي للموضوع الثاني (top-ch4-influencing-factors)');
+
+// فحص المعرفات الأربعة المستحدثة
+assert(CHAPTER_4_FIVE_TOPICS_METADATA[0].id === 'top-ch4-intro-traditional-contemporary-mission', 'معرف الموضوع 1 سليم (top-ch4-intro-traditional-contemporary-mission)');
+assert(CHAPTER_4_FIVE_TOPICS_METADATA[2].id === 'top-ch4-future-curriculum-first-five-components', 'معرف الموضوع 3 سليم (top-ch4-future-curriculum-first-five-components)');
+assert(CHAPTER_4_FIVE_TOPICS_METADATA[3].id === 'top-ch4-skills-values-languages', 'معرف الموضوع 4 سليم (top-ch4-skills-values-languages)');
+assert(CHAPTER_4_FIVE_TOPICS_METADATA[4].id === 'top-ch4-organizational-faith-research-axes', 'معرف الموضوع 5 سليم (top-ch4-organizational-faith-research-axes)');
+
+// فحص استرجاع موضوعات الفصل الرابع عبر دوال الاختيار الرسمية
+const course1Ch4Topics = getTopicsByChapter('chap-curriculum-factors');
+assert(course1Ch4Topics.length === 5, 'استرجاع موضوعات الفصل الرابع الخمسة المعتمدة بنجاح عبر getTopicsByChapter');
+
+// فحص وجود الملخصات الأكاديمية الكاملة وخلوها من أرقام الصفحات ومن أي أسئلة أو فيديوهات غير معتمدة
+CHAPTER_4_FACTORS_TOPICS.forEach((t, idx) => {
+  assert(Boolean(t.summary && t.summary.trim().length > 200), `فصل 4 - الموضوع ${idx + 1}: الملخص الأكاديمي الكامل موجود ومفصل (${t.summary?.length} حرفاً)`);
+  assert(t.lessons.length === 0, `فصل 4 - الموضوع ${idx + 1}: قائمة الدروس فارغة (خالٍ من الدروس غير المعتمدة)`);
+  assert(t.quiz === undefined, `فصل 4 - الموضوع ${idx + 1}: تبويب الاختبار غير مفعل (قيد الإعداد)`);
+  assert(t.video === undefined && t.videos === undefined, `فصل 4 - الموضوع ${idx + 1}: تبويب الفيديو في حالة قيد الإعداد`);
+  assert(!/(?:^|\s)(?:ص|صفحة)\s*\.?\s*\d+/.test(t.summary || ''), `فصل 4 - الموضوع ${idx + 1}: خلو الملخص من أرقام الصفحات المطبوعة`);
+});
+
+// فحص مصادقة النصوص الأكاديمية وتضمين النقاط المحورية للفصل الرابع
+assert(CHAPTER_4_FACTORS_TOPICS[0].summary?.includes('إشكالية تحديد مفهوم المنهج والفاصل التاريخي') === true, 'الموضوع 1 يتضمن نص تمهيد إشكالية مفهوم المنهج');
+assert(CHAPTER_4_FACTORS_TOPICS[0].summary?.includes('التعريف المعاصر الشامل (رسالة المدرسة)') === true, 'الموضوع 1 يتضمن التعريف المعاصر الشامل ورسالة المدرسة');
+assert(CHAPTER_4_FACTORS_TOPICS[1].summary?.includes('خمسة عوامل رئيسية') === true, 'الموضوع 2 يتضمن مقدمة العوامل الخمسة الرئيسية');
+assert(CHAPTER_4_FACTORS_TOPICS[1].summary?.includes('طبيعة المجتمع') === true, 'الموضوع 2 يتضمن عامل طبيعة المجتمع');
+assert(CHAPTER_4_FACTORS_TOPICS[1].summary?.includes('طبيعة العصر') === true, 'الموضوع 2 يتضمن عامل طبيعة العصر');
+assert(CHAPTER_4_FACTORS_TOPICS[1].summary?.includes('تأثير المعلومة وتيار العولمة') === true, 'الموضوع 2 يتضمن عامل تأثير المعلومة والعولمة');
+assert(CHAPTER_4_FACTORS_TOPICS[1].summary?.includes('تأثير المتغير') === true, 'الموضوع 2 يتضمن عامل تأثير المتغير');
+assert(CHAPTER_4_FACTORS_TOPICS[1].summary?.includes('مكانة التعليم الرسمي في حياة المستقبل') === true, 'الموضوع 2 يتضمن مكانة التعليم الرسمي');
+assert(CHAPTER_4_FACTORS_TOPICS[2].summary?.includes('توسيع دائرة بناء المناهج') === true, 'الموضوع 3 يتضمن توسيع دائرة بناء المناهج ومطالبها الأربعة');
+assert(CHAPTER_4_FACTORS_TOPICS[2].summary?.includes('التعامل مع المعلومة وطرق اكتسابها') === true, 'الموضوع 3 يتضمن التعامل مع المعلومة والتفكير الناقد والمبدع');
+assert(CHAPTER_4_FACTORS_TOPICS[2].summary?.includes('الاهتمام بالتعليم الذاتي') === true, 'الموضوع 3 يتضمن الاهتمام بالتعليم الذاتي');
+assert(CHAPTER_4_FACTORS_TOPICS[2].summary?.includes('التقليل من الاعتماد على جهد المعلم وتحديد موقع الكتاب المدرسي') === true, 'الموضوع 3 يتضمن الرؤية المتوازنة لدور المعلم والكتاب');
+assert(CHAPTER_4_FACTORS_TOPICS[2].summary?.includes('الاهتمام بالمهارات المرتبطة بمهن المستقبل') === true, 'الموضوع 3 يتضمن الاهتمام بمهن المستقبل');
+assert(CHAPTER_4_FACTORS_TOPICS[3].summary?.includes('مهارات مرتبطة بحاجات المتعلم') === true, 'الموضوع 4 يتضمن مهارات حاجات المتعلم');
+assert(CHAPTER_4_FACTORS_TOPICS[3].summary?.includes('مَن نكون؟ أين نحن الآن؟ وإلى أين نريد أن نصل؟') === true, 'الموضوع 4 يتضمن الأسئلة الاستراتيجية الثلاثة');
+assert(CHAPTER_4_FACTORS_TOPICS[3].summary?.includes('الاهتمام باللغات (العربية والأجنبية)') === true, 'الموضوع 4 يتضمن رعاية اللغات العربية والأجنبية');
+assert(CHAPTER_4_FACTORS_TOPICS[4].summary?.includes('5- توسيع دائرة النشاط وتنظيم برامجه') === true, 'الموضوع 5 يحفظ ترقيم المصدر (5 إلى 10)');
+assert(CHAPTER_4_FACTORS_TOPICS[4].summary?.includes('اعتماد المناهج على تنفيذ التعليم التعاوني وتنمية الإبداع') === true, 'الموضوع 5 يتضمن التعليم التعاوني والإبداع');
+assert(CHAPTER_4_FACTORS_TOPICS[4].summary?.includes('الاهتمام بالمفاهيم والمصطلحات العلمية') === true, 'الموضوع 5 يتضمن المفاهيم والمصطلحات');
+assert(CHAPTER_4_FACTORS_TOPICS[4].summary?.includes('دعم نظرة الإنسان للكون والحياة') === true, 'الموضوع 5 يتضمن نظرة الإنسان للكون والآيات القرآنية');
+assert(CHAPTER_4_FACTORS_TOPICS[4].summary?.includes('«إِنَّ فِي خَلْقِ السَّمَاوَاتِ وَالْأَرْضِ...»') === true, 'الموضوع 5 يتضمن الآية القرآنية المستشهد بها في المصدر');
+assert(CHAPTER_4_FACTORS_TOPICS[4].summary?.includes('دراسات اقتصاديات التعليم') === true, 'الموضوع 5 يتضمن دراسات اقتصاديات التعليم والحد من الرسوب والتسرب');
+
+// فحص أمان وعدم تضخم تقدم الطلاب الحسابي للفصل الرابع (Student Progress Safety & Anti-Inflation)
+const ch4TopicIds = CHAPTER_4_FACTORS_TOPICS.map((t) => t.id);
+const zeroProgressCh4 = getChapterProgressStats('course-1', 'chap-curriculum-factors', ch4TopicIds);
+assert(zeroProgressCh4.totalTopics === 5, 'مقام حساب نسبة تقدم الفصل الرابع يساوي 5 موضوعات بدقة');
+assert(zeroProgressCh4.completedTopicsCount === 0, 'حساب التقدم يبدأ بصفر للموضوعات غير المكتملة دون تضخم تلقائي للفصل الرابع');
+
+// فحص نزاهة عدم وراثة الإنجاز للموضوع المظلي القديم للفصل الرابع
+const uncompletedFutureComponents = getTopicProgress('course-1', 'chap-curriculum-factors', 'top-ch4-future-curriculum-first-five-components');
+assert(uncompletedFutureComponents.isCompleted === false, 'الموضوع الثالث الجديد لا يرث حالة الإنجاز تلقائياً من الموضوع المظلي القديم');
+
+// التأكد الصارم من بقاء موضوعات الفصول الأول والثاني والثالث دون أي مساس (Regression Safety Guarantee)
+const regressionCh1Again = getTopicsByChapter('chap-curriculum-intro');
+assert(regressionCh1Again.length === 9, 'الفصل الأول لا يزال يحتوي على موضوعاته التسعة المعتمدة كاملة دون أي مساس');
+const regressionCh2Again = getTopicsByChapter('chap-curriculum-foundations');
+assert(regressionCh2Again.length === 9, 'الفصل الثاني لا يزال يحتوي على موضوعاته التسعة المعتمدة كاملة دون أي مساس');
+const regressionCh3Again = getTopicsByChapter('chap-curriculum-elements');
+assert(regressionCh3Again.length === 7, 'الفصل الثالث لا يزال يحتوي على موضوعاته السبعة المعتمدة كاملة دون أي مساس');
 
 // 10. فحص مشغل الفيديو التعليمي وتكامل كتل الفيديو (Phase 2: Educational Video Integration & Reusable Player)
 console.log('\n10. فحص مشغل الفيديو التعليمي وتكامل كتل الفيديو (Phase 2: Video Integration):');

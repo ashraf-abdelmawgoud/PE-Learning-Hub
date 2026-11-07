@@ -2,6 +2,7 @@ import type { Chapter, AcademicReference } from '../../types';
 import { CURRICULUM_PILOT_CHAPTER, CURRICULUM_ACADEMIC_REFERENCE } from './curriculumPilotData.ts';
 import { CHAPTER_2_FOUNDATIONS_TOPICS } from './curriculumChapter2Data.ts';
 import { CHAPTER_3_ELEMENTS_TOPICS } from './curriculumChapter3Data.ts';
+import { CHAPTER_4_FACTORS_TOPICS } from './curriculumChapter4Data.ts';
 
 /**
  * =========================================================================
@@ -151,28 +152,7 @@ export const CHAPTER_4_FACTORS: Chapter = {
     'تأهيل المتعلم بالمهارات المرتبطة بمهن المستقبل، واللغات، والتعليم التعاوني، وتنمية الإبداع.',
     'ترسيخ المفاهيم والمصطلحات العلمية ودعم نظرة الإنسان للكون والحياة ومراكز تخطيط وتقويم البرامج.',
   ],
-  topics: [
-    {
-      id: 'top-ch4-influencing-factors',
-      chapterId: 'chap-curriculum-factors',
-      title: 'العوامل المؤثرة في بناء المنهج',
-      description:
-        'العوامل الأساسية المؤثرة في بناء المنهج: طبيعة المجتمع وهويته، طبيعة العصر ومنجزاته، تأثير تدفق المعلومة وتيار العولمة، تأثير المتغير وسرعة التطور، ومكانة التعليم الرسمي في حياة المستقبل.',
-      order: 1,
-      lessons: [],
-      status: 'pending_content',
-    },
-    {
-      id: 'top-ch4-future-curriculum-formula',
-      chapterId: 'chap-curriculum-factors',
-      title: 'الصيغة المطلوبة لمناهج المستقبل',
-      description:
-        'المطالب الأساسية لمناهج المستقبل: توسيع دائرة البناء، التعامل مع المعلومة، التعليم الذاتي والتعاوني، المهارات المرتبطة بمهن المستقبل، منظومة القيم والمهارات، الاهتمام باللغات والأنشطة، والمصطلحات العلمية ومراكز التخطيط والتقويم.',
-      order: 2,
-      lessons: [],
-      status: 'pending_content',
-    },
-  ],
+  topics: CHAPTER_4_FACTORS_TOPICS,
 };
 
 /**

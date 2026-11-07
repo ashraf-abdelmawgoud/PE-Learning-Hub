@@ -72,6 +72,11 @@ export const TopicDetailPage: React.FC = () => {
     return <Navigate to={`/courses/${courseId}/chapters/${chapterId}`} replace />;
   }
 
+  // Transparent redirect for Chapter 4 legacy broad topic to the chapter topics listing
+  if (chapterId === 'chap-curriculum-factors' && topicId === 'top-ch4-future-curriculum-formula') {
+    return <Navigate to={`/courses/${courseId}/chapters/${chapterId}`} replace />;
+  }
+
   const course = getCourseById(courseId);
   const chapter = getChapterById(courseId, chapterId);
   const topic = getTopicById(chapterId, topicId);
