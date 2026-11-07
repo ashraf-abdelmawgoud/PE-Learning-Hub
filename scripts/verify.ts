@@ -46,6 +46,7 @@ import {
 } from '../src/data/academic/quizzes/governance/governanceManifest.ts';
 import { computeQuestionBankHash } from '../src/utils/contentHash.ts';
 import type { GovernedQuestionBank } from '../src/types/quizGovernance.ts';
+import { validateChapter1DraftBank } from './validate-draft-bank.ts';
 import {
   verifyChapter1NineTopicsStructure,
   CHAPTER_1_NINE_TOPICS_METADATA,
@@ -1980,6 +1981,29 @@ assert(pilotDataContent.includes('QUIZ_TOPIC_1') && pilotDataContent.includes('Q
 
 // 14.18 التحقق من البنية الثابتة كلياً
 assert(hasNoBackendScripts, '14.18 بنية المنصة خالية تماماً من أي خوادم أو دوال سحابية أو واجهات مدفوعة');
+
+// 15. فحص مسودة بنك أسئلة الفصل الأول الشامل (Chapter 1 Comprehensive Draft Bank 50Q)
+console.log('\n15. فحص مسودة بنك أسئلة الفصل الأول الشامل (Chapter 1 Draft Bank 50Q):');
+
+const draftResult = validateChapter1DraftBank();
+assert(draftResult.isValid === true, '15.1 مسودة بنك أسئلة الفصل الأول سليمة وتجتاز كافة معايير التحقق الصارمة');
+assert(draftResult.totalQuestions === 50, '15.2 إجمالي أسئلة المسودة يساوي 50 سؤالاً بالضبط');
+assert(draftResult.mcqCount === 25, '15.3 أسئلة الاختيار من متعدد في المسودة تساوي 25 سؤالاً بالضبط');
+assert(draftResult.tfCount === 25, '15.4 أسئلة الصواب والخطأ في المسودة تساوي 25 سؤالاً بالضبط');
+assert(draftResult.topicsCoveredCount === 9, '15.5 المسودة تغطي جميع موضوعات الفصل الأول التسعة بالتفصيل');
+assert(draftResult.errors.length === 0, '15.6 خلو المسودة من أي أخطاء في الصياغة أو خيارات الإجابة أو المعرفات');
+
+// فحص عدم المساس بالاختبار الفعلي للفصل الأول
+const activeCh1Quiz = getChapterById('course-1', 'chap-curriculum-intro')?.chapterQuiz;
+assert(Boolean(activeCh1Quiz && activeCh1Quiz.questions.length === 15), '15.7 بقاء الاختبار الشامل الحالي للفصل الأول (15 سؤالاً) متاحاً ويعمل كالمعتاد للطلاب');
+assert(activeCh1Quiz?.id === 'quiz-ch1-comprehensive', '15.8 عدم استبدال أو كتابة فوق الاختبار الشامل الحالي للفصل الأول');
+
+// فحص عدم نشر المسودة
+assert(
+  !QUIZ_PUBLICATION_MANIFEST.some((b) => b.bankId === 'bank-ch1-comprehensive-draft-50q'),
+  '15.9 التأكيد الصارم على أن مسودة الـ 50 سؤالاً غير منشورة في بيان النشر الرسمي'
+);
+
 
 
 
