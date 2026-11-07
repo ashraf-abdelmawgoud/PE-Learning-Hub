@@ -36,6 +36,17 @@ import {
 import { isDevSandboxAllowed } from '../src/utils/devRouteGuard.ts';
 import type { QuizBlock } from '../src/types/academic.ts';
 import {
+  validateSingleGovernedBank,
+  validateQuizGovernance,
+  verifyNoDraftImports,
+} from './validate-quiz-governance.ts';
+import {
+  QUIZ_PUBLICATION_MANIFEST,
+  CHAPTER_1_LEGACY_EXCEPTION,
+} from '../src/data/academic/quizzes/governance/governanceManifest.ts';
+import { computeQuestionBankHash } from '../src/utils/contentHash.ts';
+import type { GovernedQuestionBank } from '../src/types/quizGovernance.ts';
+import {
   verifyChapter1NineTopicsStructure,
   CHAPTER_1_NINE_TOPICS_METADATA,
 } from '../src/data/academic/curriculumNineTopicsConfig.ts';
@@ -1724,6 +1735,186 @@ if (!comprehensiveValidation.isValid) {
 }
 assert(comprehensiveValidation.isValid === true, 'البنية الأكاديمية تدعم إدراج المقررات والفصول والموضوعات والدروس وكافة كتل المحتوى المعتمدة بنجاح 100%');
 assert(comprehensiveValidation.errors.length === 0, 'المقرر الشامل يمر دون أي أخطاء تحقق');
+
+// 13. فحص منظومة حوكمة واعتماد الأسئلة الأكاديمية (Quiz Governance & Publication Safety)
+console.log('\n13. فحص منظومة حوكمة واعتماد الأسئلة الأكاديمية (Quiz Governance & Publication Safety):');
+
+// تجهيز بنك أسئلة تركيبي معزول للاختبار (Isolated Synthetic Test Fixture)
+const syntheticApprovedBank: GovernedQuestionBank = {
+  bankId: 'bank-test-synthetic-gov-01',
+  version: '1.0.0',
+  contentHash: '',
+  title: 'بنك أسئلة تركيبي لاختبار الحوكمة',
+  description: 'بنك تركيبي معزول للتحقق من بوابات الاعتماد البرمجية دون نشره للطلاب',
+  courseId: 'course-1',
+  chapterId: 'chap-curriculum-intro',
+  topicId: 'top-ch1-curriculum-concept-evolution',
+  targetType: 'topic',
+  approvalStatus: 'approved',
+  reviewMetadata: {
+    reviewerName: 'أ.د. مراجع أكاديمي معتمد',
+    reviewerTitle: 'أستاذ المناهج وطرق التدريس',
+    approvalDate: '2026-11-07',
+    academicSource: 'مناهج التربية الرياضية، الطبعة الأولى',
+    sourceLocation: 'ص 15-20',
+    reviewNotes: 'تمت المراجعة والتحكيم الأكاديمي للاختبار الفني.',
+  },
+  questions: [
+    {
+      courseId: 'course-1',
+      chapterId: 'chap-curriculum-intro',
+      topicId: 'top-ch1-curriculum-concept-evolution',
+      approvalStatus: 'approved',
+      cognitiveLevel: 'comprehension',
+      question: {
+        id: 'q-synth-gov-01',
+        type: 'multiple_choice',
+        prompt: 'سؤال اختباري تركيبي للتحقق من مسار اعتماد بنك الأسئلة؟',
+        options: [
+          { id: 'opt-a', text: 'الخيار المعتمد الصحيح' },
+          { id: 'opt-b', text: 'خيار مشتت أول' },
+          { id: 'opt-c', text: 'خيار مشتت ثانٍ' },
+        ],
+        correctOptionId: 'opt-a',
+        explanation: 'تفسير علمي تربوي معتمد وموثق بدقة لاختبار الحوكمة.',
+        sourceReference: 'مناهج التربية الرياضية، ص 16',
+      },
+    },
+  ],
+};
+syntheticApprovedBank.contentHash = computeQuestionBankHash(syntheticApprovedBank);
+
+// 1. Valid explicitly approved new banks pass validation
+const test1Res = validateSingleGovernedBank(syntheticApprovedBank);
+assert(test1Res.errors.length === 0, '1. بنك الأسئلة المعتمد صراحة ومستوفي البيانات يجتاز التحقق بنجاح (Valid approved bank passes)');
+
+// 2. Draft banks cannot be published
+const draftBank = { ...syntheticApprovedBank, approvalStatus: 'draft' as const };
+const test2Res = validateSingleGovernedBank(draftBank);
+assert(test2Res.errors.some((e) => e.includes('draft') || e.includes('محظور')), '2. بنوك الأسئلة بوضع مسودة (draft) محظورة قطعياً من النشر (Draft banks blocked)');
+
+// 3. Under-review banks cannot be published
+const underReviewBank = { ...syntheticApprovedBank, approvalStatus: 'under_review' as const };
+const test3Res = validateSingleGovernedBank(underReviewBank);
+assert(test3Res.errors.some((e) => e.includes('under_review') || e.includes('محظور')), '3. بنوك الأسئلة قيد المراجعة (under_review) محظورة قطعياً من النشر (Under-review banks blocked)');
+
+// 4. Rejected banks cannot be published
+const rejectedBank = { ...syntheticApprovedBank, approvalStatus: 'rejected' as const };
+const test4Res = validateSingleGovernedBank(rejectedBank);
+assert(test4Res.errors.some((e) => e.includes('rejected') || e.includes('محظور')), '4. بنوك الأسئلة المرفوضة (rejected) محظورة قطعياً من النشر (Rejected banks blocked)');
+
+// 5. Missing reviewer identity blocks publication
+const missingReviewerBank = {
+  ...syntheticApprovedBank,
+  reviewMetadata: { ...syntheticApprovedBank.reviewMetadata, reviewerName: '' },
+};
+const test5Res = validateSingleGovernedBank(missingReviewerBank);
+assert(test5Res.errors.some((e) => e.includes('reviewerName')), '5. غياب اسم المراجع الأكاديمي يمنع النشر (Missing reviewer blocks publication)');
+
+// 6. Missing approval date blocks publication
+const missingDateBank = {
+  ...syntheticApprovedBank,
+  reviewMetadata: { ...syntheticApprovedBank.reviewMetadata, approvalDate: '' },
+};
+const test6Res = validateSingleGovernedBank(missingDateBank);
+assert(test6Res.errors.some((e) => e.includes('approvalDate')), '6. غياب تاريخ الاعتماد يمنع النشر (Missing approval date blocks publication)');
+
+// 7. Missing academic source blocks approval
+const missingSourceBank = {
+  ...syntheticApprovedBank,
+  reviewMetadata: { ...syntheticApprovedBank.reviewMetadata, academicSource: '' },
+};
+const test7Res = validateSingleGovernedBank(missingSourceBank);
+assert(test7Res.errors.some((e) => e.includes('academicSource')), '7. غياب المرجع الأكاديمي يمنع النشر (Missing academic source blocks publication)');
+
+// 8. Missing explanation blocks approval
+const qMissingExp = {
+  ...syntheticApprovedBank.questions[0],
+  question: { ...syntheticApprovedBank.questions[0].question, explanation: '' },
+};
+const missingExpBank = { ...syntheticApprovedBank, questions: [qMissingExp] };
+missingExpBank.contentHash = computeQuestionBankHash(missingExpBank);
+const test8Res = validateSingleGovernedBank(missingExpBank);
+assert(test8Res.errors.some((e) => e.includes('explanation') || e.includes('التفسير')), '8. غياب التفسير التعليمي للسؤال يمنع الاعتماد (Missing explanation blocks approval)');
+
+// 9. Incorrect MCQ answers fail validation
+const qBadMcq = {
+  ...syntheticApprovedBank.questions[0],
+  question: { ...syntheticApprovedBank.questions[0].question, correctOptionId: 'non-existent-option' },
+};
+const badMcqBank = { ...syntheticApprovedBank, questions: [qBadMcq] };
+badMcqBank.contentHash = computeQuestionBankHash(badMcqBank);
+const test9Res = validateSingleGovernedBank(badMcqBank);
+assert(test9Res.errors.some((e) => e.includes('correctOptionId') || e.includes('مطابقات')), '9. الإجابة الصحيحة غير المطابقة لخيارات MCQ تفشل التحقق (Invalid MCQ answers fail validation)');
+
+// 10. Duplicate IDs fail validation
+const dupQBank = {
+  ...syntheticApprovedBank,
+  questions: [syntheticApprovedBank.questions[0], syntheticApprovedBank.questions[0]],
+};
+dupQBank.contentHash = computeQuestionBankHash(dupQBank);
+const test10Res = validateSingleGovernedBank(dupQBank);
+assert(test10Res.errors.some((e) => e.includes('تكرار معرف')), '10. تكرار معرفات الأسئلة داخل البنك يفشل التحقق (Duplicate IDs fail validation)');
+
+// 11. Incorrect question-to-topic relationships fail validation
+const wrongTopicBank = { ...syntheticApprovedBank, topicId: 'invalid-topic-id-nonexistent' };
+wrongTopicBank.contentHash = computeQuestionBankHash(wrongTopicBank);
+const mockTopicMap = new Map([
+  ['course-1::chap-curriculum-intro', new Set(['top-ch1-curriculum-concept-evolution'])],
+]);
+const test11Res = validateSingleGovernedBank(wrongTopicBank, undefined, mockTopicMap);
+assert(test11Res.errors.some((e) => e.includes('غير موجود ضمن الفصل')), '11. ربط السؤال بموضوع غير موجود يفشل التحقق (Invalid topic relationship fails validation)');
+
+// 12. Changed approved content fails version/integrity verification
+const tamperedBank = {
+  ...syntheticApprovedBank,
+  questions: [
+    {
+      ...syntheticApprovedBank.questions[0],
+      question: {
+        ...syntheticApprovedBank.questions[0].question,
+        prompt: 'نص متلاعب به بعد الاعتماد دون تحديث الهاش!',
+      },
+    },
+  ],
+};
+const test12Res = validateSingleGovernedBank(tamperedBank);
+assert(test12Res.errors.some((e) => e.includes('تجزئة المحتوى') || e.includes('Content Hash')), '12. أي تعديل في محتوى السؤال المعتمد يُبطل التجزئة التوافقية ويوقف البناء (Tampered content fails hash check)');
+
+// 13. Legacy Chapter 1 quiz behavior remains unchanged
+assert(CHAPTER_1_LEGACY_EXCEPTION.isLegacyPilotException === true, '13.1 استثناء أسئلة الفصل الأول التجريبية موثق كاستثناء تقني رسمي');
+const ch1Course = getCourseById('course-1');
+const ch1Foundations = ch1Course?.chapters.find((ch) => ch.id === 'chap-curriculum-intro');
+assert(Boolean(ch1Foundations?.chapterQuiz && ch1Foundations.chapterQuiz.questions.length === 15), '13.2 اختبار الفصل الأول التجريبي (15 سؤالاً) سليم وفعال دون مساس');
+
+// 14. Existing student scores remain compatible
+const sampleLegacyQuiz = ch1Foundations!.chapterQuiz!;
+const scoreResult = evaluateQuiz(sampleLegacyQuiz, { 'q-comp-1': 'opt-a' });
+assert(scoreResult.totalQuestions === 15 && typeof scoreResult.score === 'number' && scoreResult.percentage >= 0, '14. محرك حساب الدرجات والتقييم المحلي متوافق تماماً (Local quiz scoring remains compatible)');
+
+// 15. All 50 academic topics remain unchanged
+const allCourseTopics = ch1Course!.chapters.flatMap((ch) => ch.topics);
+assert(allCourseTopics.length === 50, '15.1 إجمالي موضوعات المقرر الأول 50 موضوعاً معتمداً دون حذف أو نقصان');
+const chapterCounts = ch1Course!.chapters.map((ch) => ch.topics.length);
+assert(
+  JSON.stringify(chapterCounts) === JSON.stringify([9, 9, 7, 5, 7, 6, 7]),
+  '15.2 توزيع الموضوعات عبر الفصول السبعة سليم تماماً: [9, 9, 7, 5, 7, 6, 7]'
+);
+
+// 16. No new questions are published
+assert(QUIZ_PUBLICATION_MANIFEST.length === 0, '16.1 بيان النشر (QUIZ_PUBLICATION_MANIFEST) خالٍ تماماً من أي بنوك جديدة غير معتمدة');
+const governanceValidation = validateQuizGovernance();
+assert(governanceValidation.isValid === true && governanceValidation.publishedBanksCount === 0, '16.2 التحقق من الحوكمة يؤكد عدم نشر أي أسئلة جديدة في هذه المرحلة');
+
+// 17. Draft/unapproved question content is absent from production assets
+const draftImportsCheck = verifyNoDraftImports();
+assert(draftImportsCheck.leakedImports.length === 0, '17. مجلد مسودات الأسئلة (drafts) معزول تماماً ولا يوجد أي تسريب لكود الإنتاج (No draft imports in production assets)');
+
+// 18. The deployment output remains fully static
+const pkgJson = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json'), 'utf8'));
+const hasNoBackendScripts = !pkgJson.dependencies['express'] && !pkgJson.dependencies['@cloudflare/workers-types'];
+assert(hasNoBackendScripts && pkgJson.scripts.build.includes('vite build'), '18. بنية البناء والنشر ثابتة كلياً ومتوافقة 100% مع Cloudflare Pages بدون أي خوادم أو تبعات غير ثابتة');
+
 
 console.log(`\n========================================`);
 console.log(`إجمالي الفحوصات الناجحة: ${passedTests}`);

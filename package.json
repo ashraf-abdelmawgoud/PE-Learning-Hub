@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "node --experimental-strip-types scripts/validate-content.ts",
-    "build": "node --experimental-strip-types scripts/validate-content.ts && tsc -b && vite build",
+    "prebuild": "node --experimental-strip-types scripts/validate-content.ts && node --experimental-strip-types scripts/validate-quiz-governance.ts",
+    "build": "node --experimental-strip-types scripts/validate-content.ts && node --experimental-strip-types scripts/validate-quiz-governance.ts && tsc -b && vite build",
     "lint": "oxlint",
     "test": "node --experimental-strip-types scripts/verify.ts && node --experimental-strip-types scripts/test-routes-in-process.ts",
     "audit:cloudflare": "node --experimental-strip-types scripts/audit-dist.ts",
