@@ -11,6 +11,7 @@ import {
   MERGED_CHAPTER_3_QUIZ,
   MERGED_CHAPTER_4_QUIZ,
   MERGED_CHAPTER_5_QUIZ,
+  MERGED_CHAPTER_6_QUIZ,
   MERGED_CHAPTER_7_QUIZ,
 } from './quizzes/mergedChapterQuizzes.ts';
 
@@ -228,6 +229,7 @@ export const TOPIC_6_UNIT_DESIGN: Chapter = {
     'التعامل مع التحديات والتوقعات الميدانية أثناء تنفيذ الحصة الرياضية.',
   ],
   topics: CHAPTER_6_UNIT_DESIGN_TOPICS,
+  chapterQuiz: MERGED_CHAPTER_6_QUIZ,
 };
 
 /**

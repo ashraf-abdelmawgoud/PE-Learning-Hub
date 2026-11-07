@@ -32,7 +32,7 @@ export const CHAPTER_1_LEGACY_EXCEPTION = {
 
 /**
  * سجل بيان النشر المعتمد (Publication Manifest)
- * يسجل بنوك الأسئلة الأكاديمية الستة المعتمدة بعد اجتياز التحكيم الأكاديمي والتحقق البرمجي.
+ * يسجل بنوك الأسئلة الأكاديمية السبعة المعتمدة بعد اجتياز التحكيم الأكاديمي والتحقق البرمجي.
  */
 export const QUIZ_PUBLICATION_MANIFEST: QuizPublicationManifestEntry[] = [
   ...ALL_APPROVED_QUESTION_BANKS.map((bank) => ({

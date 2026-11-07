@@ -10,10 +10,10 @@
  * - الفصل الثالث: 50 سؤالاً معتمداً.
  * - الفصل الرابع: 50 سؤالاً معتمداً.
  * - الفصل الخامس: 50 سؤالاً معتمداً.
- * - الموضوع السادس: بدون اختبار منشور (قيد الإعداد).
+ * - الموضوع السادس: 50 سؤالاً معتمداً.
  * - الموضوع السابع: 50 سؤالاً معتمداً.
  *
- * إجمالي الأسئلة المدمجة المنشورة: 315 سؤالاً عبر الفصول.
+ * إجمالي الأسئلة المدمجة المنشورة: 365 سؤالاً عبر الفصول.
  */
 
 import type { QuizBlock, QuizQuestion } from '../../../types/academic.ts';
@@ -23,6 +23,7 @@ import { CHAPTER_2_APPROVED_BANK } from './approved/chapter2ApprovedBank.ts';
 import { CHAPTER_3_APPROVED_BANK } from './approved/chapter3ApprovedBank.ts';
 import { CHAPTER_4_APPROVED_BANK } from './approved/chapter4ApprovedBank.ts';
 import { CHAPTER_5_APPROVED_BANK } from './approved/chapter5ApprovedBank.ts';
+import { CHAPTER_6_APPROVED_BANK } from './approved/chapter6ApprovedBank.ts';
 import { CHAPTER_7_APPROVED_BANK } from './approved/chapter7ApprovedBank.ts';
 
 /**
@@ -131,6 +132,23 @@ export const MERGED_CHAPTER_5_QUIZ: QuizBlock = {
   passingScorePercentage: 60,
   sourceReference: 'كتاب مناهج التربية الرياضية — أ.د/ هاني الدسوقي إبراهيم (ص 38 - 51)',
   questions: mapQuestionsWithOrderOffset(CHAPTER_5_APPROVED_BANK.questions, 0),
+};
+
+/**
+ * الاختبار الشامل للموضوع السادس (50 سؤالاً)
+ */
+export const MERGED_CHAPTER_6_QUIZ: QuizBlock = {
+  id: 'quiz-ch6-comprehensive',
+  type: 'quiz',
+  order: 1,
+  title: 'الاختبار الشامل للموضوع السادس: تصميم وحدة دراسية',
+  description:
+    'تقويم تراكمي شامل لقياس مدى استيعاب موضوعات الموضوع السادس كاملة (50 سؤالاً موضوعياً معتمداً: 25 اختيار من متعدد و25 صواب وخطأ).',
+  instructions:
+    'أجب عن جميع الأسئلة ثم اضغط على زر اعتماد الإجابات لمعرفة نتيجتك ومراجعة التفسيرات المعتمدة من كتاب المقرر.',
+  passingScorePercentage: 60,
+  sourceReference: 'كتاب مناهج التربية الرياضية — أ.د/ هاني الدسوقي إبراهيم (ص 51 - 59)',
+  questions: mapQuestionsWithOrderOffset(CHAPTER_6_APPROVED_BANK.questions, 0),
 };
 
 /**
