@@ -4,6 +4,7 @@ import { CHAPTER_2_FOUNDATIONS_TOPICS } from './curriculumChapter2Data.ts';
 import { CHAPTER_3_ELEMENTS_TOPICS } from './curriculumChapter3Data.ts';
 import { CHAPTER_4_FACTORS_TOPICS } from './curriculumChapter4Data.ts';
 import { CHAPTER_5_DESIGNS_TOPICS } from './curriculumChapter5Data.ts';
+import { CHAPTER_6_UNIT_DESIGN_TOPICS } from './curriculumChapter6Data.ts';
 
 /**
  * =========================================================================
@@ -214,28 +215,7 @@ export const TOPIC_6_UNIT_DESIGN: Chapter = {
     'إتقان مهارات كرة السلة (التمرير باليدين فوق الرأس، حركات القدمين، التصويب) وكرة اليد (التصويب الكرباجي، الخداع بالتمرير ثم التمرير).',
     'التعامل مع التحديات والتوقعات الميدانية أثناء تنفيذ الحصة الرياضية.',
   ],
-  topics: [
-    {
-      id: 'top-ch6-unit-plan-framework',
-      chapterId: 'chap-curriculum-unit-design',
-      title: 'الإطار العام لتخطيط وحدة دراسية تطبيقية',
-      description:
-        'مفهوم الوحدة الدراسية، جدول البيانات العامة بمدرسة الروضة بقنا، توزيع الحصص والدروس، شكل الدرس وعناصره، خصائص نمو طلاب الصف السادس ومتطلباتها وحاجاتهم النفسية، ودور المعلم والخلفية الاجتماعية.',
-      order: 1,
-      lessons: [],
-      status: 'pending_content',
-    },
-    {
-      id: 'top-ch6-practical-units-skills',
-      chapterId: 'chap-curriculum-unit-design',
-      title: 'الوحدات التعليمية التطبيقية (الجمباز، كرة السلة، كرة اليد)',
-      description:
-        'التطبيقات الميدانية: وحدة الجمباز (الدحرجة الجانبية المكورة، الوقوف على اليدين، الجملة الحركية)، وحدة كرة السلة (التمرير فوق الرأس، حركات القدمين، التصويب فوق الرأس)، وحدة كرة اليد (التصويب من مستوى الحوض والركبة، الخداع بالتمرير ثم التمرير)، وجداول الأخطاء الشائعة وأسبابها وتصحيحها، والتوقعات الخاصة بتنفيذ الحصة.',
-      order: 2,
-      lessons: [],
-      status: 'pending_content',
-    },
-  ],
+  topics: CHAPTER_6_UNIT_DESIGN_TOPICS,
 };
 
 /**

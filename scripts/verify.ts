@@ -60,6 +60,11 @@ import {
 } from '../src/data/academic/curriculumChapter5TopicsConfig.ts';
 import { CHAPTER_5_DESIGNS_TOPICS } from '../src/data/academic/curriculumChapter5Data.ts';
 import {
+  verifyChapter6SixTopicsStructure,
+  CHAPTER_6_SIX_TOPICS_METADATA,
+} from '../src/data/academic/curriculumChapter6TopicsConfig.ts';
+import { CHAPTER_6_UNIT_DESIGN_TOPICS } from '../src/data/academic/curriculumChapter6Data.ts';
+import {
   getTopicProgress,
   getChapterProgressStats,
 } from '../src/utils/progressPersistence.ts';
@@ -168,7 +173,7 @@ assert(report.isValid === true, 'تقرير فحص المحتوى الأكادي
 assert(report.errors.length === 0, `عدد الأخطاء الهندسية يساوي 0 (الفعل: ${report.errors.length})`);
 assert(report.coursesCount === 8, `إجمالي المقررات (6 رسمية + 2 معمل تجريبي معزول) يساوي 8`);
 assert(report.chaptersCount === 9, 'عدد الفصول الإجمالي يساوي 9 (7 وحدات لمناهج التربية الرياضية + 2 معامل تقنية)');
-assert(report.topicsCount === 44, 'عدد الموضوعات الإجمالي يساوي 44 (42 لمناهج التربية الرياضية + 2 معامل تقنية)');
+assert(report.topicsCount === 48, 'عدد الموضوعات الإجمالي يساوي 48 (46 لمناهج التربية الرياضية + 2 معامل تقنية)');
 assert(report.lessonsCount === 3, 'عدد الدروس الإجمالي يساوي 3 (2 معامل تقنية + 1 درس احتياطي معتمد)');
 assert(report.blocksCount === 19, `عدد كتل المحتوى الإجمالي يساوي 19 كتلة رصينة (الفعل: ${report.blocksCount})`);
 
@@ -861,6 +866,82 @@ const regressionCh3Ch5 = getTopicsByChapter('chap-curriculum-elements');
 assert(regressionCh3Ch5.length === 7, 'الفصل الثالث لا يزال يحتوي على موضوعاته السبعة المعتمدة كاملة دون أي مساس');
 const regressionCh4Ch5 = getTopicsByChapter('chap-curriculum-factors');
 assert(regressionCh4Ch5.length === 5, 'الفصل الرابع لا يزال يحتوي على موضوعاته الخمسة المعتمدة كاملة دون أي مساس');
+
+// 9.10 فحص سلامة الهيكل الأكاديمي السداسي للموضوع السادس (Unit 6: Unit Design Six Topics Architecture)
+console.log('\n9.10 فحص سلامة الهيكل الأكاديمي السداسي للموضوع السادس (تصميم وحدة دراسية):');
+
+const ch6Verification = verifyChapter6SixTopicsStructure();
+assert(ch6Verification.isValid === true, 'هيكل الموضوعات الستة للموضوع السادس سليم بنسبة 100%');
+assert(ch6Verification.totalTopics === 6, 'الموضوع السادس يحتوي بالضبط على 6 موضوعات تعليمية معتمدة');
+assert(ch6Verification.educationalOrganizationalCount === 6, 'جميع موضوعات الموضوع السادس مصنفة كعناوين تنظيمية تعليمية (educational_organizational)');
+assert(ch6Verification.originalAuthorCount === 0, 'لا توجد عناوين منسوبة قسرياً للمؤلف كعناوين رئيسية');
+
+// فحص تطابق وترتيب البيانات الوصفية للموضوعات الستة
+CHAPTER_6_SIX_TOPICS_METADATA.forEach((t, idx) => {
+  assert(t.order === idx + 1, `موضوع 6 - الموضوع ${idx + 1}: الترتيب ${idx + 1} صحيح`);
+  assert(t.chapterId === 'chap-curriculum-unit-design', `موضوع 6 - الموضوع ${idx + 1}: الارتباط بالفصل السليم (chap-curriculum-unit-design)`);
+  assert(t.headingClassification === 'educational_organizational', `موضوع 6 - الموضوع ${idx + 1}: تصنيف تنظيمي تعليمي سليم`);
+});
+
+// فحص المعرفات الستة المستحدثة
+assert(CHAPTER_6_SIX_TOPICS_METADATA[0].id === 'top-ch6-unit-concept-curriculum-planning', 'معرف الموضوع 1 سليم (top-ch6-unit-concept-curriculum-planning)');
+assert(CHAPTER_6_SIX_TOPICS_METADATA[1].id === 'top-ch6-grade6-characteristics-teacher-role', 'معرف الموضوع 2 سليم (top-ch6-grade6-characteristics-teacher-role)');
+assert(CHAPTER_6_SIX_TOPICS_METADATA[2].id === 'top-ch6-gymnastics-skill-analysis-steps', 'معرف الموضوع 3 سليم (top-ch6-gymnastics-skill-analysis-steps)');
+assert(CHAPTER_6_SIX_TOPICS_METADATA[3].id === 'top-ch6-basketball-basic-skills-drills', 'معرف الموضوع 4 سليم (top-ch6-basketball-basic-skills-drills)');
+assert(CHAPTER_6_SIX_TOPICS_METADATA[4].id === 'top-ch6-handball-whip-shot-feints', 'معرف الموضوع 5 سليم (top-ch6-handball-whip-shot-feints)');
+assert(CHAPTER_6_SIX_TOPICS_METADATA[5].id === 'top-ch6-lesson-execution-field-challenges', 'معرف الموضوع 6 سليم (top-ch6-lesson-execution-field-challenges)');
+
+// فحص استرجاع موضوعات الموضوع السادس عبر دوال الاختيار الرسمية
+const course1Ch6Topics = getTopicsByChapter('chap-curriculum-unit-design');
+assert(course1Ch6Topics.length === 6, 'استرجاع موضوعات الموضوع السادس الستة المعتمدة بنجاح عبر getTopicsByChapter');
+
+// فحص وجود الملخصات الأكاديمية الكاملة وخلوها من أرقام الصفحات ومن أي أسئلة أو فيديوهات غير معتمدة
+CHAPTER_6_UNIT_DESIGN_TOPICS.forEach((t, idx) => {
+  assert(Boolean(t.summary && t.summary.trim().length > 200), `موضوع 6 - الموضوع ${idx + 1}: الملخص الأكاديمي الكامل موجود ومفصل (${t.summary?.length} حرفاً)`);
+  assert(t.lessons.length === 0, `موضوع 6 - الموضوع ${idx + 1}: قائمة الدروس فارغة (خالٍ من الدروس غير المعتمدة)`);
+  assert(t.quiz === undefined, `موضوع 6 - الموضوع ${idx + 1}: تبويب الاختبار غير مفعل (قيد الإعداد)`);
+  assert(t.video === undefined && t.videos === undefined, `موضوع 6 - الموضوع ${idx + 1}: تبويب الفيديو في حالة قيد الإعداد`);
+  assert(!/(?:^|\s)(?:ص|صفحة)\s*\.?\s*\d+/.test(t.summary || ''), `موضوع 6 - الموضوع ${idx + 1}: خلو الملخص من أرقام الصفحات المطبوعة`);
+});
+
+// فحص مصادقة النصوص الأكاديمية وتضمين النقاط المحورية للموضوع السادس
+assert(CHAPTER_6_UNIT_DESIGN_TOPICS[0].summary?.includes('مفهوم الوحدة الدراسية وتعريفاتها الأكاديمية') === true, 'الموضوع 1 يتضمن تعريفي الوحدة الدراسية');
+assert(CHAPTER_6_UNIT_DESIGN_TOPICS[0].summary?.includes('جدول البيانات العامة لنموذج التطبيق') === true, 'الموضوع 1 يتضمن جدول البيانات العامة ببنوده السبعة');
+assert(CHAPTER_6_UNIT_DESIGN_TOPICS[0].summary?.includes('وصف المقرر وعناصر الهيكل الإجرائي للدرس') === true, 'الموضوع 1 يتضمن محاور الدرس التسعة والـ 11 تفصيلياً');
+assert(CHAPTER_6_UNIT_DESIGN_TOPICS[0].summary?.includes('32 حصة دراسية') === true, 'الموضوع 1 يثبت إجمالي 32 حصة كما صرح بها المؤلف');
+assert(CHAPTER_6_UNIT_DESIGN_TOPICS[0].summary?.includes('33 حصة') === true, 'الموضوع 1 يوثق الملاحظة التحريرية لمجموع 33 حصة');
+assert(CHAPTER_6_UNIT_DESIGN_TOPICS[1].summary?.includes('مميزات مرحلة النمو لطلاب الصف السادس') === true, 'الموضوع 2 يتضمن مميزات مرحلة النمو الثلاث');
+assert(CHAPTER_6_UNIT_DESIGN_TOPICS[1].summary?.includes('المتطلبات التربوية التسع للمرحلة') === true, 'الموضوع 2 يتضمن المتطلبات التربوية التسع');
+assert(CHAPTER_6_UNIT_DESIGN_TOPICS[1].summary?.includes('الحاجات النفسية الأربع لطلاب المرحلة') === true, 'الموضوع 2 يتضمن الحاجات النفسية الأربع');
+assert(CHAPTER_6_UNIT_DESIGN_TOPICS[1].summary?.includes('التوجيهات الإجرائية الـ 11 للمعلم') === true, 'الموضوع 2 يتضمن التوجيهات الإجرائية الـ 11 للمعلم');
+assert(CHAPTER_6_UNIT_DESIGN_TOPICS[2].summary?.includes('أجهزة الجمباز للذكور (6 أجهزة)') === true && CHAPTER_6_UNIT_DESIGN_TOPICS[2].summary?.includes('أجهزة الجمباز للإناث (5 أجهزة)') === true, 'الموضوع 3 يتضمن أجهزة الجمباز للذكور والإناث');
+assert(CHAPTER_6_UNIT_DESIGN_TOPICS[2].summary?.includes('مهارة الدحرجة الجانبية المكورة') === true && CHAPTER_6_UNIT_DESIGN_TOPICS[2].summary?.includes('مهارة الوقوف على اليدين') === true, 'الموضوع 3 يتضمن درسي الدحرجة والوقوف على اليدين وجملة الحركات');
+assert(CHAPTER_6_UNIT_DESIGN_TOPICS[3].summary?.includes('مهارة التمرير باليدين من فوق الرأس') === true && CHAPTER_6_UNIT_DESIGN_TOPICS[3].summary?.includes('حركات القدمين') === true && CHAPTER_6_UNIT_DESIGN_TOPICS[3].summary?.includes('التصويب باليدين من فوق الرأس') === true, 'الموضوع 4 يتضمن دروس كرة السلة الثلاثة بالنقاط الفنية والتدريبات وتصحيح الأخطاء');
+assert(CHAPTER_6_UNIT_DESIGN_TOPICS[4].summary?.includes('التصويب من مستوى الحوض والركبة') === true && CHAPTER_6_UNIT_DESIGN_TOPICS[4].summary?.includes('الخداع بالتمرير ثم التمرير') === true, 'الموضوع 5 يتضمن درسي كرة اليد التصويب والخداع وجدول النماذج الخمسة');
+assert(CHAPTER_6_UNIT_DESIGN_TOPICS[5].summary?.includes('المشكلات الأربعة التوقعية أثناء تنفيذ درس التربية الرياضية') === true, 'الموضوع 6 يتضمن المشكلات الأربعة التوقعية لتنفيذ الدرس');
+assert(CHAPTER_6_UNIT_DESIGN_TOPICS[5].summary?.includes('مسؤوليات معلم التربية الرياضية') === true && CHAPTER_6_UNIT_DESIGN_TOPICS[5].summary?.includes('مسؤوليات الإدارة المدرسية') === true, 'الموضوع 6 يتضمن مسؤوليات المعلم والإدارة المدرسية');
+
+// فحص أمان وعدم تضخم تقدم الطلاب الحسابي للموضوع السادس (Student Progress Safety & Anti-Inflation)
+const ch6TopicIds = CHAPTER_6_UNIT_DESIGN_TOPICS.map((t) => t.id);
+const zeroProgressCh6 = getChapterProgressStats('course-1', 'chap-curriculum-unit-design', ch6TopicIds);
+assert(zeroProgressCh6.totalTopics === 6, 'مقام حساب نسبة تقدم الموضوع السادس يساوي 6 موضوعات بدقة');
+assert(zeroProgressCh6.completedTopicsCount === 0, 'حساب التقدم يبدأ بصفر للموضوعات غير المكتملة دون تضخم تلقائي للموضوع السادس');
+
+// فحص نزاهة عدم وراثة الإنجاز للموضوعات المظلية القديمة للموضوع السادس
+const uncompletedUnitConcept = getTopicProgress('course-1', 'chap-curriculum-unit-design', 'top-ch6-unit-concept-curriculum-planning');
+assert(uncompletedUnitConcept.isCompleted === false, 'الموضوع الأول الجديد لا يرث حالة الإنجاز تلقائياً من الموضوع المظلي القديم');
+
+// التأكد الصارم من بقاء موضوعات الفصول الأول والثاني والثالث والرابع والخامس دون أي مساس (Regression Safety Guarantee)
+const regressionCh1Ch6 = getTopicsByChapter('chap-curriculum-intro');
+assert(regressionCh1Ch6.length === 9, 'الفصل الأول لا يزال يحتوي على موضوعاته التسعة المعتمدة كاملة دون أي مساس');
+const regressionCh2Ch6 = getTopicsByChapter('chap-curriculum-foundations');
+assert(regressionCh2Ch6.length === 9, 'الفصل الثاني لا يزال يحتوي على موضوعاته التسعة المعتمدة كاملة دون أي مساس');
+const regressionCh3Ch6 = getTopicsByChapter('chap-curriculum-elements');
+assert(regressionCh3Ch6.length === 7, 'الفصل الثالث لا يزال يحتوي على موضوعاته السبعة المعتمدة كاملة دون أي مساس');
+const regressionCh4Ch6 = getTopicsByChapter('chap-curriculum-factors');
+assert(regressionCh4Ch6.length === 5, 'الفصل الرابع لا يزال يحتوي على موضوعاته الخمسة المعتمدة كاملة دون أي مساس');
+const regressionCh5Ch6 = getTopicsByChapter('chap-curriculum-designs');
+assert(regressionCh5Ch6.length === 7, 'الفصل الخامس لا يزال يحتوي على موضوعاته السبعة المعتمدة كاملة دون أي مساس');
 
 // 10. فحص مشغل الفيديو التعليمي وتكامل كتل الفيديو (Phase 2: Educational Video Integration & Reusable Player)
 console.log('\n10. فحص مشغل الفيديو التعليمي وتكامل كتل الفيديو (Phase 2: Video Integration):');
