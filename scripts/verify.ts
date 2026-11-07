@@ -65,6 +65,11 @@ import {
 } from '../src/data/academic/curriculumChapter6TopicsConfig.ts';
 import { CHAPTER_6_UNIT_DESIGN_TOPICS } from '../src/data/academic/curriculumChapter6Data.ts';
 import {
+  verifyChapter7SevenTopicsStructure,
+  CHAPTER_7_SEVEN_TOPICS_METADATA,
+} from '../src/data/academic/curriculumChapter7TopicsConfig.ts';
+import { CHAPTER_7_PLANNING_TOPICS } from '../src/data/academic/curriculumChapter7Data.ts';
+import {
   getTopicProgress,
   getChapterProgressStats,
 } from '../src/utils/progressPersistence.ts';
@@ -173,7 +178,7 @@ assert(report.isValid === true, 'تقرير فحص المحتوى الأكادي
 assert(report.errors.length === 0, `عدد الأخطاء الهندسية يساوي 0 (الفعل: ${report.errors.length})`);
 assert(report.coursesCount === 8, `إجمالي المقررات (6 رسمية + 2 معمل تجريبي معزول) يساوي 8`);
 assert(report.chaptersCount === 9, 'عدد الفصول الإجمالي يساوي 9 (7 وحدات لمناهج التربية الرياضية + 2 معامل تقنية)');
-assert(report.topicsCount === 48, 'عدد الموضوعات الإجمالي يساوي 48 (46 لمناهج التربية الرياضية + 2 معامل تقنية)');
+assert(report.topicsCount === 52, 'عدد الموضوعات الإجمالي يساوي 52 (50 لمناهج التربية الرياضية + 2 معامل تقنية)');
 assert(report.lessonsCount === 3, 'عدد الدروس الإجمالي يساوي 3 (2 معامل تقنية + 1 درس احتياطي معتمد)');
 assert(report.blocksCount === 19, `عدد كتل المحتوى الإجمالي يساوي 19 كتلة رصينة (الفعل: ${report.blocksCount})`);
 
@@ -942,6 +947,93 @@ const regressionCh4Ch6 = getTopicsByChapter('chap-curriculum-factors');
 assert(regressionCh4Ch6.length === 5, 'الفصل الرابع لا يزال يحتوي على موضوعاته الخمسة المعتمدة كاملة دون أي مساس');
 const regressionCh5Ch6 = getTopicsByChapter('chap-curriculum-designs');
 assert(regressionCh5Ch6.length === 7, 'الفصل الخامس لا يزال يحتوي على موضوعاته السبعة المعتمدة كاملة دون أي مساس');
+
+// 9.11 فحص سلامة الهيكل الأكاديمي السباعي للموضوع السابع (Unit 7: Curriculum Planning Seven Topics Architecture)
+console.log('\n9.11 فحص سلامة الهيكل الأكاديمي السباعي للموضوع السابع (تخطيط المنهج المدرسي):');
+
+const ch7Verification = verifyChapter7SevenTopicsStructure();
+assert(ch7Verification.isValid === true, 'هيكل الموضوعات السبعة للموضوع السابع سليم بنسبة 100%');
+assert(ch7Verification.totalTopics === 7, 'الموضوع السابع يحتوي بالضبط على 7 موضوعات تعليمية معتمدة');
+assert(ch7Verification.educationalOrganizationalCount === 7, 'جميع موضوعات الموضوع السابع مصنفة كعناوين تنظيمية تعليمية (educational_organizational)');
+assert(ch7Verification.originalAuthorCount === 0, 'لا توجد عناوين منسوبة قسرياً للمؤلف كعناوين رئيسية');
+
+// فحص تطابق وترتيب البيانات الوصفية للموضوعات السبعة
+CHAPTER_7_SEVEN_TOPICS_METADATA.forEach((t, idx) => {
+  assert(t.order === idx + 1, `موضوع 7 - الموضوع ${idx + 1}: الترتيب ${idx + 1} صحيح`);
+  assert(t.chapterId === 'chap-curriculum-planning', `موضوع 7 - الموضوع ${idx + 1}: الارتباط بالفصل السليم (chap-curriculum-planning)`);
+  assert(t.headingClassification === 'educational_organizational', `موضوع 7 - الموضوع ${idx + 1}: تصنيف تنظيمي تعليمي سليم`);
+});
+
+// فحص المعرفات السبعة المعتمدة
+assert(CHAPTER_7_SEVEN_TOPICS_METADATA[0].id === 'top-ch7-philosophical-foundations-tyler-model', 'معرف الموضوع 1 سليم (top-ch7-philosophical-foundations-tyler-model)');
+assert(CHAPTER_7_SEVEN_TOPICS_METADATA[1].id === 'top-ch7-timeframes-admin-levels-centralization', 'معرف الموضوع 2 سليم (top-ch7-timeframes-admin-levels-centralization)');
+assert(CHAPTER_7_SEVEN_TOPICS_METADATA[2].id === 'top-ch7-curriculum-strategy-technical-rules-nine-dimensions', 'معرف الموضوع 3 سليم (top-ch7-curriculum-strategy-technical-rules-nine-dimensions)');
+assert(CHAPTER_7_SEVEN_TOPICS_METADATA[3].id === 'top-ch7-external-influencing-factors-difficulty-management', 'معرف الموضوع 4 سليم (top-ch7-external-influencing-factors-difficulty-management)');
+assert(CHAPTER_7_SEVEN_TOPICS_METADATA[4].id === 'top-ch7-six-planning-criteria-knowledge-structure', 'معرف الموضوع 5 سليم (top-ch7-six-planning-criteria-knowledge-structure)');
+assert(CHAPTER_7_SEVEN_TOPICS_METADATA[5].id === 'top-ch7-curriculum-construction-steps-three-structural-levels', 'معرف الموضوع 6 سليم (top-ch7-curriculum-construction-steps-three-structural-levels)');
+assert(CHAPTER_7_SEVEN_TOPICS_METADATA[6].id === 'top-ch7-participating-parties-architectural-curriculum-approach', 'معرف الموضوع 7 سليم (top-ch7-participating-parties-architectural-curriculum-approach)');
+
+// فحص استرجاع موضوعات الموضوع السابع عبر دوال الاختيار الرسمية
+const course1Ch7Topics = getTopicsByChapter('chap-curriculum-planning');
+assert(course1Ch7Topics.length === 7, 'استرجاع موضوعات الموضوع السابع السبعة المعتمدة بنجاح عبر getTopicsByChapter');
+
+// فحص وجود الملخصات الأكاديمية الكاملة وخلوها من أرقام الصفحات ومن أي أسئلة أو فيديوهات غير معتمدة
+CHAPTER_7_PLANNING_TOPICS.forEach((t, idx) => {
+  assert(Boolean(t.summary && t.summary.trim().length > 200), `موضوع 7 - الموضوع ${idx + 1}: الملخص الأكاديمي الكامل موجود ومفصل (${t.summary?.length} حرفاً)`);
+  assert(t.lessons.length === 0, `موضوع 7 - الموضوع ${idx + 1}: قائمة الدروس فارغة (خالٍ من الدروس غير المعتمدة)`);
+  assert(t.quiz === undefined, `موضوع 7 - الموضوع ${idx + 1}: تبويب الاختبار غير مفعل (قيد الإعداد)`);
+  assert(t.video === undefined && t.videos === undefined, `موضوع 7 - الموضوع ${idx + 1}: تبويب الفيديو في حالة قيد الإعداد`);
+  assert(!/(?:^|[^\w])(?:ص|صفحة)\s*\.?\s*\d+/.test(t.summary || ''), `موضوع 7 - الموضوع ${idx + 1}: خلو الملخص من أرقام الصفحات المطبوعة`);
+});
+
+// فحص مصادقة النصوص الأكاديمية وتضمين المفاهيم الجوهرية للموضوع السابع
+assert(CHAPTER_7_PLANNING_TOPICS[0].summary?.includes('الاستشهاد القرآني والدلالة التربوية') === true && CHAPTER_7_PLANNING_TOPICS[0].summary?.includes('المائدة: 48') === true, 'الموضوع 1 يتضمن الاستشهاد القرآني بسورة المائدة آية 48 ودلالته التربوية');
+assert(CHAPTER_7_PLANNING_TOPICS[0].summary?.includes('تحرير وتهذيب طرق العمل') === true && CHAPTER_7_PLANNING_TOPICS[0].summary?.includes('نموذج (تايلر Tyler)') === true, 'الموضوع 1 يتضمن المعنى اللغوي والاصطلاحي ونموذج تايلر بأسئلته الأربعة وعناصره');
+assert(CHAPTER_7_PLANNING_TOPICS[1].summary?.includes('أقسام التخطيط وفق المدى الزمني') === true && CHAPTER_7_PLANNING_TOPICS[1].summary?.includes('طويل المدى') === true && CHAPTER_7_PLANNING_TOPICS[1].summary?.includes('متوسط المدى') === true && CHAPTER_7_PLANNING_TOPICS[1].summary?.includes('قصير المدى') === true, 'الموضوع 2 يتضمن أقسام التخطيط الثلاثة وفق المدى الزمني');
+assert(CHAPTER_7_PLANNING_TOPICS[1].summary?.includes('التخطيط للمنهج على المستوى الوزاري (المركزي)') === true && CHAPTER_7_PLANNING_TOPICS[1].summary?.includes('التخطيط للمنهج على المستوى المحلي (اللامركزي)') === true && CHAPTER_7_PLANNING_TOPICS[1].summary?.includes('النظام التوفيقي المزدوج') === true, 'الموضوع 2 يتضمن مستويات التخطيط المركزي واللامركزي والنظام التوفيقي المزدوج');
+assert(CHAPTER_7_PLANNING_TOPICS[2].summary?.includes('العناصر الأربعة والقواعد الفنية الأربع لبناء المناهج') === true && CHAPTER_7_PLANNING_TOPICS[2].summary?.includes('الخطوات التسع التفصيلية لتخطيط المنهج المدرسي') === true, 'الموضوع 3 يتضمن القواعد الفنية الأربع والخطوات التسع التفصيلية لبناء وتخطيط المنهج');
+assert(CHAPTER_7_PLANNING_TOPICS[2].summary?.includes('معيار الصدق') === true && CHAPTER_7_PLANNING_TOPICS[2].summary?.includes('معيار الأهمية') === true, 'الموضوع 3 يتضمن معياري الصدق والأهمية في اختيار المحتوى');
+assert(CHAPTER_7_PLANNING_TOPICS[3].summary?.includes('العوامل الخارجية الأربعة المؤثرة في تخطيط المنهج') === true && CHAPTER_7_PLANNING_TOPICS[3].summary?.includes('المقترحات البناءة الخمسة للتعامل مع صعوبات التخطيط') === true, 'الموضوع 4 يتضمن العوامل الخارجية الأربعة والمقترحات الخمسة لإدارة صعوبات التخطيط');
+assert(CHAPTER_7_PLANNING_TOPICS[3].summary?.includes('الإبقاء على المنهج القديم كخيار موازٍ للمنهج المطور عند بدء تجريبه') === true, 'الموضوع 4 يتضمن مقترح الإبقاء على المنهج القديم كخيار موازٍ أثناء التجريب');
+assert(CHAPTER_7_PLANNING_TOPICS[4].summary?.includes('معايير تخطيط المنهج الستة وبنية المعرفة') === true && CHAPTER_7_PLANNING_TOPICS[4].summary?.includes('محور المعرفة (بنية المعرفة الست)') === true && CHAPTER_7_PLANNING_TOPICS[4].summary?.includes('أنواع التخطيط المفهومي الثلاثة والعلاقة بينها') === true, 'الموضوع 5 يتضمن المعايير الستة ومستويات بنية المعرفة الستة وأنواع التخطيط المفهومي الثلاثة');
+assert(CHAPTER_7_PLANNING_TOPICS[5].summary?.includes('المبادئ التسعة الواجب وضعها في الاعتبار قبل التخطيط') === true && CHAPTER_7_PLANNING_TOPICS[5].summary?.includes('الخطوات السبع لبناء المنهج الإجرائي') === true && CHAPTER_7_PLANNING_TOPICS[5].summary?.includes('مستويات تخطيط المنهج الثلاثة والعلاقة الهيكلية بينها') === true, 'الموضوع 6 يتضمن المبادئ التسعة والخطوات السبع والمستويات الهيكلية الثلاثة');
+assert(CHAPTER_7_PLANNING_TOPICS[6].summary?.includes('الأدوار التفصيلية للأطراف المشاركة في تخطيط المنهج') === true && CHAPTER_7_PLANNING_TOPICS[6].summary?.includes('دور التلاميذ في تخطيط المنهج') === true && CHAPTER_7_PLANNING_TOPICS[6].summary?.includes('دور المدرسين في تخطيط المنهج') === true && CHAPTER_7_PLANNING_TOPICS[6].summary?.includes('مدخل تنظيم البناء الهندسي للمنهج — مدخل العمليات العقلية') === true, 'الموضوع 7 يتضمن أدوار المشاركين (تلاميذ، مدرسين، مواطنين) ومدخل العمليات العقلية ووظيفتيه');
+
+// فحص أمان وعدم تضخم تقدم الطلاب الحسابي للموضوع السابع (Student Progress Safety & Anti-Inflation)
+const ch7TopicIds = CHAPTER_7_PLANNING_TOPICS.map((t) => t.id);
+const zeroProgressCh7 = getChapterProgressStats('course-1', 'chap-curriculum-planning', ch7TopicIds);
+assert(zeroProgressCh7.totalTopics === 7, 'مقام حساب نسبة تقدم الموضوع السابع يساوي 7 موضوعات بدقة');
+assert(zeroProgressCh7.completedTopicsCount === 0, 'حساب التقدم يبدأ بصفر للموضوعات غير المكتملة دون تضخم تلقائي للموضوع السابع');
+
+// فحص نزاهة عدم وراثة الإنجاز للموضوعات المظلية القديمة للموضوع السابع
+const uncompletedTylerTopic = getTopicProgress('course-1', 'chap-curriculum-planning', 'top-ch7-philosophical-foundations-tyler-model');
+assert(uncompletedTylerTopic.isCompleted === false, 'الموضوع الأول الجديد لا يرث حالة الإنجاز تلقائياً من الموضوع المظلي القديم');
+
+// التأكد الصارم من بقاء موضوعات الفصول 1 و 2 و 3 و 4 و 5 و 6 دون أي مساس (Regression Safety Guarantee)
+const regressionCh1Ch7 = getTopicsByChapter('chap-curriculum-intro');
+assert(regressionCh1Ch7.length === 9, 'الفصل الأول لا يزال يحتوي على موضوعاته التسعة المعتمدة كاملة دون أي مساس');
+const regressionCh2Ch7 = getTopicsByChapter('chap-curriculum-foundations');
+assert(regressionCh2Ch7.length === 9, 'الفصل الثاني لا يزال يحتوي على موضوعاته التسعة المعتمدة كاملة دون أي مساس');
+const regressionCh3Ch7 = getTopicsByChapter('chap-curriculum-elements');
+assert(regressionCh3Ch7.length === 7, 'الفصل الثالث لا يزال يحتوي على موضوعاته السبعة المعتمدة كاملة دون أي مساس');
+const regressionCh4Ch7 = getTopicsByChapter('chap-curriculum-factors');
+assert(regressionCh4Ch7.length === 5, 'الفصل الرابع لا يزال يحتوي على موضوعاته الخمسة المعتمدة كاملة دون أي مساس');
+const regressionCh5Ch7 = getTopicsByChapter('chap-curriculum-designs');
+assert(regressionCh5Ch7.length === 7, 'الفصل الخامس لا يزال يحتوي على موضوعاته السبعة المعتمدة كاملة دون أي مساس');
+const regressionCh6Ch7 = getTopicsByChapter('chap-curriculum-unit-design');
+assert(regressionCh6Ch7.length === 6, 'الموضوع السادس لا يزال يحتوي على موضوعاته الستة المعتمدة كاملة دون أي مساس');
+
+// التحقق من الإجمالي الكلي لموضوعات المقرر الأول (50 موضوعاً معتمداً)
+const allCourse1Topics = [
+  ...regressionCh1Ch7,
+  ...regressionCh2Ch7,
+  ...regressionCh3Ch7,
+  ...regressionCh4Ch7,
+  ...regressionCh5Ch7,
+  ...regressionCh6Ch7,
+  ...course1Ch7Topics,
+];
+assert(allCourse1Topics.length === 50, 'إجمالي موضوعات مادة مناهج التربية الرياضية (course-1) يساوي 50 موضوعاً معتمداً بالضبط (9+9+7+5+7+6+7)');
 
 // 10. فحص مشغل الفيديو التعليمي وتكامل كتل الفيديو (Phase 2: Educational Video Integration & Reusable Player)
 console.log('\n10. فحص مشغل الفيديو التعليمي وتكامل كتل الفيديو (Phase 2: Video Integration):');

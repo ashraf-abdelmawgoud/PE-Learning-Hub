@@ -5,6 +5,7 @@ import { CHAPTER_3_ELEMENTS_TOPICS } from './curriculumChapter3Data.ts';
 import { CHAPTER_4_FACTORS_TOPICS } from './curriculumChapter4Data.ts';
 import { CHAPTER_5_DESIGNS_TOPICS } from './curriculumChapter5Data.ts';
 import { CHAPTER_6_UNIT_DESIGN_TOPICS } from './curriculumChapter6Data.ts';
+import { CHAPTER_7_PLANNING_TOPICS } from './curriculumChapter7Data.ts';
 
 /**
  * =========================================================================
@@ -246,38 +247,7 @@ export const TOPIC_7_CURRICULUM_PLANNING: Chapter = {
     'استيعاب الخطوات الإجرائية التسع لتخطيط وتعميم المنهج المدرسي بدءاً من التبرير المنطقي وحتى التجريب والتعميم.',
     'تقييم معايير تخطيط المنهج الستة، وتحليل أنواع التخطيط (المنهجي، المرحلي، والمناسب)، وتحديد أدوار التلاميذ والمعلمين والمواطنين ومدخل العمليات العقلية.',
   ],
-  topics: [
-    {
-      id: 'top-ch7-planning-concepts-models',
-      chapterId: 'chap-curriculum-planning',
-      title: 'مفهوم وأهمية ونماذج تخطيط المنهج المدرسي',
-      description:
-        'المعنى اللغوي والاصطلاحي للتخطيط، نموذج تايلر وأسئلته الأربعة، أهمية التخطيط، أنواع التخطيط بالمدى الزمني (طويل، متوسط، قصير)، ومستويات التخطيط على المستوى الوزاري المركزي والمستوى المحلي اللامركزي ومآخذ كل منهما.',
-      order: 1,
-      lessons: [],
-      status: 'pending_content',
-    },
-    {
-      id: 'top-ch7-planning-strategy-steps',
-      chapterId: 'chap-curriculum-planning',
-      title: 'استراتيجية وخطوات تخطيط وبناء المنهج المدرسي',
-      description:
-        'القواعد الفنية لبناء المناهج (الواقعية، الشمولية، الموازنة، المرونة)، ومبادئ بناء المنهج، والخطوات التسع لتخطيط وتعميم المنهج (التبرير المنطقي، تحديد المجال، اختيار الأهداف، اختيار المحتوى وتنظيمه، اختيار الخبرات، اختيار الطرائق، إجراءات التقويم، تجريب المنهج، وتعميم المنهج).',
-      order: 2,
-      lessons: [],
-      status: 'pending_content',
-    },
-    {
-      id: 'top-ch7-planning-criteria-and-roles',
-      chapterId: 'chap-curriculum-planning',
-      title: 'معايير تخطيط المنهج والأدوار المشاركة في تخطيطه',
-      description:
-        'العوامل الخارجية المؤثرة في التخطيط (المجتمع، الوزارات، المعلم، الطلاب)، معايير تخطيط المنهج الستة (الواقعية وبنية المعرفة، الشمول، الأولويات، التكامل، الاستمرارية، المرونة)، أنواع التخطيط (المنهجي، المرحلي، المناسب)، مستويات التخطيط الثلاثة (قومي، محلي، مدرسي)، أدوار المشاركين (التلاميذ، المدرسين، المواطنين)، ومدخل العمليات العقلية.',
-      order: 3,
-      lessons: [],
-      status: 'pending_content',
-    },
-  ],
+  topics: CHAPTER_7_PLANNING_TOPICS,
 };
 
 /**

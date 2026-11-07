@@ -93,6 +93,16 @@ export const TopicDetailPage: React.FC = () => {
     return <Navigate to={`/courses/${courseId}/chapters/${chapterId}`} replace />;
   }
 
+  // Transparent redirects for Unit 7 legacy broad topics to the chapter topics listing
+  if (
+    chapterId === 'chap-curriculum-planning' &&
+    (topicId === 'top-ch7-planning-concepts-models' ||
+      topicId === 'top-ch7-planning-strategy-steps' ||
+      topicId === 'top-ch7-planning-criteria-and-roles')
+  ) {
+    return <Navigate to={`/courses/${courseId}/chapters/${chapterId}`} replace />;
+  }
+
   const course = getCourseById(courseId);
   const chapter = getChapterById(courseId, chapterId);
   const topic = getTopicById(chapterId, topicId);
