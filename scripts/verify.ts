@@ -55,6 +55,11 @@ import {
 } from '../src/data/academic/curriculumChapter4TopicsConfig.ts';
 import { CHAPTER_4_FACTORS_TOPICS } from '../src/data/academic/curriculumChapter4Data.ts';
 import {
+  verifyChapter5SevenTopicsStructure,
+  CHAPTER_5_SEVEN_TOPICS_METADATA,
+} from '../src/data/academic/curriculumChapter5TopicsConfig.ts';
+import { CHAPTER_5_DESIGNS_TOPICS } from '../src/data/academic/curriculumChapter5Data.ts';
+import {
   getTopicProgress,
   getChapterProgressStats,
 } from '../src/utils/progressPersistence.ts';
@@ -163,7 +168,7 @@ assert(report.isValid === true, 'تقرير فحص المحتوى الأكادي
 assert(report.errors.length === 0, `عدد الأخطاء الهندسية يساوي 0 (الفعل: ${report.errors.length})`);
 assert(report.coursesCount === 8, `إجمالي المقررات (6 رسمية + 2 معمل تجريبي معزول) يساوي 8`);
 assert(report.chaptersCount === 9, 'عدد الفصول الإجمالي يساوي 9 (7 وحدات لمناهج التربية الرياضية + 2 معامل تقنية)');
-assert(report.topicsCount === 40, 'عدد الموضوعات الإجمالي يساوي 40 (38 لمناهج التربية الرياضية + 2 معامل تقنية)');
+assert(report.topicsCount === 44, 'عدد الموضوعات الإجمالي يساوي 44 (42 لمناهج التربية الرياضية + 2 معامل تقنية)');
 assert(report.lessonsCount === 3, 'عدد الدروس الإجمالي يساوي 3 (2 معامل تقنية + 1 درس احتياطي معتمد)');
 assert(report.blocksCount === 19, `عدد كتل المحتوى الإجمالي يساوي 19 كتلة رصينة (الفعل: ${report.blocksCount})`);
 
@@ -762,6 +767,100 @@ const regressionCh2Again = getTopicsByChapter('chap-curriculum-foundations');
 assert(regressionCh2Again.length === 9, 'الفصل الثاني لا يزال يحتوي على موضوعاته التسعة المعتمدة كاملة دون أي مساس');
 const regressionCh3Again = getTopicsByChapter('chap-curriculum-elements');
 assert(regressionCh3Again.length === 7, 'الفصل الثالث لا يزال يحتوي على موضوعاته السبعة المعتمدة كاملة دون أي مساس');
+
+// 9.9 فحص الهيكل الفني التنظيمي والملخصات الأكاديمية الكاملة للفصل الخامس (7 موضوعات معتمدة)
+console.log('\n9.9 فحص الهيكل الفني والملخصات الأكاديمية للفصل الخامس (7 موضوعات معتمدة):');
+const sevenTopicsCheckCh5 = verifyChapter5SevenTopicsStructure();
+assert(sevenTopicsCheckCh5.isValid === true, 'الهيكل الفني للموضوعات السبعة للفصل الخامس صالح ومتوافق');
+assert(sevenTopicsCheckCh5.totalTopics === 7, 'عدد موضوعات الهيكل الفني للفصل الخامس يساوي 7 موضوعات بالضبط');
+assert(
+  sevenTopicsCheckCh5.educationalOrganizationalCount === 7,
+  'جميع الموضوعات السبعة مصنفة كعناوين تنظيمية تعليمية (educational_organizational)'
+);
+assert(
+  sevenTopicsCheckCh5.originalAuthorCount === 0,
+  'لا توجد عناوين مصنفة كعناوين مؤلف أصلي غير مهيكلة في الفصل الخامس'
+);
+
+const EXPECTED_CH5_SEVEN_TITLES = [
+  'المدخل التأسيسي لتصميم المنهاج: المفاهيم، المصطلحات، والمبادئ الثمانية للتصميم العلمي',
+  'المبادئ التربوية والمستويات الإدارية لتصميم المنهج المدرسي',
+  'مناهج المواد الدراسية: الفلسفة، الحجج، الخصائص، الأنواع، والإيجابيات والسلبيات',
+  'منهج النشاط: المفهوم، الخصائص، الأنواع، والمتطلبات والإيجابيات والسلبيات',
+  'المنهج المحوري ومنهج الوحدة الدراسية: الفلسفة والأسس والمقارنة',
+  'المنهج التكنولوجي والمقارنة بين تنظيمات المناهج',
+  'الخصائص الجوهرية الثمانية لمنهاج التربية الرياضية الجيد',
+];
+
+CHAPTER_5_SEVEN_TOPICS_METADATA.forEach((t, idx) => {
+  assert(t.order === idx + 1, `فصل 5 - الموضوع ${idx + 1}: الترتيب ${idx + 1} سليم`);
+  assert(t.title === EXPECTED_CH5_SEVEN_TITLES[idx], `فصل 5 - الموضوع ${idx + 1}: العنوان «${t.title}» مطابق نصياً`);
+  assert(Boolean(t.id), `فصل 5 - الموضوع ${idx + 1}: المعرف id موجود`);
+  assert(Boolean(t.description), `فصل 5 - الموضوع ${idx + 1}: الوصف الهيكلي موجود`);
+  assert(t.headingClassification === 'educational_organizational', `فصل 5 - الموضوع ${idx + 1}: تصنيف تنظيمي تعليمي سليم`);
+});
+
+// فحص الحفاظ الصارم على المعرف الأصلي للموضوع السابع
+assert(CHAPTER_5_SEVEN_TOPICS_METADATA[6].id === 'top-ch5-pe-curriculum-characteristics', 'حفظ المعرف الأصلي للموضوع السابع (top-ch5-pe-curriculum-characteristics)');
+
+// فحص المعرفات الستة المستحدثة
+assert(CHAPTER_5_SEVEN_TOPICS_METADATA[0].id === 'top-ch5-curriculum-design-foundations', 'معرف الموضوع 1 سليم (top-ch5-curriculum-design-foundations)');
+assert(CHAPTER_5_SEVEN_TOPICS_METADATA[1].id === 'top-ch5-design-principles-levels', 'معرف الموضوع 2 سليم (top-ch5-design-principles-levels)');
+assert(CHAPTER_5_SEVEN_TOPICS_METADATA[2].id === 'top-ch5-subject-matter-curricula', 'معرف الموضوع 3 سليم (top-ch5-subject-matter-curricula)');
+assert(CHAPTER_5_SEVEN_TOPICS_METADATA[3].id === 'top-ch5-activity-curriculum', 'معرف الموضوع 4 سليم (top-ch5-activity-curriculum)');
+assert(CHAPTER_5_SEVEN_TOPICS_METADATA[4].id === 'top-ch5-core-and-unit-curriculum', 'معرف الموضوع 5 سليم (top-ch5-core-and-unit-curriculum)');
+assert(CHAPTER_5_SEVEN_TOPICS_METADATA[5].id === 'top-ch5-technological-curriculum-comparison', 'معرف الموضوع 6 سليم (top-ch5-technological-curriculum-comparison)');
+
+// فحص استرجاع موضوعات الفصل الخامس عبر دوال الاختيار الرسمية
+const course1Ch5Topics = getTopicsByChapter('chap-curriculum-designs');
+assert(course1Ch5Topics.length === 7, 'استرجاع موضوعات الفصل الخامس السبعة المعتمدة بنجاح عبر getTopicsByChapter');
+
+// فحص وجود الملخصات الأكاديمية الكاملة وخلوها من أرقام الصفحات ومن أي أسئلة أو فيديوهات غير معتمدة
+CHAPTER_5_DESIGNS_TOPICS.forEach((t, idx) => {
+  assert(Boolean(t.summary && t.summary.trim().length > 200), `فصل 5 - الموضوع ${idx + 1}: الملخص الأكاديمي الكامل موجود ومفصل (${t.summary?.length} حرفاً)`);
+  assert(t.lessons.length === 0, `فصل 5 - الموضوع ${idx + 1}: قائمة الدروس فارغة (خالٍ من الدروس غير المعتمدة)`);
+  assert(t.quiz === undefined, `فصل 5 - الموضوع ${idx + 1}: تبويب الاختبار غير مفعل (قيد الإعداد)`);
+  assert(t.video === undefined && t.videos === undefined, `فصل 5 - الموضوع ${idx + 1}: تبويب الفيديو في حالة قيد الإعداد`);
+  assert(!/(?:^|\s)(?:ص|صفحة)\s*\.?\s*\d+/.test(t.summary || ''), `فصل 5 - الموضوع ${idx + 1}: خلو الملخص من أرقام الصفحات المطبوعة`);
+});
+
+// فحص مصادقة النصوص الأكاديمية وتضمين النقاط المحورية للفصل الخامس
+assert(CHAPTER_5_DESIGNS_TOPICS[0].summary?.includes('المفهوم الأكاديمي واللغوي للتصميم') === true, 'الموضوع 1 يتضمن المفهوم الأكاديمي واللغوي للتصميم');
+assert(CHAPTER_5_DESIGNS_TOPICS[0].summary?.includes('المبادئ الثمانية الأساسية لتصميم المنهاج') === true, 'الموضوع 1 يتضمن المبادئ الثمانية الأساسية للتصميم العلمي');
+assert(CHAPTER_5_DESIGNS_TOPICS[1].summary?.includes('المبادئ التربوية الستة لتصميم المنهج (حسب مرعي وآخرون 1993)') === true, 'الموضوع 2 يتضمن المبادئ التربوية الستة لمرعي وآخرون');
+assert(CHAPTER_5_DESIGNS_TOPICS[1].summary?.includes('مستويات تصميم المنهج الدراسي') === true, 'الموضوع 2 يتضمن مستويات التصميم المركزي واللامركزي');
+assert(CHAPTER_5_DESIGNS_TOPICS[2].summary?.includes('الحجج الخمس التي يستند إليها أنصارها') === true, 'الموضوع 3 يتضمن الحجج الخمس لأنصار مناهج المواد الدراسية');
+assert(CHAPTER_5_DESIGNS_TOPICS[2].summary?.includes('الخصائص الست لمناهج المواد الدراسية') === true, 'الموضوع 3 يتضمن الخصائص الست لمناهج المواد');
+assert(CHAPTER_5_DESIGNS_TOPICS[3].summary?.includes('الخصائص الست لمنهج النشاط') === true, 'الموضوع 4 يتضمن الخصائص الست لمنهج النشاط وتوثيقها بدقة');
+assert(CHAPTER_5_DESIGNS_TOPICS[3].summary?.includes('المتطلبات الخمسة لنجاح تطبيق منهج النشاط') === true, 'الموضوع 4 يتضمن المتطلبات الخمسة لنجاح منهج النشاط');
+assert(CHAPTER_5_DESIGNS_TOPICS[4].summary?.includes('المنهج المحوري (Core Curriculum)') === true, 'الموضوع 5 يتضمن مفهوم وفلسفة وأسس المنهج المحوري');
+assert(CHAPTER_5_DESIGNS_TOPICS[4].summary?.includes('منهج الوحدة الدراسية (Unit Curriculum)') === true, 'الموضوع 5 يتضمن مفهوم وأسس وإيجابيات منهج الوحدة الدراسية');
+assert(CHAPTER_5_DESIGNS_TOPICS[5].summary?.includes('المنهج التكنولوجي وتطبيقاته') === true, 'الموضوع 6 يتضمن المنهج التكنولوجي ونوعيه الخطي والمتفرع');
+assert(CHAPTER_5_DESIGNS_TOPICS[5].summary?.includes('تنبيه تحريري:') === true, 'الموضوع 6 يتضمن التنبيه التحريري لاضطراب المصدر الأصلي');
+assert(CHAPTER_5_DESIGNS_TOPICS[5].summary?.includes('جدول المقارنة بين خصائص التنظيمات الأساسية للمناهج') === true, 'الموضوع 6 يتضمن جدول المقارنة الشامل');
+assert(CHAPTER_5_DESIGNS_TOPICS[5].summary?.includes('الفلسفة التي بُني عليها') === true && CHAPTER_5_DESIGNS_TOPICS[5].summary?.includes('وسائل التقويم') === true, 'جدول المقارنة يتضمن أبعاده العشرة كاملة');
+assert(CHAPTER_5_DESIGNS_TOPICS[6].summary?.includes('ثماني خصائص جوهرية') === true, 'الموضوع 7 يتضمن الخصائص الجوهرية الثمانية لمنهاج التربية الرياضية الجيد');
+assert(CHAPTER_5_DESIGNS_TOPICS[6].summary?.includes('فاعلية معلم التربية الرياضية في التوجيه لثلاثة أسباب حتمية') === true, 'الموضوع 7 يتضمن الأسباب الثلاثة الحتمية لفاعلية المعلم بالتوجيه');
+
+// فحص أمان وعدم تضخم تقدم الطلاب الحسابي للفصل الخامس (Student Progress Safety & Anti-Inflation)
+const ch5TopicIds = CHAPTER_5_DESIGNS_TOPICS.map((t) => t.id);
+const zeroProgressCh5 = getChapterProgressStats('course-1', 'chap-curriculum-designs', ch5TopicIds);
+assert(zeroProgressCh5.totalTopics === 7, 'مقام حساب نسبة تقدم الفصل الخامس يساوي 7 موضوعات بدقة');
+assert(zeroProgressCh5.completedTopicsCount === 0, 'حساب التقدم يبدأ بصفر للموضوعات غير المكتملة دون تضخم تلقائي للفصل الخامس');
+
+// فحص نزاهة عدم وراثة الإنجاز للموضوعات المظلية القديمة للفصل الخامس
+const uncompletedActivityCurriculum = getTopicProgress('course-1', 'chap-curriculum-designs', 'top-ch5-activity-curriculum');
+assert(uncompletedActivityCurriculum.isCompleted === false, 'الموضوع الرابع الجديد لا يرث حالة الإنجاز تلقائياً من الموضوع المظلي القديم');
+
+// التأكد الصارم من بقاء موضوعات الفصول الأول والثاني والثالث والرابع دون أي مساس (Regression Safety Guarantee)
+const regressionCh1Ch5 = getTopicsByChapter('chap-curriculum-intro');
+assert(regressionCh1Ch5.length === 9, 'الفصل الأول لا يزال يحتوي على موضوعاته التسعة المعتمدة كاملة دون أي مساس');
+const regressionCh2Ch5 = getTopicsByChapter('chap-curriculum-foundations');
+assert(regressionCh2Ch5.length === 9, 'الفصل الثاني لا يزال يحتوي على موضوعاته التسعة المعتمدة كاملة دون أي مساس');
+const regressionCh3Ch5 = getTopicsByChapter('chap-curriculum-elements');
+assert(regressionCh3Ch5.length === 7, 'الفصل الثالث لا يزال يحتوي على موضوعاته السبعة المعتمدة كاملة دون أي مساس');
+const regressionCh4Ch5 = getTopicsByChapter('chap-curriculum-factors');
+assert(regressionCh4Ch5.length === 5, 'الفصل الرابع لا يزال يحتوي على موضوعاته الخمسة المعتمدة كاملة دون أي مساس');
 
 // 10. فحص مشغل الفيديو التعليمي وتكامل كتل الفيديو (Phase 2: Educational Video Integration & Reusable Player)
 console.log('\n10. فحص مشغل الفيديو التعليمي وتكامل كتل الفيديو (Phase 2: Video Integration):');

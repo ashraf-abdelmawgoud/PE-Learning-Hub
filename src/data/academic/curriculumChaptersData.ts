@@ -3,6 +3,7 @@ import { CURRICULUM_PILOT_CHAPTER, CURRICULUM_ACADEMIC_REFERENCE } from './curri
 import { CHAPTER_2_FOUNDATIONS_TOPICS } from './curriculumChapter2Data.ts';
 import { CHAPTER_3_ELEMENTS_TOPICS } from './curriculumChapter3Data.ts';
 import { CHAPTER_4_FACTORS_TOPICS } from './curriculumChapter4Data.ts';
+import { CHAPTER_5_DESIGNS_TOPICS } from './curriculumChapter5Data.ts';
 
 /**
  * =========================================================================
@@ -182,38 +183,7 @@ export const CHAPTER_5_DESIGNS: Chapter = {
     'المقارنة التحليلية الشاملة بين التنظيمات المنهجية الخمسة من حيث الفلسفة والإعداد والتنظيم والمحتوى والتقويم.',
     'إتقان الخصائص والمعايير الثمانية الواجب توافرها في مناهج التربية الرياضية المدرسية الجيدة.',
   ],
-  topics: [
-    {
-      id: 'top-ch5-design-principles',
-      chapterId: 'chap-curriculum-designs',
-      title: 'مفهوم ومبادئ ومستويات تصميم المنهاج',
-      description:
-        'مفهوم التصميم التربوي، مبادئ التصميم الثمانية ومبادئ مرعي وآخرون، ومستويات التصميم المركزي القومي واللامركزي المحلي ومشاركة الأطراف ذات العلاقة.',
-      order: 1,
-      lessons: [],
-      status: 'pending_content',
-    },
-    {
-      id: 'top-ch5-curriculum-organizations',
-      chapterId: 'chap-curriculum-designs',
-      title: 'أنواع تنظيمات المناهج الدراسية والمقارنة بينها',
-      description:
-        'دراسة معمقة لتنظيمات المناهج الخمسة: مناهج المواد الدراسية (المنفصلة والمرتبطة)، مناهج النشاط، المناهج المحورية، مناهج الوحدة الدراسية، والمنهاج التكنولوجي (الخطي والمتفرع)، وجدول المقارنة الشاملة بين خصائصها الأساسية.',
-      order: 2,
-      lessons: [],
-      status: 'pending_content',
-    },
-    {
-      id: 'top-ch5-pe-curriculum-characteristics',
-      chapterId: 'chap-curriculum-designs',
-      title: 'خصائص منهاج التربية الرياضية الجيد',
-      description:
-        'الخصائص الثمانية الجوهرية لمنهاج التربية الرياضية المدرسية الجيد: مكمل للجهد الشامل، الموازنة بين الخبرات المتاحة، التأسيس على حاجات وقدرات المتعلمين، التلاؤم مع النضج، خدمة المجتمع، توفير إمكانات المشاركة، التعاون مع التوجيه، وتشجيع النمو المهني للمدرسين.',
-      order: 3,
-      lessons: [],
-      status: 'pending_content',
-    },
-  ],
+  topics: CHAPTER_5_DESIGNS_TOPICS,
 };
 
 /**
