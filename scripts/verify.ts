@@ -50,6 +50,7 @@ import { validateChapter1DraftBank } from './validate-draft-bank.ts';
 import { validateChapter2DraftBank } from './validate-chapter2-draft-bank.ts';
 import { validateChapter3DraftBank } from './validate-chapter3-draft-bank.ts';
 import { validateChapter4DraftBank } from './validate-chapter4-draft-bank.ts';
+import { validateChapter5DraftBank } from './validate-chapter5-draft-bank.ts';
 import {
   verifyChapter1NineTopicsStructure,
   CHAPTER_1_NINE_TOPICS_METADATA,
@@ -2062,6 +2063,25 @@ assert(activeCh4Quiz === undefined, '18.7 بقاء الفصل الرابع خا�
 assert(
   !QUIZ_PUBLICATION_MANIFEST.some((b) => b.bankId === 'bank-ch4-factors-draft-50q'),
   '18.8 التأكيد الصارم على أن مسودة الـ 50 سؤالاً للفصل الرابع غير منشورة في بيان النشر الرسمي'
+);
+
+// 19. فحص مسودة بنك أسئلة الفصل الخامس الشامل (Chapter 5 Comprehensive Draft Bank 50Q)
+console.log('\n19. فحص مسودة بنك أسئلة الفصل الخامس الشامل (Chapter 5 Draft Bank 50Q):');
+
+const draft5Result = validateChapter5DraftBank();
+assert(draft5Result.isValid === true, '19.1 مسودة بنك أسئلة الفصل الخامس سليمة وتجتاز كافة معايير التحقق الصارمة');
+assert(draft5Result.totalQuestions === 50, '19.2 إجمالي أسئلة مسودة الفصل الخامس يساوي 50 سؤالاً بالضبط');
+assert(draft5Result.mcqCount === 25, '19.3 أسئلة الاختيار من متعدد في مسودة الفصل الخامس تساوي 25 سؤالاً بالضبط');
+assert(draft5Result.tfCount === 25, '19.4 أسئلة الصواب والخطأ في مسودة الفصل الخامس تساوي 25 سؤالاً بالضبط');
+assert(draft5Result.topicsCoveredCount === 7, '19.5 مسودة الفصل الخامس تغطي جميع موضوعات الفصل السبعة بالتفصيل');
+assert(draft5Result.errors.length === 0, '19.6 خلو مسودة الفصل الخامس من أي أخطاء في الصياغة أو خيارات الإجابة أو المعرفات');
+
+// فحص عدم نشر المسودة وبقاء الفصل الخامس بدون اختبار منشور
+const activeCh5Quiz = getChapterById('course-1', 'chap-curriculum-designs')?.chapterQuiz;
+assert(activeCh5Quiz === undefined, '19.7 بقاء الفصل الخامس خالياً من أي اختبار منشور (الاختبار قيد الإعداد)');
+assert(
+  !QUIZ_PUBLICATION_MANIFEST.some((b) => b.bankId === 'bank-ch5-designs-draft-50q'),
+  '19.8 التأكيد الصارم على أن مسودة الـ 50 سؤالاً للفصل الخامس غير منشورة في بيان النشر الرسمي'
 );
 
 
