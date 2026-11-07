@@ -87,6 +87,15 @@ export const EXPECTED_CH7_MCQ_KEYS = [
   'opt-a', 'opt-c', 'opt-b', 'opt-d', 'opt-a', // Q21 - Q25
 ];
 
+// مفاتيح الإجابات المعتمدة في الوثيقة المدققة لأسئلة الصواب والخطأ (25 سؤالاً: 13 صواب و12 خطأ)
+export const EXPECTED_CH7_TF_KEYS: boolean[] = [
+  false, true, true, false, true, // Q26 - Q30
+  false, false, true, true, false, // Q31 - Q35
+  true, true, false, false, true, // Q36 - Q40
+  false, false, true, false, true, // Q41 - Q45
+  false, true, true, false, true, // Q46 - Q50
+];
+
 export function validateChapter7DraftBank(): DraftBankValidationResult {
   const bank = CHAPTER_7_COMPREHENSIVE_DRAFT_BANK;
   const errors: string[] = [];
@@ -298,6 +307,32 @@ export function validateChapter7DraftBank(): DraftBankValidationResult {
       errors.push(
         `السؤال ${i + 1}: مفتاح الإجابة الفعلي (${actualMcqKeys[i]}) لا يطابق مفتاح الوثيقة المدققة (${EXPECTED_CH7_MCQ_KEYS[i]}).`
       );
+    }
+  }
+
+  // د. التحقق الصارم من تطابق مفاتيح أسئلة الصواب والخطأ الـ 25 سؤالاً بسؤال مع الوثيقة المدققة
+  const actualTfKeys = questions.slice(25, 50).map((gq) => (gq.question as { correctAnswer: boolean }).correctAnswer);
+  for (let i = 0; i < 25; i++) {
+    if (actualTfKeys[i] !== EXPECTED_CH7_TF_KEYS[i]) {
+      errors.push(
+        `السؤال ${i + 26}: إجابة الصواب والخطأ الفعلية (${actualTfKeys[i]}) لا تطابق الوثيقة المدققة (${EXPECTED_CH7_TF_KEYS[i]}).`
+      );
+    }
+  }
+
+  // هـ. التدقيق الأكاديمي الصارم للسؤال 41 وارتباطه بـ (خطوات بناء المنهج - ص 74)
+  const q41Item = questions[40];
+  if (q41Item) {
+    if (q41Item.topicId !== 'top-ch7-curriculum-construction-steps-three-structural-levels') {
+      errors.push(
+        `السؤال 41: يجب أن يرتبط بموضوع خطوات بناء المنهج ومستوياته الهيكلية (top-ch7-curriculum-construction-steps-three-structural-levels) بدلاً من ${q41Item.topicId}`
+      );
+    }
+    if (!q41Item.question.sourceReference?.includes('74')) {
+      errors.push(`السؤال 41: يجب أن يشير مرجعه إلى الصفحة المطبوعة 74 (سابعاً : تنفيذ المنهج وتقويمه).`);
+    }
+    if ((q41Item.question as any).correctAnswer !== false) {
+      errors.push(`السؤال 41: الإجابة الصحيحة المعتمدة في الوثيقة المدققة هي خطأ (false).`);
     }
   }
 

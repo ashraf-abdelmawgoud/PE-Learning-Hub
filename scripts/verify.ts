@@ -52,6 +52,7 @@ import { validateChapter3DraftBank } from './validate-chapter3-draft-bank.ts';
 import { validateChapter4DraftBank } from './validate-chapter4-draft-bank.ts';
 import { validateChapter5DraftBank } from './validate-chapter5-draft-bank.ts';
 import { validateChapter7DraftBank } from './validate-chapter7-draft-bank.ts';
+import { CHAPTER_7_COMPREHENSIVE_DRAFT_BANK } from '../src/data/academic/quizzes/drafts/chapter7ComprehensiveDraft.ts';
 import {
   verifyChapter1NineTopicsStructure,
   CHAPTER_1_NINE_TOPICS_METADATA,
@@ -2102,6 +2103,14 @@ assert(activeCh7Quiz === undefined, '20.7 بقاء الفصل السابع خا�
 assert(
   !QUIZ_PUBLICATION_MANIFEST.some((b) => b.bankId === 'bank-ch7-planning-draft-50q'),
   '20.8 التأكيد الصارم على أن مسودة الـ 50 سؤالاً للفصل السابع غير منشورة في بيان النشر الرسمي'
+);
+assert(
+  CHAPTER_7_COMPREHENSIVE_DRAFT_BANK.questions[40].topicId === 'top-ch7-curriculum-construction-steps-three-structural-levels',
+  '20.9 التأكيد الأكاديمي على ارتباط السؤال 41 بموضوع خطوات بناء المنهج ومستوياته الهيكلية (ص 74)'
+);
+assert(
+  CHAPTER_7_COMPREHENSIVE_DRAFT_BANK.contentHash === 'bc4f3ce14e52272c2be34dc6a53758a5e48dd2087fb34229f76a954c863f5d29',
+  '20.10 التحقق القطعي من سلامة وثبات الهاش المشفر لمسودة الفصل السابع (Content Hash)'
 );
 
 
