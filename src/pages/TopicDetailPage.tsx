@@ -50,7 +50,6 @@ export const TopicDetailPage: React.FC = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const rawTab = searchParams.get('tab') as TopicTab | null;
-  const activeTab: TopicTab = rawTab && ['video', 'summary'].includes(rawTab) ? rawTab : 'video';
   const [_progressRefresh, setProgressRefresh] = useState<number>(0);
 
   const setActiveTab = (tab: TopicTab) => {
@@ -104,6 +103,10 @@ export const TopicDetailPage: React.FC = () => {
   const course = getCourseById(courseId);
   const chapter = getChapterById(courseId, chapterId);
   const topic = getTopicById(chapterId, topicId);
+
+  const hasVideos = Boolean(topic && ((topic.videos && topic.videos.length > 0) || topic.video));
+  const defaultTab: TopicTab = hasVideos ? 'video' : 'summary';
+  const activeTab: TopicTab = rawTab && ['video', 'summary'].includes(rawTab) ? rawTab : defaultTab;
 
   // If not found or unauthorized sandbox
   if (!course || !chapter || !topic || (course.isDevSandbox && !isDevSandboxAllowed())) {

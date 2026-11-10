@@ -326,6 +326,7 @@ export interface VideoBlock extends BaseBlock {
   description?: string;
   provider: VideoProvider;
   videoId: string;
+  embedUrl?: string;
   duration?: number;
   publicationStatus?: 'published' | 'draft' | 'pending';
   sourceReference?: string;

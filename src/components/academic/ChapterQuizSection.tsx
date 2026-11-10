@@ -105,6 +105,16 @@ export const ChapterQuizSection: React.FC<ChapterQuizSectionProps> = ({
       >
         <QuizBlockView
           block={quizBlock!}
+          evaluateAnswers={
+            courseId === 'course-7' && chapter.id === 'chap-kin-concept'
+              ? async (answers) => {
+                  const { evaluateKinematicChapter1Quiz } = await import(
+                    '../../data/academic/quizzes/evaluation/kinematicChapter1Evaluation'
+                  );
+                  return evaluateKinematicChapter1Quiz(answers);
+                }
+              : undefined
+          }
           title="الاختبار الشامل للفصل"
           badgeLabel="تقويم ختامي شامل"
           retryButtonLabel="إعادة الاختبار"

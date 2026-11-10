@@ -34,7 +34,11 @@ export const VideoPlayerBlockView: React.FC<VideoPlayerBlockViewProps> = ({ bloc
   const isValid = isValidYouTubeVideoId(block.videoId);
   const sanitizedVideoId = block.videoId?.trim() || '';
 
-  const embedUrl = isValid ? getYouTubeEmbedUrl(sanitizedVideoId, { autoplay: true, lang: block.captionLanguage || 'ar' }) : '';
+  const embedUrl = block.embedUrl
+    ? `${block.embedUrl}${block.embedUrl.includes('?') ? '&' : '?'}autoplay=1&rel=0&modestbranding=1&hl=${block.captionLanguage || 'ar'}`
+    : isValid
+    ? getYouTubeEmbedUrl(sanitizedVideoId, { autoplay: true, lang: block.captionLanguage || 'ar' })
+    : '';
   const watchUrl = isValid ? getYouTubeWatchUrl(sanitizedVideoId) : '';
   const thumbnailUrl = isValid ? getYouTubeThumbnailUrl(sanitizedVideoId, 'hq') : '';
 
@@ -49,7 +53,7 @@ export const VideoPlayerBlockView: React.FC<VideoPlayerBlockViewProps> = ({ bloc
           <div className="inline-flex items-center gap-2">
             <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#173D2B] bg-[#E8F8EE] px-3 py-1 rounded-full border border-[#D4E9DC]">
               <Video className="w-3.5 h-3.5 text-[#00C853]" />
-              <span>شرح مرئي تعليمي &bull; NotebookLM</span>
+              <span>شرح مرئي تعليمي</span>
             </span>
             <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#6C8577] bg-gray-50 px-2 py-0.5 rounded-md border border-gray-200">
               <ShieldCheck className="w-3 h-3 text-[#00C853]" />
@@ -119,7 +123,7 @@ export const VideoPlayerBlockView: React.FC<VideoPlayerBlockViewProps> = ({ bloc
 
               <div className="absolute bottom-3 right-3 text-[10px] sm:text-xs text-white/90 bg-black/70 backdrop-blur-xs px-2.5 py-1 rounded-lg border border-white/10 flex items-center gap-1.5">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#00C853]" />
-                <span>مشغل محمي (youtube-nocookie)</span>
+                <span>{block.embedUrl ? 'مشغل YouTube معتمد' : 'مشغل محمي (youtube-nocookie)'}</span>
               </div>
             </div>
           </div>

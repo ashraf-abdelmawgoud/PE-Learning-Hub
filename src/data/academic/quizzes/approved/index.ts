@@ -12,6 +12,7 @@ export { CHAPTER_4_APPROVED_BANK } from './chapter4ApprovedBank.ts';
 export { CHAPTER_5_APPROVED_BANK } from './chapter5ApprovedBank.ts';
 export { CHAPTER_6_APPROVED_BANK } from './chapter6ApprovedBank.ts';
 export { CHAPTER_7_APPROVED_BANK } from './chapter7ApprovedBank.ts';
+export { KINEMATIC_CHAPTER_1_APPROVED_BANK } from './kinematicChapter1ApprovedBank.ts';
 
 import { CHAPTER_1_APPROVED_BANK } from './chapter1ApprovedBank.ts';
 import { CHAPTER_2_APPROVED_BANK } from './chapter2ApprovedBank.ts';
@@ -20,6 +21,7 @@ import { CHAPTER_4_APPROVED_BANK } from './chapter4ApprovedBank.ts';
 import { CHAPTER_5_APPROVED_BANK } from './chapter5ApprovedBank.ts';
 import { CHAPTER_6_APPROVED_BANK } from './chapter6ApprovedBank.ts';
 import { CHAPTER_7_APPROVED_BANK } from './chapter7ApprovedBank.ts';
+import { KINEMATIC_CHAPTER_1_APPROVED_BANK } from './kinematicChapter1ApprovedBank.ts';
 
 export const ALL_APPROVED_QUESTION_BANKS: GovernedQuestionBank[] = [
   CHAPTER_1_APPROVED_BANK,
@@ -29,4 +31,5 @@ export const ALL_APPROVED_QUESTION_BANKS: GovernedQuestionBank[] = [
   CHAPTER_5_APPROVED_BANK,
   CHAPTER_6_APPROVED_BANK,
   CHAPTER_7_APPROVED_BANK,
+  KINEMATIC_CHAPTER_1_APPROVED_BANK,
 ];

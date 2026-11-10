@@ -43,6 +43,7 @@ import {
 export interface QuizBlockViewProps {
   block: QuizBlock;
   onComplete?: (result: QuizResult) => void;
+  evaluateAnswers?: (answers: StudentAnswersMap) => Promise<QuizResult> | QuizResult;
   title?: string;
   badgeLabel?: string;
   retryButtonLabel?: string;
@@ -56,6 +57,7 @@ export interface QuizBlockViewProps {
 export const QuizBlockView: React.FC<QuizBlockViewProps> = ({
   block,
   onComplete,
+  evaluateAnswers,
   title,
   badgeLabel,
   retryButtonLabel = 'إعادة الاختبار',
@@ -98,6 +100,7 @@ export const QuizBlockView: React.FC<QuizBlockViewProps> = ({
   const [orderingState, setOrderingState] = useState<Record<string, string[]>>(initializeOrderingState);
   const [validationAttempted, setValidationAttempted] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [isEvaluating, setIsEvaluating] = useState<boolean>(false);
   const [quizResult, setQuizResult] = useState<QuizResult | null>(null);
 
   // Unanswered question IDs
@@ -168,7 +171,7 @@ export const QuizBlockView: React.FC<QuizBlockViewProps> = ({
   };
 
   // Handle Submit
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setValidationAttempted(true);
 
@@ -177,11 +180,21 @@ export const QuizBlockView: React.FC<QuizBlockViewProps> = ({
       return;
     }
 
-    const result = evaluateQuiz(block, answers);
-    setQuizResult(result);
-    setIsSubmitted(true);
-    if (onComplete) {
-      onComplete(result);
+    try {
+      setIsEvaluating(true);
+      let result: QuizResult;
+      if (evaluateAnswers) {
+        result = await evaluateAnswers(answers);
+      } else {
+        result = evaluateQuiz(block, answers);
+      }
+      setQuizResult(result);
+      setIsSubmitted(true);
+      if (onComplete) {
+        onComplete(result);
+      }
+    } finally {
+      setIsEvaluating(false);
     }
   };
 
@@ -392,13 +405,18 @@ export const QuizBlockView: React.FC<QuizBlockViewProps> = ({
                       </div>
                     )}
 
-                    {question.explanation && (
+                    {(qResult?.explanation || question.explanation) && (
                       <div className="mt-3 p-3 rounded-xl bg-[#F4FFF7] border border-[#D4E9DC] text-xs text-[#173D2B] space-y-1">
                         <div className="flex items-center gap-1.5 font-bold text-[#00A844]">
                           <BookOpen className="w-3.5 h-3.5" />
                           <span>التفسير العلمي المعتمد:</span>
                         </div>
-                        <p className="leading-relaxed text-[#486555]">{question.explanation}</p>
+                        <p className="leading-relaxed text-[#486555]">{qResult?.explanation || question.explanation}</p>
+                        {(qResult?.sourceReference || question.sourceReference) && (
+                          <span className="block mt-1 font-mono text-[10px] text-[#6C8577]">
+                            المرجع الأكاديمي: {qResult?.sourceReference || question.sourceReference}
+                          </span>
+                        )}
                       </div>
                     )}
                   </div>
@@ -604,9 +622,10 @@ export const QuizBlockView: React.FC<QuizBlockViewProps> = ({
 
             <button
               type="submit"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl bg-[#00C853] text-[#071C12] font-black text-sm hover:bg-[#39E66D] active:scale-95 transition-all shadow-md cursor-pointer focus:outline-hidden focus:ring-4 focus:ring-[#00C853]/40"
+              disabled={isEvaluating}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl bg-[#00C853] text-[#071C12] font-black text-sm hover:bg-[#39E66D] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md cursor-pointer focus:outline-hidden focus:ring-4 focus:ring-[#00C853]/40"
             >
-              <span>اعتماد الإجابات واستعراض النتيجة</span>
+              <span>{isEvaluating ? 'جاري الاعتماد والتصحيح...' : 'اعتماد الإجابات واستعراض النتيجة'}</span>
               <CheckCircle2 className="w-4 h-4" />
             </button>
           </div>

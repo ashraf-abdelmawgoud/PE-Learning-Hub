@@ -210,7 +210,7 @@ assert(report.isValid === true, 'تقرير فحص المحتوى الأكادي
 assert(report.errors.length === 0, `عدد الأخطاء الهندسية يساوي 0 (الفعل: ${report.errors.length})`);
 assert(report.coursesCount === 9, `إجمالي المقررات (7 رسمية + 2 معمل تجريبي معزول) يساوي 9`);
 assert(report.chaptersCount === 15, 'عدد الفصول الإجمالي يساوي 15 (7 وحدات لمناهج التربية الرياضية + 6 فصول لمقرر التحليل الحركي + 2 معامل تقنية)');
-assert(report.topicsCount === 52, 'عدد الموضوعات الإجمالي يساوي 52 (50 لمناهج التربية الرياضية + 2 معامل تقنية)');
+assert(report.topicsCount === 64, 'عدد الموضوعات الإجمالي يساوي 64 (50 لمناهج التربية الرياضية + 12 لمقرر التحليل الحركي + 2 معامل تقنية)');
 assert(report.lessonsCount === 3, 'عدد الدروس الإجمالي يساوي 3 (2 معامل تقنية + 1 درس احتياطي معتمد)');
 assert(report.blocksCount === 19, `عدد كتل المحتوى الإجمالي يساوي 19 كتلة رصينة (الفعل: ${report.blocksCount})`);
 
@@ -1925,9 +1925,9 @@ assert(
 );
 
 // 16. Approved banks publication manifest validation
-assert(QUIZ_PUBLICATION_MANIFEST.length === 7, '16.1 بيان النشر (QUIZ_PUBLICATION_MANIFEST) يتضمن البنوك المعتمدة السبعة بالضبط');
+assert(QUIZ_PUBLICATION_MANIFEST.length === 8, '16.1 بيان النشر (QUIZ_PUBLICATION_MANIFEST) يتضمن البنوك المعتمدة الثمانية بالضبط');
 const governanceValidation = validateQuizGovernance();
-assert(governanceValidation.isValid === true && governanceValidation.publishedBanksCount === 7, '16.2 التحقق من الحوكمة يؤكد اعتماد 7 بنوك ونشر 350 سؤال معتمد');
+assert(governanceValidation.isValid === true && governanceValidation.publishedBanksCount === 8 && governanceValidation.publishedQuestionsCount === 400, '16.2 التحقق من الحوكمة يؤكد اعتماد 8 بنوك ونشر 400 سؤال معتمد');
 
 // 17. Draft/unapproved question content is absent from production assets
 const draftImportsCheck = verifyNoDraftImports();
@@ -2243,9 +2243,15 @@ resolvedMovementCourse?.chapters.forEach((chap, idx) => {
   assert(chap.order === exp.order, `23.17.${idx + 1} ترتيب الفصل ${idx + 1} سليم (${exp.order})`);
   assert(chap.title === exp.title, `23.17.${idx + 1} عنوان الفصل ${idx + 1} مطابق للأصل (${exp.title})`);
   assert(chap.courseId === 'course-7', `23.17.${idx + 1} انتساب الفصل ${idx + 1} لمقرر course-7`);
-  assert(chap.status === 'pending_content', `23.17.${idx + 1} حالة الفصل ${idx + 1} البرمجية pending_content`);
-  assert(chap.topics.length === 0, `23.17.${idx + 1} خلو الفصل ${idx + 1} من الموضوعات الوهمية (0 موضوعات)`);
-  assert(chap.chapterQuiz === undefined, `23.17.${idx + 1} خلو الفصل ${idx + 1} من الاختبارات الوهمية`);
+  if (idx === 0) {
+    assert(chap.status === 'published', `23.17.1 حالة الفصل 1 البرمجية published بعد دمج الملخصات`);
+    assert(chap.topics.length === 12, `23.17.1 اكتمال موضوعات الفصل 1 الاثني عشر المعتمدة (12 موضوعاً)`);
+    assert(chap.chapterQuiz !== undefined && chap.chapterQuiz.questions.length === 50, `23.17.1 تكامل بنك أسئلة الفصل 1 الخمسين (50 سؤالاً)`);
+  } else {
+    assert(chap.status === 'pending_content', `23.17.${idx + 1} حالة الفصل ${idx + 1} البرمجية pending_content`);
+    assert(chap.topics.length === 0, `23.17.${idx + 1} خلو الفصل ${idx + 1} من الموضوعات الوهمية (0 موضوعات)`);
+    assert(chap.chapterQuiz === undefined, `23.17.${idx + 1} خلو الفصل ${idx + 1} من الاختبارات الوهمية`);
+  }
   assert(chap.academicReference?.author === 'د. رحاب عبدالمنعم الرشيدي', `23.17.${idx + 1} مؤلفة الفصل د. رحاب عبدالمنعم الرشيدي`);
   assert(chap.academicReference?.bookTitle === 'مبادئ التحليل الحركي (نظري – تطبيقي)', `23.17.${idx + 1} كتاب الفصل مبادئ التحليل الحركي`);
 });

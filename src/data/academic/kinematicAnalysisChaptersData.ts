@@ -22,6 +22,10 @@
  */
 
 import type { Chapter, AcademicReference } from '../../types';
+import {
+  CHAPTER_1_KIN_CONCEPT_TOPICS,
+  KINEMATIC_CHAPTER_1_STUDENT_QUIZ_BLOCK,
+} from './kinematicChapter1Data.ts';
 
 /**
  * المراجع الأكاديمية الرسمية المعتمدة لمقرر التحليل الحركي
@@ -46,20 +50,22 @@ export const CHAPTER_1_KIN_CONCEPT: Chapter = {
   description:
     'يتناول المفهوم العلمي الدقيق للتحليل الحركي، وتطوره التاريخي، وأهميته التطبيقية في المجال الرياضي، ومبادئ وأهداف تحليل الأداء الحركي للمتعلم والرياضي.',
   order: 1,
-  status: 'pending_content',
+  status: 'published',
   academicReference: {
     id: 'ref-kin-ch1',
     bookTitle: 'مبادئ التحليل الحركي (نظري – تطبيقي)',
     author: 'د. رحاب عبدالمنعم الرشيدي',
     chapter: 'الفصل الأول: مفهوم التحليل الحركي',
     edition: '2020م',
+    pageRange: 'ص9–72',
   },
   learningObjectives: [
     'تحديد المفهوم العلمي الدقيق للتحليل الحركي في التربية الرياضية.',
     'استيعاب أهداف التحليل الحركي في مجالات التعليم والتدريب والانتقاء.',
     'التمييز بين الأسس الميكانيكية والتشريحية الحاكمة لتحليل الحركة.',
   ],
-  topics: [],
+  topics: CHAPTER_1_KIN_CONCEPT_TOPICS,
+  chapterQuiz: KINEMATIC_CHAPTER_1_STUDENT_QUIZ_BLOCK,
 };
 
 /**
