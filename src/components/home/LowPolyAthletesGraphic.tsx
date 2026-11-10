@@ -17,7 +17,8 @@ export const LowPolyAthletesGraphic: React.FC<{ className?: string }> = ({ class
     <div className={`relative w-full max-w-[330px] xs:max-w-[350px] sm:max-w-md lg:max-w-lg mx-auto flex items-center justify-center select-none ${className}`} dir="rtl">
       
       {/* Subtle Atmospheric Sport Glow behind athletes */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 sm:w-80 lg:w-96 h-64 sm:h-80 lg:h-96 bg-[#00C853]/15 rounded-full blur-2xl sm:blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 sm:w-80 lg:w-96 h-64 sm:h-80 lg:h-96 bg-[#00C853]/25 rounded-full blur-2xl sm:blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 sm:w-64 lg:w-72 h-48 sm:h-64 lg:h-72 bg-[#39E66D]/20 rounded-full blur-xl sm:blur-2xl pointer-events-none" />
 
       {/* The Low-Poly Athletes Illustration */}
       <div className="relative z-10 w-full flex items-center justify-center">

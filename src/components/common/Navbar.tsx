@@ -37,17 +37,6 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const handleCtaClick = (e: React.MouseEvent) => {
-    if (location.pathname === '/') {
-      const el = document.getElementById('courses-section');
-      if (el) {
-        e.preventDefault();
-        el.scrollIntoView({ behavior: 'smooth' });
-        setIsOpen(false);
-      }
-    }
-  };
-
   return (
     <header className="sticky top-0 z-50 bg-[#071C12]/92 backdrop-blur-md border-b border-[#143D27]/80 transition-colors" dir="rtl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -86,7 +75,6 @@ export const Navbar: React.FC = () => {
           <div className="hidden md:flex items-center">
             <Link
               to="/courses"
-              onClick={handleCtaClick}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#00C853] hover:bg-[#39E66D] active:bg-[#00A844] text-[#071C12] text-xs font-black shadow-xs shadow-[#00C853]/25 transition-all duration-200 hover:shadow-md hover:shadow-[#39E66D]/30 active:scale-98"
             >
               <span>استكشف المواد</span>
@@ -140,7 +128,7 @@ export const Navbar: React.FC = () => {
           <div className="pt-2 border-t border-[#143D27]">
             <Link
               to="/courses"
-              onClick={handleCtaClick}
+              onClick={() => setIsOpen(false)}
               className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#00C853] text-[#071C12] font-black text-sm shadow-sm hover:bg-[#39E66D] active:scale-98 transition-all"
             >
               <span>استكشف المواد</span>
