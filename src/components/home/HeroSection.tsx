@@ -127,13 +127,13 @@ export const HeroSection: React.FC = () => {
             {/* Three Feature Cards */}
             <div className="grid grid-cols-3 gap-2.5 sm:gap-3.5 w-full max-w-xl mx-auto lg:mx-0 pt-1">
               
-              {/* Card 1: ملخصات معتمدة */}
+              {/* Card 1: ملخصات دراسية */}
               <div className="bg-[#092215]/80 hover:bg-[#0D2E1D]/90 border border-[#00C853]/25 hover:border-[#00C853]/50 rounded-2xl p-2.5 sm:p-3.5 text-center transition-all duration-200 flex flex-col items-center justify-center backdrop-blur-xs shadow-xs hover:shadow-md hover:shadow-[#00C853]/10">
                 <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#00C853]/15 flex items-center justify-center text-[#00C853] mb-1.5 sm:mb-2 border border-[#00C853]/25">
                   <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
                 </div>
                 <span className="text-[11px] sm:text-sm font-bold text-white mb-0.5 whitespace-nowrap">
-                  ملخصات معتمدة
+                  ملخصات دراسية
                 </span>
                 <span className="text-[9px] sm:text-xs text-[#A3C7B2] font-normal leading-tight">
                   منظمة وسهلة المراجعة
@@ -236,47 +236,47 @@ export const HeroSection: React.FC = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-3 divide-x divide-x-reverse divide-[#00C853]/20 text-center items-center">
             
-            {/* Stat 1: مادة متكاملة (Right in RTL) */}
+            {/* Stat 1: 7 مواد دراسية (Right in RTL) */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 px-1 sm:px-3">
               <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-[#00C853]/15 text-[#39E66D] flex items-center justify-center border border-[#00C853]/25 shrink-0">
                 <Layers className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
               <div className="text-center sm:text-right">
                 <div className="text-sm sm:text-lg lg:text-xl font-black text-white">
-                  مادة متكاملة
+                  7 مواد دراسية
                 </div>
                 <div className="text-[10px] sm:text-xs text-[#A3C7B2]">
-                  في علوم الرياضة
+                  مادتان متاحتان حالياً
                 </div>
               </div>
             </div>
 
-            {/* Stat 2: 12 موضوعاً دراسياً (Center in RTL) */}
+            {/* Stat 2: 62 موضوعاً دراسياً (Center in RTL) */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 px-1 sm:px-3">
               <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-[#00C853]/15 text-[#39E66D] flex items-center justify-center border border-[#00C853]/25 shrink-0">
                 <Compass className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
               <div className="text-center sm:text-right">
                 <div className="text-sm sm:text-lg lg:text-xl font-black text-white">
-                  12
+                  62
                 </div>
                 <div className="text-[10px] sm:text-xs text-[#A3C7B2]">
-                  موضوعاً دراسياً
+                  موضوعاً دراسياً منشوراً
                 </div>
               </div>
             </div>
 
-            {/* Stat 3: +50 سؤال مراجعة (Left in RTL) */}
+            {/* Stat 3: 400 سؤال تقويمي (Left in RTL) */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 px-1 sm:px-3">
               <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-[#00C853]/15 text-[#39E66D] flex items-center justify-center border border-[#00C853]/25 shrink-0">
                 <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
               <div className="text-center sm:text-right">
                 <div className="text-sm sm:text-lg lg:text-xl font-black text-white">
-                  +50
+                  400
                 </div>
                 <div className="text-[10px] sm:text-xs text-[#A3C7B2]">
-                  سؤال مراجعة
+                  سؤال تقويمي للمراجعة
                 </div>
               </div>
             </div>
