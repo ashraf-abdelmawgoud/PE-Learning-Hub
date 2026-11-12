@@ -59,7 +59,7 @@ export const TrackIcon: React.FC<{ className?: string }> = ({ className = 'w-6 h
 export const SubjectIcon: React.FC<SubjectIconProps> = ({ title, className = 'w-6 h-6' }) => {
   const norm = title.trim();
 
-  if (norm.includes('التعليم الحركي')) {
+  if (norm.includes('التعلم الحركي') || norm.includes('التعليم الحركي')) {
     return <Activity className={className} aria-hidden="true" />;
   }
   if (norm.includes('التحليل الحركي')) {

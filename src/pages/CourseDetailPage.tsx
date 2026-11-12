@@ -161,7 +161,11 @@ export const CourseDetailPage: React.FC = () => {
                 </h2>
               </div>
               <span className="text-xs font-bold text-[#173D2B] bg-[#E8F8EE] px-3 py-1 rounded-full border border-[#D4E9DC]">
-                {course.id === 'course-7' ? 'هيكل معتمد (قيد إعداد المحتوى)' : 'محتوى منشور'}
+                {course.id === 'course-7'
+                  ? 'هيكل معتمد (قيد إعداد المحتوى)'
+                  : course.id === 'course-2'
+                  ? 'تجهيز محلي (بانتظار الاعتماد النهائي)'
+                  : 'محتوى منشور'}
               </span>
             </div>
 

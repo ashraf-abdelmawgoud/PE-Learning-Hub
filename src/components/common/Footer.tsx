@@ -16,7 +16,7 @@ import { PlatformLogo } from './PlatformLogo';
 const currentYear = new Date().getFullYear();
 
 const OFFICIAL_SUBJECTS = [
-  { id: 'course-2', title: 'التعليم الحركي' },
+  { id: 'course-2', title: 'التعلم الحركي' },
   { id: 'course-3', title: 'البحث العلمي' },
   { id: 'course-4', title: 'التربية المقارنة ونظم التعليم' },
   { id: 'course-1', title: 'مناهج التربية الرياضية' },

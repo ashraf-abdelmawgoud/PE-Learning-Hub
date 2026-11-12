@@ -113,7 +113,14 @@ export const ChapterQuizSection: React.FC<ChapterQuizSectionProps> = ({
                   );
                   return evaluateKinematicChapter1Quiz(answers);
                 }
-              : undefined
+              : courseId === 'course-2' && chapter.id === 'chap-motor-skill'
+                ? async (answers) => {
+                    const { evaluateMotorLearningChapter1Quiz } = await import(
+                      '../../data/academic/quizzes/evaluation/motorLearningChapter1Evaluation'
+                    );
+                    return evaluateMotorLearningChapter1Quiz(answers);
+                  }
+                : undefined
           }
           title="الاختبار الشامل للفصل"
           badgeLabel="تقويم ختامي شامل"

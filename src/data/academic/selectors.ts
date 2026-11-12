@@ -9,6 +9,10 @@ import {
   KINEMATIC_OFFICIAL_CHAPTERS,
   KINEMATIC_COURSE_REFERENCES,
 } from './kinematicAnalysisChaptersData.ts';
+import {
+  MOTOR_LEARNING_OFFICIAL_CHAPTERS,
+  MOTOR_LEARNING_COURSE_REFERENCES,
+} from './motorLearningChaptersData.ts';
 import type {
   AcademicCourse,
   Chapter,
@@ -51,6 +55,21 @@ const OFFICIAL_ACADEMIC_COURSES: AcademicCourse[] = COURSES_PLACEHOLDER_DATA.map
         'مقرر التحليل الحركي لطلاب الفرقة الرابعة بكلية علوم الرياضة والتربية البدنية، استناداً إلى كتاب «مبادئ التحليل الحركي (نظري – تطبيقي)» للدكتورة رحاب عبدالمنعم الرشيدي (2020م). يتضمن الهيكل الأكاديمي المعتمد 6 فصول دراسية رئيسية تغطي المفاهيم والمستويات والتحليل الكيفي والكمي والتحليل الميداني والمعملي.',
       chapters: KINEMATIC_OFFICIAL_CHAPTERS,
       academicReferences: KINEMATIC_COURSE_REFERENCES,
+      isDevSandbox: false,
+    };
+  }
+
+  if (c.id === 'course-2') {
+    return {
+      ...c,
+      title: 'التعلم الحركي',
+      targetBookReference: 'كتاب التعلم الحركي — جامعة جنوب الوادي / كلية علوم الرياضة (الفرقة الرابعة)',
+      status: 'pending_content',
+      statusLabel: 'قيد التجهيز والاعتماد',
+      description:
+        'مقرر التعلم الحركي لطلاب الفرقة الرابعة بكلية علوم الرياضة. يتضمن التجهيز المحلي للفصل الأول «المهارة الحركية» (6 موضوعات: T01–T06) بانتظار الاعتماد النهائي.',
+      chapters: MOTOR_LEARNING_OFFICIAL_CHAPTERS,
+      academicReferences: MOTOR_LEARNING_COURSE_REFERENCES,
       isDevSandbox: false,
     };
   }

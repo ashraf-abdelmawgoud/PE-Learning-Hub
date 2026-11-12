@@ -55,6 +55,12 @@ import { validateChapter6DraftBank } from './validate-chapter6-draft-bank.ts';
 import { validateChapter7DraftBank } from './validate-chapter7-draft-bank.ts';
 import { CHAPTER_6_COMPREHENSIVE_DRAFT_BANK } from '../src/data/academic/quizzes/drafts/chapter6ComprehensiveDraft.ts';
 import { CHAPTER_7_COMPREHENSIVE_DRAFT_BANK } from '../src/data/academic/quizzes/drafts/chapter7ComprehensiveDraft.ts';
+import { MOTOR_LEARNING_CHAPTER_1_DRAFT_BANK } from '../src/data/academic/quizzes/drafts/motorLearningChapter1Draft.ts';
+import { MOTOR_LEARNING_CHAPTER_1_STUDENT_QUIZ_BLOCK } from '../src/data/academic/motorLearningChapter1Data.ts';
+import {
+  MOTOR_LEARNING_CHAPTER_1_EVALUATION_QUESTIONS,
+  evaluateMotorLearningChapter1Quiz,
+} from '../src/data/academic/quizzes/evaluation/motorLearningChapter1Evaluation.ts';
 import {
   verifyChapter1NineTopicsStructure,
   CHAPTER_1_NINE_TOPICS_METADATA,
@@ -124,7 +130,7 @@ console.log('\n1. فحص سلامة المواد الدراسية الأكادي
 assert(COURSES_PLACEHOLDER_DATA.length === 7, 'عدد المواد الدراسية يساوي 7 بالضبط');
 
 const OFFICIAL_NAMES = [
-  'التعليم الحركي',
+  'التعلم الحركي',
   'البحث العلمي',
   'التربية المقارنة ونظم التعليم',
   'مناهج التربية الرياضية',
@@ -174,7 +180,7 @@ function searchCourses(query: string) {
 
 assert(searchCourses('').length === 7, 'البحث الفارغ يعيد جميع المواد السبع');
 assert(searchCourses('مناهج التربية الرياضية').length >= 1 && searchCourses('مناهج التربية الرياضية')[0].id === 'course-1', 'البحث بعبارة مناهج التربية الرياضية يجد مادة مناهج التربية الرياضية');
-assert(searchCourses('حركي').length >= 1 && searchCourses('حركي')[0].id === 'course-2', 'البحث بكلمة حركي يجد مادة التعليم الحركي');
+assert(searchCourses('حركي').length >= 1 && searchCourses('حركي')[0].id === 'course-2', 'البحث بكلمة حركي يجد مادة التعلم الحركي');
 assert(searchCourses('البحث العلمي').length >= 1 && searchCourses('البحث العلمي')[0].id === 'course-3', 'البحث بكلمة البحث العلمي يجد مادة البحث العلمي');
 assert(searchCourses('مقارنة').length >= 1 && searchCourses('مقارنة')[0].id === 'course-4', 'البحث بكلمة مقارنة يجد مادة التربية المقارنة');
 assert(searchCourses('مضرب').length >= 1 && searchCourses('مضرب')[0].id === 'course-5', 'البحث بكلمة مضرب يجد مادة المضرب');
@@ -209,8 +215,8 @@ const report = validateAcademicContent();
 assert(report.isValid === true, 'تقرير فحص المحتوى الأكاديمي سليم بدون أخطاء بنيوية');
 assert(report.errors.length === 0, `عدد الأخطاء الهندسية يساوي 0 (الفعل: ${report.errors.length})`);
 assert(report.coursesCount === 9, `إجمالي المقررات (7 رسمية + 2 معمل تجريبي معزول) يساوي 9`);
-assert(report.chaptersCount === 15, 'عدد الفصول الإجمالي يساوي 15 (7 وحدات لمناهج التربية الرياضية + 6 فصول لمقرر التحليل الحركي + 2 معامل تقنية)');
-assert(report.topicsCount === 64, 'عدد الموضوعات الإجمالي يساوي 64 (50 لمناهج التربية الرياضية + 12 لمقرر التحليل الحركي + 2 معامل تقنية)');
+assert(report.chaptersCount === 16, 'عدد الفصول الإجمالي يساوي 16 (7 وحدات لمناهج التربية الرياضية + 6 فصول لمقرر التحليل الحركي + 1 فصل لمقرر التعلم الحركي + 2 معامل تقنية)');
+assert(report.topicsCount === 70, 'عدد الموضوعات الإجمالي يساوي 70 (50 لمناهج التربية الرياضية + 12 لمقرر التحليل الحركي + 6 لمقرر التعلم الحركي + 2 معامل تقنية)');
 assert(report.lessonsCount === 3, 'عدد الدروس الإجمالي يساوي 3 (2 معامل تقنية + 1 درس احتياطي معتمد)');
 assert(report.blocksCount === 19, `عدد كتل المحتوى الإجمالي يساوي 19 كتلة رصينة (الفعل: ${report.blocksCount})`);
 
@@ -254,7 +260,8 @@ assert(studentCourses.every((c) => !c.isDevSandbox), 'لا يوجد أي مقر�
 assert(studentCourses.every((c) => c.status === 'pending_content'), 'جميع المواد السبع للطلاب بحالة pending_content');
 assert(studentCourses.find((c) => c.id === 'course-1')?.chapters.length === 7, 'مادة مناهج التربية الرياضية PE-ACAD-01 تتضمن 7 وحدات دراسية معتمدة (5 فصول + موضوعان مستقلان)');
 assert(studentCourses.find((c) => c.id === 'course-7')?.chapters.length === 6, 'مقرر التحليل الحركي PE-ACAD-07 يتضمن الفصول الستة المعتمدة');
-assert(studentCourses.filter((c) => c.id !== 'course-1' && c.id !== 'course-7').every((c) => c.chapters.length === 0), 'بقية المواد الخمس خالية من الفصول بانتظار تزويد المنصة بكتبها');
+assert(studentCourses.find((c) => c.id === 'course-2')?.chapters.length === 1, 'مقرر التعلم الحركي PE-ACAD-02 يتضمن الفصل الأول المجهز محلياً (chap-motor-skill)');
+assert(studentCourses.filter((c) => c.id !== 'course-1' && c.id !== 'course-2' && c.id !== 'course-7').every((c) => c.chapters.length === 0), 'بقية المواد الأربع خالية من الفصول بانتظار تزويد المنصة بكتبها');
 
 const devChapters = getChaptersByCourse('dev-sandbox');
 assert(devChapters.length === 1 && devChapters[0].id === 'dev-chap-1', 'استرجاع فصول المقرر التجريبي بترتيب سليم');
@@ -2302,6 +2309,108 @@ assert(ch3TotalSubtopics === 31, '23.36 مجموع الموضوعات الفرع
 // التحقق الصارم من بقاء المقررات السابقة والأسئلة الـ 365
 assert(COURSES_PLACEHOLDER_DATA.length === 7, '23.37 إجمالي المقررات الرسمية 7 مقررات معتمدة');
 assert(totalCourseQuestions === 365, '23.38 بقاء جميع الأسئلة الـ 365 لمقرر مناهج التربية الرياضية كاملة دون أي نقص');
+
+// 24. فحص التجهيز المحلي للفصل الأول لمقرر التعلم الحركي (course-2) ومسودة الأسئلة (MOTOR-LEARNING-CH01-QA-04)
+console.log('\n24. فحص مقرر التعلم الحركي (course-2) — الفصل الأول «المهارة الحركية» ومسودة بنك الأسئلة:');
+const motorCourse = getCourseById('course-2');
+assert(Boolean(motorCourse) && motorCourse!.title === 'التعلم الحركي', '24.1 مقرر course-2 موجود باسم العرض المعتمد «التعلم الحركي»');
+const motorChapters = getChaptersByCourse('course-2');
+assert(motorChapters.length === 1 && motorChapters[0].id === 'chap-motor-skill', '24.2 الفصل الأول «المهارة الحركية» (chap-motor-skill) مضاف لمقرر course-2');
+assert(motorChapters[0].status === 'draft' && motorChapters[0].chapterQuiz === undefined, '24.3 الفصل في وضع مسودة غير منشورة ولا يعرض اختباراً غير معتمد');
+const motorTopics = getTopicsByChapter('chap-motor-skill');
+assert(motorTopics.length === 6, '24.4 عدد الموضوعات المضافة في الفصل الأول يساوي 6 (T01–T06)');
+assert(
+  motorTopics.every((t, idx) => t.order === idx + 1 && !t.video && (!t.videos || t.videos.length === 0)),
+  '24.5 الموضوعات T01–T06 مرتبة تصاعدياً بدون روابط فيديو وهمية'
+);
+const disputedAgePercentages = ['33%', '30%', '73–75%', '70–75%', '93%', '90%'];
+assert(
+  motorTopics.every((t) => disputedAgePercentages.every((pct) => !(t.summary || '').includes(pct))),
+  '24.6 خلو ملخصات الطلاب T01–T06 من النسب العمرية الثلاث المختلف عليها'
+);
+
+// فحص مسودة بنك الأسئلة الـ 50 وعزلها التام
+assert(MOTOR_LEARNING_CHAPTER_1_DRAFT_BANK.approvalStatus === 'draft', '24.7 بنك أسئلة التعلم الحركي في حالة draft غير معتمدة');
+assert(MOTOR_LEARNING_CHAPTER_1_DRAFT_BANK.reviewMetadata.approvalDate === '', '24.8 لم يتم اختلاق تاريخ اعتماد لبنك المسودة');
+assert(MOTOR_LEARNING_CHAPTER_1_DRAFT_BANK.questions.length === 50, '24.9 بنك المسودة يحتوي على 50 سؤالاً بالضبط');
+assert(
+  MOTOR_LEARNING_CHAPTER_1_DRAFT_BANK.questions.filter((q) => q.question.type === 'multiple_choice').length === 25 &&
+    MOTOR_LEARNING_CHAPTER_1_DRAFT_BANK.questions.filter((q) => q.question.type === 'true_false').length === 25,
+  '24.10 توزيع بنك المسودة مطابق (25 اختيار من متعدد + 25 صواب وخطأ)'
+);
+assert(
+  MOTOR_LEARNING_CHAPTER_1_DRAFT_BANK.contentHash === computeQuestionBankHash(MOTOR_LEARNING_CHAPTER_1_DRAFT_BANK),
+  '24.11 التجزئة التوافقية لبنك المسودة سليمة ومتطابقة'
+);
+assert(
+  !QUIZ_PUBLICATION_MANIFEST.some((entry) => entry.bankId === MOTOR_LEARNING_CHAPTER_1_DRAFT_BANK.bankId),
+  '24.12 بنك مسودة التعلم الحركي معزول تماماً وغير مدرج في بيان النشر الرسمي'
+);
+
+// فحص عزل مفاتيح الإجابة في كتلة الطالب ودقة محرك التصحيح والتفسيرات والمراجع
+assert(
+  MOTOR_LEARNING_CHAPTER_1_STUDENT_QUIZ_BLOCK.questions.length === 50,
+  '24.13 كتلة الطالب للاختبار الشامل تحتوي على 50 سؤالاً'
+);
+assert(
+  MOTOR_LEARNING_CHAPTER_1_STUDENT_QUIZ_BLOCK.questions.every(
+    (q) =>
+      q.explanation === undefined &&
+      q.sourceReference === undefined &&
+      (q.type === 'multiple_choice' ? q.correctOptionId === undefined : q.type === 'true_false' ? q.correctAnswer === undefined : true)
+  ),
+  '24.14 عزل تام لمفاتيح الإجابات والتفسيرات والمراجع عن كتلة الطالب الأولية'
+);
+assert(
+  MOTOR_LEARNING_CHAPTER_1_EVALUATION_QUESTIONS.length === 50 &&
+    MOTOR_LEARNING_CHAPTER_1_EVALUATION_QUESTIONS.every((q) => Boolean(q.explanation) && Boolean(q.sourceReference)),
+  '24.15 وحدة التقييم تحتوي على 50 سؤالاً كاملة بالتفسيرات والمراجع'
+);
+
+const mlAllCorrectAnswers: Record<string, { type: 'multiple_choice'; selectedOptionId: string } | { type: 'true_false'; selectedAnswer: boolean }> = {};
+const mlAllWrongAnswers: Record<string, { type: 'multiple_choice'; selectedOptionId: string } | { type: 'true_false'; selectedAnswer: boolean }> = {};
+const mlPassingBoundaryAnswers: Record<string, { type: 'multiple_choice'; selectedOptionId: string } | { type: 'true_false'; selectedAnswer: boolean }> = {};
+
+MOTOR_LEARNING_CHAPTER_1_EVALUATION_QUESTIONS.forEach((q, idx) => {
+  if (q.type === 'multiple_choice') {
+    const wrongOpt = q.options.find((o) => o.id !== q.correctOptionId)!;
+    mlAllCorrectAnswers[q.id] = { type: 'multiple_choice', selectedOptionId: q.correctOptionId! };
+    mlAllWrongAnswers[q.id] = { type: 'multiple_choice', selectedOptionId: wrongOpt.id };
+    mlPassingBoundaryAnswers[q.id] = {
+      type: 'multiple_choice',
+      selectedOptionId: idx < 30 ? q.correctOptionId! : wrongOpt.id,
+    };
+  } else if (q.type === 'true_false') {
+    mlAllCorrectAnswers[q.id] = { type: 'true_false', selectedAnswer: q.correctAnswer! };
+    mlAllWrongAnswers[q.id] = { type: 'true_false', selectedAnswer: !q.correctAnswer! };
+    mlPassingBoundaryAnswers[q.id] = {
+      type: 'true_false',
+      selectedAnswer: idx < 30 ? q.correctAnswer! : !q.correctAnswer!,
+    };
+  }
+});
+
+const mlFullPassResult = evaluateMotorLearningChapter1Quiz(mlAllCorrectAnswers);
+assert(
+  mlFullPassResult.score === 50 && mlFullPassResult.percentage === 100 && mlFullPassResult.isPassed === true,
+  '24.16 تصحيح 50/50 إجابة صحيحة يمنح 100% واجتيازاً ناجحاً'
+);
+assert(
+  Object.values(mlFullPassResult.questionResults).every((r) => Boolean(r.explanation) && Boolean(r.sourceReference)),
+  '24.17 نتائج التصحيح تُرجع التفسير والمرجع الأكاديمي لكل سؤال من الأسئلة الخمسين'
+);
+
+const mlAllWrongResult = evaluateMotorLearningChapter1Quiz(mlAllWrongAnswers);
+assert(
+  mlAllWrongResult.score === 0 && mlAllWrongResult.percentage === 0 && mlAllWrongResult.isPassed === false,
+  '24.18 تصحيح 50 إجابة خاطئة يمنح 0% وعدم اجتياز'
+);
+
+const mlBoundaryResult = evaluateMotorLearningChapter1Quiz(mlPassingBoundaryAnswers);
+assert(
+  mlBoundaryResult.score === 30 && mlBoundaryResult.percentage === 60 && mlBoundaryResult.isPassed === true,
+  '24.19 تصحيح حد النجاح (30/50 = 60%) يمنح اجتيازاً صحيحاً'
+);
 
 
 
