@@ -24,7 +24,7 @@ export const DefinitionBlockView: React.FC<{ block: DefinitionBlock }> = ({ bloc
               </span>
             )}
             <span className="text-[11px] font-bold text-[#173D2B] bg-[#E8F8EE] px-2 py-0.5 rounded-md">
-              تعريف علمي معتمد
+              تعريف علمي
             </span>
           </div>
         </div>

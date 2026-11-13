@@ -5,7 +5,6 @@ import {
   GraduationCap,
   BookOpen,
   ArrowLeft,
-  Users,
 } from 'lucide-react';
 
 export const AboutPage: React.FC = () => {
@@ -64,8 +63,7 @@ export const AboutPage: React.FC = () => {
         {/* Team Section (فريق العمل) */}
         <section aria-label="فريق العمل" className="space-y-6 pt-2">
           <div className="text-center max-w-2xl mx-auto space-y-2.5">
-            <div className="inline-flex items-center gap-2 text-xs font-bold px-3.5 py-1.5 rounded-full bg-[#E8F8EE] text-[#173D2B] border border-[#D4E9DC]">
-              <Users className="w-3.5 h-3.5 text-[#00C853]" />
+            <div className="inline-flex items-center text-xs font-bold px-3.5 py-1.5 rounded-full bg-[#E8F8EE] text-[#173D2B] border border-[#D4E9DC]">
               <span>فريق العمل</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-[#173D2B] tracking-tight">

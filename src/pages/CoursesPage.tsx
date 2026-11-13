@@ -33,7 +33,7 @@ export const CoursesPage: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Page Title & Breadcrumb */}
-        <div className="space-y-4 mb-10">
+        <div className="space-y-3 mb-8">
           <div className="inline-flex items-center gap-2 text-xs font-bold px-3.5 py-1.5 rounded-full bg-[#E8F8EE] text-[#173D2B] border border-[#D4E9DC]">
             <BookOpen className="w-3.5 h-3.5 text-[#00C853]" />
             <span>المواد الدراسية المقررة ({COURSES_PLACEHOLDER_DATA.length})</span>
@@ -42,10 +42,6 @@ export const CoursesPage: React.FC = () => {
           <h1 className="text-3xl sm:text-5xl font-black text-[#173D2B] tracking-tight">
             دليل المواد الدراسية الأكاديمية
           </h1>
-
-          <p className="text-[#486555] text-sm sm:text-base max-w-3xl leading-relaxed">
-            يحتوي هذا الدليل على المواد الدراسية المقررة لطلاب كلية علوم الرياضة والتربية البدنية — الفرقة الرابعة (7 مواد دراسية). تتاح حالياً موضوعات ومراجعات مادتي «مناهج التربية الرياضية» و«التحليل الحركي»، في حين يجري العمل على استكمال بقية المقررات.
-          </p>
         </div>
 
         {/* Academic Standard Notice - Sport Energy Style */}
@@ -99,7 +95,7 @@ export const CoursesPage: React.FC = () => {
         </div>
 
         {/* Courses Grid */}
-        <h2 className="sr-only">قائمة المواد الدراسية المعتمدة</h2>
+        <h2 className="sr-only">قائمة المواد الدراسية المقررة</h2>
         {filteredCourses.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {filteredCourses.map((course) => (
@@ -113,7 +109,7 @@ export const CoursesPage: React.FC = () => {
                 لا توجد مقررات مطابقة لعبارة البحث
               </p>
               <p className="text-xs text-[#6C8577]">
-                يرجى التحقق من الكلمة المدخلة أو مسح البحث لعرض المواد المعتمدة.
+                يرجى التحقق من الكلمة المدخلة أو مسح البحث لعرض جميع المقررات.
               </p>
             </div>
             <button

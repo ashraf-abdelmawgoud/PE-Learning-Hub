@@ -77,7 +77,7 @@ export const LessonPage: React.FC = () => {
                 </span>
               </div>
               <p className="text-amber-800 leading-relaxed">
-                هذا الدرس نموذج برمجي شامل صُمم لاستعراض كتل المحتوى العشرة والتحقق من سلاسة القراءة. البيانات والمراجع الواردة هنا مخصصة للاختبار التقني وليست مقرراً رسمياً معتمداً.
+                هذا الدرس نموذج برمجي شامل صُمم لاستعراض كتل المحتوى العشرة والتحقق من سلاسة القراءة. البيانات والمراجع الواردة هنا مخصصة للاختبار التقني وليست مقرراً رسمياً.
               </p>
             </div>
           </div>
@@ -135,7 +135,7 @@ export const LessonPage: React.FC = () => {
           <section className="bg-white rounded-3xl border border-[#D4E9DC] p-6 sm:p-8 shadow-2xs space-y-4">
             <div className="flex items-center gap-2 text-[#173D2B] font-black text-lg">
               <BookmarkCheck className="w-5 h-5 text-[#00C853]" />
-              <span>المراجع الأكاديمية المعتمدة لهذا الدرس ({lesson.references.length})</span>
+              <span>المراجع الأكاديمية لهذا الدرس ({lesson.references.length})</span>
             </div>
 
             <div className="space-y-3">

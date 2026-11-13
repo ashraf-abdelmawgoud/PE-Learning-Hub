@@ -7,10 +7,6 @@ import { isDevSandboxAllowed } from '../utils/devRouteGuard';
 import {
   BookOpen,
   BookmarkCheck,
-  Layers,
-  HelpCircle,
-  Activity,
-  CheckCircle2,
   AlertTriangle,
   Sparkles,
   ArrowLeft,
@@ -42,50 +38,6 @@ export const CourseDetailPage: React.FC = () => {
         {/* Breadcrumb Navigation */}
         <BreadcrumbNav items={breadcrumbs} />
 
-        {/* Academic Structure Banner for Course 1 */}
-        {course.id === 'course-1' && (
-          <div className="bg-[#E8F8EE] border-2 border-[#00C853]/40 rounded-3xl p-5 sm:p-6 shadow-xs flex items-start gap-4">
-            <div className="w-10 h-10 rounded-2xl bg-[#D4E9DC] text-[#173D2B] flex items-center justify-center shrink-0">
-              <BookOpen className="w-5 h-5 text-[#00C853]" />
-            </div>
-            <div className="space-y-1 text-xs sm:text-sm text-[#173D2B]">
-              <div className="flex items-center gap-2">
-                <span className="font-black text-[#173D2B] text-base">
-                  الهيكل الأكاديمي المعتمد لمقرر مناهج التربية الرياضية
-                </span>
-                <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#D4E9DC] text-[#173D2B]">
-                  أ.د. هاني الدسوقي إبراهيم (2025/2026م)
-                </span>
-              </div>
-              <p className="text-[#486555] leading-relaxed">
-                تم اعتماد وتكامل الهيكل الأكاديمي لكتاب المقرر كاملاً (5 فصول دراسية رئيسية، وموضوعين مستقلين، وقائمة المراجع المعتمدة)، مع توفر تجربة الشرح التفاعلي والأدوات البصرية المتقدمة للفصل الأول.
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* Academic Structure Banner for Course 7 (التحليل الحركي) */}
-        {course.id === 'course-7' && (
-          <div className="bg-[#E8F8EE] border-2 border-[#00C853]/40 rounded-3xl p-5 sm:p-6 shadow-xs flex items-start gap-4">
-            <div className="w-10 h-10 rounded-2xl bg-[#D4E9DC] text-[#173D2B] flex items-center justify-center shrink-0">
-              <BookOpen className="w-5 h-5 text-[#00C853]" />
-            </div>
-            <div className="space-y-1 text-xs sm:text-sm text-[#173D2B]">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="font-black text-[#173D2B] text-base">
-                  الهيكل الأكاديمي المعتمد لمقرر التحليل الحركي
-                </span>
-                <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#D4E9DC] text-[#173D2B]">
-                  د. رحاب عبدالمنعم الرشيدي (2020م)
-                </span>
-              </div>
-              <p className="text-[#486555] leading-relaxed">
-                تم اعتماد وتكامل الهيكل الأكاديمي والملخصات التعليمية لـ (12 موضوعاً) وبنك التقييم الشامل (50 سؤالاً) للفصل الأول «مفهوم التحليل الحركي»، مع استمرار تجهيز وتدقيق بقية الفصول وفق الحوكمة الصارمة.
-              </p>
-            </div>
-          </div>
-        )}
-
         {/* Development Sandbox Banner if Dev Sandbox */}
         {course.isDevSandbox && (
           <div className="bg-amber-50 border-2 border-amber-300 rounded-3xl p-5 sm:p-6 shadow-xs flex items-start gap-4">
@@ -100,7 +52,7 @@ export const CourseDetailPage: React.FC = () => {
                 </span>
               </div>
               <p className="text-amber-800 leading-relaxed">
-                هذا المقرر مخصص للمعاينة التقنية واختبار نظام كتل المحتوى والعلاقات الهرمية. ليس مادة أكاديمية معتمدة ومعزول تماماً عن المواد الست الرسمية.
+                هذا المقرر مخصص للمعاينة التقنية واختبار نظام كتل المحتوى والعلاقات الهرمية، ومعزول تماماً عن المواد الرسمية.
               </p>
             </div>
           </div>
@@ -162,9 +114,9 @@ export const CourseDetailPage: React.FC = () => {
               </div>
               <span className="text-xs font-bold text-[#173D2B] bg-[#E8F8EE] px-3 py-1 rounded-full border border-[#D4E9DC]">
                 {course.id === 'course-7'
-                  ? 'هيكل معتمد (قيد إعداد المحتوى)'
+                  ? 'قيد إعداد المحتوى'
                   : course.id === 'course-2'
-                  ? 'تجهيز محلي (بانتظار الاعتماد النهائي)'
+                  ? 'قيد التجهيز'
                   : 'محتوى منشور'}
               </span>
             </div>
@@ -216,7 +168,7 @@ export const CourseDetailPage: React.FC = () => {
                 فصول هذا المقرر قيد التجهيز الأكاديمي
               </h3>
               <p className="text-xs sm:text-sm text-[#486555] leading-relaxed">
-                سيتم إضافة موضوعات المقرر وملخصاته واختباراته بعد مراجعة الكتاب المعتمد.
+                سيتم إضافة موضوعات المقرر وملخصاته واختباراته بعد مراجعة كتاب المقرر.
               </p>
             </div>
             <div className="pt-2 flex flex-wrap items-center justify-center gap-2">
@@ -229,74 +181,6 @@ export const CourseDetailPage: React.FC = () => {
             </div>
           </div>
         )}
-
-        {/* Structural Blueprint Grid */}
-        <div className="space-y-6 pt-4">
-          <div className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-[#00C853]" />
-            <h2 className="text-xl sm:text-2xl font-black text-[#173D2B]">
-              الهيكل المعماري البرمجي الجاهز للمقرر
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            <div className="bg-white rounded-3xl border border-[#D4E9DC] p-6 shadow-2xs space-y-4 hover:border-[#00C853] transition-colors">
-              <div className="w-12 h-12 rounded-2xl bg-[#E8F8EE] text-[#173D2B] flex items-center justify-center border border-[#D4E9DC]">
-                <Layers className="w-6 h-6 text-[#00C853]" />
-              </div>
-              <h3 className="text-lg font-black text-[#173D2B]">
-                1. نظام الفصول والدروس
-              </h3>
-              <p className="text-xs sm:text-sm text-[#486555] leading-relaxed">
-                مبني بنظام الكتل الأكاديمية (LessonRenderer) لتحويل مفردات الكتاب إلى دروس رقمية تفاعلية غنية.
-              </p>
-              <div className="pt-2 border-t border-[#D4E9DC]/70">
-                <span className="text-xs font-bold text-[#173D2B] flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#059669]" />
-                  <span>محرك الكتل الأكاديمية مهيأ بالكامل</span>
-                </span>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-3xl border border-[#D4E9DC] p-6 shadow-2xs space-y-4 hover:border-[#00C853] transition-colors">
-              <div className="w-12 h-12 rounded-2xl bg-[#E8F8EE] text-[#173D2B] flex items-center justify-center border border-[#D4E9DC]">
-                <Activity className="w-6 h-6 text-[#00C853]" />
-              </div>
-              <h3 className="text-lg font-black text-[#173D2B]">
-                2. مختبر المحاكاة والأنيميشن
-              </h3>
-              <p className="text-xs sm:text-sm text-[#486555] leading-relaxed">
-                معدّ لاستقبال محاكيات علوم الرياضة (الميكانيكا الحيوية، مسارات القوة، معدلات النبض، وفسيولوجيا الجهد البدني).
-              </p>
-              <div className="pt-2 border-t border-[#D4E9DC]/70">
-                <span className="text-xs font-bold text-[#173D2B] flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#059669]" />
-                  <span>بنية المحاكاة مهيأة</span>
-                </span>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-3xl border border-[#D4E9DC] p-6 shadow-2xs space-y-4 hover:border-[#00C853] transition-colors">
-              <div className="w-12 h-12 rounded-2xl bg-[#E8F8EE] text-[#173D2B] flex items-center justify-center border border-[#D4E9DC]">
-                <HelpCircle className="w-6 h-6 text-[#00C853]" />
-              </div>
-              <h3 className="text-lg font-black text-[#173D2B]">
-                3. بنك الاختبارات والتقييم
-              </h3>
-              <p className="text-xs sm:text-sm text-[#486555] leading-relaxed">
-                مهيأ لتقديم أسئلة اختيار من متعدد، وتسلسل مراحل الحركة الرياضية، ومطابقة المفاهيم مع تصحيح وتغذية راجعة فورية.
-              </p>
-              <div className="pt-2 border-t border-[#D4E9DC]/70">
-                <span className="text-xs font-bold text-[#173D2B] flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#059669]" />
-                  <span>نماذج التقييم مكتملة البنية</span>
-                </span>
-              </div>
-            </div>
-
-          </div>
-        </div>
 
         {/* Action Link back */}
         <div className="pt-4 flex items-center justify-between">

@@ -44,7 +44,7 @@ export const TopicVideoSection: React.FC<TopicVideoSectionProps> = ({
 
           <div className="inline-flex items-center gap-1.5 text-[11px] font-bold text-[#6C8577] bg-[#F4FFF7] px-3 py-1 rounded-full border border-[#D4E9DC]">
             <Video className="w-3.5 h-3.5 text-[#00C853]" />
-            <span>سيتم توفير الشرح المرئي بدقة 1080p بمجرد اعتماده الأكاديمي</span>
+            <span>سيتم توفير الشرح المرئي بدقة 1080p فور اكتمال إنتاجه</span>
           </div>
         </div>
       </div>

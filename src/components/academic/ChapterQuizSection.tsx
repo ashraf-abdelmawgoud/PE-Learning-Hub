@@ -67,7 +67,7 @@ export const ChapterQuizSection: React.FC<ChapterQuizSectionProps> = ({
               <p className="text-xs sm:text-sm text-[#6C8577]">
                 {hasApprovedQuestions
                   ? `تقويم تراكمي شامل لقياس مدى استيعاب موضوعات الفصل كاملة (${formatQuestionCount(questionCount)})`
-                  : 'الاختبار الشامل لهذا الفصل قيد الإعداد والاعتماد الأكاديمي، وسيتاح فور اعتماده.'}
+                  : 'الاختبار الشامل لهذا الفصل قيد الإعداد، وسيتاح فور اكتماله.'}
               </p>
             </div>
           </div>

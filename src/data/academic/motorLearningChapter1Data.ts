@@ -8,7 +8,102 @@
  * وبدون عرض النسب العمرية المختلف عليها، ومع تجريد كامل لملاحظات التدقيق الداخلية.
  */
 
-import type { Topic, QuizBlock, QuizQuestion } from '../../types/academic.ts';
+import type { Topic, QuizBlock, QuizQuestion, VideoBlock } from '../../types/academic.ts';
+
+// =========================================================================
+// كتل الفيديو التعليمية المعتمدة للفصل الأول (YouTube VideoBlocks)
+// مقرر: التعلم الحركي — الفصل الأول: المهارة الحركية (MOTOR-LEARNING-CH01-VIDEOS-INTEGRATION-01)
+// =========================================================================
+
+export const VIDEO_MOTOR_CH1_TOPIC_1: VideoBlock = {
+  id: 'vid-motor-ch1-t01',
+  order: 1,
+  type: 'video',
+  title: 'مفهوم المهارة الحركية وتعريفاتها',
+  description:
+    'شرح مرئي تعليمي لمفهوم المهارة في المجال الرياضي، وتعريفاتها في المرجع، وأمثلتها، وتسلسل خطوات تدريسها.',
+  provider: 'youtube',
+  videoId: 'vzX6vciUc68',
+  embedUrl: 'https://www.youtube.com/embed/vzX6vciUc68',
+  publicationStatus: 'published',
+  sourceReference: 'كتاب «التعلم الحركي»، الفرقة الرابعة، ص4–6.',
+  captionLanguage: 'ar',
+};
+
+export const VIDEO_MOTOR_CH1_TOPIC_2: VideoBlock = {
+  id: 'vid-motor-ch1-t02',
+  order: 1,
+  type: 'video',
+  title: 'المهارات الحركية الانتقالية',
+  description:
+    'شرح مرئي تعليمي للمهارات الحركية الانتقالية وأمثلتها (المشي، الجري، الوثب، الحجل، التسلق) وخصائص كل مهارة.',
+  provider: 'youtube',
+  videoId: 'FiFPu-l3quc',
+  embedUrl: 'https://www.youtube.com/embed/FiFPu-l3quc',
+  publicationStatus: 'published',
+  sourceReference: 'كتاب «التعلم الحركي»، الفرقة الرابعة، ص6–9.',
+  captionLanguage: 'ar',
+};
+
+export const VIDEO_MOTOR_CH1_TOPIC_3: VideoBlock = {
+  id: 'vid-motor-ch1-t03',
+  order: 1,
+  type: 'video',
+  title: 'مهارات المعالجة والتناول والاتزان',
+  description:
+    'شرح مرئي تعليمي لمهارات المعالجة والتناول بالأطراف والأدوات، والاتزان الثابت والحركي وتطبيقاتهما.',
+  provider: 'youtube',
+  videoId: '6LhAXy88iRg',
+  embedUrl: 'https://www.youtube.com/embed/6LhAXy88iRg',
+  publicationStatus: 'published',
+  sourceReference: 'كتاب «التعلم الحركي»، الفرقة الرابعة، ص9–11.',
+  captionLanguage: 'ar',
+};
+
+export const VIDEO_MOTOR_CH1_TOPIC_4: VideoBlock = {
+  id: 'vid-motor-ch1-t04',
+  order: 1,
+  type: 'video',
+  title: 'المهارات الرياضية الخاصة والعوامل المؤثرة',
+  description:
+    'شرح مرئي تعليمي لتصنيفات المهارات الرياضية الخاصة، والعوامل الخمسة المؤثرة في الأداء والتعلم المهاري.',
+  provider: 'youtube',
+  videoId: 'XnK576GrYk4',
+  embedUrl: 'https://www.youtube.com/embed/XnK576GrYk4',
+  publicationStatus: 'published',
+  sourceReference: 'كتاب «التعلم الحركي»، الفرقة الرابعة، ص11–12.',
+  captionLanguage: 'ar',
+};
+
+export const VIDEO_MOTOR_CH1_TOPIC_5: VideoBlock = {
+  id: 'vid-motor-ch1-t05',
+  order: 1,
+  type: 'video',
+  title: 'المعلومات والتغذية الراجعة والذاكرة الحركية',
+  description:
+    'شرح مرئي تعليمي لسلسلة تدفق المعلومات في الموقف التعليمي، والتغذية الراجعة بنوعيها، والذاكرة الحركية.',
+  provider: 'youtube',
+  videoId: 'M38X78rCe6U',
+  embedUrl: 'https://www.youtube.com/embed/M38X78rCe6U',
+  publicationStatus: 'published',
+  sourceReference: 'كتاب «التعلم الحركي»، الفرقة الرابعة، ص13–16.',
+  captionLanguage: 'ar',
+};
+
+export const VIDEO_MOTOR_CH1_TOPIC_6: VideoBlock = {
+  id: 'vid-motor-ch1-t06',
+  order: 1,
+  type: 'video',
+  title: 'خصائص المهارات الحركية الرياضية',
+  description:
+    'شرح مرئي تعليمي للخصائص الخمس للمهارات الحركية الرياضية كالممارسة، والهدف، والثبات، والاقتصاد في الجهد.',
+  provider: 'youtube',
+  videoId: 'Meipqvz56JQ',
+  embedUrl: 'https://www.youtube.com/embed/Meipqvz56JQ',
+  publicationStatus: 'published',
+  sourceReference: 'كتاب «التعلم الحركي»، الفرقة الرابعة، ص16–17.',
+  captionLanguage: 'ar',
+};
 
 /**
  * الموضوع 1 (T01): مفهوم المهارة الحركية وتعريفاتها
@@ -47,6 +142,8 @@ export const TOPIC_MOTOR_CH1_T01: Topic = {
 
 تشمل الأمثلة الواردة في المرجع **الإرسال في الكرة الطائرة**، و**التصويب في كرة السلة**، و**التمرير في كرة القدم**. ويذكر المرجع التسلسل التعليمي التالي لتدريس المهارة: **شرح المهارة ← عرض النموذج ← التطبيق ← أداء المتعلمين ← تصحيح المدرب**.`,
   lessons: [],
+  video: VIDEO_MOTOR_CH1_TOPIC_1,
+  videos: [VIDEO_MOTOR_CH1_TOPIC_1],
 };
 
 /**
@@ -85,6 +182,8 @@ export const TOPIC_MOTOR_CH1_T02: Topic = {
 
 يعرض المرجع تسلسلًا وصفيًا لتطور مهارات المشي والجري والوثب لدى الطفل عبر مراحل عمرية متدرجة، بوصفها عرضًا وصفيًا داخل الكتاب وليس معايير تشخيصية عامة.`,
   lessons: [],
+  video: VIDEO_MOTOR_CH1_TOPIC_2,
+  videos: [VIDEO_MOTOR_CH1_TOPIC_2],
 };
 
 /**
@@ -127,6 +226,8 @@ export const TOPIC_MOTOR_CH1_T03: Topic = {
 
 وتشمل الأمثلة الواردة بالمرجع: **الثني، والمد، والمرجحة، واللف، والدوران، والدحرجة، والاتزان على قدم واحدة، والمشي على عارضة**.`,
   lessons: [],
+  video: VIDEO_MOTOR_CH1_TOPIC_3,
+  videos: [VIDEO_MOTOR_CH1_TOPIC_3],
 };
 
 /**
@@ -168,6 +269,8 @@ export const TOPIC_MOTOR_CH1_T04: Topic = {
 - **عوامل التعزيز الأربعة:** تحديد المشكلة، قابلية المتعلم، المعلومات الواسعة، تطوير البرنامج.
 - **عوامل الإضعاف الأربعة:** اختلاف القدرات، ضعف اللياقة، قصور التدريس، غياب الرغبة في التعلم.`,
   lessons: [],
+  video: VIDEO_MOTOR_CH1_TOPIC_4,
+  videos: [VIDEO_MOTOR_CH1_TOPIC_4],
 };
 
 /**
@@ -209,6 +312,8 @@ export const TOPIC_MOTOR_CH1_T05: Topic = {
 
 يعرض المرجع مثالًا قد ينسى فيه المتعلم حركة الرسغ بعد يوم أو يومين، ثم يوضح فائدة **تكرار الحركة من أوضاع مختلفة** في استدعائها لاحقًا. كما يستشهد بتعلم نوع جديد من السباحة بالاستفادة من الذاكرة الحركية والخبرات السابقة (وهي أمثلة توضيحية داخل النص وليست قانونًا عامًا لمدد انتقال الذاكرة).`,
   lessons: [],
+  video: VIDEO_MOTOR_CH1_TOPIC_5,
+  videos: [VIDEO_MOTOR_CH1_TOPIC_5],
 };
 
 /**
@@ -243,6 +348,8 @@ export const TOPIC_MOTOR_CH1_T06: Topic = {
 4. **الفاعلية والاقتصاد في الجهد والزمن:** تؤدى المهارة بفاعلية واقتصاد في الطاقة المبذولة والزمن المستغرق، مع الانسيابية والتوقيت المناسب.
 5. **تحليل متطلبات التنفيذ:** يستطيع المتعلم تحليل متطلبات تنفيذ المهارة واتخاذ القرار المناسب باختيار وقت الاستخدام الملائم.`,
   lessons: [],
+  video: VIDEO_MOTOR_CH1_TOPIC_6,
+  videos: [VIDEO_MOTOR_CH1_TOPIC_6],
 };
 
 export const CHAPTER_1_MOTOR_SKILL_TOPICS: Topic[] = [

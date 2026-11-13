@@ -153,7 +153,7 @@ export const TopicSummarySection: React.FC<TopicSummarySectionProps> = ({ topic 
                 <BookOpen className="w-4 h-4" />
               </div>
               <span className="text-sm font-black text-[#173D2B]">
-                الملخص الأكاديمي المعتمد
+                الملخص الأكاديمي
               </span>
               {topic.headingClassification && (
                 <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full border bg-[#F4FFF7] border-[#D4E9DC] text-[#486555]">
@@ -280,7 +280,7 @@ export const TopicSummarySection: React.FC<TopicSummarySectionProps> = ({ topic 
                 <BookOpen className="w-4 h-4" />
               </div>
               <span className="text-sm font-black text-[#173D2B]">
-                الشرح والملخص المكتوب المعتمد
+                الشرح والملخص المكتوب
               </span>
             </div>
 
@@ -310,7 +310,7 @@ export const TopicSummarySection: React.FC<TopicSummarySectionProps> = ({ topic 
             الملخص المكتوب قيد الإعداد الأكاديمي
           </h3>
           <p className="text-xs sm:text-sm text-[#486555] leading-relaxed">
-            يجري حالياً مراجعة وتجهيز المحتوى العلمي المكتوب لهذا الموضوع استناداً إلى كتاب المقرر المعتمد، وسيتاح قريباً.
+            يجري حالياً مراجعة وتجهيز المحتوى العلمي المكتوب لهذا الموضوع استناداً إلى كتاب المقرر، وسيتاح قريباً.
           </p>
         </div>
       </div>

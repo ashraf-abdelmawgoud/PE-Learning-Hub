@@ -2344,10 +2344,24 @@ assert(motorChapters.length === 1 && motorChapters[0].id === 'chap-motor-skill',
 assert(motorChapters[0].status === 'draft' && motorChapters[0].chapterQuiz === undefined, '24.3 الفصل في وضع مسودة غير منشورة ولا يعرض اختباراً غير معتمد');
 const motorTopics = getTopicsByChapter('chap-motor-skill');
 assert(motorTopics.length === 6, '24.4 عدد الموضوعات المضافة في الفصل الأول يساوي 6 (T01–T06)');
-assert(
-  motorTopics.every((t, idx) => t.order === idx + 1 && !t.video && (!t.videos || t.videos.length === 0)),
-  '24.5 الموضوعات T01–T06 مرتبة تصاعدياً بدون روابط فيديو وهمية'
-);
+const EXPECTED_MOTOR_VIDEO_IDS = [
+  'vzX6vciUc68', // T01
+  'FiFPu-l3quc', // T02
+  '6LhAXy88iRg', // T03
+  'XnK576GrYk4', // T04
+  'M38X78rCe6U', // T05
+  'Meipqvz56JQ', // T06
+];
+
+motorTopics.forEach((t, idx) => {
+  assert(t.order === idx + 1, `24.5.${idx + 1} ترتيب موضوع التعلم الحركي T0${idx + 1} سليم (${idx + 1})`);
+  assert(Boolean(t.video), `24.5.${idx + 1} كتلة الفيديو الأساسية موجودة لموضوع التعلم الحركي T0${idx + 1}`);
+  assert(t.video?.videoId === EXPECTED_MOTOR_VIDEO_IDS[idx], `24.5.${idx + 1} معرّف YouTube مطابق لـ T0${idx + 1} (${EXPECTED_MOTOR_VIDEO_IDS[idx]})`);
+  assert(isValidYouTubeVideoId(t.video?.videoId || ''), `24.5.${idx + 1} معرّف YouTube صالح (11 رمزاً)`);
+  assert(Boolean(t.video?.embedUrl?.includes(EXPECTED_MOTOR_VIDEO_IDS[idx])), `24.5.${idx + 1} رابط التضمين سليم`);
+  assert(Array.isArray(t.videos) && t.videos.length === 1, `24.5.${idx + 1} مصفوفة videos تحتوي على الفيديو`);
+  assert(t.videos[0].videoId === EXPECTED_MOTOR_VIDEO_IDS[idx], `24.5.${idx + 1} مصفوفة videos مطابقة`);
+});
 const disputedAgePercentages = ['33%', '30%', '73–75%', '70–75%', '93%', '90%'];
 assert(
   motorTopics.every((t) => disputedAgePercentages.every((pct) => !(t.summary || '').includes(pct))),

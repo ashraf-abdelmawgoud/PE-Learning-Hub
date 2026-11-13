@@ -123,7 +123,7 @@ export const VideoPlayerBlockView: React.FC<VideoPlayerBlockViewProps> = ({ bloc
 
               <div className="absolute bottom-3 right-3 text-[10px] sm:text-xs text-white/90 bg-black/70 backdrop-blur-xs px-2.5 py-1 rounded-lg border border-white/10 flex items-center gap-1.5">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#00C853]" />
-                <span>{block.embedUrl ? 'مشغل YouTube معتمد' : 'مشغل محمي (youtube-nocookie)'}</span>
+                <span>{block.embedUrl ? 'مشغل YouTube آمن' : 'مشغل محمي (youtube-nocookie)'}</span>
               </div>
             </div>
           </div>

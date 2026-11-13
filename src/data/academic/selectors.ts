@@ -36,7 +36,7 @@ const OFFICIAL_ACADEMIC_COURSES: AcademicCourse[] = COURSES_PLACEHOLDER_DATA.map
       status: 'pending_content',
       statusLabel: 'متاح للمراجعة',
       description:
-        'مقرر مناهج التربية الرياضية لطلاب الفرقة الرابعة (أ.د. هاني الدسوقي إبراهيم — 2025/2026م). يغطي الهيكل الأكاديمي المعتمد للكتاب كاملاً (5 فصول دراسية، وموضوعين مستقلين، وقائمة المراجع المعتمدة)، مع معاينة تفاعلية كاملة للفصل الأول.',
+        'مقرر مناهج التربية الرياضية لطلاب الفرقة الرابعة (أ.د. هاني الدسوقي إبراهيم — 2025/2026م).',
       chapters: CURRICULUM_OFFICIAL_CHAPTERS,
       academicReferences: CURRICULUM_COURSE_REFERENCES,
       isDevSandbox: false,
@@ -52,7 +52,7 @@ const OFFICIAL_ACADEMIC_COURSES: AcademicCourse[] = COURSES_PLACEHOLDER_DATA.map
       status: 'pending_content',
       statusLabel: 'قيد إعداد المحتوى الأكاديمي',
       description:
-        'مقرر التحليل الحركي لطلاب الفرقة الرابعة بكلية علوم الرياضة والتربية البدنية، استناداً إلى كتاب «مبادئ التحليل الحركي (نظري – تطبيقي)» للدكتورة رحاب عبدالمنعم الرشيدي (2020م). يتضمن الهيكل الأكاديمي المعتمد 6 فصول دراسية رئيسية تغطي المفاهيم والمستويات والتحليل الكيفي والكمي والتحليل الميداني والمعملي.',
+        'مقرر التحليل الحركي لطلاب الفرقة الرابعة بكلية علوم الرياضة والتربية البدنية، استناداً إلى كتاب «مبادئ التحليل الحركي (نظري – تطبيقي)» للدكتورة رحاب عبدالمنعم الرشيدي (2020م).',
       chapters: KINEMATIC_OFFICIAL_CHAPTERS,
       academicReferences: KINEMATIC_COURSE_REFERENCES,
       isDevSandbox: false,
@@ -65,9 +65,9 @@ const OFFICIAL_ACADEMIC_COURSES: AcademicCourse[] = COURSES_PLACEHOLDER_DATA.map
       title: 'التعلم الحركي',
       targetBookReference: 'كتاب التعلم الحركي — جامعة جنوب الوادي / كلية علوم الرياضة (الفرقة الرابعة)',
       status: 'pending_content',
-      statusLabel: 'قيد التجهيز والاعتماد',
+      statusLabel: 'قيد التجهيز',
       description:
-        'مقرر التعلم الحركي لطلاب الفرقة الرابعة بكلية علوم الرياضة. يتضمن التجهيز المحلي للفصل الأول «المهارة الحركية» (6 موضوعات: T01–T06) بانتظار الاعتماد النهائي.',
+        'مقرر التعلم الحركي لطلاب الفرقة الرابعة بكلية علوم الرياضة، استناداً إلى كتاب المقرر.',
       chapters: MOTOR_LEARNING_OFFICIAL_CHAPTERS,
       academicReferences: MOTOR_LEARNING_COURSE_REFERENCES,
       isDevSandbox: false,

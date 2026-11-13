@@ -286,7 +286,7 @@ export const ChapterDetailPage: React.FC = () => {
               </div>
               <h3 className="text-base font-bold text-[#173D2B]">محتوى هذا الفصل قيد التجهيز</h3>
               <p className="text-xs sm:text-sm text-[#486555] max-w-md mx-auto leading-relaxed">
-                لم يتم إدراج موضوعات لهذا الفصل حتى الآن، وسيتم تحديثها فور اعتماد المادة العلمية.
+                لم يتم إدراج موضوعات لهذا الفصل حتى الآن، وسيتم إتاحتها فور اكتمال تجهيز المادة العلمية.
               </p>
             </div>
           )}

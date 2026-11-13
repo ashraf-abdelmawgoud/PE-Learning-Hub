@@ -409,7 +409,7 @@ export const QuizBlockView: React.FC<QuizBlockViewProps> = ({
                       <div className="mt-3 p-3 rounded-xl bg-[#F4FFF7] border border-[#D4E9DC] text-xs text-[#173D2B] space-y-1">
                         <div className="flex items-center gap-1.5 font-bold text-[#00A844]">
                           <BookOpen className="w-3.5 h-3.5" />
-                          <span>التفسير العلمي المعتمد:</span>
+                          <span>التفسير العلمي:</span>
                         </div>
                         <p className="leading-relaxed text-[#486555]">{qResult?.explanation || question.explanation}</p>
                         {(qResult?.sourceReference || question.sourceReference) && (
@@ -608,7 +608,7 @@ export const QuizBlockView: React.FC<QuizBlockViewProps> = ({
                 </span>
                 <p className="text-amber-800 leading-relaxed">
                   يتبقى {unansweredIds.length} من أصل {block.questions.length} أسئلة غير مكتملة. تم
-                  تحديدها بالأعلى لتتمكن من مراجعتها قبل اعتماد النتيجة.
+                  تحديدها بالأعلى لتتمكن من مراجعتها قبل إرسال الإجابات.
                 </p>
               </div>
             </div>
@@ -625,7 +625,7 @@ export const QuizBlockView: React.FC<QuizBlockViewProps> = ({
               disabled={isEvaluating}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl bg-[#00C853] text-[#071C12] font-black text-sm hover:bg-[#39E66D] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md cursor-pointer focus:outline-hidden focus:ring-4 focus:ring-[#00C853]/40"
             >
-              <span>{isEvaluating ? 'جاري الاعتماد والتصحيح...' : 'اعتماد الإجابات واستعراض النتيجة'}</span>
+              <span>{isEvaluating ? 'جاري التصحيح...' : 'إرسال الإجابات واستعراض النتيجة'}</span>
               <CheckCircle2 className="w-4 h-4" />
             </button>
           </div>
