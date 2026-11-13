@@ -465,6 +465,31 @@ assert(Boolean(course1Topics[6].summary?.includes('مقارنة تنظيمية �
 assert(Boolean(course1Topics[7].summary?.includes('وردت أربعة تعريفات للمنهج')), 'ملخص الموضوع 8 يتضمن التعريفات الأربعة');
 assert(Boolean(course1Topics[8].summary?.includes('الطريق الواضح')), 'ملخص الموضوع 9 يتضمن الدلالة اللغوية');
 
+// فحص تكامل كتل الفيديو التعليمية التسعة للفصل الأول (CURRICULUM-CH01-VIDEOS-INTEGRATION-01)
+const EXPECTED_VIDEO_IDS = [
+  'r5M9k11RXnE', // T01
+  '0Jf_mJES_Rw', // T02
+  'OHC2Dt7YfpI', // T03
+  '19yvgezfCTU', // T04
+  'rty5K149jHc', // T05
+  'eL59p9xguOE', // T06
+  'vYa2YREIlnM', // T07
+  'ARa4XEfzcaw', // T08
+  'W-rhIGvsxds', // T09
+];
+
+course1Topics.forEach((topic, idx) => {
+  assert(Boolean(topic.video), `مناهج التربية الرياضية - موضوع ${idx + 1}: كتلة الفيديو الأساسية video موجودة`);
+  assert(topic.video?.type === 'video', `مناهج التربية الرياضية - موضوع ${idx + 1}: نوع الكتلة video سليم`);
+  assert(topic.video?.provider === 'youtube', `مناهج التربية الرياضية - موضوع ${idx + 1}: مزود الفيديو youtube`);
+  assert(topic.video?.videoId === EXPECTED_VIDEO_IDS[idx], `مناهج التربية الرياضية - موضوع ${idx + 1}: معرف الفيديو ${topic.video?.videoId} مطابق لرابط T0${idx + 1}`);
+  assert(isValidYouTubeVideoId(topic.video?.videoId || ''), `مناهج التربية الرياضية - موضوع ${idx + 1}: معرف YouTube صحيح وصالح (11 رمزاً)`);
+  assert(topic.video?.publicationStatus === 'published', `مناهج التربية الرياضية - موضوع ${idx + 1}: حالة نشر الفيديو published`);
+  assert(Boolean(topic.video?.embedUrl?.includes(EXPECTED_VIDEO_IDS[idx])), `مناهج التربية الرياضية - موضوع ${idx + 1}: رابط التضمين embedUrl سليم`);
+  assert(Array.isArray(topic.videos) && topic.videos.length === 1, `مناهج التربية الرياضية - موضوع ${idx + 1}: مصفوفة videos تحتوي على كتلة الفيديو`);
+  assert(topic.videos[0].videoId === EXPECTED_VIDEO_IDS[idx], `مناهج التربية الرياضية - موضوع ${idx + 1}: مصفوفة videos مطابقة`);
+});
+
 // فحص مسارات التنقل الأكاديمي (Breadcrumbs) للموضوعات
 const topic1Breadcrumbs = getAcademicBreadcrumbs({
   courseId: 'course-1',

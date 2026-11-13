@@ -8,6 +8,7 @@ import type {
   ChapterSelfCheckQuestion,
   QuizBlock,
   QuizQuestion,
+  VideoBlock,
 } from '../../types';
 import { createMergedChapter1Quiz } from './quizzes/mergedChapterQuizzes.ts';
 
@@ -678,6 +679,146 @@ export const CURRICULUM_PILOT_LESSON: Lesson = {
 // كتاب مناهج التربية الرياضية — أ.د. هاني الدسوقي إبراهيم (2025/2026م)
 // =========================================================================
 
+// =========================================================================
+// كتل الفيديو التعليمية المعتمدة للفصل الأول (YouTube VideoBlocks)
+// مقرر: مناهج التربية الرياضية — الفصل الأول: مقدمة وماهية المنهج
+// =========================================================================
+
+export const VIDEO_CH1_TOPIC_1: VideoBlock = {
+  id: 'vid-curriculum-ch1-t01',
+  order: 1,
+  type: 'video',
+  title: 'المنهج الدراسي ودور التربية الرياضية في التنمية الشاملة',
+  description:
+    'شرح مرئي تعليمي لطبيعة المناهج الدراسية، ومدخلات تقويم المنهج الأربعة، وتطوير المناهج، والغاية من التربية الرياضية في تحقيق التنمية المتكاملة.',
+  provider: 'youtube',
+  videoId: 'r5M9k11RXnE',
+  embedUrl: 'https://www.youtube.com/embed/r5M9k11RXnE',
+  publicationStatus: 'published',
+  sourceReference: 'كتاب «مناهج التربية الرياضية»، أ.د. هاني الدسوقي إبراهيم (2025/2026م)، ص2–3.',
+  captionLanguage: 'ar',
+};
+
+export const VIDEO_CH1_TOPIC_2: VideoBlock = {
+  id: 'vid-curriculum-ch1-t02',
+  order: 1,
+  type: 'video',
+  title: 'التغيرات العلمية والتكنولوجية والتحول نحو التعلم الذاتي',
+  description:
+    'شرح مرئي تعليمي لأثر التطورات العلمية والتكنولوجية ومفهوم «الموجة الثالثة» على تطوير مناهج التربية الرياضية والتحول إلى التعلم الذاتي.',
+  provider: 'youtube',
+  videoId: '0Jf_mJES_Rw',
+  embedUrl: 'https://www.youtube.com/embed/0Jf_mJES_Rw',
+  publicationStatus: 'published',
+  sourceReference: 'كتاب «مناهج التربية الرياضية»، أ.د. هاني الدسوقي إبراهيم (2025/2026م)، ص3–4.',
+  captionLanguage: 'ar',
+};
+
+export const VIDEO_CH1_TOPIC_3: VideoBlock = {
+  id: 'vid-curriculum-ch1-t03',
+  order: 1,
+  type: 'video',
+  title: 'الدور الحديث لمعلم التربية الرياضية والمتعلم',
+  description:
+    'شرح مرئي تعليمي للأدوار المتعددة لمعلم التربية الرياضية الحديث كمرشد وموجه، والدور الإيجابي للمتعلم وتطوير برامج إعداد المعلم.',
+  provider: 'youtube',
+  videoId: 'OHC2Dt7YfpI',
+  embedUrl: 'https://www.youtube.com/embed/OHC2Dt7YfpI',
+  publicationStatus: 'published',
+  sourceReference: 'كتاب «مناهج التربية الرياضية»، أ.د. هاني الدسوقي إبراهيم (2025/2026م)، ص3–4.',
+  captionLanguage: 'ar',
+};
+
+export const VIDEO_CH1_TOPIC_4: VideoBlock = {
+  id: 'vid-curriculum-ch1-t04',
+  order: 1,
+  type: 'video',
+  title: 'تخطيط مناهج التربية الرياضية والمناهج التكيفية',
+  description:
+    'شرح مرئي تعليمي للتخطيط التعاوني للأطراف الخمسة، وقاعدة «مركزية الأهداف ولا مركزية المحتوى»، والإطار القيمي، والمناهج التكيفية لرعاية الفئات الخاصة والموهوبين.',
+  provider: 'youtube',
+  videoId: '19yvgezfCTU',
+  embedUrl: 'https://www.youtube.com/embed/19yvgezfCTU',
+  publicationStatus: 'published',
+  sourceReference: 'كتاب «مناهج التربية الرياضية»، أ.د. هاني الدسوقي إبراهيم (2025/2026م)، ص4–5.',
+  captionLanguage: 'ar',
+};
+
+export const VIDEO_CH1_TOPIC_5: VideoBlock = {
+  id: 'vid-curriculum-ch1-t05',
+  order: 1,
+  type: 'video',
+  title: 'استخدام التكنولوجيا والحاسب الآلي في مناهج التربية الرياضية',
+  description:
+    'شرح مرئي تعليمي للمنظورات الأربعة لتأثير الحاسب الآلي في المنهج، وتطبيقات الإنترنت وشبكة الألياف الضوئية، والوسائط المتعددة والفيديو التفاعلي.',
+  provider: 'youtube',
+  videoId: 'rty5K149jHc',
+  embedUrl: 'https://www.youtube.com/embed/rty5K149jHc',
+  publicationStatus: 'published',
+  sourceReference: 'كتاب «مناهج التربية الرياضية»، أ.د. هاني الدسوقي إبراهيم (2025/2026م)، ص4–5.',
+  captionLanguage: 'ar',
+};
+
+export const VIDEO_CH1_TOPIC_6: VideoBlock = {
+  id: 'vid-curriculum-ch1-t06',
+  order: 1,
+  type: 'video',
+  title: 'أولًا: ماهية المنهج',
+  description:
+    'شرح مرئي تعليمي لمفهوم المنهج وأصله اللاتيني Curriculum، ومعناه في التربية وعلاقته الوثيقة بالأهداف والتقويم والحياة الحاضرة للمتعلم.',
+  provider: 'youtube',
+  videoId: 'eL59p9xguOE',
+  embedUrl: 'https://www.youtube.com/embed/eL59p9xguOE',
+  publicationStatus: 'published',
+  sourceReference: 'كتاب «مناهج التربية الرياضية»، أ.د. هاني الدسوقي إبراهيم (2025/2026م)، ص5–6.',
+  captionLanguage: 'ar',
+};
+
+export const VIDEO_CH1_TOPIC_7: VideoBlock = {
+  id: 'vid-curriculum-ch1-t07',
+  order: 1,
+  type: 'video',
+  title: 'تعريفات المناهج قديمًا وحديثًا',
+  description:
+    'شرح مرئي تعليمي لمقارنة مفهوم المنهج بين النظرة التقليدية (المواد الدراسية والمعرفة الثابتة) والنظرة الحديثة (البحث المنظم والخبرات الموجهة تحت إشراف المدرسة).',
+  provider: 'youtube',
+  videoId: 'vYa2YREIlnM',
+  embedUrl: 'https://www.youtube.com/embed/vYa2YREIlnM',
+  publicationStatus: 'published',
+  sourceReference: 'كتاب «مناهج التربية الرياضية»، أ.د. هاني الدسوقي إبراهيم (2025/2026م)، ص6.',
+  captionLanguage: 'ar',
+};
+
+export const VIDEO_CH1_TOPIC_8: VideoBlock = {
+  id: 'vid-curriculum-ch1-t08',
+  order: 1,
+  type: 'video',
+  title: 'تعريفات المنهج',
+  description:
+    'شرح مرئي تعليمي للصيغ الأربع المعتمدة لتعريف المنهج في الكتاب: المقررات المرتبة، والتعلم المخطط، وبرنامج النشاطات، والمحتوى التعليمي.',
+  provider: 'youtube',
+  videoId: 'ARa4XEfzcaw',
+  embedUrl: 'https://www.youtube.com/embed/ARa4XEfzcaw',
+  publicationStatus: 'published',
+  sourceReference: 'كتاب «مناهج التربية الرياضية»، أ.د. هاني الدسوقي إبراهيم (2025/2026م)، ص6.',
+  captionLanguage: 'ar',
+};
+
+export const VIDEO_CH1_TOPIC_9: VideoBlock = {
+  id: 'vid-curriculum-ch1-t09',
+  order: 1,
+  type: 'video',
+  title: 'المنهج في اللغة',
+  description:
+    'شرح مرئي تعليمي للدلالة اللغوية للمنهج (الطريق الواضح)، واستعماله للدلالة على مقرر دراسي واحد أو مجموعة مقررات لمرحلة كاملة.',
+  provider: 'youtube',
+  videoId: 'W-rhIGvsxds',
+  embedUrl: 'https://www.youtube.com/embed/W-rhIGvsxds',
+  publicationStatus: 'published',
+  sourceReference: 'كتاب «مناهج التربية الرياضية»، أ.د. هاني الدسوقي إبراهيم (2025/2026م)، ص6.',
+  captionLanguage: 'ar',
+};
+
 /**
  * الموضوع 1: المنهج الدراسي ودور التربية الرياضية في التنمية الشاملة
  * تصنيف العنوان: تنظيمي تعليمي من المقدمة (educational_organizational)
@@ -723,6 +864,8 @@ export const TOPIC_1_CURRICULUM_COMPREHENSIVE_DEV: Topic = {
 
 ويسهم ذلك في تحقيق أهداف المجتمع.`,
   lessons: [CURRICULUM_PILOT_LESSON],
+  video: VIDEO_CH1_TOPIC_1,
+  videos: [VIDEO_CH1_TOPIC_1],
 };
 
 /**
@@ -755,6 +898,8 @@ export const TOPIC_2_TECH_CHANGE_SELF_LEARNING: Topic = {
 
 وساعدت ثورة المعلومات وشبكات الإنترنت على تغيير مفهوم التعليم، فأصبح من الضروري تدعيم التعلم الذاتي والابتعاد عن الاقتصار على الشكل التقليدي للتدريس.`,
   lessons: [],
+  video: VIDEO_CH1_TOPIC_2,
+  videos: [VIDEO_CH1_TOPIC_2],
 };
 
 /**
@@ -788,6 +933,8 @@ export const TOPIC_3_MODERN_ROLE_TEACHER_LEARNER: Topic = {
 
 ويتطلب ذلك تطوير مفاهيم إعداد المعلم بكليات التربية الرياضية، بحيث يكون ملمًا بمتطلبات الثورة العلمية والتكنولوجية، ومدركًا لحقائق العصر، وقادرًا على أداء دوره الحديث في تحقيق الأهداف التعليمية.`,
   lessons: [],
+  video: VIDEO_CH1_TOPIC_3,
+  videos: [VIDEO_CH1_TOPIC_3],
 };
 
 /**
@@ -837,6 +984,8 @@ export const TOPIC_4_CURRICULUM_PLANNING_ADAPTIVE: Topic = {
 
 وتختلف الخبرات التعليمية المقدمة لهذه الفئات عن الخبرات المقدمة لمن هم في مثل أعمارهم، بما يراعي طبيعة كل فئة واحتياجاتها.`,
   lessons: [],
+  video: VIDEO_CH1_TOPIC_4,
+  videos: [VIDEO_CH1_TOPIC_4],
 };
 
 /**
@@ -881,6 +1030,8 @@ export const TOPIC_5_TECH_COMPUTERS_IN_CURRICULUM: Topic = {
 
 ويساعد ذلك التربية الرياضية على مواكبة المواد الدراسية الأخرى في استخدام أساليب التعلم الحديثة.`,
   lessons: [],
+  video: VIDEO_CH1_TOPIC_5,
+  videos: [VIDEO_CH1_TOPIC_5],
 };
 
 /**
@@ -914,6 +1065,8 @@ export const TOPIC_6_NATURE: Topic = {
 ويرتبط ذلك بأن حياة المجتمع تتضمن قوانين وعناصر ثقافية ونظمًا مختلفة ينبغي مراعاتها عند تحديد الأهداف التربوية.`,
   quiz: QUIZ_TOPIC_2,
   lessons: [],
+  video: VIDEO_CH1_TOPIC_6,
+  videos: [VIDEO_CH1_TOPIC_6],
 };
 
 /**
@@ -954,6 +1107,8 @@ export const TOPIC_7_TRAD_VS_MOD: Topic = {
 **تنبيه:** المقارنة مستخلصة من التعريفات الواردة بالمقرر لتسهيل المذاكرة، وليست جدولًا أصليًا في المصدر.`,
   quiz: QUIZ_TOPIC_3,
   lessons: [],
+  video: VIDEO_CH1_TOPIC_7,
+  videos: [VIDEO_CH1_TOPIC_7],
 };
 
 /**
@@ -987,6 +1142,8 @@ export const TOPIC_8_DEFINITIONS: Topic = {
 وتوضح هذه التعريفات أن مفهوم المنهج قد يتناول المقررات الدراسية، أو التعلم الذي تخططه المدرسة وتشرف عليه، أو برامج النشاطات، أو المحتوى التعليمي.`,
   quiz: QUIZ_TOPIC_4,
   lessons: [],
+  video: VIDEO_CH1_TOPIC_8,
+  videos: [VIDEO_CH1_TOPIC_8],
 };
 
 /**
@@ -1022,6 +1179,8 @@ export const TOPIC_9_LANGUAGE: Topic = {
 وهذا يوضح أن استخدام مصطلح المنهج قد يشير إلى مقرر دراسي واحد، وقد يشمل أكثر من مقرر في مرحلة تعليمية معينة.`,
   quiz: QUIZ_TOPIC_5,
   lessons: [],
+  video: VIDEO_CH1_TOPIC_9,
+  videos: [VIDEO_CH1_TOPIC_9],
 };
 
 // =========================================================================
